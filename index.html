@@ -1,0 +1,1569 @@
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aethel RPG - Jogo de Texto</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+/>
+<style>
+  /* Scrollbar for inventory and merchant */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+</style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen flex flex-col">
+
+<header class="bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 p-4 flex justify-between items-center shadow-lg sticky top-0 z-50">
+  <h1 class="text-2xl font-extrabold tracking-wide select-none">Aethel RPG</h1>
+  <nav class="flex space-x-4">
+    <button id="btn-inicio" aria-label="Início" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2" title="Início">
+      <i class="fas fa-home fa-lg"></i>
+    </button>
+    <button id="btn-atributos" aria-label="Distribuir Atributos" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2" title="Distribuir Atributos">
+      <i class="fas fa-dumbbell fa-lg"></i>
+    </button>
+    <button id="btn-skills" aria-label="Habilidades" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2" title="Habilidades">
+      <i class="fas fa-book fa-lg"></i>
+    </button>
+    <button id="btn-inventario" aria-label="Inventário" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2" title="Inventário">
+      <i class="fas fa-box-open fa-lg"></i>
+    </button>
+    <button id="btn-mercador" aria-label="Mercador" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2 hidden" title="Mercador">
+      <i class="fas fa-store fa-lg"></i>
+    </button>
+    <button id="btn-sair" aria-label="Sair do Jogo" class="text-red-400 hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-red-400 rounded p-2" title="Sair do Jogo">
+      <i class="fas fa-sign-out-alt fa-lg"></i>
+    </button>
+  </nav>
+</header>
+
+<div class="flex-1 flex flex-col overflow-hidden">
+
+    <main id="main-content" class="flex-1 p-6 overflow-y-auto max-h-screen">
+        <section id="game-screen" class="max-w-4xl mx-auto space-y-6">
+      <div id="story-text" class="bg-gray-800 rounded-lg p-6 text-lg leading-relaxed min-h-[180px] select-text"></div>
+      <div id="choices" class="flex flex-col space-y-3"></div>
+    </section>
+
+        <section id="atributos-screen" class="max-w-4xl mx-auto space-y-6 hidden">
+      <h2 class="text-2xl font-bold mb-4 text-indigo-300">Distribuir Atributos</h2>
+      <div class="bg-gray-800 rounded-lg p-4 mb-6">
+        <h3 class="text-xl font-semibold text-indigo-400 mb-3">Status do Jogador</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-indigo-300 text-sm select-none">
+          <div><i class="fas fa-heart text-red-500"></i> Vida: <span id="status-vida">0</span></div>
+          <div><i class="fas fa-bolt text-blue-400"></i> Mana: <span id="status-mana">0</span></div>
+          <div><i class="fas fa-star text-yellow-400"></i> Rank: <span id="status-rank">E</span></div>
+          <div><i class="fas fa-level-up-alt text-green-400"></i> Nível: <span id="status-nivel">1</span></div>
+          <div><i class="fas fa-dice-d20 text-purple-400"></i> XP: <span id="status-xp">0</span> / <span id="status-xpProximo">100</span></div>
+          <div><i class="fas fa-coins text-yellow-300"></i> Moedas: <span id="status-moedas">0</span></div>
+          <div><i class="fas fa-user-tag text-indigo-400"></i> Classe: <span id="status-classe">Nenhuma</span></div>
+        </div>
+        <div class="mt-4 border-t border-gray-700 pt-4">
+            <h3 class="text-xl font-semibold text-indigo-400 mb-3">Bônus Atuais</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 text-sm select-none">
+                <div>Dano Físico: <span id="bonus-dano-fisico">0</span></div>
+                <div>Vida Máxima: <span id="bonus-vida-max">0</span></div>
+                <div>Mana Máxima: <span id="bonus-mana-max">0</span></div>
+                <div>Redução de Dano: <span id="bonus-resistencia">0</span>%</div>
+                <div>Chance de Fuga: <span id="bonus-fuga">0</span>%</div>
+                <div>Chance de Esquiva: <span id="bonus-esquiva">0</span>%</div>
+                <div>Dano Mágico: <span id="bonus-dano-magico">0</span></div>
+            </div>
+        </div>
+      </div>
+      <p class="mb-2">Você tem <span id="pontos-disponiveis" class="font-semibold text-indigo-400">0</span> pontos para distribuir.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="bg-gray-800 p-4 rounded-lg flex flex-col items-center space-y-2">
+          <span class="font-semibold text-indigo-300">Força</span>
+          <div class="flex items-center space-x-2">
+            <button data-attr="forca" data-action="dec" class="btn-attr px-3 py-1 rounded bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 text-white"><i class="fas fa-minus"></i></button>
+            <span id="forca-val" class="w-8 text-center font-mono">0</span>
+            <button data-attr="forca" data-action="inc" class="btn-attr px-3 py-1 rounded bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 text-white"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg flex flex-col items-center space-y-2">
+          <span class="font-semibold text-indigo-300">Agilidade</span>
+          <div class="flex items-center space-x-2">
+            <button data-attr="agilidade" data-action="dec" class="btn-attr px-3 py-1 rounded bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 text-white"><i class="fas fa-minus"></i></button>
+            <span id="agilidade-val" class="w-8 text-center font-mono">0</span>
+            <button data-attr="agilidade" data-action="inc" class="btn-attr px-3 py-1 rounded bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 text-white"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg flex flex-col items-center space-y-2">
+          <span class="font-semibold text-indigo-300">Inteligência / Mana</span>
+          <div class="flex items-center space-x-2">
+            <button data-attr="inteligencia" data-action="dec" class="btn-attr px-3 py-1 rounded bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 text-white"><i class="fas fa-minus"></i></button>
+            <span id="inteligencia-val" class="w-8 text-center font-mono">0</span>
+            <button data-attr="inteligencia" data-action="inc" class="btn-attr px-3 py-1 rounded bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 text-white"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg flex flex-col items-center space-y-2">
+          <span class="font-semibold text-indigo-300">Resistência</span>
+          <div class="flex items-center space-x-2">
+            <button data-attr="resistencia" data-action="dec" class="btn-attr px-3 py-1 rounded bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 text-white"><i class="fas fa-minus"></i></button>
+            <span id="resistencia-val" class="w-8 text-center font-mono">0</span>
+            <button data-attr="resistencia" data-action="inc" class="btn-attr px-3 py-1 rounded bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 text-white"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg flex flex-col items-center space-y-2">
+          <span class="font-semibold text-indigo-300">Vitalidade</span>
+          <div class="flex items-center space-x-2">
+            <button data-attr="vitalidade" data-action="dec" class="btn-attr px-3 py-1 rounded bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 text-white"><i class="fas fa-minus"></i></button>
+            <span id="vitalidade-val" class="w-8 text-center font-mono">0</span>
+            <button data-attr="vitalidade" data-action="inc" class="btn-attr px-3 py-1 rounded bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 text-white"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg flex flex-col items-center space-y-2">
+          <span class="font-semibold text-indigo-300">Percepção</span>
+          <div class="flex items-center space-x-2">
+            <button data-attr="percepcao" data-action="dec" class="btn-attr px-3 py-1 rounded bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 text-white"><i class="fas fa-minus"></i></button>
+            <span id="percepcao-val" class="w-8 text-center font-mono">0</span>
+            <button data-attr="percepcao" data-action="inc" class="btn-attr px-3 py-1 rounded bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 text-white"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <button id="btn-salvar-atributos" class="mt-6 bg-indigo-600 hover:bg-indigo-700 rounded px-6 py-2 font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-400">Salvar Atributos</button>
+    </section>
+
+        <section id="skills-screen" class="max-w-4xl mx-auto space-y-6 hidden">
+      <h2 class="text-2xl font-bold mb-4 text-indigo-300">Habilidades</h2>
+      <p class="mb-4">Aqui estão as magias que você adquiriu e equipou. Use-as nas batalhas para causar dano mágico.</p>
+      <div id="lista-skills" class="bg-gray-800 rounded-lg p-4 max-h-[400px] overflow-y-auto space-y-4">
+      </div>
+      <p class="mt-4 text-sm text-indigo-400 italic">Você pode adquirir novas magias ao subir de nível. Magias de rank mais alto são mais poderosas, raras e gastam mais mana.</p>
+    </section>
+
+        <section id="inventario-screen" class="max-w-4xl mx-auto space-y-6 hidden">
+      <h2 class="text-2xl font-bold mb-4 text-indigo-300">Inventário</h2>
+      <div class="flex flex-col md:flex-row gap-6">
+        <div class="flex-1 bg-gray-800 rounded-lg p-4 max-h-[400px] overflow-y-auto">
+          <h3 class="font-semibold mb-2 text-indigo-400">Itens</h3>
+          <ul id="lista-itens" class="space-y-2 text-sm"></ul>
+        </div>
+        <div class="flex-1 bg-gray-800 rounded-lg p-4 max-h-[400px] overflow-y-auto">
+          <h3 class="font-semibold mb-2 text-indigo-400">Equipamentos</h3>
+          <div class="space-y-4">
+            <div>
+              <span class="font-semibold">Armadura:</span>
+              <div id="equip-armadura" class="mt-1 text-sm text-gray-300 italic">Nenhuma equipada</div>
+            </div>
+            <div>
+              <span class="font-semibold">Espada:</span>
+              <div id="equip-espada" class="mt-1 text-sm text-gray-300 italic">Nenhuma equipada</div>
+            </div>
+            <div>
+              <span class="font-semibold">Anel:</span>
+              <div id="equip-anel" class="mt-1 text-sm text-gray-300 italic">Nenhum equipado</div>
+            </div>
+            <div>
+              <span class="font-semibold">Colar:</span>
+              <div id="equip-colar" class="mt-1 text-sm text-gray-300 italic">Nenhum equipado</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <section id="mercador-screen" class="max-w-4xl mx-auto space-y-6 hidden">
+      <h2 class="text-2xl font-bold mb-4 text-indigo-300">Mercador</h2>
+      <p class="mb-4">O mercador aparece a cada 5 níveis e oferece itens para venda.</p>
+      <div class="bg-gray-800 rounded-lg p-4 max-h-[400px] overflow-y-auto">
+        <ul id="lista-mercador" class="space-y-4"></ul>
+      </div>
+      <button id="btn-comprar-mercador" class="mt-4 bg-green-600 hover:bg-green-700 rounded px-6 py-2 font-semibold focus:outline-none focus:ring-2 focus:ring-green-400 disabled:opacity-50 disabled:cursor-not-allowed" disabled>Comprar Selecionados</button>
+    </section>
+  </main>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const RANKS = ["E", "D", "C", "B", "A", "S"];
+  const RANK_MIN_TOTAL = {
+    E: 0,
+    D: 60,
+    C: 120,
+    B: 180,
+    A: 240,
+    S: 300,
+  };
+  const BASE_STATS = {
+    forca: 0,
+    agilidade: 0,
+    inteligencia: 0,
+    resistencia: 0,
+    vitalidade: 0,
+    percepcao: 0,
+  };
+  const BASE_HP = 100;
+  const BASE_MANA = 10;
+  const BASE_DANO_FISICO = 10;
+  const BASE_DANO_MAGICO = 10;
+  const BASE_RESISTENCIA = 0;
+  const FUGIR_PCT_DECREMENTO = 0.07;
+  const XP_BASE_MIN = 5;
+  const XP_BASE_MAX = 10;
+  const XP_RANK_MULTIPLIER = 0.1;
+  const XP_BONUS_GLOBAL = 1.0; // MODIFIED: Increased XP Bonus to 100%
+  const MANA_GASTO_PCT = {
+    E: 0.2,
+    D: 0.3,
+    C: 0.35,
+    B: 0.37,
+    A: 0.4,
+    S: 0.5,
+  };
+  const CLASSES = ["Guerreiro", "Arqueiro", "Mago", "Assassino", "Paladino", "Bardo"];
+
+  const ITEM_RANKS = ["E", "D", "C", "B", "A", "S"];
+  const ITEM_BASE_PRICE = {
+    E: 10,
+    D: 25,
+    C: 50,
+    B: 100,
+    A: 200,
+    S: 400,
+  };
+
+  const ITEM_ATRIBUTOS_POR_RANK = {
+    E: { min: 1, max: 3 },
+    D: { min: 3, max: 5 },
+    C: { min: 5, max: 7 },
+    B: { min: 7, max: 10 },
+    A: { min: 15, max: 20 },
+    S: { min: 30, max: 40 },
+  };
+
+  const MAGIAS_POSSIVEIS = [
+    { id: "fireball", nome: "Bola de Fogo", rank: "E", danoBase: 15, manaBase: 3 },
+    { id: "ice_shard", nome: "Fragmento de Gelo", rank: "D", danoBase: 25, manaBase: 5 },
+    { id: "lightning_strike", nome: "Golpe de Raio", rank: "C", danoBase: 40, manaBase: 8 },
+    { id: "arcane_blast", nome: "Explosão Arcana", rank: "B", danoBase: 60, manaBase: 12 },
+    { id: "meteor", nome: "Meteoro", rank: "A", danoBase: 90, manaBase: 18 },
+    { id: "divine_wrath", nome: "Ira Divina", rank: "S", danoBase: 130, manaBase: 25 },
+  ];
+
+  const POTIONS = {
+    drop: {
+      id: "potion_drop", // This ID is used for stacking
+      nome: "Poção Básica",
+      curaVidaPct: 0.4,
+      curaManaPct: 0.2,
+      descricao: "Recupera 40% da vida e 20% da mana.",
+    },
+    compra: {
+      id: "potion_compra", // This ID is used for stacking
+      nome: "Poção Avançada",
+      curaVidaPct: 0.7,
+      curaManaPct: 0.5,
+      descricao: "Recupera 70% da vida e 50% da mana.",
+    }
+  };
+
+  function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  function randomChoice(arr) {
+    return arr[randomInt(0, arr.length - 1)];
+  }
+  function clamp(num, min, max) {
+    return Math.min(Math.max(num, min), max);
+  }
+  function rankToIndex(rank) {
+    return RANKS.indexOf(rank);
+  }
+  function indexToRank(index) {
+    return RANKS[clamp(index, 0, RANKS.length - 1)];
+  }
+
+  let game = {
+    player: {
+      nome: "Herói",
+      classe: null,
+      nivel: 1,
+      xp: 0,
+      xpProximoNivel: 100,
+      rank: "E",
+      atributos: { ...BASE_STATS },
+      pontosDistribuir: 0,
+      vidaMax: BASE_HP,
+      vidaAtual: BASE_HP,
+      manaMax: BASE_MANA,
+      manaAtual: BASE_MANA,
+      danoFisicoBase: BASE_DANO_FISICO,
+      danoMagicoBase: BASE_DANO_MAGICO,
+      resistenciaPct: BASE_RESISTENCIA,
+      refinoMagicoPct: 0,
+      percepcaoPct: 0,
+      agilidadePctFuga: 0,
+      forcaPctDano: 0,
+      vitalidadePctVida: 0,
+      inventario: [], // Will store objects with { ...itemProps, quantity: X }
+      equipamento: {
+        armadura: null,
+        espada: null,
+        anel: null,   
+        colar: null,  
+      },
+      moedas: 100,
+      rodadas: 0,
+      xpBonus: XP_BONUS_GLOBAL, 
+      classeLiberada: false,
+      magiasAdquiridas: [],
+      magiasEquipadas: [],
+      currentArea: "E",
+      currentDanoFisico: BASE_DANO_FISICO,
+      currentReducaoDano: BASE_RESISTENCIA,
+      currentChanceFuga: 0,
+      currentChanceEsquiva: 0,
+      currentDanoMagico: BASE_DANO_MAGICO,
+    },
+    mundo: "Aethel",
+    estado: "inicio",
+    monstroAtual: null,
+    batalha: {
+      emBatalha: false,
+      monstro: null,
+      turnoJogador: true,
+      danoRecebido: 0,
+    },
+    mercador: {
+      itens: [], // Mercador items are individual, stacking happens on purchase
+      selecionados: new Set(),
+    },
+  };
+
+  const MONSTRO_NOMES = {
+    E: ["Goblin Fraco", "Rato Gigante", "Lobo Selvagem", "Esqueleto Fraco", "Aranha Venenosa"],
+    D: ["Goblin Guerreiro", "Lobo Alfa", "Esqueleto Guerreiro", "Aranha Gigante", "Zumbi"],
+    C: ["Orc Brutal", "Troll", "Mago Sombrio", "Lobo Fantasma", "Zumbi Corrompido"],
+    B: ["Orc Chefe", "Troll Ancião", "Mago Negro", "Dragão Jovem", "Zumbi Rei"],
+    A: ["Dragão Adulto", "Lorde Orc", "Mago Supremo", "Demônio Menor", "Zumbi Lendário"],
+    S: ["Dragão Ancião", "Lorde Demônio", "Mago Lendário", "Deus Caído", "Zumbi Imortal"],
+  };
+
+  function gerarMonstro(rank) {
+    const rankIndex = rankToIndex(rank);
+    const nome = randomChoice(MONSTRO_NOMES[rank]);
+    const vidaMax = 50 + 15 * rankIndex + randomInt(0, 30); 
+    const danoFisico = 8 + 3 * rankIndex + randomInt(0, 5); 
+    const danoMagico = 5 + 2 * rankIndex + randomInt(0, 4); 
+    const xpBase = randomInt(XP_BASE_MIN, XP_BASE_MAX);
+    // XP gain is calculated here, then bonus applied in derrotarMonstro
+    const xpGanho = Math.floor(xpBase * (1 + XP_RANK_MULTIPLIER * rankIndex)); 
+    const fugaPct = clamp(0.67 - 0.07 * rankIndex, 0.05, 0.67);
+    return { nome, rank, vidaMax, vidaAtual: vidaMax, danoFisico, danoMagico, xpGanho, fugaPct };
+  }
+
+  const ITEM_PREFIXOS = {
+    E: ["Simples", "Rústico", "Comum", "Velho", "Frágil"],
+    D: ["Robusto", "Resistente", "Forte", "Ágil", "Místico"],
+    C: ["Encantado", "Sagrado", "Veloz", "Poderoso", "Duradouro"],
+    B: ["Épico", "Lendário", "Mágico", "Imponente", "Vibrante"],
+    A: ["Divino", "Celestial", "Supremo", "Inquebrável", "Radiante"],
+    S: ["Ancestral", "Mítico", "Eterno", "Soberano", "Infinito"],
+  };
+
+  const ITEM_TIPOS_EQUIP = ["Armadura", "Espada", "Anel", "Colar"]; 
+  const ITEM_TIPOS_ALL = [...ITEM_TIPOS_EQUIP, "Poção"];
+
+  function gerarItem(rank) {
+    const tipo = Math.random() < 0.7 ? randomChoice(ITEM_TIPOS_EQUIP) : "Poção";
+    
+    if (tipo === "Poção") {
+      const tipoPocao = Math.random() < 0.5 ? "drop" : "compra";
+      const pocaoBase = POTIONS[tipoPocao];
+      return {
+        id: pocaoBase.id, // MODIFIED: Use base ID for stacking
+        nome: pocaoBase.nome,
+        tipo: "Poção",
+        rank: rank, 
+        efeitos: {}, // Potions don't have 'efeitos' like equipment
+        preco: tipoPocao === "compra" ? 50 : (ITEM_BASE_PRICE[rank] || 10), // Drop potions could have a small sell value if desired
+        curaVidaPct: pocaoBase.curaVidaPct,
+        curaManaPct: pocaoBase.curaManaPct,
+        descricao: pocaoBase.descricao,
+        isPotion: true,
+      };
+    }
+
+    // Equipment generation
+    const prefixo = randomChoice(ITEM_PREFIXOS[rank]);
+    const nome = `${prefixo} ${tipo}`;
+    const efeitos = {};
+    const { min, max } = ITEM_ATRIBUTOS_POR_RANK[rank];
+    const pontos = randomInt(min, max);
+
+    switch (tipo) {
+      case "Armadura":
+        efeitos.resistencia = pontos;
+        efeitos.vitalidade = randomInt(Math.floor(min / 2), Math.floor(max / 2)); 
+        break;
+      case "Espada":
+        efeitos.forca = pontos;
+        break;
+      case "Anel":
+        efeitos.inteligencia = pontos; 
+        break;
+      case "Colar":
+        efeitos.agilidade = pontos;
+        efeitos.percepcao = randomInt(Math.floor(min / 2), Math.floor(max / 2)); 
+        break;
+    }
+
+    const preco = ITEM_BASE_PRICE[rank] * (1 + Math.random() * 0.5 + rankToIndex(rank) * 0.1); // Price variation
+    return {
+      id: crypto.randomUUID(), // Unique ID for each generated piece of equipment initially
+      nome,
+      tipo,
+      rank,
+      efeitos,
+      preco: Math.floor(preco),
+      isPotion: false,
+    };
+  }
+
+  // NEW FUNCTION: Checks if two items are identical for stacking
+  function itemsAreIdentical(item1, item2) {
+    if (item1.isPotion && item2.isPotion) {
+        // Potions are identical if their base ID (e.g., "potion_drop") is the same.
+        return item1.id === item2.id;
+    }
+    if (!item1.isPotion && !item2.isPotion) {
+        // Equipment: identical if name, type, rank, and effects are the same.
+        if (item1.nome !== item2.nome || item1.tipo !== item2.tipo || item1.rank !== item2.rank) {
+            return false;
+        }
+        // Compare effects objects
+        const effects1 = item1.efeitos || {};
+        const effects2 = item2.efeitos || {};
+        const keys1 = Object.keys(effects1).sort();
+        const keys2 = Object.keys(effects2).sort();
+        if (keys1.length !== keys2.length) return false;
+        for (let i = 0; i < keys1.length; i++) {
+            if (keys1[i] !== keys2[i] || effects1[keys1[i]] !== effects2[keys2[i]]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false; // One is potion, other is not, or different types
+}
+
+// NEW FUNCTION: Adds an item to inventory, handling stacking
+function addItemToInventory(itemToAdd) {
+    let foundStack = false;
+    for (let invItem of game.player.inventario) {
+        if (itemsAreIdentical(invItem, itemToAdd)) {
+            invItem.quantity = (invItem.quantity || 1) + 1;
+            foundStack = true;
+            break;
+        }
+    }
+    if (!foundStack) {
+        game.player.inventario.push({ ...itemToAdd, quantity: 1 });
+    }
+}
+
+
+  function atualizarRank() {
+    const total = Object.values(game.player.atributos).reduce((a, b) => a + b, 0);
+    let novoRank = "E";
+    for (let i = RANKS.length - 1; i >= 0; i--) {
+      if (total >= RANK_MIN_TOTAL[RANKS[i]]) {
+        novoRank = RANKS[i];
+        break;
+      }
+    }
+    if (novoRank !== game.player.rank) {
+      game.player.rank = novoRank;
+      // Class unlock message logic (unchanged)
+      if (game.player.nivel >= 20 && !game.player.classe && rankToIndex(novoRank) >= rankToIndex("D")) {
+        game.player.classe = randomChoice(CLASSES);
+        // This message might get overwritten if other messages follow immediately
+        // Consider queuing messages or a more robust notification system for future
+         setTimeout(() => mostrarMensagem( // Delay to ensure it's seen
+          `Parabéns! Você alcançou o nível 20 e desbloqueou a classe <span class="font-bold text-indigo-400">${game.player.classe}</span>!`
+        ), 50); // Short delay
+      }
+    }
+  }
+
+  function atualizarAtributosDerivados() {
+    const a = game.player.atributos;
+    let tempForca = a.forca;
+    let tempAgilidade = a.agilidade;
+    let tempInteligencia = a.inteligencia;
+    let tempResistencia = a.resistencia;
+    let tempVitalidade = a.vitalidade;
+    let tempPercepcao = a.percepcao;
+
+    for (const equipSlot in game.player.equipamento) {
+      const equip = game.player.equipamento[equipSlot];
+      if (equip) {
+        for (const [attr, val] of Object.entries(equip.efeitos)) {
+          switch(attr) {
+            case 'forca': tempForca += val; break;
+            case 'agilidade': tempAgilidade += val; break;
+            case 'inteligencia': tempInteligencia += val; break;
+            case 'resistencia': tempResistencia += val; break;
+            case 'vitalidade': tempVitalidade += val; break;
+            case 'percepcao': tempPercepcao += val; break;
+          }
+        }
+      }
+    }
+
+    const vitalidadeBonusVida = tempVitalidade * 0.5; 
+    game.player.vidaMax = Math.floor(BASE_HP + vitalidadeBonusVida);
+    // Ensure current health doesn't exceed new max health after stat changes
+    game.player.vidaAtual = Math.min(game.player.vidaAtual, game.player.vidaMax); 
+    game.player.vitalidadePctVida = vitalidadeBonusVida; 
+
+    const inteligenciaBonusMana = tempInteligencia * 10; 
+    game.player.manaMax = Math.floor(BASE_MANA + inteligenciaBonusMana);
+    game.player.manaAtual = Math.min(game.player.manaAtual, game.player.manaMax);
+    // if (game.player.manaAtual > game.player.manaMax) game.player.manaAtual = game.player.manaMax; // Already handled by min
+
+    const forcaBonusDano = tempForca * 0.5; 
+    game.player.currentDanoFisico = BASE_DANO_FISICO + forcaBonusDano;
+    game.player.forcaPctDano = forcaBonusDano / BASE_DANO_FISICO; 
+
+    const resistenciaBonusPct = tempResistencia * 0.1; 
+    game.player.currentReducaoDano = resistenciaBonusPct; 
+    game.player.resistenciaPct = resistenciaBonusPct / 100; 
+
+    const agilidadeBonusFuga = tempAgilidade * 0.05; 
+    game.player.currentChanceFuga = agilidadeBonusFuga; 
+    game.player.agilidadePctFuga = agilidadeBonusFuga / 100; 
+
+    const percepcaoBonusEsquiva = tempPercepcao * 0.05; 
+    game.player.currentChanceEsquiva = percepcaoBonusEsquiva; 
+    game.player.percepcaoPct = percepcaoBonusEsquiva / 100; 
+
+    const inteligenciaBonusDanoMagico = tempInteligencia * 0.5; 
+    game.player.currentDanoMagico = BASE_DANO_MAGICO + inteligenciaBonusDanoMagico; 
+    game.player.danoMagicoBase = BASE_DANO_MAGICO + inteligenciaBonusDanoMagico;
+    
+    game.player.refinoMagicoPct = 0; 
+    aplicarEfeitosEquipamento(); 
+  }
+
+
+  function calcularDanoFisico() {
+    return Math.floor(game.player.currentDanoFisico);
+  }
+  function calcularDanoMagico(magia) {
+    return Math.floor(game.player.currentDanoMagico + magia.danoBase);
+  }
+
+  function calcularDanoRecebido(dano) {
+    const danoReduzido = dano * (1 - game.player.resistenciaPct);
+    return Math.max(1, Math.floor(danoReduzido));
+  }
+
+  function calcularChanceFuga(monstro) {
+    const rankIndex = rankToIndex(monstro.rank);
+    const baseFuga = clamp(0.67 - 0.07 * rankIndex, 0.05, 0.67);
+    return clamp(baseFuga + game.player.agilidadePctFuga, 0, 1);
+  }
+
+  function calcularGastoMana(magia) {
+    const baseCusto = magia.manaBase; 
+    return Math.max(1, Math.floor(baseCusto * (1 - game.player.refinoMagicoPct)));
+  }
+
+  function atualizarStatusAtributos() {
+    document.getElementById("status-vida").textContent = `${game.player.vidaAtual} / ${game.player.vidaMax}`;
+    document.getElementById("status-mana").textContent = `${game.player.manaAtual} / ${game.player.manaMax}`;
+    document.getElementById("status-rank").textContent = game.player.rank;
+    document.getElementById("status-nivel").textContent = game.player.nivel;
+    document.getElementById("status-xp").textContent = game.player.xp;
+    document.getElementById("status-xpProximo").textContent = game.player.xpProximoNivel;
+    document.getElementById("status-moedas").textContent = game.player.moedas;
+    document.getElementById("status-classe").textContent = game.player.classe || "Nenhuma";
+
+    document.getElementById("bonus-dano-fisico").textContent = game.player.currentDanoFisico.toFixed(1);
+    document.getElementById("bonus-vida-max").textContent = game.player.vidaMax;
+    document.getElementById("bonus-mana-max").textContent = game.player.manaMax;
+    document.getElementById("bonus-resistencia").textContent = (game.player.currentReducaoDano).toFixed(2); 
+    document.getElementById("bonus-fuga").textContent = (game.player.currentChanceFuga).toFixed(2); 
+    document.getElementById("bonus-esquiva").textContent = (game.player.currentChanceEsquiva).toFixed(2); 
+    document.getElementById("bonus-dano-magico").textContent = game.player.currentDanoMagico.toFixed(1);
+  }
+
+  function mostrarMensagem(html) {
+    const storyText = document.getElementById("story-text");
+    storyText.innerHTML = html;
+  }
+
+  function limparEscolhas() {
+    const choices = document.getElementById("choices");
+    choices.innerHTML = "";
+  }
+
+  function adicionarEscolha(texto, callback, disabled = false) {
+    const choices = document.getElementById("choices");
+    const btn = document.createElement("button");
+    if (disabled) {
+        btn.className = "bg-gray-600 rounded px-4 py-2 font-semibold cursor-default text-gray-400";
+        btn.disabled = true;
+    } else {
+        btn.className = "bg-indigo-700 hover:bg-indigo-600 rounded px-4 py-2 font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-400";
+    }
+    btn.innerHTML = texto;
+    if (callback && !disabled) {
+        btn.addEventListener("click", () => {
+          limparEscolhas();
+          callback();
+        });
+    }
+    choices.appendChild(btn);
+  }
+
+  function iniciarJogo() {
+    game.estado = "inicio";
+    game.player.nivel = 1;
+    game.player.xp = 0;
+    game.player.xpProximoNivel = 100;
+    game.player.rank = "E";
+    game.player.atributos = { ...BASE_STATS };
+    game.player.pontosDistribuir = 10; // Initial points
+    game.player.vidaMax = BASE_HP;
+    game.player.vidaAtual = BASE_HP;
+    game.player.manaMax = BASE_MANA;
+    game.player.manaAtual = BASE_MANA;
+    game.player.danoFisicoBase = BASE_DANO_FISICO;
+    game.player.danoMagicoBase = BASE_DANO_MAGICO;
+    game.player.resistenciaPct = BASE_RESISTENCIA;
+    game.player.refinoMagicoPct = 0;
+    game.player.percepcaoPct = 0;
+    game.player.agilidadePctFuga = 0;
+    game.player.forcaPctDano = 0;
+    game.player.vitalidadePctVida = 0;
+    game.player.inventario = [];
+    game.player.equipamento = { armadura: null, espada: null, anel: null, colar: null }; 
+    game.player.moedas = 100;
+    game.player.rodadas = 0;
+    // xpBonus is a const
+    game.player.classe = null;
+    game.player.classeLiberada = false;
+    game.player.magiasAdquiridas = [];
+    game.player.magiasEquipadas = [];
+    game.player.currentArea = "E"; 
+    
+    game.player.currentDanoFisico = BASE_DANO_FISICO;
+    game.player.currentReducaoDano = BASE_RESISTENCIA;
+    game.player.currentChanceFuga = 0;
+    game.player.currentChanceEsquiva = 0;
+    game.player.currentDanoMagico = BASE_DANO_MAGICO;
+
+    atualizarAtributosDerivados();
+    atualizarRank();
+    atualizarStatusAtributos();
+    atualizarMercadorVisibilidade();
+    mostrarMensagem(
+      `Você acorda na <span class="font-bold text-indigo-400">Área ${game.player.currentArea}</span> do mundo de Aethel. A névoa envolve tudo e o silêncio é perturbador. Você não lembra como chegou aqui, mas sabe que precisa sobreviver.<br/><br/>O que deseja fazer?`
+    );
+    limparEscolhas();
+    adicionarEscolha("Explorar a área", explorarArea);
+    adicionarEscolha("Ver atributos", abrirAtributos);
+    adicionarEscolha("Abrir habilidades", abrirSkills);
+    adicionarEscolha("Abrir inventário", abrirInventario);
+    if (game.player.nivel >= 20) {
+        adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+    }
+  }
+
+  function atualizarMercadorVisibilidade() {
+    const mercadorBtn = document.getElementById("btn-mercador");
+    if (game.player.nivel > 0 && game.player.nivel % 5 === 0) {
+      mercadorBtn.classList.remove("hidden");
+    } else {
+      mercadorBtn.classList.add("hidden");
+    }
+  }
+
+  function explorarArea() {
+    game.player.rodadas++;
+    // atualizarStatusAtributos(); // Called within sub-functions or after actions
+
+    const evento = Math.random();
+    if (evento < 0.7) { // Encounter monster
+        const currentAreaRankIndex = rankToIndex(game.player.currentArea);
+        const rankForMonsters = [];
+        rankForMonsters.push(RANKS[currentAreaRankIndex]);
+
+        if (currentAreaRankIndex + 1 < RANKS.length) {
+            rankForMonsters.push(RANKS[currentAreaRankIndex + 1]);
+        }
+        
+        const chosenRankForMonster = randomChoice(rankForMonsters);
+        const monstro = gerarMonstro(chosenRankForMonster);
+        game.monstroAtual = monstro;
+        iniciarBatalha(monstro);
+    } else { // No monster
+      mostrarMensagem(
+        `Você explora a <span class="font-bold text-indigo-400">Área ${game.player.currentArea}</span> e encontra um lugar tranquilo. O vento sopra suavemente e você aproveita para recuperar suas forças.<br/><br/>O que deseja fazer?`
+      );
+      limparEscolhas();
+      adicionarEscolha("Continuar explorando", explorarArea);
+      adicionarEscolha("Ver atributos", abrirAtributos);
+      adicionarEscolha("Abrir habilidades", abrirSkills);
+      adicionarEscolha("Abrir inventário", abrirInventario);
+      if (game.player.nivel >= 20) {
+        adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+      }
+    }
+    atualizarStatusAtributos(); // Ensure status is updated after exploration action
+  }
+
+  function abrirTelaMudarArea() {
+    game.estado = "mudarAreaScreen"; 
+    
+    const playerRankIndex = rankToIndex(game.player.rank);
+    let areaChoicesHtml = `Você está atualmente na <span class="font-bold text-indigo-400">Área ${game.player.currentArea}</span>.<br/><br/>Escolha uma nova área para viajar (Requer Nível 20+):<br/>`;
+    
+    mostrarMensagem(areaChoicesHtml);
+    limparEscolhas();
+
+    RANKS.forEach(areaRank => {
+        const targetAreaRankIndex = rankToIndex(areaRank);
+        if (targetAreaRankIndex <= playerRankIndex) { // Player can travel to areas up to their own rank
+            if (areaRank === game.player.currentArea) {
+                 adicionarEscolha(`Área ${areaRank} (Atual)`, null, true);
+            } else {
+                adicionarEscolha(`Viajar para Área ${areaRank}`, () => mudarDeArea(areaRank));
+            }
+        } else {
+            const btn = document.createElement("button");
+            btn.className = "bg-gray-700 rounded px-4 py-2 font-semibold text-gray-500 cursor-not-allowed";
+            btn.innerHTML = `Área ${areaRank} (Requer Rank ${areaRank})`;
+            btn.disabled = true;
+            document.getElementById("choices").appendChild(btn);
+        }
+    });
+
+    adicionarEscolha("Voltar", abrirInicio);
+}
+
+function mudarDeArea(novaAreaRank) {
+    game.player.currentArea = novaAreaRank;
+    mostrarMensagem(`Você viajou para a <span class="font-bold text-indigo-400">Área ${novaAreaRank}</span>.<br/><br/>O que deseja fazer?`);
+    limparEscolhas();
+    adicionarEscolha("Explorar a área", explorarArea);
+    adicionarEscolha("Ver atributos", abrirAtributos);
+    adicionarEscolha("Abrir habilidades", abrirSkills);
+    adicionarEscolha("Abrir inventário", abrirInventario);
+    if (game.player.nivel >= 20) {
+        adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+    }
+}
+
+
+  function iniciarBatalha(monstro) {
+    game.estado = "batalha";
+    game.batalha.emBatalha = true;
+    game.batalha.monstro = monstro;
+    game.batalha.turnoJogador = true;
+    mostrarMensagem(
+      `Você encontrou um monstro: <span class="font-bold text-red-400">${monstro.nome}</span> (Rank ${monstro.rank})<br/>Vida: ${monstro.vidaAtual} / ${monstro.vidaMax}<br/><br/>O que deseja fazer?`
+    );
+    limparEscolhas();
+    adicionarEscolha("Atacar fisicamente", () => atacarMonstro("fisico"));
+    if (game.player.magiasEquipadas.length > 0) {
+      adicionarEscolha("Usar magia", usarMagiaMenu);
+    }
+    adicionarEscolha("Usar poção", usarPocaoMenu);
+    adicionarEscolha("Tentar fugir", tentarFugir);
+    atualizarStatusAtributos();
+  }
+
+  function tentarFugir() {
+    const chanceFuga = calcularChanceFuga(game.batalha.monstro);
+    const sucesso = Math.random() < chanceFuga;
+    if (sucesso) {
+      mostrarMensagem(
+        `Você tentou fugir e conseguiu escapar do <span class="font-bold text-red-400">${game.batalha.monstro.nome}</span>!<br/><br/>O que deseja fazer agora?`
+      );
+      limparEscolhas();
+      game.batalha.emBatalha = false;
+      game.monstroAtual = null;
+      adicionarEscolha("Continuar explorando", explorarArea);
+      adicionarEscolha("Ver atributos", abrirAtributos);
+      adicionarEscolha("Abrir habilidades", abrirSkills);
+      adicionarEscolha("Abrir inventário", abrirInventario);
+       if (game.player.nivel >= 20) {
+        adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+      }
+    } else {
+      mostrarMensagem(
+        `Você tentou fugir, mas falhou! O <span class="font-bold text-red-400">${game.batalha.monstro.nome}</span> aproveita para atacar você!`
+      );
+      limparEscolhas();
+      setTimeout(() => {
+        monstroAtaca();
+      }, 1000);
+    }
+    atualizarStatusAtributos();
+  }
+
+  function atacarMonstro(tipo, magia = null) {
+    if (!game.batalha.emBatalha) return;
+    const monstro = game.batalha.monstro;
+    let dano = 0;
+    if (tipo === "fisico") {
+      dano = calcularDanoFisico();
+    } else if (tipo === "magico" && magia) {
+      const gastoMana = calcularGastoMana(magia);
+      if (game.player.manaAtual < gastoMana) {
+        mostrarMensagem(
+          `Você não tem mana suficiente para usar a magia <span class="font-bold text-indigo-400">${magia.nome}</span>. Mana necessária: ${gastoMana}`
+        );
+        // Don't clear choices here, let player re-evaluate
+        return; // Player needs to choose another action
+      }
+      game.player.manaAtual -= gastoMana;
+      dano = calcularDanoMagico(magia);
+    }
+    monstro.vidaAtual -= dano;
+    if (monstro.vidaAtual < 0) monstro.vidaAtual = 0;
+
+    let msg = `Você atacou o <span class="font-bold text-red-400">${monstro.nome}</span> com ${tipo === "fisico" ? "um ataque físico" : `a magia <span class="font-bold text-indigo-400">${magia.nome}</span>`} e causou <span class="font-bold text-yellow-400">${dano}</span> de dano.<br/>Vida do monstro: ${monstro.vidaAtual} / ${monstro.vidaMax}`;
+    if (tipo === "magico") {
+      msg += `<br/>Mana restante: ${game.player.manaAtual} / ${game.player.manaMax}`;
+    }
+    mostrarMensagem(msg);
+    limparEscolhas(); // Clear old battle choices
+
+    if (monstro.vidaAtual <= 0) {
+      setTimeout(() => {
+        derrotarMonstro(monstro);
+      }, 1200);
+    } else {
+      setTimeout(() => {
+        monstroAtaca();
+      }, 1200);
+    }
+    atualizarStatusAtributos();
+  }
+
+  function usarMagiaMenu() {
+    const magias = game.player.magiasEquipadas.map(id => MAGIAS_POSSIVEIS.find(m => m.id === id)).filter(Boolean);
+    if (magias.length === 0) {
+      mostrarMensagem("Você não tem magias equipadas.");
+      // No choices cleared here, player might go back
+      adicionarEscolha("Voltar à Batalha", () => iniciarBatalha(game.batalha.monstro)); // Add a way back
+      return;
+    }
+    mostrarMensagem("Escolha a magia para usar:");
+    limparEscolhas();
+    magias.forEach(magia => {
+      adicionarEscolha(
+        `${magia.nome} (Rank ${magia.rank}) - Dano: ${magia.danoBase}, Mana: ${calcularGastoMana(magia)}`,
+        () => atacarMonstro("magico", magia)
+      );
+    });
+    adicionarEscolha("Voltar", () => iniciarBatalha(game.batalha.monstro));
+  }
+
+  function usarPocaoMenu() {
+    const pocaoItens = game.player.inventario.filter(i => i.isPotion && i.quantity > 0);
+    if (pocaoItens.length === 0) {
+      mostrarMensagem("Você não tem poções no inventário.");
+      adicionarEscolha("Voltar à Batalha", () => iniciarBatalha(game.batalha.monstro));
+      return;
+    }
+    mostrarMensagem("Escolha a poção para usar:");
+    limparEscolhas();
+    pocaoItens.forEach(pocaoStack => { // Iterate through stacked potions
+      adicionarEscolha(
+        `${pocaoStack.nome} - ${pocaoStack.descricao} (x${pocaoStack.quantity})`,
+        () => usarPocao(pocaoStack) // Pass the stack object
+      );
+    });
+    adicionarEscolha("Voltar", () => iniciarBatalha(game.batalha.monstro));
+  }
+
+  function usarPocao(pocaoStack) { // pocaoStack is an item object from inventory with quantity
+    if (!pocaoStack || pocaoStack.quantity <= 0) {
+      alert("Poção não encontrada ou esgotada."); // Should not happen if menu is correct
+      iniciarBatalha(game.batalha.monstro); // Go back to battle
+      return;
+    }
+    const curaVida = Math.floor(game.player.vidaMax * pocaoStack.curaVidaPct);
+    const curaMana = Math.floor(game.player.manaMax * pocaoStack.curaManaPct);
+    game.player.vidaAtual = Math.min(game.player.vidaAtual + curaVida, game.player.vidaMax);
+    game.player.manaAtual = Math.min(game.player.manaAtual + curaMana, game.player.manaMax);
+    
+    pocaoStack.quantity--; // Decrement quantity
+    if (pocaoStack.quantity <= 0) { // Remove if stack depleted
+        game.player.inventario = game.player.inventario.filter(i => i !== pocaoStack);
+    }
+
+    mostrarMensagem(
+      `Você usou <span class="font-bold text-indigo-400">${pocaoStack.nome}</span> e recuperou ${curaVida} de vida e ${curaMana} de mana.<br/><br/>O que deseja fazer?`
+    );
+    // Choices for after using potion in battle (same as other battle choices)
+    limparEscolhas();
+    adicionarEscolha("Atacar fisicamente", () => atacarMonstro("fisico"));
+    if (game.player.magiasEquipadas.length > 0) adicionarEscolha("Usar magia", usarMagiaMenu);
+    adicionarEscolha("Usar poção", usarPocaoMenu); // Can use another potion
+    adicionarEscolha("Tentar fugir", tentarFugir);
+    
+    atualizarStatusAtributos();
+    // If inventory screen was open, it would need an update, but here we are in battle.
+  }
+
+  function monstroAtaca() {
+    if (!game.batalha.emBatalha || !game.batalha.monstro) return; // Safety check
+    const monstro = game.batalha.monstro;
+    const ataqueMagico = Math.random() < 0.5;
+    let dano = ataqueMagico ? monstro.danoMagico : monstro.danoFisico;
+    dano = calcularDanoRecebido(dano);
+    game.player.vidaAtual -= dano;
+    if (game.player.vidaAtual < 0) game.player.vidaAtual = 0;
+    
+    let msg = `O <span class="font-bold text-red-400">${monstro.nome}</span> atacou você com ${
+        ataqueMagico ? "magia" : "um ataque físico"
+      } e causou <span class="font-bold text-red-500">${dano}</span> de dano.<br/>Sua vida: ${game.player.vidaAtual} / ${game.player.vidaMax}`;
+
+    if (game.player.vidaAtual <= 0) {
+      msg += "<br/><br/>Você foi derrotado!";
+      mostrarMensagem(msg);
+      limparEscolhas();
+      setTimeout(() => {
+        gameOver();
+      }, 1500);
+    } else {
+      msg += `<br/><br/>Você está enfrentando o <span class="font-bold text-red-400">${monstro.nome}</span> (Rank ${monstro.rank})<br/>Vida do monstro: ${monstro.vidaAtual} / ${monstro.vidaMax}<br/><br/>O que deseja fazer?`;
+      mostrarMensagem(msg);
+      limparEscolhas();
+      adicionarEscolha("Atacar fisicamente", () => atacarMonstro("fisico"));
+      if (game.player.magiasEquipadas.length > 0) {
+        adicionarEscolha("Usar magia", usarMagiaMenu);
+      }
+      adicionarEscolha("Usar poção", usarPocaoMenu);
+      adicionarEscolha("Tentar fugir", tentarFugir);
+    }
+    atualizarStatusAtributos();
+  }
+
+  function derrotarMonstro(monstro) {
+    game.batalha.emBatalha = false;
+    game.monstroAtual = null;
+    let xpGanhoBase = monstro.xpGanho;
+    let xpFinal = Math.floor(xpGanhoBase * (1 + XP_BONUS_GLOBAL)); // Apply global bonus
+    
+    game.player.xp += xpFinal;
+    const moedasGanhas = randomInt(5, 20) * (rankToIndex(monstro.rank) + 1);
+    game.player.moedas += moedasGanhas;
+
+    for (const attr in game.player.atributos) {
+      game.player.atributos[attr] = +(game.player.atributos[attr] + 0.1).toFixed(1);
+    }
+    
+    game.player.vidaAtual = Math.min(game.player.vidaAtual + Math.floor(game.player.vidaMax * 0.3), game.player.vidaMax);
+    game.player.manaAtual = Math.min(game.player.manaAtual + Math.floor(game.player.manaMax * 0.3), game.player.manaMax);
+
+    const dropChance = 0.7; 
+    let itemDrop = null;
+    if (Math.random() < dropChance) {
+      const rankIndexMonstro = rankToIndex(monstro.rank);
+      // Item rank can be same as monster or one lower, but not below E
+      const itemRankTry = Math.max(0, rankIndexMonstro - randomInt(0,1));
+      const rankItem = indexToRank(itemRankTry);
+      itemDrop = gerarItem(rankItem);
+      addItemToInventory(itemDrop); // Use new stacking function
+    }
+
+    let leveledUp = false;
+    let novaMagiaAdquirida = null;
+    let levelUpMessages = [];
+
+    while (game.player.xp >= game.player.xpProximoNivel) {
+      leveledUp = true;
+      game.player.xp -= game.player.xpProximoNivel;
+      game.player.nivel++;
+      game.player.pontosDistribuir += 5;
+      for (const attr in game.player.atributos) {
+        game.player.atributos[attr] = +(game.player.atributos[attr] + 1).toFixed(1);
+      }
+      levelUpMessages.push(`Você subiu para o nível <span class="font-bold text-green-400">${game.player.nivel}</span>, ganhou 5 pontos para distribuir e +1 em todos os atributos!`);
+      game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.25);
+      atualizarMercadorVisibilidade();
+      atualizarRank(); 
+
+      const rankIndexJogador = rankToIndex(game.player.rank);
+      const magiasDisponiveis = MAGIAS_POSSIVEIS.filter(m => rankToIndex(m.rank) <= rankIndexJogador && !game.player.magiasAdquiridas.includes(m.id));
+      if (magiasDisponiveis.length > 0) {
+        novaMagiaAdquirida = randomChoice(magiasDisponiveis);
+        game.player.magiasAdquiridas.push(novaMagiaAdquirida.id);
+        if (game.player.magiasEquipadas.length < 4) {
+          game.player.magiasEquipadas.push(novaMagiaAdquirida.id);
+          levelUpMessages.push(`Nova magia: <span class="font-bold text-indigo-400">${novaMagiaAdquirida.nome}</span> (Rank ${novaMagiaAdquirida.rank}) foi adquirida e equipada.`);
+        } else {
+          levelUpMessages.push(`Nova magia: <span class="font-bold text-indigo-400">${novaMagiaAdquirida.nome}</span> (Rank ${novaMagiaAdquirida.rank}) foi adquirida. Equipe-a na tela de Habilidades.`);
+        }
+        novaMagiaAdquirida = null; // Reset for next potential level up in same loop
+      }
+    }
+    
+    atualizarAtributosDerivados(); 
+
+    let msg = `Você derrotou o <span class="font-bold text-red-400">${monstro.nome}</span>!<br/>Ganhou <span class="font-bold text-yellow-400">${xpFinal}</span> XP e <span class="font-bold text-yellow-300">${moedasGanhas}</span> moedas.`;
+    if (itemDrop) {
+      msg += `<br/>O monstro deixou cair: <span class="font-bold text-indigo-400">${itemDrop.nome}</span> (Rank ${itemDrop.rank})`;
+    }
+    if (levelUpMessages.length > 0) {
+        msg += "<br/><br/>" + levelUpMessages.join("<br/>");
+    }
+    
+    if (leveledUp) {
+        msg += `<br/><br/>Você tem ${game.player.pontosDistribuir} pontos de atributo para distribuir.`;
+        mostrarMensagem(msg);
+        atualizarStatusAtributos();
+        atualizarSkillsTela(); 
+        limparEscolhas();
+        adicionarEscolha("Distribuir Atributos", abrirAtributos);
+        adicionarEscolha("Continuar explorando", explorarArea);
+        if (game.player.nivel >= 20) {
+            adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+        }
+        return;
+    }
+
+    // If no level up
+    msg += `<br/><br/>O que deseja fazer?`;
+    mostrarMensagem(msg);
+    limparEscolhas();
+    adicionarEscolha("Continuar explorando", explorarArea);
+    adicionarEscolha("Ver atributos", abrirAtributos);
+    adicionarEscolha("Abrir habilidades", abrirSkills);
+    adicionarEscolha("Abrir inventário", abrirInventario);
+    if (game.player.nivel >= 20) {
+        adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+    }
+    atualizarStatusAtributos();
+  }
+
+  function gameOver() {
+    game.estado = "gameover";
+    mostrarMensagem(
+      `<span class="text-red-600 font-extrabold text-3xl">Você morreu!</span><br/>O mundo de <span class="font-bold text-indigo-400">Aethel</span> não foi gentil desta vez.<br/><br/>Deseja recomeçar?`
+    );
+    limparEscolhas();
+    adicionarEscolha("Recomeçar", iniciarJogo);
+  }
+
+  function abrirAtributos() {
+    game.estado = "atributos";
+    atualizarRank();
+    atualizarAtributosDerivados(); 
+    atualizarStatusAtributos();
+    document.getElementById("game-screen").classList.add("hidden");
+    document.getElementById("atributos-screen").classList.remove("hidden");
+    document.getElementById("inventario-screen").classList.add("hidden");
+    document.getElementById("mercador-screen").classList.add("hidden");
+    document.getElementById("skills-screen").classList.add("hidden");
+    atualizarTelaAtributos(); 
+  }
+
+  function atualizarTelaAtributos() {
+    const a = game.player.atributos;
+    document.getElementById("forca-val").textContent = a.forca.toFixed(1);
+    document.getElementById("agilidade-val").textContent = a.agilidade.toFixed(1);
+    document.getElementById("inteligencia-val").textContent = a.inteligencia.toFixed(1);
+    document.getElementById("resistencia-val").textContent = a.resistencia.toFixed(1);
+    document.getElementById("vitalidade-val").textContent = a.vitalidade.toFixed(1);
+    document.getElementById("percepcao-val").textContent = a.percepcao.toFixed(1);
+    document.getElementById("pontos-disponiveis").textContent = game.player.pontosDistribuir;
+    atualizarStatusAtributos(); // Ensure bonus display is also updated
+  }
+
+  function manipularBotaoAtributo(e) {
+    if (!e.target.closest(".btn-attr")) return;
+    const btn = e.target.closest(".btn-attr");
+    const attr = btn.dataset.attr;
+    const action = btn.dataset.action;
+    if (!attr || !action) return;
+    const valAtual = game.player.atributos[attr];
+    if (action === "inc") {
+      if (game.player.pontosDistribuir > 0) {
+        game.player.atributos[attr] = +(valAtual + 1).toFixed(1);
+        game.player.pontosDistribuir--;
+      }
+    } else if (action === "dec") {
+      // Need to ensure we don't decrease below the base value if attributes were also gained from level ups directly
+      // Current logic only has BASE_STATS (all 0) and pointsDistribuir.
+      // Attributes also increase by 0.1 or 1 on level up - these are "permanent" and not reclaimable here.
+      // This part is tricky. A simple solution: distributed points can be reclaimed, base points from levels cannot.
+      // However, the current structure doesn't differentiate. For now, allow decrease if > 0.
+      if (valAtual > BASE_STATS[attr]) { // Allow decrease only if above initial base (which is 0)
+        // This check is simplistic if attributes are gained elsewhere.
+        // A more robust system would track "spent points" vs "base points".
+        // For now, as long as > 0, as BASE_STATS are 0.
+         if (valAtual > 0) { // Simplified: can always decrease if > 0
+            game.player.atributos[attr] = +(valAtual - 1).toFixed(1);
+            game.player.pontosDistribuir++;
+         }
+      }
+    }
+    atualizarAtributosDerivados(); 
+    atualizarTelaAtributos(); 
+    // atualizarStatusAtributos(); // This is called by atualizarTelaAtributos through bonus display updates.
+  }
+
+  function salvarAtributos() {
+    atualizarRank();
+    atualizarAtributosDerivados(); 
+    atualizarStatusAtributos();
+    abrirInicio();
+  }
+
+  function abrirInicio() {
+    game.estado = "inicio";
+    document.getElementById("game-screen").classList.remove("hidden");
+    document.getElementById("atributos-screen").classList.add("hidden");
+    document.getElementById("inventario-screen").classList.add("hidden");
+    document.getElementById("mercador-screen").classList.add("hidden");
+    document.getElementById("skills-screen").classList.add("hidden");
+    mostrarMensagem(
+      `Você está na <span class="font-bold text-indigo-400">Área ${game.player.currentArea}</span> do mundo de Aethel.<br/><br/>O que deseja fazer?`
+    );
+    limparEscolhas();
+    adicionarEscolha("Explorar a área", explorarArea);
+    adicionarEscolha("Ver atributos", abrirAtributos);
+    adicionarEscolha("Abrir habilidades", abrirSkills);
+    adicionarEscolha("Abrir inventário", abrirInventario);
+    if (game.player.nivel >= 20) {
+        adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+    }
+  }
+
+  function abrirInventario() {
+    game.estado = "inventario";
+    document.getElementById("game-screen").classList.add("hidden");
+    document.getElementById("atributos-screen").classList.add("hidden");
+    document.getElementById("inventario-screen").classList.remove("hidden");
+    document.getElementById("mercador-screen").classList.add("hidden");
+    document.getElementById("skills-screen").classList.add("hidden");
+    atualizarInventarioTela();
+  }
+
+  function atualizarInventarioTela() {
+    const lista = document.getElementById("lista-itens");
+    lista.innerHTML = "";
+    if (game.player.inventario.length === 0) {
+      const li = document.createElement("li");
+      li.className = "text-gray-400 italic";
+      li.textContent = "Inventário vazio.";
+      lista.appendChild(li);
+    } else {
+        game.player.inventario.forEach((item) => { // item here includes .quantity
+            const li = document.createElement("li");
+            li.className = "bg-gray-700 rounded p-2 flex flex-col sm:flex-row sm:justify-between sm:items-center";
+            
+            const nomeSpan = document.createElement("span");
+            nomeSpan.className = "font-semibold text-indigo-300";
+            let displayName = `${item.nome} (Rank ${item.rank})`;
+            if (item.quantity > 1) {
+                displayName += ` (x${item.quantity})`;
+            }
+            nomeSpan.textContent = displayName;
+
+            const efeitosSpan = document.createElement("span");
+            efeitosSpan.className = "text-xs text-gray-300 mt-1 sm:mt-0 sm:ml-4";
+            if(item.isPotion){
+                efeitosSpan.textContent = item.descricao;
+            } else {
+                efeitosSpan.innerHTML = Object.entries(item.efeitos || {})
+                .map(([chave, val]) => {
+                    let desc = "";
+                    switch (chave) {
+                    case "forca": desc = `+${val} Força`; break;
+                    case "agilidade": desc = `+${val} Agilidade`; break;
+                    case "inteligencia": desc = `+${val} Inteligência`; break;
+                    case "resistencia": desc = `+${val} Resistência`; break;
+                    case "vitalidade": desc = `+${val} Vitalidade`; break;
+                    case "percepcao": desc = `+${val} Percepção`; break;
+                    case "refinoMagico": desc = `+${val}% Refino Mágico`; break;
+                    default: desc = `${chave}: +${val}`;
+                    }
+                    return desc;
+                })
+                .join(", ");
+            }
+            const botoesDiv = document.createElement("div");
+            botoesDiv.className = "mt-2 sm:mt-0 sm:ml-4 flex space-x-2";
+
+            if(!item.isPotion){ // Equipment can be equipped
+                const btnEquipar = document.createElement("button");
+                btnEquipar.className = "bg-green-600 hover:bg-green-700 rounded px-3 py-1 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-green-400";
+                btnEquipar.textContent = "Equipar";
+                btnEquipar.addEventListener("click", () => equiparItem(item)); // Pass the item object
+                botoesDiv.appendChild(btnEquipar);
+            }
+
+            const btnDescartar = document.createElement("button");
+            btnDescartar.className = "bg-red-600 hover:bg-red-700 rounded px-3 py-1 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-red-400";
+            btnDescartar.textContent = "Descartar";
+            btnDescartar.addEventListener("click", () => descartarItem(item)); // Pass the item object
+            botoesDiv.appendChild(btnDescartar);
+
+            li.appendChild(nomeSpan);
+            li.appendChild(efeitosSpan);
+            li.appendChild(botoesDiv);
+            lista.appendChild(li);
+        });
+    }
+    atualizarEquipamentosTela();
+  }
+
+
+  function atualizarEquipamentosTela() {
+    document.getElementById("equip-armadura").textContent = game.player.equipamento.armadura ? 
+      `${game.player.equipamento.armadura.nome} (Rank ${game.player.equipamento.armadura.rank})` : "Nenhuma equipada";
+    document.getElementById("equip-espada").textContent = game.player.equipamento.espada ? 
+      `${game.player.equipamento.espada.nome} (Rank ${game.player.equipamento.espada.rank})` : "Nenhuma equipada";
+    document.getElementById("equip-anel").textContent = game.player.equipamento.anel ? 
+      `${game.player.equipamento.anel.nome} (Rank ${game.player.equipamento.anel.rank})` : "Nenhum equipado";
+    document.getElementById("equip-colar").textContent = game.player.equipamento.colar ? 
+      `${game.player.equipamento.colar.nome} (Rank ${game.player.equipamento.colar.rank})` : "Nenhum equipado";
+  }
+
+  function equiparItem(itemFromInventoryStack) { // itemFromInventoryStack is the object from inventory array
+    if (itemFromInventoryStack.isPotion || itemFromInventoryStack.quantity <=0) {
+        alert("Este item não pode ser equipado ou não há mais unidades.");
+        return;
+    }
+
+    let slotParaEquipar = null;
+    switch (itemFromInventoryStack.tipo) {
+      case "Armadura": slotParaEquipar = "armadura"; break;
+      case "Espada":   slotParaEquipar = "espada";   break;
+      case "Anel":     slotParaEquipar = "anel";     break;
+      case "Colar":    slotParaEquipar = "colar";    break;
+      default: 
+        alert("Tipo de item desconhecido para equipamento.");
+        return;
+    }
+
+    if (slotParaEquipar) {
+      // Unequip current item in slot, if any, and add it back to inventory
+      if (game.player.equipamento[slotParaEquipar]) {
+        addItemToInventory(game.player.equipamento[slotParaEquipar]);
+      }
+      
+      // Create a single instance for the equipment slot (copy props, no quantity)
+      const itemToEquip = { ...itemFromInventoryStack };
+      delete itemToEquip.quantity; // Equipped items don't have quantity
+
+      game.player.equipamento[slotParaEquipar] = itemToEquip;
+      
+      // Decrement quantity in inventory or remove stack if it was the last one
+      itemFromInventoryStack.quantity--;
+      if (itemFromInventoryStack.quantity <= 0) {
+        game.player.inventario = game.player.inventario.filter(i => i !== itemFromInventoryStack);
+      }
+      
+      atualizarAtributosDerivados(); 
+      atualizarInventarioTela(); 
+      atualizarStatusAtributos(); 
+      alert(`Você equipou: ${itemToEquip.nome}`);
+    }
+  }
+
+  function descartarItem(itemInInventory) { // itemInInventory is the object from inventory array
+    if (!itemInInventory || itemInInventory.quantity <=0) return;
+
+    if (confirm(`Deseja realmente descartar UMA unidade de ${itemInInventory.nome}?`)) {
+      itemInInventory.quantity--;
+      if (itemInInventory.quantity <= 0) {
+        game.player.inventario = game.player.inventario.filter(i => i !== itemInInventory);
+      }
+      atualizarInventarioTela();
+    }
+  }
+
+  function aplicarEfeitosEquipamento() {
+    // This function is now primarily for refinoMagicoPct from equipment.
+    // Other stat bonuses from equipment are handled directly in atualizarAtributosDerivados.
+    let totalRefinoMagicoBonus = 0;
+    for (const slot in game.player.equipamento) {
+        const equip = game.player.equipamento[slot];
+        if (equip && equip.efeitos && typeof equip.efeitos.refinoMagico === 'number') {
+            totalRefinoMagicoBonus += equip.efeitos.refinoMagico;
+        }
+    }
+    game.player.refinoMagicoPct = totalRefinoMagicoBonus / 100; // Convert to decimal
+  }
+
+
+  function abrirMercador() { // fromExplorar parameter removed as it's not essential for current logic
+    game.estado = "mercador";
+    document.getElementById("game-screen").classList.add("hidden");
+    document.getElementById("atributos-screen").classList.add("hidden");
+    document.getElementById("inventario-screen").classList.add("hidden");
+    document.getElementById("mercador-screen").classList.remove("hidden");
+    document.getElementById("skills-screen").classList.add("hidden");
+    gerarItensMercador(); // Generates fresh items each time
+    atualizarTelaMercador();
+    mostrarMensagem( 
+        `O mercador cumprimenta você. Você tem <span class="font-bold text-yellow-300">${game.player.moedas}</span> moedas.<br/><br/>Selecione os itens que deseja comprar.`
+    );
+  }
+
+  function gerarItensMercador() {
+    game.mercador.itens = []; // Mercador items are individual instances for sale
+    const qtd = randomInt(5, 8);
+    const playerRankIdx = rankToIndex(game.player.rank);
+
+    for (let i = 0; i < qtd; i++) {
+      // Mercador items can be around player's rank
+      const rankOffset = randomInt(-1, 1); // -1, 0, or 1
+      const itemRankIdx = clamp(playerRankIdx + rankOffset, 0, RANKS.length - 1);
+      const rank = indexToRank(itemRankIdx);
+      
+      let item = gerarItem(rank); // gerarItem creates a single item instance
+      // Ensure merchant potions are the "compra" type and have correct price
+      if (item.isPotion) {
+        const pocaoBaseCompra = POTIONS.compra;
+        item.id = pocaoBaseCompra.id; // Use stacking ID
+        item.nome = pocaoBaseCompra.nome;
+        item.curaVidaPct = pocaoBaseCompra.curaVidaPct;
+        item.curaManaPct = pocaoBaseCompra.curaManaPct;
+        item.descricao = pocaoBaseCompra.descricao;
+        item.preco = 50; // Fixed price for advanced potion
+      }
+      game.mercador.itens.push(item);
+    }
+    game.mercador.selecionados.clear();
+  }
+
+  function atualizarTelaMercador() {
+    const lista = document.getElementById("lista-mercador");
+    lista.innerHTML = "";
+    if (game.mercador.itens.length === 0) {
+      const li = document.createElement("li");
+      li.className = "text-gray-400 italic";
+      li.textContent = "O mercador não tem mais itens para vender no momento.";
+      lista.appendChild(li);
+      atualizarBotaoComprar();
+      return;
+    }
+    game.mercador.itens.forEach((item, index) => { // Use index for unique checkbox IDs if needed, or rely on item object
+      const li = document.createElement("li");
+      li.className = "bg-gray-700 rounded p-3 flex flex-col sm:flex-row sm:justify-between sm:items-center";
+      const infoDiv = document.createElement("div");
+      infoDiv.className = "flex flex-col";
+      const nomeSpan = document.createElement("span");
+      nomeSpan.className = "font-semibold text-indigo-300";
+      nomeSpan.textContent = `${item.nome} (Rank ${item.rank})`;
+      
+      const efeitosSpan = document.createElement("span");
+      efeitosSpan.className = "text-xs text-gray-300 mt-1";
+      if(item.isPotion){
+        efeitosSpan.textContent = item.descricao;
+      } else {
+        efeitosSpan.innerHTML = Object.entries(item.efeitos || {})
+          .map(([chave, val]) => {
+             let desc = "";
+            switch (chave) {
+              case "forca": desc = `+${val} Força`; break;
+              case "agilidade": desc = `+${val} Agilidade`; break;
+              case "inteligencia": desc = `+${val} Inteligência`; break;
+              case "resistencia": desc = `+${val} Resistência`; break;
+              case "vitalidade": desc = `+${val} Vitalidade`; break;
+              case "percepcao": desc = `+${val} Percepção`; break;
+              case "refinoMagico": desc = `+${val}% Refino Mágico`; break;
+              default: desc = `${chave}: +${val}`;
+            }
+            return desc;
+          })
+          .join(", ");
+      }
+      infoDiv.appendChild(nomeSpan);
+      infoDiv.appendChild(efeitosSpan);
+
+      const compraDiv = document.createElement("div");
+      compraDiv.className = "flex items-center space-x-3 mt-3 sm:mt-0";
+
+      const precoSpan = document.createElement("span");
+      precoSpan.className = "font-semibold text-yellow-300";
+      precoSpan.textContent = `${item.preco} moedas`;
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      // Use a unique value for checkbox, e.g., index, if item IDs can repeat in merchant list before purchase
+      checkbox.value = item.id + "_" + index; // A more unique value for the checkbox
+      checkbox.className = "w-5 h-5 cursor-pointer form-checkbox text-indigo-600 bg-gray-800 border-gray-600 focus:ring-indigo-500";
+      checkbox.checked = game.mercador.selecionados.has(item); // Check if item object is selected
+
+      checkbox.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          game.mercador.selecionados.add(item); // Store the item object itself
+        } else {
+          game.mercador.selecionados.delete(item);
+        }
+        atualizarBotaoComprar();
+      });
+
+      compraDiv.appendChild(precoSpan);
+      compraDiv.appendChild(checkbox);
+
+      li.appendChild(infoDiv);
+      li.appendChild(compraDiv);
+      lista.appendChild(li);
+    });
+    atualizarBotaoComprar();
+  }
+
+  function atualizarBotaoComprar() {
+    const btn = document.getElementById("btn-comprar-mercador");
+    if (game.mercador.selecionados.size === 0) {
+      btn.disabled = true;
+      return;
+    }
+    let totalPreco = 0;
+    game.mercador.selecionados.forEach(item => totalPreco += item.preco); // Iterate Set of items
+    btn.disabled = totalPreco > game.player.moedas || totalPreco === 0;
+  }
+
+  function comprarItensMercador() {
+    if (game.mercador.selecionados.size === 0) return;
+    let totalPreco = 0;
+    const itensCompradosNomes = []; // For display in alert
+
+    game.mercador.selecionados.forEach(item => totalPreco += item.preco);
+
+    if (totalPreco > game.player.moedas) {
+      alert("Você não tem moedas suficientes para comprar esses itens.");
+      return;
+    }
+    game.player.moedas -= totalPreco;
+    
+    game.mercador.selecionados.forEach(item => {
+        addItemToInventory(item); // Add to player's inventory (handles stacking)
+        itensCompradosNomes.push(item.nome);
+        // Remove purchased item from merchant's list
+        game.mercador.itens = game.mercador.itens.filter(merchantItem => merchantItem !== item);
+    });
+    
+    alert(`Você comprou: ${itensCompradosNomes.join(", ")} por ${totalPreco} moedas.`);
+    game.mercador.selecionados.clear();
+    atualizarTelaMercador(); // Refresh merchant list
+    atualizarStatusAtributos(); // Update coins display
+  }
+
+  function abrirSkills() {
+    game.estado = "skills";
+    document.getElementById("game-screen").classList.add("hidden");
+    document.getElementById("atributos-screen").classList.add("hidden");
+    document.getElementById("inventario-screen").classList.add("hidden");
+    document.getElementById("mercador-screen").classList.add("hidden");
+    document.getElementById("skills-screen").classList.remove("hidden");
+    atualizarSkillsTela();
+  }
+
+  function atualizarSkillsTela() {
+    const lista = document.getElementById("lista-skills");
+    lista.innerHTML = "";
+
+    if (game.player.magiasAdquiridas.length === 0) {
+      const p = document.createElement("p");
+      p.className = "text-gray-400 italic";
+      p.textContent = "Você ainda não adquiriu nenhuma magia.";
+      lista.appendChild(p);
+      return;
+    }
+
+    game.player.magiasAdquiridas.forEach(magiaId => {
+      const magia = MAGIAS_POSSIVEIS.find(m => m.id === magiaId);
+      if (!magia) return;
+
+      const div = document.createElement("div");
+      div.className = "bg-gray-700 rounded p-3 flex flex-col sm:flex-row sm:justify-between sm:items-center";
+
+      const infoDiv = document.createElement("div");
+      infoDiv.className = "flex flex-col";
+
+      const nomeSpan = document.createElement("span");
+      nomeSpan.className = "font-semibold text-indigo-300";
+      nomeSpan.textContent = `${magia.nome} (Rank ${magia.rank})`;
+
+      const descSpan = document.createElement("span");
+      descSpan.className = "text-xs text-gray-300 mt-1";
+      descSpan.textContent = `Dano base: ${magia.danoBase}, Custo de mana: ${calcularGastoMana(magia)}`;
+
+      infoDiv.appendChild(nomeSpan);
+      infoDiv.appendChild(descSpan);
+
+      const btnDiv = document.createElement("div");
+      btnDiv.className = "mt-3 sm:mt-0";
+
+      const btnEquipar = document.createElement("button");
+      btnEquipar.className = "bg-indigo-600 hover:bg-indigo-700 rounded px-3 py-1 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-400";
+      btnEquipar.textContent = game.player.magiasEquipadas.includes(magia.id) ? "Desequipar" : "Equipar";
+      btnEquipar.addEventListener("click", () => {
+        if (game.player.magiasEquipadas.includes(magia.id)) {
+          game.player.magiasEquipadas = game.player.magiasEquipadas.filter(id => id !== magia.id);
+        } else {
+          if (game.player.magiasEquipadas.length >= 4) {
+            alert("Você só pode equipar até 4 magias.");
+            return;
+          }
+          game.player.magiasEquipadas.push(magia.id);
+        }
+        atualizarSkillsTela(); // Refresh this screen
+      });
+
+      btnDiv.appendChild(btnEquipar);
+      div.appendChild(infoDiv);
+      div.appendChild(btnDiv);
+      lista.appendChild(div);
+    });
+  }
+
+  document.getElementById("btn-inicio").addEventListener("click", abrirInicio);
+  document.getElementById("btn-atributos").addEventListener("click", abrirAtributos);
+  document.getElementById("btn-skills").addEventListener("click", abrirSkills);
+  document.getElementById("btn-inventario").addEventListener("click", abrirInventario);
+  document.getElementById("btn-mercador").addEventListener("click", abrirMercador);
+  document.getElementById("btn-sair").addEventListener("click", sairJogo);
+
+  document.getElementById("atributos-screen").addEventListener("click", manipularBotaoAtributo);
+  document.getElementById("btn-salvar-atributos").addEventListener("click", salvarAtributos);
+
+  document.getElementById("btn-comprar-mercador").addEventListener("click", comprarItensMercador);
+
+  function sairJogo() {
+    if (confirm("Deseja realmente sair do jogo? O progresso será perdido.")) {
+      // Could implement localStorage saving here in the future
+      location.reload(); // Simple reset for now
+    }
+  }
+
+  iniciarJogo();
+
+})();
+</script>
+
+</body>
+</html>

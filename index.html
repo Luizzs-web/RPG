@@ -198,18 +198,18 @@
   const RANK_MIN_TOTAL = {
     E: 20,
     D: 100,
-    C: 200,
-    B: 300,
-    A: 400,
+    C: 150,
+    B: 200,
+    A: 300,
     S: 600,
   };
   const BASE_STATS = {
-    forca: 0,
-    agilidade: 0,
-    inteligencia: 0,
-    resistencia: 0,
-    vitalidade: 0,
-    percepcao: 0,
+    forca: 10,
+    agilidade: 10,
+    inteligencia: 20,
+    resistencia: 15,
+    vitalidade: 40,
+    percepcao: 20,
   };
   const BASE_HP = 100;
   const BASE_MANA = 10;
@@ -221,13 +221,15 @@
   // const XP_BASE_MAX = 10; // Not directly used for new monster XP calculation logic
   // const XP_RANK_MULTIPLIER = 0.1; // Not directly used for new monster XP calculation logic
   const XP_BONUS_GLOBAL = 1.0; // MODIFIED: Increased XP Bonus to 100%
-  const MANA_GASTO_PCT = { // MODIFIED: Mana cost scaling
-    E: 0.25, // Rank E: 25% of total mana
-    D: 0.30, // Rank D: 30%
-    C: 0.35, // Rank C: 35%
-    B: 0.40, // Rank B: 40%
-    A: 0.45, // Rank A: 45%
-    S: 0.50, // Rank S: 50%
+
+  // MODIFIED: Mana cost scaling based on user request
+  const MANA_GASTO_PCT = {
+    E: 0.10, // Rank E: 10% of total mana
+    D: 0.15, // Rank D: 15%
+    C: 0.20, // Rank C: 20%
+    B: 0.25, // Rank B: 25%
+    A: 0.30, // Rank A: 30%
+    S: 0.35, // Rank S: 35%
   };
   const CLASSES = ["Guerreiro", "Arqueiro", "Mago", "Assassino", "Paladino", "Bardo", ];
 
@@ -285,7 +287,7 @@
         monsterRank: "D", // Monsters in E dungeon are Rank D
         bossRank: "C",     // Boss in E dungeon is Rank C
         bossBaseStats: {
-            vidaMin: 280, vidaMax: 350,    // C Rank Boss stats
+            vidaMin: 280, vidaMax: 350,   // C Rank Boss stats
             danoMin: 25, danoMax: 40,
             xpMin: 120, xpMax: 180,
         }
@@ -297,7 +299,7 @@
         monsterRank: "C", // Monsters in D dungeon are Rank C
         bossRank: "B",     // Boss in D dungeon is Rank B
         bossBaseStats: {
-            vidaMin: 550, vidaMax: 700,    // B Rank Boss stats
+            vidaMin: 550, vidaMax: 700,   // B Rank Boss stats
             danoMin: 45, danoMax: 65,
             xpMin: 350, xpMax: 500,
         }
@@ -309,7 +311,7 @@
         monsterRank: "B", // Monsters in C dungeon are Rank B
         bossRank: "A",     // Boss in C dungeon is Rank A
         bossBaseStats: {
-            vidaMin: 900, vidaMax: 1100,   // A Rank Boss stats
+            vidaMin: 900, vidaMax: 1100,  // A Rank Boss stats
             danoMin: 70, danoMax: 95,
             xpMin: 700, xpMax: 1000,
         }
@@ -373,7 +375,7 @@
   let game = {
     player: {
       nome: "Herói",
-      classe: null,
+      classe: BixaPro, // Initialized to null, will be set by iniciarJogo or class unlock logic
       nivel: 1,
       xp: 0,
       xpProximoNivel: 100,
@@ -465,7 +467,7 @@
     let calculatedDanoMagico = (rank === "E") ? baseDanoMagicoRankE : Math.floor(baseDanoMagicoRankE * Math.pow(1.85, rankIndex));
     const danoMagico = Math.max(0, calculatedDanoMagico + randomInt(Math.floor(-calculatedDanoMagico * 0.15), Math.floor(calculatedDanoMagico * 0.15)));
 
-    // SCALED: XP Gain Calculation
+    // SCALED: XP Gain Calculation (Higher rank monsters give more XP)
     const baseXpRankE = 10; // Adjusted base XP
     const xpGanho = (rank === "E") ? baseXpRankE : Math.floor(baseXpRankE * Math.pow(2.3, rankIndex));
     
@@ -673,10 +675,11 @@ function addItemToInventory(itemToAdd) {
     }
     if (novoRank !== game.player.rank) {
       game.player.rank = novoRank;
-      if (game.player.nivel >= 20 && !game.player.classe && rankToIndex(novoRank) >= rankToIndex("D")) {
+      // MODIFICATION: Changed level requirement for class unlock check (using 10 as it's the new travel threshold)
+      if (game.player.nivel >= 10 && !game.player.classe && rankToIndex(novoRank) >= rankToIndex("D")) {
         game.player.classe = randomChoice(CLASSES);
           setTimeout(() => mostrarMensagem( 
-            `Parabéns! Você alcançou o nível 20 e desbloqueou a classe <span class="font-bold text-indigo-400">${game.player.classe}</span>!`
+            `Parabéns! Você alcançou o nível ${game.player.nivel} e rank ${novoRank}, desbloqueando a classe <span class="font-bold text-indigo-400">${game.player.classe}</span>!`
           ), 50); 
       }
     }
@@ -707,7 +710,7 @@ function addItemToInventory(itemToAdd) {
       }
     }
 
-    const vitalidadeBonusVida = tempVitalidade * 0.5;  
+    const vitalidadeBonusVida = tempVitalidade * 2; // MODIFIED: Cada 1 ponto de vitalidade aumenta 2 na vida total
     game.player.vidaMax = Math.floor(BASE_HP + vitalidadeBonusVida);
     game.player.vidaAtual = Math.min(game.player.vidaAtual, game.player.vidaMax);  
     game.player.vitalidadePctVida = vitalidadeBonusVida;  
@@ -761,7 +764,7 @@ function addItemToInventory(itemToAdd) {
   }
 
   function calcularGastoMana(magia) { 
-    const pctCusto = MANA_GASTO_PCT[magia.rank];
+    const pctCusto = MANA_GASTO_PCT[magia.rank]; // Uses the updated MANA_GASTO_PCT
     const custoBase = game.player.manaMax * pctCusto;
     return Math.max(1, Math.floor(custoBase * (1 - game.player.refinoMagicoPct)));
   }
@@ -880,7 +883,8 @@ function addItemToInventory(itemToAdd) {
     adicionarEscolha("Ver atributos", abrirAtributos);
     adicionarEscolha("Abrir habilidades", abrirSkills);
     adicionarEscolha("Abrir inventário", abrirInventario);
-    if (game.player.nivel >= 20) {
+    // MODIFICATION: Changed level requirement for "Mudar de Área"
+    if (game.player.nivel >= 10) {
         adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
     }
   }
@@ -909,7 +913,7 @@ function addItemToInventory(itemToAdd) {
         }
         
         const chosenRankForMonster = randomChoice(rankForMonsters);
-        const monstro = gerarMonstro(chosenRankForMonster);
+        const monstro = gerarMonstro(chosenRankForMonster); // Monsters are stronger in higher rank areas and give more XP
         game.monstroAtual = monstro;
         iniciarBatalha(monstro);
     } else { // No monster
@@ -922,8 +926,9 @@ function addItemToInventory(itemToAdd) {
       adicionarEscolha("Ver atributos", abrirAtributos);
       adicionarEscolha("Abrir habilidades", abrirSkills);
       adicionarEscolha("Abrir inventário", abrirInventario);
-      if (game.player.nivel >= 20) {
-        adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+      // MODIFICATION: Changed level requirement for "Mudar de Área"
+      if (game.player.nivel >= 10) {
+          adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
       }
     }
     atualizarStatusAtributos(); 
@@ -933,15 +938,15 @@ function addItemToInventory(itemToAdd) {
     game.estado = "mudarAreaScreen";  
     
     const playerRankIndex = rankToIndex(game.player.rank);
-    let areaChoicesHtml = `Você está atualmente na <span class="font-bold text-indigo-400">Área ${game.player.currentArea}</span>.<br/><br/>Escolha uma nova área para viajar (Requer Nível 20+):<br/>`;
+    let areaChoicesHtml = `Você está atualmente na <span class="font-bold text-indigo-400">Área ${game.player.currentArea}</span>.<br/><br/>Escolha uma nova área para viajar (Requer Nível 10+ e Rank apropriado):<br/>`; // Updated text slightly
     
     mostrarMensagem(areaChoicesHtml);
     limparEscolhas();
 
     RANKS.forEach(areaRank => {
         const targetAreaRankIndex = rankToIndex(areaRank);
-        // Player can travel to areas up to their own rank OR one rank above their player rank, if they are high enough level.
-        // Let's simplify: Can travel to any area up to their current rank.
+        // Player can travel to areas up to their own rank.
+        // The level 10 check is for accessing this screen, rank check is for accessing specific area.
         if (targetAreaRankIndex <= playerRankIndex) { 
             if (areaRank === game.player.currentArea) {
                  adicionarEscolha(`Área ${areaRank} (Atual)`, null, true);
@@ -965,12 +970,12 @@ function mudarDeArea(novaAreaRank) {
     mostrarMensagem(`Você viajou para a <span class="font-bold text-indigo-400">Área ${novaAreaRank}</span>.<br/><br/>O que deseja fazer?`);
     limparEscolhas();
     adicionarEscolha("Explorar a área", explorarArea);
-    // TODO: Dynamically offer dungeons based on new area rank
     adicionarEscolha(`Entrar na Masmorra (Rank ${novaAreaRank})`, () => entrarMasmorra(novaAreaRank)); 
     adicionarEscolha("Ver atributos", abrirAtributos);
     adicionarEscolha("Abrir habilidades", abrirSkills);
     adicionarEscolha("Abrir inventário", abrirInventario);
-    if (game.player.nivel >= 20) {
+    // MODIFICATION: Changed level requirement for "Mudar de Área"
+    if (game.player.nivel >= 10) {
         adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
     }
 }
@@ -1031,9 +1036,10 @@ function mudarDeArea(novaAreaRank) {
         adicionarEscolha("Ver atributos", abrirAtributos);
         adicionarEscolha("Abrir habilidades", abrirSkills);
         adicionarEscolha("Abrir inventário", abrirInventario);
-         if (game.player.nivel >= 20) {
-          adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
-        }
+        // MODIFICATION: Changed level requirement for "Mudar de Área"
+         if (game.player.nivel >= 10) {
+           adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+         }
       }
     } else {
       mostrarMensagem(
@@ -1240,9 +1246,21 @@ function mudarDeArea(novaAreaRank) {
     let itemDrop = null;
     if (Math.random() < dropChance) {
       const rankIndexMonstro = rankToIndex(monstro.rank);
-      const itemRankTry = Math.max(0, rankIndexMonstro - randomInt(0, monstro.isBoss ? 0 : 1));
-      const rankItem = indexToRank(itemRankTry);
-      itemDrop = gerarItem(rankItem);
+      // MODIFICATION: Enhanced item drop logic for more varied/better loot
+      let itemRankForDropIndex = rankIndexMonstro; // Default to monster's rank
+      if (!monstro.isBoss) {
+          const roll = Math.random();
+          if (roll < 0.15) { // 15% chance for one rank higher (e.g., C monster drops B)
+              itemRankForDropIndex = Math.min(RANKS.length - 1, rankIndexMonstro + 1);
+          } else if (roll < 0.70) { // 55% chance for same rank (0.70 - 0.15 = 0.55)
+              itemRankForDropIndex = rankIndexMonstro;
+          } else { // 30% chance for one rank lower
+              itemRankForDropIndex = Math.max(0, rankIndexMonstro - 1);
+          }
+      } // Bosses still drop items of their own rank (itemRankForDropIndex remains rankIndexMonstro).
+      
+      const rankItem = indexToRank(itemRankForDropIndex); // This ensures "item rank acima do C seja dropavel" from appropriate monsters
+      itemDrop = gerarItem(rankItem); // Higher rank monsters (from tougher areas) will naturally use higher rankItem here
       addItemToInventory(itemDrop); 
     }
 
@@ -1320,7 +1338,8 @@ function mudarDeArea(novaAreaRank) {
         adicionarEscolha("Distribuir Atributos", abrirAtributos);
         adicionarEscolha("Continuar explorando", explorarArea);
         adicionarEscolha("Entrar na Masmorra (Rank E)", () => entrarMasmorra("E"));
-        if (game.player.nivel >= 20) {
+        // MODIFICATION: Changed level requirement for "Mudar de Área"
+        if (game.player.nivel >= 10) {
             adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
         }
         return;
@@ -1335,14 +1354,15 @@ function mudarDeArea(novaAreaRank) {
     adicionarEscolha("Ver atributos", abrirAtributos);
     adicionarEscolha("Abrir habilidades", abrirSkills);
     adicionarEscolha("Abrir inventário", abrirInventario);
-    if (game.player.nivel >= 20) {
+    // MODIFICATION: Changed level requirement for "Mudar de Área"
+    if (game.player.nivel >= 10) {
         adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
     }
     atualizarStatusAtributos();
   }
 
   function gameOver() {
-    toggleHeaderNavButtons(false); // Enable header buttons
+    toggleHeaderNavButtons(true); // MODIFIED: Disable header buttons on game over
     game.estado = "gameover";
     if (game.dungeon.active) { 
         game.dungeon.active = false; 
@@ -1398,8 +1418,8 @@ function mudarDeArea(novaAreaRank) {
         // A more complex system would track "spent points" vs "base points from level ups"
         // For now, this allows reclaiming points as long as the stat itself > 0 and some points were spent to make it > base
         if (valAtual > BASE_STATS[attr] && valAtual -1 >= BASE_STATS[attr]) { 
-           game.player.atributos[attr] = +(valAtual - 1).toFixed(1);
-           game.player.pontosDistribuir++;
+            game.player.atributos[attr] = +(valAtual - 1).toFixed(1);
+            game.player.pontosDistribuir++;
         } else if (valAtual > 0 && valAtual - 1 < BASE_STATS[attr] && game.player.atributos[attr] !== BASE_STATS[attr]) {
           // Special case: if decrementing would go below base_stat but current is not base_stat
           // (e.g. current is 0.5, base is 0, you want to reclaim the 0.5 to get back to 0)
@@ -1412,8 +1432,8 @@ function mudarDeArea(novaAreaRank) {
           // will work, players can reduce to 0 if they wish.
           // Let's stick to the original logic for decreasing as it's simpler:
            if (valAtual > 0) { // Simplified: can always decrease if > 0
-               game.player.atributos[attr] = +(Math.max(0, valAtual - 1)).toFixed(1); // Ensure not negative
-               game.player.pontosDistribuir++;
+              game.player.atributos[attr] = +(Math.max(0, valAtual - 1)).toFixed(1); // Ensure not negative
+              game.player.pontosDistribuir++;
            }
         }
     }
@@ -1451,7 +1471,8 @@ function mudarDeArea(novaAreaRank) {
     adicionarEscolha("Ver atributos", abrirAtributos);
     adicionarEscolha("Abrir habilidades", abrirSkills);
     adicionarEscolha("Abrir inventário", abrirInventario);
-    if (game.player.nivel >= 20) {
+    // MODIFICATION: Changed level requirement for "Mudar de Área"
+    if (game.player.nivel >= 10) {
         adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
     }
   }
@@ -1611,6 +1632,7 @@ function mudarDeArea(novaAreaRank) {
 
 
   function abrirMercador() { 
+    toggleHeaderNavButtons(true); // MODIFIED: Disable navigation buttons when merchant is open
     game.estado = "mercador";
     document.getElementById("game-screen").classList.add("hidden");
     document.getElementById("atributos-screen").classList.add("hidden");
@@ -1760,6 +1782,11 @@ function mudarDeArea(novaAreaRank) {
     game.mercador.selecionados.clear();
     atualizarTelaMercador(); 
     atualizarStatusAtributos(); 
+
+    // MODIFIED: Open inventory and hide merchant button, re-enable 'inicio'
+    document.getElementById("btn-mercador").classList.add("hidden");
+    abrirInventario();
+    document.getElementById("btn-inicio").disabled = false; // Allow returning to main screen
   }
 
   function abrirSkills() {
@@ -1847,7 +1874,7 @@ function mudarDeArea(novaAreaRank) {
     game.dungeon.totalRooms = randomInt(config.roomsMin, config.roomsMax);
     game.dungeon.currentRoom = 0; 
     game.dungeon.monsterRankForRooms = config.monsterRank; // e.g. "D" for an "E" dungeon
-    game.dungeon.bossRankForDungeon = config.bossRank;     // e.g. "C" for an "E" dungeon
+    game.dungeon.bossRankForDungeon = config.bossRank;       // e.g. "C" for an "E" dungeon
     game.dungeon.bossDefeated = false;
     game.dungeon.isBossRoomConfirmation = false;
 
@@ -1911,7 +1938,8 @@ function mudarDeArea(novaAreaRank) {
     adicionarEscolha("Ver atributos", abrirAtributos);
     adicionarEscolha("Abrir habilidades", abrirSkills);
     adicionarEscolha("Abrir inventário", abrirInventario);
-    if (game.player.nivel >= 20) {
+    // MODIFICATION: Changed level requirement for "Mudar de Área"
+    if (game.player.nivel >= 10) {
         adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
     }
     atualizarStatusAtributos();
@@ -1955,7 +1983,8 @@ function mudarDeArea(novaAreaRank) {
     adicionarEscolha("Ver atributos", abrirAtributos);
     adicionarEscolha("Abrir habilidades", abrirSkills);
     adicionarEscolha("Abrir inventário", abrirInventario);
-     if (game.player.nivel >= 20) {
+    // MODIFICATION: Changed level requirement for "Mudar de Área"
+     if (game.player.nivel >= 10) {
         adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
     }
     atualizarStatusAtributos();

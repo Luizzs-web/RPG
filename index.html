@@ -196,12 +196,12 @@
 
   const RANKS = ["E", "D", "C", "B", "A", "S"];
   const RANK_MIN_TOTAL = {
-    E: 0,
-    D: 60,
-    C: 120,
-    B: 180,
-    A: 240,
-    S: 300,
+    E: 20,
+    D: 100,
+    C: 200,
+    B: 300,
+    A: 400,
+    S: 600,
   };
   const BASE_STATS = {
     forca: 0,
@@ -217,19 +217,19 @@
   const BASE_DANO_MAGICO = 10;
   const BASE_RESISTENCIA = 0;
   const FUGIR_PCT_DECREMENTO = 0.07;
-  const XP_BASE_MIN = 5;
-  const XP_BASE_MAX = 10;
-  const XP_RANK_MULTIPLIER = 0.1;
+  // const XP_BASE_MIN = 5; // Not directly used for new monster XP calculation logic
+  // const XP_BASE_MAX = 10; // Not directly used for new monster XP calculation logic
+  // const XP_RANK_MULTIPLIER = 0.1; // Not directly used for new monster XP calculation logic
   const XP_BONUS_GLOBAL = 1.0; // MODIFIED: Increased XP Bonus to 100%
-  const MANA_GASTO_PCT = {
-    E: 0.2,
-    D: 0.3,
-    C: 0.35,
-    B: 0.37,
-    A: 0.4,
-    S: 0.5,
+  const MANA_GASTO_PCT = { // MODIFIED: Mana cost scaling
+    E: 0.25, // Rank E: 25% of total mana
+    D: 0.30, // Rank D: 30%
+    C: 0.35, // Rank C: 35%
+    B: 0.40, // Rank B: 40%
+    A: 0.45, // Rank A: 45%
+    S: 0.50, // Rank S: 50%
   };
-  const CLASSES = ["Guerreiro", "Arqueiro", "Mago", "Assassino", "Paladino", "Bardo"];
+  const CLASSES = ["Guerreiro", "Arqueiro", "Mago", "Assassino", "Paladino", "Bardo", ];
 
   const ITEM_RANKS = ["E", "D", "C", "B", "A", "S"];
   const ITEM_BASE_PRICE = {
@@ -250,21 +250,21 @@
     S: { min: 30, max: 40 },
   };
 
-  const MAGIAS_POSSIVEIS = [
-    { id: "fireball", nome: "Bola de Fogo", rank: "E", danoBase: 15, manaBase: 3 },
-    { id: "ice_shard", nome: "Fragmento de Gelo", rank: "D", danoBase: 25, manaBase: 5 },
-    { id: "lightning_strike", nome: "Golpe de Raio", rank: "C", danoBase: 40, manaBase: 8 },
-    { id: "arcane_blast", nome: "Explosão Arcana", rank: "B", danoBase: 60, manaBase: 12 },
-    { id: "meteor", nome: "Meteoro", rank: "A", danoBase: 90, manaBase: 18 },
-    { id: "divine_wrath", nome: "Ira Divina", rank: "S", danoBase: 130, manaBase: 25 },
+  const MAGIAS_POSSIVEIS = [ // manaBase is no longer directly used for cost calculation by calcularGastoMana
+    { id: "fireball", nome: "Bola de Fogo", rank: "E", danoBase: 15, manaBase: 30 },
+    { id: "ice_shard", nome: "Fragmento de Gelo", rank: "D", danoBase: 25, manaBase: 50 },
+    { id: "lightning_strike", nome: "Golpe de Raio", rank: "C", danoBase: 40, manaBase: 60 },
+    { id: "arcane_blast", nome: "Explosão Arcana", rank: "B", danoBase: 60, manaBase: 80 },
+    { id: "meteor", nome: "Meteoro", rank: "A", danoBase: 90, manaBase: 120 },
+    { id: "divine_wrath", nome: "Ira Divina", rank: "S", danoBase: 130, manaBase: 200 },
   ];
 
   const POTIONS = {
     drop: {
       id: "potion_drop", // This ID is used for stacking
       nome: "Poção Básica",
-      curaVidaPct: 0.4,
-      curaManaPct: 0.2,
+      curaVidaPct: 0.4, // Corrected to 0.4 as per description
+      curaManaPct: 0.2, // Corrected to 0.2 as per description
       descricao: "Recupera 40% da vida e 20% da mana.",
     },
     compra: {
@@ -275,6 +275,84 @@
       descricao: "Recupera 70% da vida e 50% da mana.",
     }
   };
+
+  // Dungeon Configuration
+  const DUNGEON_CONFIG = {
+    "E": { // Rank E Dungeon
+        name: "Masmorra Esquecida",
+        roomsMin: 4,
+        roomsMax: 6,
+        monsterRank: "D", // Monsters in E dungeon are Rank D
+        bossRank: "C",    // Boss in E dungeon is Rank C
+        bossBaseStats: {
+            vidaMin: 280, vidaMax: 350,    // C Rank Boss stats
+            danoMin: 25, danoMax: 40,
+            xpMin: 120, xpMax: 180,
+        }
+    },
+    "D": { // Rank D Dungeon
+        name: "Covil Profundo",
+        roomsMin: 5,
+        roomsMax: 7,
+        monsterRank: "C", // Monsters in D dungeon are Rank C
+        bossRank: "B",    // Boss in D dungeon is Rank B
+        bossBaseStats: {
+            vidaMin: 550, vidaMax: 700,    // B Rank Boss stats
+            danoMin: 45, danoMax: 65,
+            xpMin: 350, xpMax: 500,
+        }
+    },
+    "C": { // Rank C Dungeon
+        name: "Cidadela Sombria",
+        roomsMin: 6,
+        roomsMax: 8,
+        monsterRank: "B", // Monsters in C dungeon are Rank B
+        bossRank: "A",    // Boss in C dungeon is Rank A
+        bossBaseStats: {
+            vidaMin: 900, vidaMax: 1100,   // A Rank Boss stats
+            danoMin: 70, danoMax: 95,
+            xpMin: 700, xpMax: 1000,
+        }
+    },
+    "B": { // Rank B Dungeon
+        name: "Fortaleza Dracônica",
+        roomsMin: 7,
+        roomsMax: 9,
+        monsterRank: "A", // Monsters in B dungeon are Rank A
+        bossRank: "S",    // Boss in B dungeon is Rank S
+        bossBaseStats: { // Using provided S rank boss stats from original example
+            vidaMin: 1000, vidaMax: 2280, // S Rank Boss stats
+            danoMin: 100, danoMax: 155,
+            xpMin: 1400, xpMax: 2500, // Adjusted max slightly from original 5500 for smoother curve with monster XP
+        }
+    },
+    "A": { // Rank A Dungeon
+        name: "Abismo Infernal",
+        roomsMin: 8,
+        roomsMax: 10,
+        monsterRank: "S", // Monsters in A dungeon are Rank S
+        bossRank: "S",    // Boss in A dungeon is also Rank S (can be stronger variant)
+        bossBaseStats: {
+            vidaMin: 1800, vidaMax: 3000, // Stronger S Rank Boss stats
+            danoMin: 150, danoMax: 220,
+            xpMin: 2000, xpMax: 3500,
+        }
+    },
+    "S": { // Rank S Dungeon
+        name: "Domínio Celestial Despedaçado",
+        roomsMin: 9,
+        roomsMax: 12,
+        monsterRank: "S", // Monsters are super strong S
+        bossRank: "S",    // Boss is an ultimate S rank variant
+        bossBaseStats: {
+            vidaMin: 3000, vidaMax: 5500, // Ultimate S Rank Boss stats
+            danoMin: 250, danoMax: 350,
+            xpMin: 4000, xpMax: 6000,
+        }
+    }
+    // Future dungeon ranks can be added here
+  };
+
 
   function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -318,12 +396,12 @@
       equipamento: {
         armadura: null,
         espada: null,
-        anel: null,   
+        anel: null,  
         colar: null,  
       },
       moedas: 100,
       rodadas: 0,
-      xpBonus: XP_BONUS_GLOBAL, 
+      xpBonus: XP_BONUS_GLOBAL,  
       classeLiberada: false,
       magiasAdquiridas: [],
       magiasEquipadas: [],
@@ -335,41 +413,148 @@
       currentDanoMagico: BASE_DANO_MAGICO,
     },
     mundo: "Aethel",
-    estado: "inicio",
+    estado: "inicio", // Can be: inicio, batalha, atributos, inventario, mercador, skills, dungeon, boss_confirmation
     monstroAtual: null,
     batalha: {
       emBatalha: false,
       monstro: null,
       turnoJogador: true,
       danoRecebido: 0,
+      isBossBattle: false, // New: Flag for boss battles
     },
     mercador: {
       itens: [], // Mercador items are individual, stacking happens on purchase
       selecionados: new Set(),
     },
+    dungeon: { // New: Dungeon state
+        active: false,
+        name: "",  
+        typeRank: "E",  
+        totalRooms: 0,
+        currentRoom: 0,
+        monsterRankForRooms: "D",  
+        bossRankForDungeon: "C",  
+        bossDefeated: false,
+        isBossRoomConfirmation: false,  
+    }
   };
 
   const MONSTRO_NOMES = {
     E: ["Goblin Fraco", "Rato Gigante", "Lobo Selvagem", "Esqueleto Fraco", "Aranha Venenosa"],
     D: ["Goblin Guerreiro", "Lobo Alfa", "Esqueleto Guerreiro", "Aranha Gigante", "Zumbi"],
-    C: ["Orc Brutal", "Troll", "Mago Sombrio", "Lobo Fantasma", "Zumbi Corrompido"],
-    B: ["Orc Chefe", "Troll Ancião", "Mago Negro", "Dragão Jovem", "Zumbi Rei"],
-    A: ["Dragão Adulto", "Lorde Orc", "Mago Supremo", "Demônio Menor", "Zumbi Lendário"],
-    S: ["Dragão Ancião", "Lorde Demônio", "Mago Lendário", "Deus Caído", "Zumbi Imortal"],
+    C: ["Orc Brutal", "Troll", "Mago Sombrio", "Lobo Fantasma", "Zumbi Corrompido", "Guardião da Masmorra"], // Added a generic boss name
+    B: ["Orc Chefe", "Troll Ancião", "Mago Negro", "Dragão Jovem", "Zumbi Rei", "Grão-Guardião"],
+    A: ["Dragão Adulto", "Lorde Orc", "Mago Supremo", "Demônio Menor", "Zumbi Lendário", "Protetor Ancestral"],
+    S: ["Dragão Ancião", "Lorde Demônio", "Mago Lendário", "Deus Caído", "Zumbi Imortal", "Avatar da Destruição"],
   };
 
   function gerarMonstro(rank) {
-    const rankIndex = rankToIndex(rank);
+    const rankIndex = rankToIndex(rank); // E=0, D=1, C=2, B=3, A=4, S=5
     const nome = randomChoice(MONSTRO_NOMES[rank]);
-    const vidaMax = 50 + 15 * rankIndex + randomInt(0, 30); 
-    const danoFisico = 8 + 3 * rankIndex + randomInt(0, 5); 
-    const danoMagico = 5 + 2 * rankIndex + randomInt(0, 4); 
-    const xpBase = randomInt(XP_BASE_MIN, XP_BASE_MAX);
-    // XP gain is calculated here, then bonus applied in derrotarMonstro
-    const xpGanho = Math.floor(xpBase * (1 + XP_RANK_MULTIPLIER * rankIndex)); 
-    const fugaPct = clamp(0.67 - 0.07 * rankIndex, 0.05, 0.67);
-    return { nome, rank, vidaMax, vidaAtual: vidaMax, danoFisico, danoMagico, xpGanho, fugaPct };
+
+    // SCALED: Monster Health
+    const vidaMax = Math.floor(50 * Math.pow(1.9, rankIndex) + randomInt(0, 20 * Math.pow(1.6, rankIndex)));
+
+    // SCALED: Monster Damage Calculation
+    const baseDanoFisicoRankE = 8; // Slightly lowered base to make early game less punishing with new scaling
+    let calculatedDanoFisico = (rank === "E") ? baseDanoFisicoRankE : Math.floor(baseDanoFisicoRankE * Math.pow(1.85, rankIndex));
+    const danoFisico = Math.max(1, calculatedDanoFisico + randomInt(Math.floor(-calculatedDanoFisico * 0.15), Math.floor(calculatedDanoFisico * 0.15)));
+
+    const baseDanoMagicoProportion = 0.6; 
+    const baseDanoMagicoRankE = Math.max(1, Math.floor(baseDanoFisicoRankE * baseDanoMagicoProportion)); 
+    let calculatedDanoMagico = (rank === "E") ? baseDanoMagicoRankE : Math.floor(baseDanoMagicoRankE * Math.pow(1.85, rankIndex));
+    const danoMagico = Math.max(0, calculatedDanoMagico + randomInt(Math.floor(-calculatedDanoMagico * 0.15), Math.floor(calculatedDanoMagico * 0.15)));
+
+    // SCALED: XP Gain Calculation
+    const baseXpRankE = 10; // Adjusted base XP
+    const xpGanho = (rank === "E") ? baseXpRankE : Math.floor(baseXpRankE * Math.pow(2.3, rankIndex));
+    
+    const fugaPct = clamp(0.67 - 0.07 * rankIndex, 0.05, 0.67); 
+    return { nome, rank, vidaMax, vidaAtual: vidaMax, danoFisico, danoMagico, xpGanho, fugaPct, isBoss: false };
   }
+
+  // New: Generates monsters specifically for dungeon rooms (not bosses)
+  function gerarMonstroMasmorra(monsterRank) {
+    const monstro = gerarMonstro(monsterRank); // Use existing monster generation
+    monstro.xpGanho = Math.floor(monstro.xpGanho * 1.1); // Slightly more XP for dungeon mobs
+    // Dungeon monsters could have slightly higher stats if desired, e.g.:
+    // monstro.vidaMax = Math.floor(monstro.vidaMax * 1.05);
+    // monstro.vidaAtual = monstro.vidaMax;
+    // monstro.danoFisico = Math.floor(monstro.danoFisico * 1.05);
+    return monstro;
+  }
+  
+  // New: Calculates stat multiplier for bosses based on their rank compared to C
+  // This function seems less critical if bossBaseStats in DUNGEON_CONFIG are already well-scaled per rank.
+  // However, it can be used if a dungeon of a certain rank wants to feature a boss of a *different* rank.
+  function getBossStatMultiplier(targetBossRank) {
+    const baseCRankIndex = rankToIndex("C");
+    const targetBossRankIndex = rankToIndex(targetBossRank);
+    const diff = targetBossRankIndex - baseCRankIndex;
+
+    if (diff === 0) return 1.0; // Rank C is base
+    if (diff === -1) return 0.8; // Rank D boss (0.8x of C)
+    if (diff === -2) return 0.6; // Rank E boss (0.6x of C)
+
+    // Scaling up from C
+    let multiplier = 1.0;
+    if (diff >= 1) multiplier *= 1.5; // For Rank B (C -> B)
+    if (diff >= 2) multiplier *= 2.0; // For Rank A (B -> A, effectively 1.5 * 2.0 = 3.0 from C)
+    if (diff >= 3) multiplier *= 2.5; // For Rank S (A -> S, effectively 3.0 * 2.5 = 7.5 from C)
+    
+    return multiplier;
+  }
+
+  // New: Generates the dungeon boss
+  function gerarBossMasmorra(dungeonTypeRank, actualBossRank) {
+    const config = DUNGEON_CONFIG[dungeonTypeRank]; // Config of the dungeon itself
+    // The actualBossRank is specified by the dungeon's config.bossRank
+    // So, we use the bossBaseStats from the dungeon's own rank configuration.
+
+    if (!config || !config.bossBaseStats) {
+        console.error(`Configuração de bossBaseStats não encontrada para dungeon rank ${dungeonTypeRank}`);
+        // Fallback to a generic C rank boss if config is missing for the dungeonTypeRank
+        const fallbackBossRank = actualBossRank || "C";
+        const fallbackStats = DUNGEON_CONFIG["E"].bossBaseStats; // Default to E dungeon's C boss stats as a last resort
+        return { 
+            ...gerarMonstro(fallbackBossRank), 
+            nome: `Boss ${fallbackBossRank} Desconhecido`, 
+            isBoss: true, 
+            vidaMax: fallbackStats.vidaMin, 
+            vidaAtual: fallbackStats.vidaMin, 
+            danoFisico: fallbackStats.danoMin, 
+            danoMagico: Math.floor(fallbackStats.danoMin * 0.3), 
+            xpGanho: fallbackStats.xpMin 
+        };
+    }
+
+    // Use the specific bossBaseStats defined for this dungeonTypeRank
+    const baseStats = config.bossBaseStats; 
+    // The actualBossRank is ALREADY factored into the selection of baseStats if DUNGEON_CONFIG is set up correctly.
+    // The multiplier might be redundant if each rank in DUNGEON_CONFIG has its own well-defined boss stats.
+    // Let's assume actualBossRank IS config.bossRank.
+    // If we still want to use getBossStatMultiplier, it should compare actualBossRank to the rank the baseStats *represent*.
+    // For simplicity, we'll assume baseStats in DUNGEON_CONFIG[dungeonTypeRank] are for the config.bossRank.
+
+    const nome = randomChoice(MONSTRO_NOMES[actualBossRank] || [`Boss ${actualBossRank}`]);
+    const vidaMax = randomInt(baseStats.vidaMin, baseStats.vidaMax);
+    const danoFisico = randomInt(baseStats.danoMin, baseStats.danoMax);
+    const danoMagico = Math.floor(danoFisico * randomInt(30,70) / 100); // Bosses have some magic damage, more variable
+    const xpGanho = randomInt(baseStats.xpMin, baseStats.xpMax);
+
+    return {
+        nome: `${nome} (Boss da Masmorra)`,
+        rank: actualBossRank,
+        vidaMax,
+        vidaAtual: vidaMax,
+        danoFisico,
+        danoMagico, 
+        xpGanho,
+        fugaPct: 0, // Cannot flee from boss
+        isBoss: true,
+    };
+  }
+
 
   const ITEM_PREFIXOS = {
     E: ["Simples", "Rústico", "Comum", "Velho", "Frágil"],
@@ -380,22 +565,22 @@
     S: ["Ancestral", "Mítico", "Eterno", "Soberano", "Infinito"],
   };
 
-  const ITEM_TIPOS_EQUIP = ["Armadura", "Espada", "Anel", "Colar"]; 
+  const ITEM_TIPOS_EQUIP = ["Armadura", "Espada", "Anel", "Colar"];  
   const ITEM_TIPOS_ALL = [...ITEM_TIPOS_EQUIP, "Poção"];
 
   function gerarItem(rank) {
     const tipo = Math.random() < 0.7 ? randomChoice(ITEM_TIPOS_EQUIP) : "Poção";
     
     if (tipo === "Poção") {
-      const tipoPocao = Math.random() < 0.5 ? "drop" : "compra";
+      const tipoPocao = Math.random() < 0.5 ? "drop" : "compra"; // Merchant more likely to sell "compra"
       const pocaoBase = POTIONS[tipoPocao];
       return {
-        id: pocaoBase.id, // MODIFIED: Use base ID for stacking
+        id: pocaoBase.id, 
         nome: pocaoBase.nome,
         tipo: "Poção",
-        rank: rank, 
-        efeitos: {}, // Potions don't have 'efeitos' like equipment
-        preco: tipoPocao === "compra" ? 50 : (ITEM_BASE_PRICE[rank] || 10), // Drop potions could have a small sell value if desired
+        rank: rank,  // Potions can also have ranks, affecting sell price if nothing else
+        efeitos: {}, 
+        preco: tipoPocao === "compra" ? 50 : (ITEM_BASE_PRICE[rank] || 10), 
         curaVidaPct: pocaoBase.curaVidaPct,
         curaManaPct: pocaoBase.curaManaPct,
         descricao: pocaoBase.descricao,
@@ -413,23 +598,23 @@
     switch (tipo) {
       case "Armadura":
         efeitos.resistencia = pontos;
-        efeitos.vitalidade = randomInt(Math.floor(min / 2), Math.floor(max / 2)); 
+        efeitos.vitalidade = randomInt(Math.floor(min / 2), Math.floor(max / 2));  
         break;
       case "Espada":
         efeitos.forca = pontos;
         break;
       case "Anel":
-        efeitos.inteligencia = pontos; 
+        efeitos.inteligencia = pontos;  
         break;
       case "Colar":
         efeitos.agilidade = pontos;
-        efeitos.percepcao = randomInt(Math.floor(min / 2), Math.floor(max / 2)); 
+        efeitos.percepcao = randomInt(Math.floor(min / 2), Math.floor(max / 2));  
         break;
     }
 
     const preco = ITEM_BASE_PRICE[rank] * (1 + Math.random() * 0.5 + rankToIndex(rank) * 0.1); // Price variation
     return {
-      id: crypto.randomUUID(), // Unique ID for each generated piece of equipment initially
+      id: crypto.randomUUID(), 
       nome,
       tipo,
       rank,
@@ -439,18 +624,14 @@
     };
   }
 
-  // NEW FUNCTION: Checks if two items are identical for stacking
   function itemsAreIdentical(item1, item2) {
     if (item1.isPotion && item2.isPotion) {
-        // Potions are identical if their base ID (e.g., "potion_drop") is the same.
         return item1.id === item2.id;
     }
     if (!item1.isPotion && !item2.isPotion) {
-        // Equipment: identical if name, type, rank, and effects are the same.
         if (item1.nome !== item2.nome || item1.tipo !== item2.tipo || item1.rank !== item2.rank) {
             return false;
         }
-        // Compare effects objects
         const effects1 = item1.efeitos || {};
         const effects2 = item2.efeitos || {};
         const keys1 = Object.keys(effects1).sort();
@@ -463,10 +644,9 @@
         }
         return true;
     }
-    return false; // One is potion, other is not, or different types
+    return false; 
 }
 
-// NEW FUNCTION: Adds an item to inventory, handling stacking
 function addItemToInventory(itemToAdd) {
     let foundStack = false;
     for (let invItem of game.player.inventario) {
@@ -493,14 +673,11 @@ function addItemToInventory(itemToAdd) {
     }
     if (novoRank !== game.player.rank) {
       game.player.rank = novoRank;
-      // Class unlock message logic (unchanged)
       if (game.player.nivel >= 20 && !game.player.classe && rankToIndex(novoRank) >= rankToIndex("D")) {
         game.player.classe = randomChoice(CLASSES);
-        // This message might get overwritten if other messages follow immediately
-        // Consider queuing messages or a more robust notification system for future
-         setTimeout(() => mostrarMensagem( // Delay to ensure it's seen
-          `Parabéns! Você alcançou o nível 20 e desbloqueou a classe <span class="font-bold text-indigo-400">${game.player.classe}</span>!`
-        ), 50); // Short delay
+         setTimeout(() => mostrarMensagem( 
+           `Parabéns! Você alcançou o nível 20 e desbloqueou a classe <span class="font-bold text-indigo-400">${game.player.classe}</span>!`
+         ), 50); 
       }
     }
   }
@@ -530,39 +707,37 @@ function addItemToInventory(itemToAdd) {
       }
     }
 
-    const vitalidadeBonusVida = tempVitalidade * 0.5; 
+    const vitalidadeBonusVida = tempVitalidade * 0.5;  
     game.player.vidaMax = Math.floor(BASE_HP + vitalidadeBonusVida);
-    // Ensure current health doesn't exceed new max health after stat changes
-    game.player.vidaAtual = Math.min(game.player.vidaAtual, game.player.vidaMax); 
-    game.player.vitalidadePctVida = vitalidadeBonusVida; 
+    game.player.vidaAtual = Math.min(game.player.vidaAtual, game.player.vidaMax);  
+    game.player.vitalidadePctVida = vitalidadeBonusVida;  
 
-    const inteligenciaBonusMana = tempInteligencia * 10; 
+    const inteligenciaBonusMana = tempInteligencia * 10;  
     game.player.manaMax = Math.floor(BASE_MANA + inteligenciaBonusMana);
     game.player.manaAtual = Math.min(game.player.manaAtual, game.player.manaMax);
-    // if (game.player.manaAtual > game.player.manaMax) game.player.manaAtual = game.player.manaMax; // Already handled by min
 
-    const forcaBonusDano = tempForca * 0.5; 
+    const forcaBonusDano = tempForca * 0.5;  
     game.player.currentDanoFisico = BASE_DANO_FISICO + forcaBonusDano;
-    game.player.forcaPctDano = forcaBonusDano / BASE_DANO_FISICO; 
+    game.player.forcaPctDano = forcaBonusDano / BASE_DANO_FISICO;  
 
-    const resistenciaBonusPct = tempResistencia * 0.1; 
-    game.player.currentReducaoDano = resistenciaBonusPct; 
-    game.player.resistenciaPct = resistenciaBonusPct / 100; 
+    const resistenciaBonusPct = tempResistencia * 0.1;  
+    game.player.currentReducaoDano = resistenciaBonusPct;  
+    game.player.resistenciaPct = resistenciaBonusPct / 100;  
 
-    const agilidadeBonusFuga = tempAgilidade * 0.05; 
-    game.player.currentChanceFuga = agilidadeBonusFuga; 
-    game.player.agilidadePctFuga = agilidadeBonusFuga / 100; 
+    const agilidadeBonusFuga = tempAgilidade * 0.05;  
+    game.player.currentChanceFuga = agilidadeBonusFuga;  
+    game.player.agilidadePctFuga = agilidadeBonusFuga / 100;  
 
-    const percepcaoBonusEsquiva = tempPercepcao * 0.05; 
-    game.player.currentChanceEsquiva = percepcaoBonusEsquiva; 
-    game.player.percepcaoPct = percepcaoBonusEsquiva / 100; 
+    const percepcaoBonusEsquiva = tempPercepcao * 0.05;  
+    game.player.currentChanceEsquiva = percepcaoBonusEsquiva;  
+    game.player.percepcaoPct = percepcaoBonusEsquiva / 100;  
 
-    const inteligenciaBonusDanoMagico = tempInteligencia * 0.5; 
-    game.player.currentDanoMagico = BASE_DANO_MAGICO + inteligenciaBonusDanoMagico; 
+    const inteligenciaBonusDanoMagico = tempInteligencia * 0.5;  
+    game.player.currentDanoMagico = BASE_DANO_MAGICO + inteligenciaBonusDanoMagico;  
     game.player.danoMagicoBase = BASE_DANO_MAGICO + inteligenciaBonusDanoMagico;
     
-    game.player.refinoMagicoPct = 0; 
-    aplicarEfeitosEquipamento(); 
+    game.player.refinoMagicoPct = 0;  
+    aplicarEfeitosEquipamento();  
   }
 
 
@@ -579,14 +754,16 @@ function addItemToInventory(itemToAdd) {
   }
 
   function calcularChanceFuga(monstro) {
+    if (monstro.isBoss) return 0; 
     const rankIndex = rankToIndex(monstro.rank);
     const baseFuga = clamp(0.67 - 0.07 * rankIndex, 0.05, 0.67);
     return clamp(baseFuga + game.player.agilidadePctFuga, 0, 1);
   }
 
-  function calcularGastoMana(magia) {
-    const baseCusto = magia.manaBase; 
-    return Math.max(1, Math.floor(baseCusto * (1 - game.player.refinoMagicoPct)));
+  function calcularGastoMana(magia) { 
+    const pctCusto = MANA_GASTO_PCT[magia.rank];
+    const custoBase = game.player.manaMax * pctCusto;
+    return Math.max(1, Math.floor(custoBase * (1 - game.player.refinoMagicoPct)));
   }
 
   function atualizarStatusAtributos() {
@@ -602,9 +779,9 @@ function addItemToInventory(itemToAdd) {
     document.getElementById("bonus-dano-fisico").textContent = game.player.currentDanoFisico.toFixed(1);
     document.getElementById("bonus-vida-max").textContent = game.player.vidaMax;
     document.getElementById("bonus-mana-max").textContent = game.player.manaMax;
-    document.getElementById("bonus-resistencia").textContent = (game.player.currentReducaoDano).toFixed(2); 
-    document.getElementById("bonus-fuga").textContent = (game.player.currentChanceFuga).toFixed(2); 
-    document.getElementById("bonus-esquiva").textContent = (game.player.currentChanceEsquiva).toFixed(2); 
+    document.getElementById("bonus-resistencia").textContent = (game.player.currentReducaoDano).toFixed(2);  
+    document.getElementById("bonus-fuga").textContent = (game.player.currentChanceFuga * 100).toFixed(2); // Display as percentage
+    document.getElementById("bonus-esquiva").textContent = (game.player.currentChanceEsquiva * 100).toFixed(2); // Display as percentage
     document.getElementById("bonus-dano-magico").textContent = game.player.currentDanoMagico.toFixed(1);
   }
 
@@ -658,21 +835,26 @@ function addItemToInventory(itemToAdd) {
     game.player.forcaPctDano = 0;
     game.player.vitalidadePctVida = 0;
     game.player.inventario = [];
-    game.player.equipamento = { armadura: null, espada: null, anel: null, colar: null }; 
+    game.player.equipamento = { armadura: null, espada: null, anel: null, colar: null };  
     game.player.moedas = 100;
     game.player.rodadas = 0;
-    // xpBonus is a const
     game.player.classe = null;
     game.player.classeLiberada = false;
     game.player.magiasAdquiridas = [];
     game.player.magiasEquipadas = [];
-    game.player.currentArea = "E"; 
+    game.player.currentArea = "E";  
     
     game.player.currentDanoFisico = BASE_DANO_FISICO;
     game.player.currentReducaoDano = BASE_RESISTENCIA;
     game.player.currentChanceFuga = 0;
     game.player.currentChanceEsquiva = 0;
     game.player.currentDanoMagico = BASE_DANO_MAGICO;
+
+    // Reset dungeon state
+    game.dungeon.active = false;
+    game.dungeon.isBossRoomConfirmation = false;
+    game.batalha.isBossBattle = false;
+
 
     atualizarAtributosDerivados();
     atualizarRank();
@@ -683,6 +865,7 @@ function addItemToInventory(itemToAdd) {
     );
     limparEscolhas();
     adicionarEscolha("Explorar a área", explorarArea);
+    adicionarEscolha("Entrar na Masmorra (Rank E)", () => entrarMasmorra("E")); 
     adicionarEscolha("Ver atributos", abrirAtributos);
     adicionarEscolha("Abrir habilidades", abrirSkills);
     adicionarEscolha("Abrir inventário", abrirInventario);
@@ -702,15 +885,15 @@ function addItemToInventory(itemToAdd) {
 
   function explorarArea() {
     game.player.rodadas++;
-    // atualizarStatusAtributos(); // Called within sub-functions or after actions
 
     const evento = Math.random();
     if (evento < 0.7) { // Encounter monster
         const currentAreaRankIndex = rankToIndex(game.player.currentArea);
         const rankForMonsters = [];
-        rankForMonsters.push(RANKS[currentAreaRankIndex]);
+        rankForMonsters.push(RANKS[currentAreaRankIndex]); // Monsters of the area's rank
 
-        if (currentAreaRankIndex + 1 < RANKS.length) {
+        // Chance for a slightly stronger monster (one rank above area, if not S)
+        if (currentAreaRankIndex + 1 < RANKS.length && Math.random() < 0.3) { 
             rankForMonsters.push(RANKS[currentAreaRankIndex + 1]);
         }
         
@@ -724,6 +907,7 @@ function addItemToInventory(itemToAdd) {
       );
       limparEscolhas();
       adicionarEscolha("Continuar explorando", explorarArea);
+      adicionarEscolha("Entrar na Masmorra (Rank E)", () => entrarMasmorra("E"));
       adicionarEscolha("Ver atributos", abrirAtributos);
       adicionarEscolha("Abrir habilidades", abrirSkills);
       adicionarEscolha("Abrir inventário", abrirInventario);
@@ -731,11 +915,11 @@ function addItemToInventory(itemToAdd) {
         adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
       }
     }
-    atualizarStatusAtributos(); // Ensure status is updated after exploration action
+    atualizarStatusAtributos(); 
   }
 
   function abrirTelaMudarArea() {
-    game.estado = "mudarAreaScreen"; 
+    game.estado = "mudarAreaScreen";  
     
     const playerRankIndex = rankToIndex(game.player.rank);
     let areaChoicesHtml = `Você está atualmente na <span class="font-bold text-indigo-400">Área ${game.player.currentArea}</span>.<br/><br/>Escolha uma nova área para viajar (Requer Nível 20+):<br/>`;
@@ -745,11 +929,13 @@ function addItemToInventory(itemToAdd) {
 
     RANKS.forEach(areaRank => {
         const targetAreaRankIndex = rankToIndex(areaRank);
-        if (targetAreaRankIndex <= playerRankIndex) { // Player can travel to areas up to their own rank
+        // Player can travel to areas up to their own rank OR one rank above their player rank, if they are high enough level.
+        // Let's simplify: Can travel to any area up to their current rank.
+        if (targetAreaRankIndex <= playerRankIndex) { 
             if (areaRank === game.player.currentArea) {
                  adicionarEscolha(`Área ${areaRank} (Atual)`, null, true);
             } else {
-                adicionarEscolha(`Viajar para Área ${areaRank}`, () => mudarDeArea(areaRank));
+                 adicionarEscolha(`Viajar para Área ${areaRank}`, () => mudarDeArea(areaRank));
             }
         } else {
             const btn = document.createElement("button");
@@ -768,6 +954,8 @@ function mudarDeArea(novaAreaRank) {
     mostrarMensagem(`Você viajou para a <span class="font-bold text-indigo-400">Área ${novaAreaRank}</span>.<br/><br/>O que deseja fazer?`);
     limparEscolhas();
     adicionarEscolha("Explorar a área", explorarArea);
+    // TODO: Dynamically offer dungeons based on new area rank
+    adicionarEscolha(`Entrar na Masmorra (Rank ${novaAreaRank})`, () => entrarMasmorra(novaAreaRank)); 
     adicionarEscolha("Ver atributos", abrirAtributos);
     adicionarEscolha("Abrir habilidades", abrirSkills);
     adicionarEscolha("Abrir inventário", abrirInventario);
@@ -782,20 +970,37 @@ function mudarDeArea(novaAreaRank) {
     game.batalha.emBatalha = true;
     game.batalha.monstro = monstro;
     game.batalha.turnoJogador = true;
-    mostrarMensagem(
-      `Você encontrou um monstro: <span class="font-bold text-red-400">${monstro.nome}</span> (Rank ${monstro.rank})<br/>Vida: ${monstro.vidaAtual} / ${monstro.vidaMax}<br/><br/>O que deseja fazer?`
-    );
+    game.batalha.isBossBattle = monstro.isBoss; // Set boss battle flag
+
+    let msg = `Você encontrou um monstro: <span class="font-bold text-red-400">${monstro.nome}</span> (Rank ${monstro.rank})<br/>Vida: ${monstro.vidaAtual} / ${monstro.vidaMax}`;
+    if (game.dungeon.active && !monstro.isBoss) {
+        msg = `Sala ${game.dungeon.currentRoom + 1} de ${game.dungeon.totalRooms} da <span class="font-bold text-purple-400">${game.dungeon.name}</span>.<br/>` + msg;
+    } else if (monstro.isBoss) {
+        msg = `<span class="text-red-500 font-bold">BATALHA DE CHEFE!</span><br/>` + msg;
+    }
+    msg += `<br/><br/>O que deseja fazer?`;
+
+    mostrarMensagem(msg);
     limparEscolhas();
     adicionarEscolha("Atacar fisicamente", () => atacarMonstro("fisico"));
     if (game.player.magiasEquipadas.length > 0) {
       adicionarEscolha("Usar magia", usarMagiaMenu);
     }
-    adicionarEscolha("Usar poção", usarPocaoMenu);
-    adicionarEscolha("Tentar fugir", tentarFugir);
+    adicionarEscolha("Usar poção", usarPocaoMenu, monstro.isBoss); 
+    adicionarEscolha("Tentar fugir", tentarFugir, monstro.isBoss);    
+    
     atualizarStatusAtributos();
   }
 
   function tentarFugir() {
+    if (game.batalha.monstro && game.batalha.monstro.isBoss) { 
+        mostrarMensagem("Não é possível fugir de uma batalha de chefe!");
+        setTimeout(() => {
+            iniciarBatalha(game.batalha.monstro);
+        }, 1000);
+        return;
+    }
+
     const chanceFuga = calcularChanceFuga(game.batalha.monstro);
     const sucesso = Math.random() < chanceFuga;
     if (sucesso) {
@@ -805,12 +1010,17 @@ function mudarDeArea(novaAreaRank) {
       limparEscolhas();
       game.batalha.emBatalha = false;
       game.monstroAtual = null;
-      adicionarEscolha("Continuar explorando", explorarArea);
-      adicionarEscolha("Ver atributos", abrirAtributos);
-      adicionarEscolha("Abrir habilidades", abrirSkills);
-      adicionarEscolha("Abrir inventário", abrirInventario);
-       if (game.player.nivel >= 20) {
-        adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+      if (game.dungeon.active) {
+        fugirDaMasmorra(false); 
+      } else {
+        adicionarEscolha("Continuar explorando", explorarArea);
+        adicionarEscolha("Entrar na Masmorra (Rank E)", () => entrarMasmorra("E"));
+        adicionarEscolha("Ver atributos", abrirAtributos);
+        adicionarEscolha("Abrir habilidades", abrirSkills);
+        adicionarEscolha("Abrir inventário", abrirInventario);
+         if (game.player.nivel >= 20) {
+          adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+        }
       }
     } else {
       mostrarMensagem(
@@ -836,8 +1046,8 @@ function mudarDeArea(novaAreaRank) {
         mostrarMensagem(
           `Você não tem mana suficiente para usar a magia <span class="font-bold text-indigo-400">${magia.nome}</span>. Mana necessária: ${gastoMana}`
         );
-        // Don't clear choices here, let player re-evaluate
-        return; // Player needs to choose another action
+         adicionarEscolha("Voltar à Batalha", () => iniciarBatalha(game.batalha.monstro));
+        return; 
       }
       game.player.manaAtual -= gastoMana;
       dano = calcularDanoMagico(magia);
@@ -850,7 +1060,7 @@ function mudarDeArea(novaAreaRank) {
       msg += `<br/>Mana restante: ${game.player.manaAtual} / ${game.player.manaMax}`;
     }
     mostrarMensagem(msg);
-    limparEscolhas(); // Clear old battle choices
+    limparEscolhas(); 
 
     if (monstro.vidaAtual <= 0) {
       setTimeout(() => {
@@ -868,8 +1078,7 @@ function mudarDeArea(novaAreaRank) {
     const magias = game.player.magiasEquipadas.map(id => MAGIAS_POSSIVEIS.find(m => m.id === id)).filter(Boolean);
     if (magias.length === 0) {
       mostrarMensagem("Você não tem magias equipadas.");
-      // No choices cleared here, player might go back
-      adicionarEscolha("Voltar à Batalha", () => iniciarBatalha(game.batalha.monstro)); // Add a way back
+      adicionarEscolha("Voltar à Batalha", () => iniciarBatalha(game.batalha.monstro)); 
       return;
     }
     mostrarMensagem("Escolha a magia para usar:");
@@ -884,6 +1093,12 @@ function mudarDeArea(novaAreaRank) {
   }
 
   function usarPocaoMenu() {
+    if (game.batalha.isBossBattle) { 
+        mostrarMensagem("Não é possível usar poções durante uma batalha de chefe!");
+        adicionarEscolha("Voltar à Batalha", () => iniciarBatalha(game.batalha.monstro));
+        return;
+    }
+
     const pocaoItens = game.player.inventario.filter(i => i.isPotion && i.quantity > 0);
     if (pocaoItens.length === 0) {
       mostrarMensagem("Você não tem poções no inventário.");
@@ -892,19 +1107,24 @@ function mudarDeArea(novaAreaRank) {
     }
     mostrarMensagem("Escolha a poção para usar:");
     limparEscolhas();
-    pocaoItens.forEach(pocaoStack => { // Iterate through stacked potions
+    pocaoItens.forEach(pocaoStack => { 
       adicionarEscolha(
         `${pocaoStack.nome} - ${pocaoStack.descricao} (x${pocaoStack.quantity})`,
-        () => usarPocao(pocaoStack) // Pass the stack object
+        () => usarPocao(pocaoStack) 
       );
     });
     adicionarEscolha("Voltar", () => iniciarBatalha(game.batalha.monstro));
   }
 
-  function usarPocao(pocaoStack) { // pocaoStack is an item object from inventory with quantity
+  function usarPocao(pocaoStack) { 
+    if (game.batalha.isBossBattle) { 
+        alert("Não é possível usar poções em batalhas de chefe.");
+        iniciarBatalha(game.batalha.monstro);
+        return;
+    }
     if (!pocaoStack || pocaoStack.quantity <= 0) {
-      alert("Poção não encontrada ou esgotada."); // Should not happen if menu is correct
-      iniciarBatalha(game.batalha.monstro); // Go back to battle
+      alert("Poção não encontrada ou esgotada."); 
+      iniciarBatalha(game.batalha.monstro); 
       return;
     }
     const curaVida = Math.floor(game.player.vidaMax * pocaoStack.curaVidaPct);
@@ -912,36 +1132,48 @@ function mudarDeArea(novaAreaRank) {
     game.player.vidaAtual = Math.min(game.player.vidaAtual + curaVida, game.player.vidaMax);
     game.player.manaAtual = Math.min(game.player.manaAtual + curaMana, game.player.manaMax);
     
-    pocaoStack.quantity--; // Decrement quantity
-    if (pocaoStack.quantity <= 0) { // Remove if stack depleted
+    pocaoStack.quantity--; 
+    if (pocaoStack.quantity <= 0) { 
         game.player.inventario = game.player.inventario.filter(i => i !== pocaoStack);
     }
 
     mostrarMensagem(
       `Você usou <span class="font-bold text-indigo-400">${pocaoStack.nome}</span> e recuperou ${curaVida} de vida e ${curaMana} de mana.<br/><br/>O que deseja fazer?`
     );
-    // Choices for after using potion in battle (same as other battle choices)
     limparEscolhas();
     adicionarEscolha("Atacar fisicamente", () => atacarMonstro("fisico"));
     if (game.player.magiasEquipadas.length > 0) adicionarEscolha("Usar magia", usarMagiaMenu);
-    adicionarEscolha("Usar poção", usarPocaoMenu); // Can use another potion
+    adicionarEscolha("Usar poção", usarPocaoMenu); 
     adicionarEscolha("Tentar fugir", tentarFugir);
     
     atualizarStatusAtributos();
-    // If inventory screen was open, it would need an update, but here we are in battle.
   }
 
   function monstroAtaca() {
-    if (!game.batalha.emBatalha || !game.batalha.monstro) return; // Safety check
+    if (!game.batalha.emBatalha || !game.batalha.monstro) return; 
     const monstro = game.batalha.monstro;
-    const ataqueMagico = Math.random() < 0.5;
+    const ataqueMagico = !monstro.isBoss && monstro.danoMagico > 0 && Math.random() < 0.4; // Regular monsters, 40% chance of magic if they have it
     let dano = ataqueMagico ? monstro.danoMagico : monstro.danoFisico;
+    
+    if (monstro.isBoss) { 
+        // Boss might have a different attack pattern. Let's make them use their stronger stat more often, or a mix.
+        // For example, always physical + a chance of adding their magical damage, or choose one.
+        // Current boss generation gives them both physical and magical.
+        if (monstro.danoFisico > monstro.danoMagico) {
+            dano = monstro.danoFisico + (Math.random() < 0.3 ? randomInt(0, Math.floor(monstro.danoMagico * 0.5)) : 0) ; // Primarily physical, small chance of some magic bonus
+        } else {
+            dano = monstro.danoMagico + (Math.random() < 0.3 ? randomInt(0, Math.floor(monstro.danoFisico * 0.5)) : 0); // Primarily magical
+        }
+        dano = Math.max(dano, monstro.danoFisico, monstro.danoMagico > 0 ? monstro.danoMagico : 0); // Ensure it's at least their base
+    }
+
+
     dano = calcularDanoRecebido(dano);
     game.player.vidaAtual -= dano;
     if (game.player.vidaAtual < 0) game.player.vidaAtual = 0;
     
     let msg = `O <span class="font-bold text-red-400">${monstro.nome}</span> atacou você com ${
-        ataqueMagico ? "magia" : "um ataque físico"
+        monstro.isBoss ? "um golpe devastador" : (ataqueMagico ? "magia" : "um ataque físico")
       } e causou <span class="font-bold text-red-500">${dano}</span> de dano.<br/>Sua vida: ${game.player.vidaAtual} / ${game.player.vidaMax}`;
 
     if (game.player.vidaAtual <= 0) {
@@ -952,6 +1184,13 @@ function mudarDeArea(novaAreaRank) {
         gameOver();
       }, 1500);
     } else {
+      let battleContext = "";
+      if (game.dungeon.active && !monstro.isBoss) {
+          battleContext = `Sala ${game.dungeon.currentRoom + 1} de ${game.dungeon.totalRooms}.<br/>`;
+      } else if (monstro.isBoss) {
+          battleContext = `<span class="text-red-500 font-bold">BATALHA DE CHEFE!</span><br/>`;
+      }
+      msg = battleContext + msg; // Prepend context
       msg += `<br/><br/>Você está enfrentando o <span class="font-bold text-red-400">${monstro.nome}</span> (Rank ${monstro.rank})<br/>Vida do monstro: ${monstro.vidaAtual} / ${monstro.vidaMax}<br/><br/>O que deseja fazer?`;
       mostrarMensagem(msg);
       limparEscolhas();
@@ -959,20 +1198,22 @@ function mudarDeArea(novaAreaRank) {
       if (game.player.magiasEquipadas.length > 0) {
         adicionarEscolha("Usar magia", usarMagiaMenu);
       }
-      adicionarEscolha("Usar poção", usarPocaoMenu);
-      adicionarEscolha("Tentar fugir", tentarFugir);
+      adicionarEscolha("Usar poção", usarPocaoMenu, monstro.isBoss); 
+      adicionarEscolha("Tentar fugir", tentarFugir, monstro.isBoss); 
     }
     atualizarStatusAtributos();
   }
 
   function derrotarMonstro(monstro) {
     game.batalha.emBatalha = false;
-    game.monstroAtual = null;
+    // game.batalha.isBossBattle = false; // Reset specifically when battle ends and it's not a new boss battle immediately
+    // game.monstroAtual = null; // This will be handled by dungeon logic or regular exploration flow
+
     let xpGanhoBase = monstro.xpGanho;
-    let xpFinal = Math.floor(xpGanhoBase * (1 + XP_BONUS_GLOBAL)); // Apply global bonus
+    let xpFinal = Math.floor(xpGanhoBase * (1 + game.player.xpBonus)); 
     
     game.player.xp += xpFinal;
-    const moedasGanhas = randomInt(5, 20) * (rankToIndex(monstro.rank) + 1);
+    const moedasGanhas = randomInt(5, 20) * (rankToIndex(monstro.rank) + 1) * (monstro.isBoss ? 5 : 1); 
     game.player.moedas += moedasGanhas;
 
     for (const attr in game.player.atributos) {
@@ -982,15 +1223,14 @@ function mudarDeArea(novaAreaRank) {
     game.player.vidaAtual = Math.min(game.player.vidaAtual + Math.floor(game.player.vidaMax * 0.3), game.player.vidaMax);
     game.player.manaAtual = Math.min(game.player.manaAtual + Math.floor(game.player.manaMax * 0.3), game.player.manaMax);
 
-    const dropChance = 0.7; 
+    const dropChance = monstro.isBoss ? 1.0 : 0.7; 
     let itemDrop = null;
     if (Math.random() < dropChance) {
       const rankIndexMonstro = rankToIndex(monstro.rank);
-      // Item rank can be same as monster or one lower, but not below E
-      const itemRankTry = Math.max(0, rankIndexMonstro - randomInt(0,1));
+      const itemRankTry = Math.max(0, rankIndexMonstro - randomInt(0, monstro.isBoss ? 0 : 1));
       const rankItem = indexToRank(itemRankTry);
       itemDrop = gerarItem(rankItem);
-      addItemToInventory(itemDrop); // Use new stacking function
+      addItemToInventory(itemDrop); 
     }
 
     let leveledUp = false;
@@ -1008,7 +1248,7 @@ function mudarDeArea(novaAreaRank) {
       levelUpMessages.push(`Você subiu para o nível <span class="font-bold text-green-400">${game.player.nivel}</span>, ganhou 5 pontos para distribuir e +1 em todos os atributos!`);
       game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.25);
       atualizarMercadorVisibilidade();
-      atualizarRank(); 
+      atualizarRank();  
 
       const rankIndexJogador = rankToIndex(game.player.rank);
       const magiasDisponiveis = MAGIAS_POSSIVEIS.filter(m => rankToIndex(m.rank) <= rankIndexJogador && !game.player.magiasAdquiridas.includes(m.id));
@@ -1021,11 +1261,11 @@ function mudarDeArea(novaAreaRank) {
         } else {
           levelUpMessages.push(`Nova magia: <span class="font-bold text-indigo-400">${novaMagiaAdquirida.nome}</span> (Rank ${novaMagiaAdquirida.rank}) foi adquirida. Equipe-a na tela de Habilidades.`);
         }
-        novaMagiaAdquirida = null; // Reset for next potential level up in same loop
+        novaMagiaAdquirida = null; 
       }
     }
     
-    atualizarAtributosDerivados(); 
+    atualizarAtributosDerivados();  
 
     let msg = `Você derrotou o <span class="font-bold text-red-400">${monstro.nome}</span>!<br/>Ganhou <span class="font-bold text-yellow-400">${xpFinal}</span> XP e <span class="font-bold text-yellow-300">${moedasGanhas}</span> moedas.`;
     if (itemDrop) {
@@ -1035,25 +1275,47 @@ function mudarDeArea(novaAreaRank) {
         msg += "<br/><br/>" + levelUpMessages.join("<br/>");
     }
     
+    if (game.dungeon.active) { // If in a dungeon
+        if (monstro.isBoss) {
+            game.batalha.isBossBattle = false; // Explicitly reset boss battle flag after boss is defeated
+            completarMasmorra(msg); 
+            return;
+        } else {
+            msg += `<br/><br/>Você avança para a próxima sala da masmorra...`;
+            mostrarMensagem(msg);
+            atualizarStatusAtributos();
+            setTimeout(() => {
+                game.dungeon.currentRoom++; 
+                avancarSalaMasmorra();
+            }, 2000); 
+            return;
+        }
+    }
+    
+    game.batalha.isBossBattle = false; // Reset if not in dungeon or non-boss defeated in dungeon
+
+    // Standard post-battle if not in dungeon
     if (leveledUp) {
         msg += `<br/><br/>Você tem ${game.player.pontosDistribuir} pontos de atributo para distribuir.`;
         mostrarMensagem(msg);
         atualizarStatusAtributos();
-        atualizarSkillsTela(); 
+        atualizarSkillsTela();  
         limparEscolhas();
         adicionarEscolha("Distribuir Atributos", abrirAtributos);
         adicionarEscolha("Continuar explorando", explorarArea);
+        adicionarEscolha("Entrar na Masmorra (Rank E)", () => entrarMasmorra("E"));
         if (game.player.nivel >= 20) {
             adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
         }
         return;
     }
 
-    // If no level up
+    // If no level up and not in dungeon
     msg += `<br/><br/>O que deseja fazer?`;
     mostrarMensagem(msg);
     limparEscolhas();
     adicionarEscolha("Continuar explorando", explorarArea);
+    adicionarEscolha("Entrar na Masmorra (Rank E)", () => entrarMasmorra("E"));
     adicionarEscolha("Ver atributos", abrirAtributos);
     adicionarEscolha("Abrir habilidades", abrirSkills);
     adicionarEscolha("Abrir inventário", abrirInventario);
@@ -1065,6 +1327,10 @@ function mudarDeArea(novaAreaRank) {
 
   function gameOver() {
     game.estado = "gameover";
+    if (game.dungeon.active) { 
+        game.dungeon.active = false; 
+        game.batalha.isBossBattle = false; // Ensure boss flag is off
+    }
     mostrarMensagem(
       `<span class="text-red-600 font-extrabold text-3xl">Você morreu!</span><br/>O mundo de <span class="font-bold text-indigo-400">Aethel</span> não foi gentil desta vez.<br/><br/>Deseja recomeçar?`
     );
@@ -1075,14 +1341,14 @@ function mudarDeArea(novaAreaRank) {
   function abrirAtributos() {
     game.estado = "atributos";
     atualizarRank();
-    atualizarAtributosDerivados(); 
+    atualizarAtributosDerivados();  
     atualizarStatusAtributos();
     document.getElementById("game-screen").classList.add("hidden");
     document.getElementById("atributos-screen").classList.remove("hidden");
     document.getElementById("inventario-screen").classList.add("hidden");
     document.getElementById("mercador-screen").classList.add("hidden");
     document.getElementById("skills-screen").classList.add("hidden");
-    atualizarTelaAtributos(); 
+    atualizarTelaAtributos();  
   }
 
   function atualizarTelaAtributos() {
@@ -1094,7 +1360,7 @@ function mudarDeArea(novaAreaRank) {
     document.getElementById("vitalidade-val").textContent = a.vitalidade.toFixed(1);
     document.getElementById("percepcao-val").textContent = a.percepcao.toFixed(1);
     document.getElementById("pontos-disponiveis").textContent = game.player.pontosDistribuir;
-    atualizarStatusAtributos(); // Ensure bonus display is also updated
+    atualizarStatusAtributos(); 
   }
 
   function manipularBotaoAtributo(e) {
@@ -1110,35 +1376,49 @@ function mudarDeArea(novaAreaRank) {
         game.player.pontosDistribuir--;
       }
     } else if (action === "dec") {
-      // Need to ensure we don't decrease below the base value if attributes were also gained from level ups directly
-      // Current logic only has BASE_STATS (all 0) and pointsDistribuir.
-      // Attributes also increase by 0.1 or 1 on level up - these are "permanent" and not reclaimable here.
-      // This part is tricky. A simple solution: distributed points can be reclaimed, base points from levels cannot.
-      // However, the current structure doesn't differentiate. For now, allow decrease if > 0.
-      if (valAtual > BASE_STATS[attr]) { // Allow decrease only if above initial base (which is 0)
-        // This check is simplistic if attributes are gained elsewhere.
-        // A more robust system would track "spent points" vs "base points".
-        // For now, as long as > 0, as BASE_STATS are 0.
-         if (valAtual > 0) { // Simplified: can always decrease if > 0
-            game.player.atributos[attr] = +(valAtual - 1).toFixed(1);
-            game.player.pontosDistribuir++;
-         }
-      }
+       // Allow decrease only if attribute value is greater than its BASE_STATS equivalent (0)
+       // AND it won't make the attribute negative (which +(valAtual - 1) could if valAtual is small like 0.1)
+       // A more complex system would track "spent points" vs "base points from level ups"
+       // For now, this allows reclaiming points as long as the stat itself > 0 and some points were spent to make it > base
+       if (valAtual > BASE_STATS[attr] && valAtual -1 >= BASE_STATS[attr]) { 
+         game.player.atributos[attr] = +(valAtual - 1).toFixed(1);
+         game.player.pontosDistribuir++;
+       } else if (valAtual > 0 && valAtual - 1 < BASE_STATS[attr] && game.player.atributos[attr] !== BASE_STATS[attr]) {
+         // Special case: if decrementing would go below base_stat but current is not base_stat
+         // (e.g. current is 0.5, base is 0, you want to reclaim the 0.5 to get back to 0)
+         // This is tricky with the 0.1 increments from monster defeats.
+         // Simpler: only allow decrement if current val is at least 1 above base.
+         // Let's stick to: if (valAtual > BASE_STATS[attr] && (valAtual - 1) >= BASE_STATS[attr])
+         // This prevents going below the "natural" base from direct level ups + monster defeat small gains.
+         // The current logic `if (valAtual > 0)` is simpler but might allow reclaiming "permanent" small gains.
+         // For now, the existing `if (valAtual > 0)` and `game.player.atributos[attr] = +(valAtual - 1).toFixed(1);`
+         // will work, players can reduce to 0 if they wish.
+         // Let's stick to the original logic for decreasing as it's simpler:
+          if (valAtual > 0) { // Simplified: can always decrease if > 0
+             game.player.atributos[attr] = +(Math.max(0, valAtual - 1)).toFixed(1); // Ensure not negative
+             game.player.pontosDistribuir++;
+          }
+       }
     }
-    atualizarAtributosDerivados(); 
-    atualizarTelaAtributos(); 
-    // atualizarStatusAtributos(); // This is called by atualizarTelaAtributos through bonus display updates.
+    atualizarAtributosDerivados();  
+    atualizarTelaAtributos();  
   }
 
   function salvarAtributos() {
     atualizarRank();
-    atualizarAtributosDerivados(); 
+    atualizarAtributosDerivados();  
     atualizarStatusAtributos();
     abrirInicio();
   }
 
   function abrirInicio() {
     game.estado = "inicio";
+    // Crucial: Reset dungeon and boss flags when returning to main menu
+    game.dungeon.active = false; 
+    game.dungeon.isBossRoomConfirmation = false;
+    game.batalha.isBossBattle = false;
+
+
     document.getElementById("game-screen").classList.remove("hidden");
     document.getElementById("atributos-screen").classList.add("hidden");
     document.getElementById("inventario-screen").classList.add("hidden");
@@ -1149,6 +1429,7 @@ function mudarDeArea(novaAreaRank) {
     );
     limparEscolhas();
     adicionarEscolha("Explorar a área", explorarArea);
+    adicionarEscolha(`Entrar na Masmorra (Rank ${game.player.currentArea})`, () => entrarMasmorra(game.player.currentArea)); // Dynamic dungeon based on area
     adicionarEscolha("Ver atributos", abrirAtributos);
     adicionarEscolha("Abrir habilidades", abrirSkills);
     adicionarEscolha("Abrir inventário", abrirInventario);
@@ -1176,7 +1457,7 @@ function mudarDeArea(novaAreaRank) {
       li.textContent = "Inventário vazio.";
       lista.appendChild(li);
     } else {
-        game.player.inventario.forEach((item) => { // item here includes .quantity
+        game.player.inventario.forEach((item) => { 
             const li = document.createElement("li");
             li.className = "bg-gray-700 rounded p-2 flex flex-col sm:flex-row sm:justify-between sm:items-center";
             
@@ -1213,18 +1494,18 @@ function mudarDeArea(novaAreaRank) {
             const botoesDiv = document.createElement("div");
             botoesDiv.className = "mt-2 sm:mt-0 sm:ml-4 flex space-x-2";
 
-            if(!item.isPotion){ // Equipment can be equipped
+            if(!item.isPotion){ 
                 const btnEquipar = document.createElement("button");
                 btnEquipar.className = "bg-green-600 hover:bg-green-700 rounded px-3 py-1 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-green-400";
                 btnEquipar.textContent = "Equipar";
-                btnEquipar.addEventListener("click", () => equiparItem(item)); // Pass the item object
+                btnEquipar.addEventListener("click", () => equiparItem(item)); 
                 botoesDiv.appendChild(btnEquipar);
             }
 
             const btnDescartar = document.createElement("button");
             btnDescartar.className = "bg-red-600 hover:bg-red-700 rounded px-3 py-1 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-red-400";
             btnDescartar.textContent = "Descartar";
-            btnDescartar.addEventListener("click", () => descartarItem(item)); // Pass the item object
+            btnDescartar.addEventListener("click", () => descartarItem(item)); 
             botoesDiv.appendChild(btnDescartar);
 
             li.appendChild(nomeSpan);
@@ -1238,17 +1519,17 @@ function mudarDeArea(novaAreaRank) {
 
 
   function atualizarEquipamentosTela() {
-    document.getElementById("equip-armadura").textContent = game.player.equipamento.armadura ? 
+    document.getElementById("equip-armadura").textContent = game.player.equipamento.armadura ?  
       `${game.player.equipamento.armadura.nome} (Rank ${game.player.equipamento.armadura.rank})` : "Nenhuma equipada";
-    document.getElementById("equip-espada").textContent = game.player.equipamento.espada ? 
+    document.getElementById("equip-espada").textContent = game.player.equipamento.espada ?  
       `${game.player.equipamento.espada.nome} (Rank ${game.player.equipamento.espada.rank})` : "Nenhuma equipada";
-    document.getElementById("equip-anel").textContent = game.player.equipamento.anel ? 
+    document.getElementById("equip-anel").textContent = game.player.equipamento.anel ?  
       `${game.player.equipamento.anel.nome} (Rank ${game.player.equipamento.anel.rank})` : "Nenhum equipado";
-    document.getElementById("equip-colar").textContent = game.player.equipamento.colar ? 
+    document.getElementById("equip-colar").textContent = game.player.equipamento.colar ?  
       `${game.player.equipamento.colar.nome} (Rank ${game.player.equipamento.colar.rank})` : "Nenhum equipado";
   }
 
-  function equiparItem(itemFromInventoryStack) { // itemFromInventoryStack is the object from inventory array
+  function equiparItem(itemFromInventoryStack) { 
     if (itemFromInventoryStack.isPotion || itemFromInventoryStack.quantity <=0) {
         alert("Este item não pode ser equipado ou não há mais unidades.");
         return;
@@ -1260,37 +1541,34 @@ function mudarDeArea(novaAreaRank) {
       case "Espada":   slotParaEquipar = "espada";   break;
       case "Anel":     slotParaEquipar = "anel";     break;
       case "Colar":    slotParaEquipar = "colar";    break;
-      default: 
+      default:  
         alert("Tipo de item desconhecido para equipamento.");
         return;
     }
 
     if (slotParaEquipar) {
-      // Unequip current item in slot, if any, and add it back to inventory
       if (game.player.equipamento[slotParaEquipar]) {
         addItemToInventory(game.player.equipamento[slotParaEquipar]);
       }
       
-      // Create a single instance for the equipment slot (copy props, no quantity)
       const itemToEquip = { ...itemFromInventoryStack };
-      delete itemToEquip.quantity; // Equipped items don't have quantity
+      delete itemToEquip.quantity; 
 
       game.player.equipamento[slotParaEquipar] = itemToEquip;
       
-      // Decrement quantity in inventory or remove stack if it was the last one
       itemFromInventoryStack.quantity--;
       if (itemFromInventoryStack.quantity <= 0) {
         game.player.inventario = game.player.inventario.filter(i => i !== itemFromInventoryStack);
       }
       
-      atualizarAtributosDerivados(); 
-      atualizarInventarioTela(); 
-      atualizarStatusAtributos(); 
+      atualizarAtributosDerivados();  
+      atualizarInventarioTela();  
+      atualizarStatusAtributos();  
       alert(`Você equipou: ${itemToEquip.nome}`);
     }
   }
 
-  function descartarItem(itemInInventory) { // itemInInventory is the object from inventory array
+  function descartarItem(itemInInventory) { 
     if (!itemInInventory || itemInInventory.quantity <=0) return;
 
     if (confirm(`Deseja realmente descartar UMA unidade de ${itemInInventory.nome}?`)) {
@@ -1303,8 +1581,6 @@ function mudarDeArea(novaAreaRank) {
   }
 
   function aplicarEfeitosEquipamento() {
-    // This function is now primarily for refinoMagicoPct from equipment.
-    // Other stat bonuses from equipment are handled directly in atualizarAtributosDerivados.
     let totalRefinoMagicoBonus = 0;
     for (const slot in game.player.equipamento) {
         const equip = game.player.equipamento[slot];
@@ -1312,45 +1588,43 @@ function mudarDeArea(novaAreaRank) {
             totalRefinoMagicoBonus += equip.efeitos.refinoMagico;
         }
     }
-    game.player.refinoMagicoPct = totalRefinoMagicoBonus / 100; // Convert to decimal
+    game.player.refinoMagicoPct = totalRefinoMagicoBonus / 100; 
   }
 
 
-  function abrirMercador() { // fromExplorar parameter removed as it's not essential for current logic
+  function abrirMercador() { 
     game.estado = "mercador";
     document.getElementById("game-screen").classList.add("hidden");
     document.getElementById("atributos-screen").classList.add("hidden");
     document.getElementById("inventario-screen").classList.add("hidden");
     document.getElementById("mercador-screen").classList.remove("hidden");
     document.getElementById("skills-screen").classList.add("hidden");
-    gerarItensMercador(); // Generates fresh items each time
+    gerarItensMercador(); 
     atualizarTelaMercador();
-    mostrarMensagem( 
+    mostrarMensagem(  
         `O mercador cumprimenta você. Você tem <span class="font-bold text-yellow-300">${game.player.moedas}</span> moedas.<br/><br/>Selecione os itens que deseja comprar.`
     );
   }
 
   function gerarItensMercador() {
-    game.mercador.itens = []; // Mercador items are individual instances for sale
+    game.mercador.itens = []; 
     const qtd = randomInt(5, 8);
     const playerRankIdx = rankToIndex(game.player.rank);
 
     for (let i = 0; i < qtd; i++) {
-      // Mercador items can be around player's rank
-      const rankOffset = randomInt(-1, 1); // -1, 0, or 1
+      const rankOffset = randomInt(-1, 1); 
       const itemRankIdx = clamp(playerRankIdx + rankOffset, 0, RANKS.length - 1);
       const rank = indexToRank(itemRankIdx);
       
-      let item = gerarItem(rank); // gerarItem creates a single item instance
-      // Ensure merchant potions are the "compra" type and have correct price
+      let item = gerarItem(rank); 
       if (item.isPotion) {
         const pocaoBaseCompra = POTIONS.compra;
-        item.id = pocaoBaseCompra.id; // Use stacking ID
+        item.id = pocaoBaseCompra.id; 
         item.nome = pocaoBaseCompra.nome;
         item.curaVidaPct = pocaoBaseCompra.curaVidaPct;
         item.curaManaPct = pocaoBaseCompra.curaManaPct;
         item.descricao = pocaoBaseCompra.descricao;
-        item.preco = 50; // Fixed price for advanced potion
+        item.preco = 50; 
       }
       game.mercador.itens.push(item);
     }
@@ -1368,7 +1642,7 @@ function mudarDeArea(novaAreaRank) {
       atualizarBotaoComprar();
       return;
     }
-    game.mercador.itens.forEach((item, index) => { // Use index for unique checkbox IDs if needed, or rely on item object
+    game.mercador.itens.forEach((item, index) => { 
       const li = document.createElement("li");
       li.className = "bg-gray-700 rounded p-3 flex flex-col sm:flex-row sm:justify-between sm:items-center";
       const infoDiv = document.createElement("div");
@@ -1384,7 +1658,7 @@ function mudarDeArea(novaAreaRank) {
       } else {
         efeitosSpan.innerHTML = Object.entries(item.efeitos || {})
           .map(([chave, val]) => {
-             let desc = "";
+              let desc = "";
             switch (chave) {
               case "forca": desc = `+${val} Força`; break;
               case "agilidade": desc = `+${val} Agilidade`; break;
@@ -1411,14 +1685,13 @@ function mudarDeArea(novaAreaRank) {
 
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      // Use a unique value for checkbox, e.g., index, if item IDs can repeat in merchant list before purchase
-      checkbox.value = item.id + "_" + index; // A more unique value for the checkbox
+      checkbox.value = item.id + "_" + index; 
       checkbox.className = "w-5 h-5 cursor-pointer form-checkbox text-indigo-600 bg-gray-800 border-gray-600 focus:ring-indigo-500";
-      checkbox.checked = game.mercador.selecionados.has(item); // Check if item object is selected
+      checkbox.checked = game.mercador.selecionados.has(item); 
 
       checkbox.addEventListener("change", (e) => {
         if (e.target.checked) {
-          game.mercador.selecionados.add(item); // Store the item object itself
+          game.mercador.selecionados.add(item); 
         } else {
           game.mercador.selecionados.delete(item);
         }
@@ -1442,14 +1715,14 @@ function mudarDeArea(novaAreaRank) {
       return;
     }
     let totalPreco = 0;
-    game.mercador.selecionados.forEach(item => totalPreco += item.preco); // Iterate Set of items
+    game.mercador.selecionados.forEach(item => totalPreco += item.preco); 
     btn.disabled = totalPreco > game.player.moedas || totalPreco === 0;
   }
 
   function comprarItensMercador() {
     if (game.mercador.selecionados.size === 0) return;
     let totalPreco = 0;
-    const itensCompradosNomes = []; // For display in alert
+    const itensCompradosNomes = []; 
 
     game.mercador.selecionados.forEach(item => totalPreco += item.preco);
 
@@ -1460,16 +1733,15 @@ function mudarDeArea(novaAreaRank) {
     game.player.moedas -= totalPreco;
     
     game.mercador.selecionados.forEach(item => {
-        addItemToInventory(item); // Add to player's inventory (handles stacking)
+        addItemToInventory(item); 
         itensCompradosNomes.push(item.nome);
-        // Remove purchased item from merchant's list
         game.mercador.itens = game.mercador.itens.filter(merchantItem => merchantItem !== item);
     });
     
     alert(`Você comprou: ${itensCompradosNomes.join(", ")} por ${totalPreco} moedas.`);
     game.mercador.selecionados.clear();
-    atualizarTelaMercador(); // Refresh merchant list
-    atualizarStatusAtributos(); // Update coins display
+    atualizarTelaMercador(); 
+    atualizarStatusAtributos(); 
   }
 
   function abrirSkills() {
@@ -1510,7 +1782,7 @@ function mudarDeArea(novaAreaRank) {
 
       const descSpan = document.createElement("span");
       descSpan.className = "text-xs text-gray-300 mt-1";
-      descSpan.textContent = `Dano base: ${magia.danoBase}, Custo de mana: ${calcularGastoMana(magia)}`;
+      descSpan.textContent = `Dano base: ${magia.danoBase}, Custo de mana: ${calcularGastoMana(magia)}`; 
 
       infoDiv.appendChild(nomeSpan);
       infoDiv.appendChild(descSpan);
@@ -1531,7 +1803,7 @@ function mudarDeArea(novaAreaRank) {
           }
           game.player.magiasEquipadas.push(magia.id);
         }
-        atualizarSkillsTela(); // Refresh this screen
+        atualizarSkillsTela(); 
       });
 
       btnDiv.appendChild(btnEquipar);
@@ -1541,6 +1813,132 @@ function mudarDeArea(novaAreaRank) {
     });
   }
 
+  // --- DUNGEON FUNCTIONS ---
+  function entrarMasmorra(dungeonTypeRank) {
+    const config = DUNGEON_CONFIG[dungeonTypeRank];
+    if (!config) {
+        mostrarMensagem(`A masmorra de Rank ${dungeonTypeRank} ainda não está acessível ou não existe.`);
+        adicionarEscolha("Voltar", abrirInicio);
+        return;
+    }
+
+    game.estado = "dungeon";
+    game.dungeon.active = true;
+    game.dungeon.typeRank = dungeonTypeRank; // e.g. "E"
+    game.dungeon.name = `${config.name} (Dungeon Rank ${dungeonTypeRank})`;
+    game.dungeon.totalRooms = randomInt(config.roomsMin, config.roomsMax);
+    game.dungeon.currentRoom = 0; 
+    game.dungeon.monsterRankForRooms = config.monsterRank; // e.g. "D" for an "E" dungeon
+    game.dungeon.bossRankForDungeon = config.bossRank;     // e.g. "C" for an "E" dungeon
+    game.dungeon.bossDefeated = false;
+    game.dungeon.isBossRoomConfirmation = false;
+
+    mostrarMensagem(`Você adentrou a <span class="font-bold text-purple-400">${game.dungeon.name}</span>. Ela parece ter ${game.dungeon.totalRooms} salas.<br/>A primeira sala se aproxima...`);
+    limparEscolhas();
+    adicionarEscolha("Avançar para a primeira sala", avancarSalaMasmorra);
+  }
+
+  function avancarSalaMasmorra() {
+    limparEscolhas();
+    // currentRoom is 0-indexed. totalRooms is the count.
+    // If totalRooms is 5, rooms are 0, 1, 2, 3, 4.
+    // Boss is in room 4 (game.dungeon.totalRooms - 1).
+    if (game.dungeon.currentRoom >= game.dungeon.totalRooms -1 ) { 
+        game.dungeon.isBossRoomConfirmation = true;
+        mostrarMensagem(`Você chegou à antessala da última câmara da <span class="font-bold text-purple-400">${game.dungeon.name}</span>.<br/>Você sente um calafrio. Uma presença poderosa emana da próxima sala.<br/><br/>Deseja continuar?`);
+        adicionarEscolha("Continuar e enfrentar o perigo", confirmarEntradaBoss);
+        adicionarEscolha("Recuar da masmorra por agora", () => fugirDaMasmorra(true)); 
+    } else {
+        const monstro = gerarMonstroMasmorra(game.dungeon.monsterRankForRooms);
+        game.monstroAtual = monstro;
+        setTimeout(() => {
+            iniciarBatalha(monstro); 
+        }, 1000); // Reduced delay for quicker room transitions
+    }
+  }
+  
+  function confirmarEntradaBoss() {
+    game.dungeon.isBossRoomConfirmation = false; 
+    const boss = gerarBossMasmorra(game.dungeon.typeRank, game.dungeon.bossRankForDungeon);
+    game.monstroAtual = boss;
+    mostrarMensagem(`Você entra na câmara final da <span class="font-bold text-purple-400">${game.dungeon.name}</span>. O ar está pesado. <br/>O chefe da masmorra, <span class="font-bold text-red-500">${boss.nome}</span> (Rank ${boss.rank}), encara você!`);
+    setTimeout(() => {
+        iniciarBatalha(boss);
+    }, 1500);
+  }
+
+  function fugirDaMasmorra(playerInitiatedAtBossDoor) {
+    let msg = "";
+    if (playerInitiatedAtBossDoor) {
+        msg = `Você decidiu recuar da <span class="font-bold text-purple-400">${game.dungeon.name}</span> antes de enfrentar o chefe. A prudência é uma virtude.`;
+    } else {
+        msg = `Você fugiu da batalha e, consequentemente, da <span class="font-bold text-purple-400">${game.dungeon.name}</span>.`;
+    }
+    msg += "<br/><br/>Você retorna à entrada da área.";
+    
+    game.dungeon.active = false;
+    game.estado = "inicio"; 
+    game.batalha.emBatalha = false; 
+    game.batalha.isBossBattle = false;
+
+
+    mostrarMensagem(msg);
+    limparEscolhas(); 
+    adicionarEscolha("Explorar a área", explorarArea);
+    adicionarEscolha(`Entrar na Masmorra (Rank ${game.player.currentArea})`, () => entrarMasmorra(game.player.currentArea));
+    adicionarEscolha("Ver atributos", abrirAtributos);
+    adicionarEscolha("Abrir habilidades", abrirSkills);
+    adicionarEscolha("Abrir inventário", abrirInventario);
+    if (game.player.nivel >= 20) {
+        adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+    }
+    atualizarStatusAtributos();
+  }
+
+  function completarMasmorra(battleMsg) {
+    game.dungeon.bossDefeated = true;
+    let msg = battleMsg; 
+    
+    msg += `<br/><br/><span class="font-bold text-green-400">Você conquistou a ${game.dungeon.name}!</span>`;
+    const bonusMoedas = randomInt(100, 250) * (rankToIndex(game.dungeon.bossRankForDungeon) + 1);
+    game.player.moedas += bonusMoedas;
+    msg += `<br/>Você encontrou um tesouro com <span class="font-bold text-yellow-300">${bonusMoedas}</span> moedas extras!`;
+    
+    const bonusXp = randomInt(50,100) * (rankToIndex(game.dungeon.bossRankForDungeon) +1);
+    game.player.xp += bonusXp;
+    msg += `<br/>Você ganhou <span class="font-bold text-yellow-400">${bonusXp}</span> XP bônus pela conquista!`;
+    // Check for level up after bonus XP (simplified - full check is in derrotarMonstro)
+    let leveledUpPostDungeon = false;
+    while (game.player.xp >= game.player.xpProximoNivel) {
+        leveledUpPostDungeon = true;
+        game.player.xp -= game.player.xpProximoNivel;
+        game.player.nivel++;
+        game.player.pontosDistribuir += 5;
+        msg += `<br/>UAU! O XP bônus fez você subir para o nível <span class="font-bold text-green-400">${game.player.nivel}</span>! Ganhou +5 pontos de atributo.`;
+        game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.25);
+        atualizarRank();
+    }
+    if(leveledUpPostDungeon) atualizarAtributosDerivados();
+
+
+    game.dungeon.active = false;
+    game.estado = "inicio";
+    game.batalha.isBossBattle = false; // Ensure boss flag is off
+
+    mostrarMensagem(msg + "<br/><br/>Você emerge da masmorra vitorioso. O que fazer agora?");
+    limparEscolhas();
+    adicionarEscolha("Explorar a área", explorarArea);
+    adicionarEscolha(`Entrar em outra Masmorra (Rank ${game.player.currentArea})`, () => entrarMasmorra(game.player.currentArea)); 
+    adicionarEscolha("Ver atributos", abrirAtributos);
+    adicionarEscolha("Abrir habilidades", abrirSkills);
+    adicionarEscolha("Abrir inventário", abrirInventario);
+     if (game.player.nivel >= 20) {
+        adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+    }
+    atualizarStatusAtributos();
+  }
+
+  // Event Listeners
   document.getElementById("btn-inicio").addEventListener("click", abrirInicio);
   document.getElementById("btn-atributos").addEventListener("click", abrirAtributos);
   document.getElementById("btn-skills").addEventListener("click", abrirSkills);
@@ -1554,12 +1952,12 @@ function mudarDeArea(novaAreaRank) {
   document.getElementById("btn-comprar-mercador").addEventListener("click", comprarItensMercador);
 
   function sairJogo() {
-    if (confirm("Deseja realmente sair do jogo? O progresso será perdido.")) {
-      // Could implement localStorage saving here in the future
-      location.reload(); // Simple reset for now
+    if (confirm("Deseja realmente sair do jogo? O progresso não salvo será perdido.")) {
+      location.reload(); 
     }
   }
 
+  // Start the game
   iniciarJogo();
 
 })();

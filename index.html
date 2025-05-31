@@ -31,22 +31,22 @@
 <header class="bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 p-4 flex justify-between items-center shadow-lg sticky top-0 z-50">
   <h1 class="text-2xl font-extrabold tracking-wide select-none">Aethel RPG</h1>
   <nav class="flex space-x-4">
-    <button id="btn-inicio" aria-label="Início" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2" title="Início">
+    <button id="btn-inicio" aria-label="Início" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2 disabled:opacity-50 disabled:cursor-not-allowed" title="Início">
       <i class="fas fa-home fa-lg"></i>
     </button>
-    <button id="btn-atributos" aria-label="Distribuir Atributos" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2" title="Distribuir Atributos">
+    <button id="btn-atributos" aria-label="Distribuir Atributos" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2 disabled:opacity-50 disabled:cursor-not-allowed" title="Distribuir Atributos">
       <i class="fas fa-dumbbell fa-lg"></i>
     </button>
-    <button id="btn-skills" aria-label="Habilidades" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2" title="Habilidades">
+    <button id="btn-skills" aria-label="Habilidades" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2 disabled:opacity-50 disabled:cursor-not-allowed" title="Habilidades">
       <i class="fas fa-book fa-lg"></i>
     </button>
-    <button id="btn-inventario" aria-label="Inventário" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2" title="Inventário">
+    <button id="btn-inventario" aria-label="Inventário" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2 disabled:opacity-50 disabled:cursor-not-allowed" title="Inventário">
       <i class="fas fa-box-open fa-lg"></i>
     </button>
     <button id="btn-mercador" aria-label="Mercador" class="text-indigo-300 hover:text-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded p-2 hidden" title="Mercador">
       <i class="fas fa-store fa-lg"></i>
     </button>
-    <button id="btn-sair" aria-label="Sair do Jogo" class="text-red-400 hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-red-400 rounded p-2" title="Sair do Jogo">
+    <button id="btn-sair" aria-label="Sair do Jogo" class="text-red-400 hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-red-400 rounded p-2 disabled:opacity-50 disabled:cursor-not-allowed" title="Sair do Jogo">
       <i class="fas fa-sign-out-alt fa-lg"></i>
     </button>
   </nav>
@@ -283,7 +283,7 @@
         roomsMin: 4,
         roomsMax: 6,
         monsterRank: "D", // Monsters in E dungeon are Rank D
-        bossRank: "C",    // Boss in E dungeon is Rank C
+        bossRank: "C",     // Boss in E dungeon is Rank C
         bossBaseStats: {
             vidaMin: 280, vidaMax: 350,    // C Rank Boss stats
             danoMin: 25, danoMax: 40,
@@ -295,7 +295,7 @@
         roomsMin: 5,
         roomsMax: 7,
         monsterRank: "C", // Monsters in D dungeon are Rank C
-        bossRank: "B",    // Boss in D dungeon is Rank B
+        bossRank: "B",     // Boss in D dungeon is Rank B
         bossBaseStats: {
             vidaMin: 550, vidaMax: 700,    // B Rank Boss stats
             danoMin: 45, danoMax: 65,
@@ -307,7 +307,7 @@
         roomsMin: 6,
         roomsMax: 8,
         monsterRank: "B", // Monsters in C dungeon are Rank B
-        bossRank: "A",    // Boss in C dungeon is Rank A
+        bossRank: "A",     // Boss in C dungeon is Rank A
         bossBaseStats: {
             vidaMin: 900, vidaMax: 1100,   // A Rank Boss stats
             danoMin: 70, danoMax: 95,
@@ -319,7 +319,7 @@
         roomsMin: 7,
         roomsMax: 9,
         monsterRank: "A", // Monsters in B dungeon are Rank A
-        bossRank: "S",    // Boss in B dungeon is Rank S
+        bossRank: "S",     // Boss in B dungeon is Rank S
         bossBaseStats: { // Using provided S rank boss stats from original example
             vidaMin: 1000, vidaMax: 2280, // S Rank Boss stats
             danoMin: 100, danoMax: 155,
@@ -331,7 +331,7 @@
         roomsMin: 8,
         roomsMax: 10,
         monsterRank: "S", // Monsters in A dungeon are Rank S
-        bossRank: "S",    // Boss in A dungeon is also Rank S (can be stronger variant)
+        bossRank: "S",     // Boss in A dungeon is also Rank S (can be stronger variant)
         bossBaseStats: {
             vidaMin: 1800, vidaMax: 3000, // Stronger S Rank Boss stats
             danoMin: 150, danoMax: 220,
@@ -343,7 +343,7 @@
         roomsMin: 9,
         roomsMax: 12,
         monsterRank: "S", // Monsters are super strong S
-        bossRank: "S",    // Boss is an ultimate S rank variant
+        bossRank: "S",     // Boss is an ultimate S rank variant
         bossBaseStats: {
             vidaMin: 3000, vidaMax: 5500, // Ultimate S Rank Boss stats
             danoMin: 250, danoMax: 350,
@@ -675,9 +675,9 @@ function addItemToInventory(itemToAdd) {
       game.player.rank = novoRank;
       if (game.player.nivel >= 20 && !game.player.classe && rankToIndex(novoRank) >= rankToIndex("D")) {
         game.player.classe = randomChoice(CLASSES);
-         setTimeout(() => mostrarMensagem( 
-           `Parabéns! Você alcançou o nível 20 e desbloqueou a classe <span class="font-bold text-indigo-400">${game.player.classe}</span>!`
-         ), 50); 
+          setTimeout(() => mostrarMensagem( 
+            `Parabéns! Você alcançou o nível 20 e desbloqueou a classe <span class="font-bold text-indigo-400">${game.player.classe}</span>!`
+          ), 50); 
       }
     }
   }
@@ -814,7 +814,18 @@ function addItemToInventory(itemToAdd) {
     choices.appendChild(btn);
   }
 
+  function toggleHeaderNavButtons(disable) {
+    const btnIds = ["btn-inicio", "btn-atributos", "btn-skills", "btn-inventario", "btn-sair"];
+    btnIds.forEach(id => {
+      const button = document.getElementById(id);
+      if (button) {
+        button.disabled = disable;
+      }
+    });
+  }
+
   function iniciarJogo() {
+    toggleHeaderNavButtons(false); // Ensure buttons are enabled at game start
     game.estado = "inicio";
     game.player.nivel = 1;
     game.player.xp = 0;
@@ -966,6 +977,7 @@ function mudarDeArea(novaAreaRank) {
 
 
   function iniciarBatalha(monstro) {
+    toggleHeaderNavButtons(true); // Disable header buttons
     game.estado = "batalha";
     game.batalha.emBatalha = true;
     game.batalha.monstro = monstro;
@@ -987,7 +999,7 @@ function mudarDeArea(novaAreaRank) {
       adicionarEscolha("Usar magia", usarMagiaMenu);
     }
     adicionarEscolha("Usar poção", usarPocaoMenu, monstro.isBoss); 
-    adicionarEscolha("Tentar fugir", tentarFugir, monstro.isBoss);    
+    adicionarEscolha("Tentar fugir", tentarFugir, monstro.isBoss);   
     
     atualizarStatusAtributos();
   }
@@ -1004,6 +1016,7 @@ function mudarDeArea(novaAreaRank) {
     const chanceFuga = calcularChanceFuga(game.batalha.monstro);
     const sucesso = Math.random() < chanceFuga;
     if (sucesso) {
+      toggleHeaderNavButtons(false); // Enable header buttons
       mostrarMensagem(
         `Você tentou fugir e conseguiu escapar do <span class="font-bold text-red-400">${game.batalha.monstro.nome}</span>!<br/><br/>O que deseja fazer agora?`
       );
@@ -1206,7 +1219,7 @@ function mudarDeArea(novaAreaRank) {
 
   function derrotarMonstro(monstro) {
     game.batalha.emBatalha = false;
-    // game.batalha.isBossBattle = false; // Reset specifically when battle ends and it's not a new boss battle immediately
+    // game.batalha.isBossBattle = false; // Reset specifically when battle ends
     // game.monstroAtual = null; // This will be handled by dungeon logic or regular exploration flow
 
     let xpGanhoBase = monstro.xpGanho;
@@ -1280,10 +1293,11 @@ function mudarDeArea(novaAreaRank) {
             game.batalha.isBossBattle = false; // Explicitly reset boss battle flag after boss is defeated
             completarMasmorra(msg); 
             return;
-        } else {
+        } else { // Monster in dungeon room, not boss
             msg += `<br/><br/>Você avança para a próxima sala da masmorra...`;
             mostrarMensagem(msg);
             atualizarStatusAtributos();
+            // Buttons remain disabled, avancarSalaMasmorra will handle states
             setTimeout(() => {
                 game.dungeon.currentRoom++; 
                 avancarSalaMasmorra();
@@ -1292,6 +1306,8 @@ function mudarDeArea(novaAreaRank) {
         }
     }
     
+    // If NOT in dungeon (or if the above dungeon logic didn't return)
+    toggleHeaderNavButtons(false); // Enable buttons as battle is over and not in dungeon flow
     game.batalha.isBossBattle = false; // Reset if not in dungeon or non-boss defeated in dungeon
 
     // Standard post-battle if not in dungeon
@@ -1326,6 +1342,7 @@ function mudarDeArea(novaAreaRank) {
   }
 
   function gameOver() {
+    toggleHeaderNavButtons(false); // Enable header buttons
     game.estado = "gameover";
     if (game.dungeon.active) { 
         game.dungeon.active = false; 
@@ -1376,29 +1393,29 @@ function mudarDeArea(novaAreaRank) {
         game.player.pontosDistribuir--;
       }
     } else if (action === "dec") {
-       // Allow decrease only if attribute value is greater than its BASE_STATS equivalent (0)
-       // AND it won't make the attribute negative (which +(valAtual - 1) could if valAtual is small like 0.1)
-       // A more complex system would track "spent points" vs "base points from level ups"
-       // For now, this allows reclaiming points as long as the stat itself > 0 and some points were spent to make it > base
-       if (valAtual > BASE_STATS[attr] && valAtual -1 >= BASE_STATS[attr]) { 
-         game.player.atributos[attr] = +(valAtual - 1).toFixed(1);
-         game.player.pontosDistribuir++;
-       } else if (valAtual > 0 && valAtual - 1 < BASE_STATS[attr] && game.player.atributos[attr] !== BASE_STATS[attr]) {
-         // Special case: if decrementing would go below base_stat but current is not base_stat
-         // (e.g. current is 0.5, base is 0, you want to reclaim the 0.5 to get back to 0)
-         // This is tricky with the 0.1 increments from monster defeats.
-         // Simpler: only allow decrement if current val is at least 1 above base.
-         // Let's stick to: if (valAtual > BASE_STATS[attr] && (valAtual - 1) >= BASE_STATS[attr])
-         // This prevents going below the "natural" base from direct level ups + monster defeat small gains.
-         // The current logic `if (valAtual > 0)` is simpler but might allow reclaiming "permanent" small gains.
-         // For now, the existing `if (valAtual > 0)` and `game.player.atributos[attr] = +(valAtual - 1).toFixed(1);`
-         // will work, players can reduce to 0 if they wish.
-         // Let's stick to the original logic for decreasing as it's simpler:
-          if (valAtual > 0) { // Simplified: can always decrease if > 0
-             game.player.atributos[attr] = +(Math.max(0, valAtual - 1)).toFixed(1); // Ensure not negative
-             game.player.pontosDistribuir++;
-          }
-       }
+        // Allow decrease only if attribute value is greater than its BASE_STATS equivalent (0)
+        // AND it won't make the attribute negative (which +(valAtual - 1) could if valAtual is small like 0.1)
+        // A more complex system would track "spent points" vs "base points from level ups"
+        // For now, this allows reclaiming points as long as the stat itself > 0 and some points were spent to make it > base
+        if (valAtual > BASE_STATS[attr] && valAtual -1 >= BASE_STATS[attr]) { 
+           game.player.atributos[attr] = +(valAtual - 1).toFixed(1);
+           game.player.pontosDistribuir++;
+        } else if (valAtual > 0 && valAtual - 1 < BASE_STATS[attr] && game.player.atributos[attr] !== BASE_STATS[attr]) {
+          // Special case: if decrementing would go below base_stat but current is not base_stat
+          // (e.g. current is 0.5, base is 0, you want to reclaim the 0.5 to get back to 0)
+          // This is tricky with the 0.1 increments from monster defeats.
+          // Simpler: only allow decrement if current val is at least 1 above base.
+          // Let's stick to: if (valAtual > BASE_STATS[attr] && (valAtual - 1) >= BASE_STATS[attr])
+          // This prevents going below the "natural" base from direct level ups + monster defeat small gains.
+          // The current logic `if (valAtual > 0)` is simpler but might allow reclaiming "permanent" small gains.
+          // For now, the existing `if (valAtual > 0)` and `game.player.atributos[attr] = +(valAtual - 1).toFixed(1);`
+          // will work, players can reduce to 0 if they wish.
+          // Let's stick to the original logic for decreasing as it's simpler:
+           if (valAtual > 0) { // Simplified: can always decrease if > 0
+               game.player.atributos[attr] = +(Math.max(0, valAtual - 1)).toFixed(1); // Ensure not negative
+               game.player.pontosDistribuir++;
+           }
+        }
     }
     atualizarAtributosDerivados();  
     atualizarTelaAtributos();  
@@ -1412,6 +1429,7 @@ function mudarDeArea(novaAreaRank) {
   }
 
   function abrirInicio() {
+    toggleHeaderNavButtons(false); // Enable header buttons
     game.estado = "inicio";
     // Crucial: Reset dungeon and boss flags when returning to main menu
     game.dungeon.active = false; 
@@ -1844,11 +1862,13 @@ function mudarDeArea(novaAreaRank) {
     // If totalRooms is 5, rooms are 0, 1, 2, 3, 4.
     // Boss is in room 4 (game.dungeon.totalRooms - 1).
     if (game.dungeon.currentRoom >= game.dungeon.totalRooms -1 ) { 
+        toggleHeaderNavButtons(false); // Enable buttons for boss confirmation choice
         game.dungeon.isBossRoomConfirmation = true;
         mostrarMensagem(`Você chegou à antessala da última câmara da <span class="font-bold text-purple-400">${game.dungeon.name}</span>.<br/>Você sente um calafrio. Uma presença poderosa emana da próxima sala.<br/><br/>Deseja continuar?`);
         adicionarEscolha("Continuar e enfrentar o perigo", confirmarEntradaBoss);
         adicionarEscolha("Recuar da masmorra por agora", () => fugirDaMasmorra(true)); 
     } else {
+        // Buttons remain disabled if already in battle sequence, iniciarBatalha will handle re-disabling
         const monstro = gerarMonstroMasmorra(game.dungeon.monsterRankForRooms);
         game.monstroAtual = monstro;
         setTimeout(() => {
@@ -1858,6 +1878,7 @@ function mudarDeArea(novaAreaRank) {
   }
   
   function confirmarEntradaBoss() {
+    // Buttons will be disabled by iniciarBatalha
     game.dungeon.isBossRoomConfirmation = false; 
     const boss = gerarBossMasmorra(game.dungeon.typeRank, game.dungeon.bossRankForDungeon);
     game.monstroAtual = boss;
@@ -1868,6 +1889,7 @@ function mudarDeArea(novaAreaRank) {
   }
 
   function fugirDaMasmorra(playerInitiatedAtBossDoor) {
+    toggleHeaderNavButtons(false); // Enable header buttons
     let msg = "";
     if (playerInitiatedAtBossDoor) {
         msg = `Você decidiu recuar da <span class="font-bold text-purple-400">${game.dungeon.name}</span> antes de enfrentar o chefe. A prudência é uma virtude.`;
@@ -1896,6 +1918,7 @@ function mudarDeArea(novaAreaRank) {
   }
 
   function completarMasmorra(battleMsg) {
+    toggleHeaderNavButtons(false); // Enable header buttons
     game.dungeon.bossDefeated = true;
     let msg = battleMsg; 
     

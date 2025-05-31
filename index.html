@@ -198,18 +198,18 @@
   const RANK_MIN_TOTAL = {
     E: 20,
     D: 100,
-    C: 150,
-    B: 200,
-    A: 300,
+    C: 200,
+    B: 300,
+    A: 400,
     S: 600,
   };
   const BASE_STATS = {
-    forca: 10,
-    agilidade: 10,
-    inteligencia: 20,
-    resistencia: 15,
-    vitalidade: 40,
-    percepcao: 20,
+    forca: 0,
+    agilidade: 0,
+    inteligencia: 0,
+    resistencia: 0,
+    vitalidade: 0,
+    percepcao: 0,
   };
   const BASE_HP = 100;
   const BASE_MANA = 10;
@@ -375,7 +375,7 @@
   let game = {
     player: {
       nome: "Herói",
-      classe: BixaPro, // Initialized to null, will be set by iniciarJogo or class unlock logic
+      classe: null, // Initialized to null, will be set by iniciarJogo or class unlock logic
       nivel: 1,
       xp: 0,
       xpProximoNivel: 100,
@@ -835,7 +835,7 @@ function addItemToInventory(itemToAdd) {
     game.player.xpProximoNivel = 100;
     game.player.rank = "E";
     game.player.atributos = { ...BASE_STATS };
-    game.player.pontosDistribuir = 10; // Initial points
+    game.player.pontosDistribuir = 115; // Initial points
     game.player.vidaMax = BASE_HP;
     game.player.vidaAtual = BASE_HP;
     game.player.manaMax = BASE_MANA;
@@ -852,7 +852,7 @@ function addItemToInventory(itemToAdd) {
     game.player.equipamento = { armadura: null, espada: null, anel: null, colar: null };  
     game.player.moedas = 100;
     game.player.rodadas = 0;
-    game.player.classe = null;
+    game.player.classe = "Bixa";
     game.player.classeLiberada = false;
     game.player.magiasAdquiridas = [];
     game.player.magiasEquipadas = [];

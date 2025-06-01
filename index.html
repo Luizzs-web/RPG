@@ -3746,7 +3746,7 @@
                     game.player.pontosDistribuir += 5;
                     for (const attr in game.player.atributos) { game.player.atributos[attr] = +(game.player.atributos[attr] + 1).toFixed(1); }
                     levelUpMessages.push(`Você subiu para o nível <span class="font-bold text-emerald-400">${game.player.nivel}</span>, ganhou 5 pontos para distribuir e +1 em todos os atributos!`);
-                    game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.10);
+                    game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.30);
                     atualizarMercadorVisibilidade();
                     atualizarRank();
                     const novasSkillsMsgsNotificacao = verificarDesbloqueioHabilidadesClasse();
@@ -4906,7 +4906,7 @@
                     game.player.pontosDistribuir += 5;
                     for (const attr in game.player.atributos) { game.player.atributos[attr] = +(game.player.atributos[attr] + 1).toFixed(1); }
                     postDungeonLevelUpMessages.push(`UAU! O XP bônus fez você subir para o nível <span class="font-bold text-emerald-400">${game.player.nivel}</span>! Ganhou +5 pontos de atributo e +1 em todos os atributos!`);
-                    game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.10);
+                    game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.30);
                     atualizarRank();
                     const novasSkillsMsgs = verificarDesbloqueioHabilidadesClasse();
                     postDungeonLevelUpMessages = postDungeonLevelUpMessages.concat(novasSkillsMsgs);
@@ -4970,7 +4970,7 @@
                         for (const attr in game.player.atributos) {
                             game.player.atributos[attr] = +(game.player.atributos[attr] + 1).toFixed(1);
                         }
-                        game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.10);
+                        game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.30);
                     }
                     feedbackAlert = `Comando Divino: Você avançou ${levelsToAdd} níveis! Agora você está no Nível ${game.player.nivel}!`;
 
@@ -5089,7 +5089,7 @@
                         game.player.xp -= game.player.xpProximoNivel; game.player.nivel++; game.player.pontosDistribuir += 5;
                         for (const attr_key in game.player.atributos) game.player.atributos[attr_key] = +(game.player.atributos[attr_key] + 1).toFixed(1);
                         cheatLevelUpMessages.push(`Nível ${game.player.nivel}!`);
-                        game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.10);
+                        game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.30);
                         atualizarRank();
                         const skillUnlocks = verificarDesbloqueioHabilidadesClasse();
                         cheatLevelUpMessages = cheatLevelUpMessages.concat(skillUnlocks.map(s => s.replace(/<[^>]*>/g, "")));

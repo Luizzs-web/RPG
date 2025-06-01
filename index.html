@@ -1213,6 +1213,8 @@
                 B: ["Orc Chefe", "Troll Ancião", "Mago Negro", "Dragão Jovem", "Zumbi Rei", "Grão-Guardião"],
                 A: ["Dragão Adulto", "Lorde Orc", "Mago Supremo", "Demônio Menor", "Zumbi Lendário", "Protetor Ancestral"],
                 S: ["Dragão Ancião", "Lorde Demônio", "Mago Lendário", "Deus Caído", "Zumbi Imortal", "Avatar da Destruição"],
+                SS: ["Cavaleiro Abissal", "Beemote Corrompido", "Arquimago Lich", "Serpente Titânica", "Anjo Caído Vingativo"], // << NOVO
+                SSS: ["Avatar Primordial", "Devorador de Mundos", "Ancião Cósmico", "Arauto do Vazio", "Deidade Esquecida"], // << NOVO
                 LORDE_DA_MORTE: ["Lorde da Morte"]
             };
 
@@ -1301,7 +1303,9 @@
                 }
 
                 const rankIndex = rankToIndex(rank);
-                const nome = randomChoice(MONSTRO_NOMES[rank]);
+                // Fallback para nome do monstro caso o rank não exista em MONSTRO_NOMES
+            const nomesDisponiveis = MONSTRO_NOMES[rank] || [`Monstro Desconhecido Rank ${rank}`];
+            const nome = randomChoice(nomesDisponiveis);
 
                 let vidaBase = 0;
                 let danoBase = 0;

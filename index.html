@@ -4729,171 +4729,195 @@
             }
 
             function atualizarSkillsTela() {
-                const lista = document.getElementById("lista-skills");
-                const classeInfoDiv = document.getElementById("classe-info-skills");
-                if (!lista || !classeInfoDiv) return;
-                lista.innerHTML = "";
-                classeInfoDiv.innerHTML = "";
+    const lista = document.getElementById("lista-skills");
+    const classeInfoDiv = document.getElementById("classe-info-skills");
+    if (!lista || !classeInfoDiv) {
+        console.error("ERRO: Elementos da tela de skills não encontrados ('lista-skills' ou 'classe-info-skills').");
+        return;
+    }
+    lista.innerHTML = "";
+    classeInfoDiv.innerHTML = "";
 
-                let currentClassName = game.player.classe;
-                let currentClassDesc = "Nenhuma classe foi definida ainda.";
-                let classTitleColor = "text-amber-400";
+    let currentClassName = game.player.classe;
+    let currentClassDesc = "Nenhuma classe foi definida ainda.";
+    let classTitleColor = "text-amber-400"; // Cor padrão se não houver classe
 
-                if (game.player.classe) {
-                    const baseClassData = CLASSES_DATA[game.player.classe];
-                    if (game.player.classe === "Necromante" && game.player.isMarcado) {
-                        currentClassName = "Monarca das Sombras";
-                        currentClassDesc = "Aquele que ascendeu além da morte, comandando as próprias sombras da existência.";
-                        classTitleColor = "text-purple-300"; // Special color for Monarca
-                    } else if (baseClassData) {
-                        currentClassName = baseClassData.nomeDisplay;
-                        currentClassDesc = baseClassData.descricao;
-                        classTitleColor = "text-slate-300";
-                    }
+    if (game.player.classe) {
+        const baseClassData = CLASSES_DATA[game.player.classe];
+        if (game.player.classe === "Necromante" && game.player.isMarcado) {
+            currentClassName = "Monarca das Sombras";
+            currentClassDesc = "Aquele que ascendeu além da morte, comandando as próprias sombras da existência.";
+            classTitleColor = "text-purple-300"; // Cor especial para Monarca
+        } else if (baseClassData) {
+            currentClassName = baseClassData.nomeDisplay;
+            currentClassDesc = baseClassData.descricao;
+            // Define uma cor padrão ou específica para outras classes se desejar, aqui usando uma genérica
+            classTitleColor = "text-sky-300"; 
+        }
+    } else {
+        // Se não tem classe, a descrição é um guia
+        currentClassDesc = `<p class="text-sm text-slate-400">Alcance Nível 10 e Rank D para que seu destino revele sua classe (aleatoriamente), ou derrote o Lorde da Morte para um caminho mais sombrio. Torne-se Marcado para desbloquear evoluções.</p>`;
+    }
+
+    // CORREÇÃO APLICADA AQUI: Uso correto de template literals
+    classeInfoDiv.innerHTML = `
+        <p class="text-xl ${classTitleColor} font-semibold">Classe: ${currentClassName || "Nenhuma"}</p>
+        <p class="text-sm text-slate-300">${currentClassDesc}</p>
+    `;
+
+    if (!game.player.classe) {
+        lista.innerHTML = `<p class="text-slate-400 italic">Nenhuma habilidade disponível sem uma classe.</p>`;
+        return;
+    }
+
+    const actualClassData = CLASSES_DATA[game.player.classe];
+    if (!actualClassData || !actualClassData.habilidades || actualClassData.habilidades.length === 0) {
+        lista.innerHTML = `<p class="text-slate-400 italic">Esta classe não possui habilidades definidas.</p>`;
+        return;
+    }
+
+    let algumaSkillVisivel = false;
+
+    actualClassData.habilidades.forEach(skill => {
+        const isMonarcaSkill = !!skill.monarcaOnly;
+        if (isMonarcaSkill && !(game.player.classe === "Necromante" && game.player.isMarcado)) {
+            return; // Pula habilidades de Monarca se o jogador não for um
+        }
+
+        algumaSkillVisivel = true;
+        const isAcquired = game.player.magiasAdquiridas.includes(skill.id);
+        const div = document.createElement("div");
+        let divClasses = "bg-slate-600 rounded p-3 flex flex-col sm:flex-row sm:justify-between sm:items-start";
+
+        const playerLevelOk = game.player.nivel >= skill.unlockLevel;
+        let isEffectivelyLocked = false;
+        let lockReason = "";
+
+        if (!isAcquired) {
+            if (isMonarcaSkill) {
+                 // Habilidades de Monarca são desbloqueadas ao se tornar um, mas ainda podem ter um nível simbólico.
+                if (!playerLevelOk) {
+                    isEffectivelyLocked = true;
+                    lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel} de Monarca)`;
                 } else {
-                    currentClassDesc = `<p class="text-sm text-slate-400">Alcance Nível 10 e Rank D para que seu destino revele sua classe (aleatoriamente), ou derrote o Lorde da Morte para um caminho mais sombrio. Torne-se Marcado para desbloquear evoluções.</p>`;
+                    lockReason = `(Disponível para aprender - Nv. ${skill.unlockLevel})`;
                 }
-
-
-                classeInfoDiv.innerHTML = `<p class="text-xl ${classTitleColor} font-semibold">Classe: <span class="math-inline">\{currentClassName \|\| "Nenhuma"\}</p\>
-<p class="text-sm text-slate-300">{currentClassDesc}</p>`;
-
-                if (!game.player.classe) {
-                    lista.innerHTML = `<p class="text-slate-400 italic">Nenhuma habilidade disponível sem uma classe.</p>`;
-                    return;
+            } else if (game.player.classe === "Necromante" && (skill.id === "n_extracao_sombras" || skill.id === "n_invocar_sombra")) {
+                if (!game.player.metLordeDaMorte) { isEffectivelyLocked = true; lockReason = "(Bloqueada - Derrote o Lorde da Morte)"; }
+                else if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`; }
+                else { lockReason = `(Disponível para aprender - Nv. ${skill.unlockLevel})`; }
+            } else if (skill.requerDesafio) {
+                if (game.player.classe === "Necromante" && (skill.id === "n_dominio_sombras" || skill.id === "n_exercito_sombras")) {
+                    if (!game.player.metLordeDaMorte) { isEffectivelyLocked = true; lockReason = "(Bloqueada - Derrote o Lorde da Morte p/ desafio)"; }
+                    else if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel} p/ desafio)`; }
+                    else { lockReason = `(Desafio Disponível - Nv. ${skill.unlockLevel})`; }
+                } else { // Desafios de outras classes
+                    if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`; }
+                    else { lockReason = `(Desafio Disponível - Nv. ${skill.unlockLevel})`; }
                 }
-
-                const actualClassData = CLASSES_DATA[game.player.classe]; // Always get base class data
-                if (!actualClassData || !actualClassData.habilidades || actualClassData.habilidades.length === 0) {
-                    lista.innerHTML = `<p class="text-slate-400 italic">Esta classe não possui habilidades definidas.</p>`;
-                    return;
-                }
-
-                let algumaSkillVisivel = false;
-
-                actualClassData.habilidades.forEach(skill => {
-                    const isMonarcaSkill = !!skill.monarcaOnly;
-                    if (isMonarcaSkill && !(game.player.classe === "Necromante" && game.player.isMarcado)) {
-                        return; // Skip Monarca skills if not a Monarca
-                    }
-
-                    algumaSkillVisivel = true;
-                    const isAcquired = game.player.magiasAdquiridas.includes(skill.id);
-                    const div = document.createElement("div");
-                    let divClasses = "bg-slate-600 rounded p-3 flex flex-col sm:flex-row sm:justify-between sm:items-start";
-
-                    const playerLevelOk = game.player.nivel >= skill.unlockLevel;
-                    let isEffectivelyLocked = false;
-                    let lockReason = "";
-
-                    if (!isAcquired) {
-                        if (isMonarcaSkill) { // Monarca skills become available after becoming Monarca (level 1 effectively)
-                            lockReason = `(Disponível para Monarcas - Nv. ${skill.unlockLevel})`;
-                        } else if (game.player.classe === "Necromante" && (skill.id === "n_extracao_sombras" || skill.id === "n_invocar_sombra")) {
-                            if (!game.player.metLordeDaMorte) { isEffectivelyLocked = true; lockReason = "(Bloqueada - Derrote o Lorde da Morte)"; }
-                            else if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`; }
-                            else { lockReason = `(Disponível para aprender - Nv. ${skill.unlockLevel})`; }
-                        } else if (skill.requerDesafio) {
-                            if (game.player.classe === "Necromante" && (skill.id === "n_dominio_sombras" || skill.id === "n_exercito_sombras")) {
-                                if (!game.player.metLordeDaMorte) { isEffectivelyLocked = true; lockReason = "(Bloqueada - Derrote o Lorde da Morte p/ desafio)"; }
-                                else if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel} p/ desafio)`; }
-                                else { lockReason = `(Desafio Disponível - Nv. ${skill.unlockLevel})`; }
-                            } else {
-                                if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`; }
-                                else { lockReason = `(Desafio Disponível - Nv. ${skill.unlockLevel})`; }
-                            }
-                        } else if (!playerLevelOk) {
-                            isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`;
-                        } else {
-                            lockReason = `(Disponível para aprender - Nv. ${skill.unlockLevel})`;
-                        }
-                    }
-
-                    if (isEffectivelyLocked) divClasses += ' opacity-60';
-                    div.className = divClasses;
-
-                    const infoDiv = document.createElement("div");
-                    infoDiv.className = "flex flex-col flex-grow mb-2 sm:mb-0";
-
-                    const nomeSpan = document.createElement("span");
-                    let skillDisplayName = skill.nome;
-                    let skillTitleColor = (game.player.classe === "Necromante" || isMonarcaSkill) ? 'text-purple-300' : 'text-sky-400';
-                    if (isMonarcaSkill) skillDisplayName = skillDisplayName.replace("[Monarca] ", ""); // Clean up for display
-
-                    nomeSpan.className = `font-semibold text-lg ${skillTitleColor}`;
-                    nomeSpan.textContent = `${skillDisplayName} (Rank ${skill.rank})`;
-                    infoDiv.appendChild(nomeSpan);
-
-                    const descSpan = document.createElement("span");
-                    descSpan.className = "text-xs text-slate-300 mt-1";
-                    let skillDescText = skill.descricao;
-                    skillDescText += ` Custo Mana: ${calcularGastoMana(skill)}.`;
-
-                    if (isAcquired) skillDescText += ` <span class="text-emerald-400">(Adquirida)</span>`;
-                    else if (lockReason) skillDescText += ` <span class="text-yellow-500">${lockReason}</span>`;
-                    descSpan.innerHTML = skillDescText;
-                    infoDiv.appendChild(descSpan);
-                    div.appendChild(infoDiv);
-
-                    const btnDiv = document.createElement("div");
-                    btnDiv.className = "mt-2 sm:mt-0 sm:ml-3 flex-shrink-0 skill-actions";
-
-                    if (isAcquired) {
-                        const btnEquipar = document.createElement("button");
-                        btnEquipar.textContent = game.player.magiasEquipadas.includes(skill.id) ? "Desequipar" : "Equipar";
-                        btnEquipar.addEventListener("click", () => {
-                            if (game.player.magiasEquipadas.includes(skill.id)) {
-                                game.player.magiasEquipadas = game.player.magiasEquipadas.filter(id => id !== skill.id);
-                            } else {
-                                if (game.player.magiasEquipadas.length >= 4) { alert("Você só pode equipar até 4 habilidades."); return; }
-                                game.player.magiasEquipadas.push(skill.id);
-                            }
-                            atualizarSkillsTela();
-                        });
-                        btnDiv.appendChild(btnEquipar);
-                    } else if (!isEffectivelyLocked && playerLevelOk) {
-                        if (skill.requerDesafio) {
-                            const btnDesafio = document.createElement("button");
-                            btnDesafio.textContent = "Iniciar Desafio";
-                            btnDesafio.title = `Enfrente um desafio para aprender ${skill.nome}`;
-                            btnDesafio.addEventListener("click", () => {
-                                if (game.batalha.emBatalha || game.dungeon.active) { alert("Você não pode iniciar um desafio durante uma batalha ou dentro de uma masmorra."); return; }
-                                if (confirm(`Você tem certeza que deseja enfrentar o desafio para aprender ${skill.nome}? Prepare-se!`)) {
-                                    if (game.player.classe === "Necromante" && (skill.id === "n_dominio_sombras" || skill.id === "n_exercito_sombras")) {
-                                        if (!game.player.metLordeDaMorte) { alert("Você precisa derrotar o Lorde da Morte primeiro para liberar este desafio!"); return; }
-                                        iniciarDesafioLordeDaMorte(skill.requerDesafio, skill.id);
-                                    } else {
-                                        iniciarDesafioHabilidade(skill);
-                                    }
-                                }
-                            });
-                            btnDiv.appendChild(btnDesafio);
-                        } else { // Learnable directly (includes Monarca skills once Monarca)
-                            const btnAprender = document.createElement("button");
-                            btnAprender.textContent = "Aprender Habilidade";
-                            btnAprender.title = `Aprenda ${skill.nome}.`;
-                            btnAprender.addEventListener("click", () => {
-                                if (game.player.magiasAdquiridas.includes(skill.id)) { alert("Você já aprendeu esta habilidade."); return; }
-                                game.player.magiasAdquiridas.push(skill.id);
-                                alert(`Você aprendeu ${skill.nome}!`);
-                                if (game.player.magiasEquipadas.length < 4) { game.player.magiasEquipadas.push(skill.id); alert(`${skill.nome} equipada automaticamente.`); }
-                                atualizarSkillsTela();
-                            });
-                            btnDiv.appendChild(btnAprender);
-                        }
-                    }
-
-                    if (btnDiv.hasChildNodes()) div.appendChild(btnDiv);
-                    lista.appendChild(div);
-                });
-
-                if (!algumaSkillVisivel) {
-                    const p = document.createElement("p");
-                    p.className = "text-slate-400 italic text-center py-4";
-                    p.textContent = "Nenhuma habilidade disponível para sua classe e nível atuais, ou desafios pendentes.";
-                    lista.appendChild(p);
-                }
+            } else if (!playerLevelOk) { // Habilidades normais bloqueadas por nível
+                isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`;
+            } else { // Habilidades normais disponíveis para aprender
+                lockReason = `(Disponível para aprender - Nv. ${skill.unlockLevel})`;
             }
+        }
+
+        if (isEffectivelyLocked && !isAcquired) { // Adiciona opacidade apenas se estiver bloqueada E não adquirida
+             divClasses += ' opacity-60';
+        }
+        div.className = divClasses;
+
+        const infoDiv = document.createElement("div");
+        infoDiv.className = "flex flex-col flex-grow mb-2 sm:mb-0";
+
+        const nomeSpan = document.createElement("span");
+        let skillDisplayName = skill.nome;
+        let skillTitleColorClassName = "text-sky-400"; // Cor padrão para nomes de skill
+        if (game.player.classe === "Necromante" && game.player.isMarcado && isMonarcaSkill) {
+            skillDisplayName = skillDisplayName.replace("[Monarca] ", ""); // Limpa para exibição
+            skillTitleColorClassName = "text-purple-300"; // Cor para Monarca
+        } else if (game.player.classe === "Necromante") {
+            skillTitleColorClassName = "text-purple-400"; // Cor para Necromante base
+        }
+        // Outras classes podem ter cores específicas se desejar
+
+        nomeSpan.className = `font-semibold text-lg ${skillTitleColorClassName}`;
+        nomeSpan.textContent = `${skillDisplayName} (Rank ${skill.rank})`;
+        infoDiv.appendChild(nomeSpan);
+
+        const descSpan = document.createElement("span");
+        descSpan.className = "text-xs text-slate-300 mt-1";
+        let skillDescText = skill.descricao;
+        skillDescText += ` Custo Mana: ${calcularGastoMana(skill)}.`;
+
+        if (isAcquired) {
+            skillDescText += ` <span class="text-emerald-400">(Adquirida)</span>`;
+        } else if (lockReason) {
+            skillDescText += ` <span class="text-yellow-500">${lockReason}</span>`;
+        }
+        descSpan.innerHTML = skillDescText; // innerHTML é usado aqui por causa dos spans de status
+        infoDiv.appendChild(descSpan);
+        div.appendChild(infoDiv);
+
+        const btnDiv = document.createElement("div");
+        btnDiv.className = "mt-2 sm:mt-0 sm:ml-3 flex-shrink-0 skill-actions";
+
+        if (isAcquired) {
+            const btnEquipar = document.createElement("button");
+            btnEquipar.textContent = game.player.magiasEquipadas.includes(skill.id) ? "Desequipar" : "Equipar";
+            btnEquipar.addEventListener("click", () => {
+                if (game.player.magiasEquipadas.includes(skill.id)) {
+                    game.player.magiasEquipadas = game.player.magiasEquipadas.filter(id => id !== skill.id);
+                } else {
+                    if (game.player.magiasEquipadas.length >= 4) { alert("Você só pode equipar até 4 habilidades."); return; }
+                    game.player.magiasEquipadas.push(skill.id);
+                }
+                atualizarSkillsTela();
+            });
+            btnDiv.appendChild(btnEquipar);
+        } else if (!isEffectivelyLocked && playerLevelOk) {
+            if (skill.requerDesafio) {
+                const btnDesafio = document.createElement("button");
+                btnDesafio.textContent = "Iniciar Desafio";
+                btnDesafio.title = `Enfrente um desafio para aprender ${skill.nome}`;
+                btnDesafio.addEventListener("click", () => {
+                    if (game.batalha.emBatalha || game.dungeon.active) { alert("Você não pode iniciar um desafio durante uma batalha ou dentro de uma masmorra."); return; }
+                    if (confirm(`Você tem certeza que deseja enfrentar o desafio para aprender ${skill.nome}? Prepare-se!`)) {
+                        if (game.player.classe === "Necromante" && (skill.id === "n_dominio_sombras" || skill.id === "n_exercito_sombras")) {
+                            if (!game.player.metLordeDaMorte) { alert("Você precisa derrotar o Lorde da Morte primeiro para liberar este desafio!"); return; }
+                            iniciarDesafioLordeDaMorte(skill.requerDesafio, skill.id);
+                        } else {
+                            iniciarDesafioHabilidade(skill);
+                        }
+                    }
+                });
+                btnDiv.appendChild(btnDesafio);
+            } else { 
+                const btnAprender = document.createElement("button");
+                btnAprender.textContent = "Aprender Habilidade";
+                btnAprender.title = `Aprenda ${skill.nome}.`;
+                btnAprender.addEventListener("click", () => {
+                    if (game.player.magiasAdquiridas.includes(skill.id)) { alert("Você já aprendeu esta habilidade."); return; }
+                    game.player.magiasAdquiridas.push(skill.id);
+                    alert(`Você aprendeu ${skill.nome}!`);
+                    if (game.player.magiasEquipadas.length < 4) { game.player.magiasEquipadas.push(skill.id); alert(`${skill.nome} equipada automaticamente.`); }
+                    atualizarSkillsTela();
+                });
+                btnDiv.appendChild(btnAprender);
+            }
+        }
+
+        if (btnDiv.hasChildNodes()) div.appendChild(btnDiv);
+        lista.appendChild(div);
+    });
+
+    if (!algumaSkillVisivel) {
+        const p = document.createElement("p");
+        p.className = "text-slate-400 italic text-center py-4";
+        p.textContent = "Nenhuma habilidade disponível para sua classe e nível atuais, ou desafios pendentes.";
+        lista.appendChild(p);
+    }
+}
 
             function entrarMasmorra(dungeonTypeRank) {
                 const config = DUNGEON_CONFIG[dungeonTypeRank];

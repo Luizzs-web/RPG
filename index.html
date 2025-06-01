@@ -931,12 +931,12 @@
     };
 
    const DUNGEON_CONFIG = {
-        "E": { name: "Masmorra Esquecida", roomsMin: 4, roomsMax: 6, monsterRank: "D", bossRank: "C", bossBaseStats: { vidaMin: 280, vidaMax: 350, danoMin: 25, danoMax: 40, xpMin: 120, xpMax: 180 } },
-        "D": { name: "Covil Profundo", roomsMin: 5, roomsMax: 7, monsterRank: "C", bossRank: "B", bossBaseStats: { vidaMin: 550, vidaMax: 700, danoMin: 45, danoMax: 65, xpMin: 350, xpMax: 500 } },
-        "C": { name: "Cidadela Sombria", roomsMin: 6, roomsMax: 8, monsterRank: "B", bossRank: "A", bossBaseStats: { vidaMin: 900, vidaMax: 1100, danoMin: 70, danoMax: 95, xpMin: 700, xpMax: 1000 } },
-        "B": { name: "Fortaleza Dracônica", roomsMin: 7, roomsMax: 9, monsterRank: "A", bossRank: "S", bossBaseStats: { vidaMin: 1000, vidaMax: 2280, danoMin: 100, danoMax: 155, xpMin: 1400, xpMax: 2500 }, lordeDaMorteChance: 0.25 },
-        "A": { name: "Abismo Infernal", roomsMin: 8, roomsMax: 10, monsterRank: "S", bossRank: "SS", bossBaseStats: { vidaMin: 1800, vidaMax: 3000, danoMin: 150, danoMax: 220, xpMin: 2000, xpMax: 3500 }, lordeDaMorteChance: 0.35 }, // Boss can now be SS
-        "S": { name: "Domínio Celestial Despedaçado", roomsMin: 9, roomsMax: 12, monsterRank: "SS", bossRank: "SSS", bossBaseStats: { vidaMin: 3000, vidaMax: 5500, danoMin: 250, danoMax: 350, xpMin: 4000, xpMax: 6000 }, lordeDaMorteChance: 0.5 } // Monsters and Boss can now be SS/SSS
+        "E": { name: "Masmorra Esquecida", roomsMin: 4, roomsMax: 6, monsterRank: "D", bossRank: "C", bossBaseStats: { vidaMin: 580, vidaMax: 850, danoMin: 25, danoMax: 40, xpMin: 1200, xpMax: 1800 } },
+        "D": { name: "Covil Profundo", roomsMin: 5, roomsMax: 7, monsterRank: "C", bossRank: "B", bossBaseStats: { vidaMin: 1050, vidaMax: 1700, danoMin: 45, danoMax: 65, xpMin: 3500, xpMax: 5000 } },
+        "C": { name: "Cidadela Sombria", roomsMin: 6, roomsMax: 8, monsterRank: "B", bossRank: "A", bossBaseStats: { vidaMin: 1900, vidaMax: 2500, danoMin: 70, danoMax: 95, xpMin: 7000, xpMax: 10000} },
+        "B": { name: "Fortaleza Dracônica", roomsMin: 7, roomsMax: 9, monsterRank: "A", bossRank: "S", bossBaseStats: { vidaMin: 2600, vidaMax: 4000, danoMin: 100, danoMax: 155, xpMin: 14000, xpMax: 25000 }, lordeDaMorteChance: 0.25 },
+        "A": { name: "Abismo Infernal", roomsMin: 8, roomsMax: 10, monsterRank: "S", bossRank: "SS", bossBaseStats: { vidaMin: 4800, vidaMax: 7000, danoMin: 150, danoMax: 220, xpMin: 20000, xpMax: 35000 }, lordeDaMorteChance: 0.35 }, // Boss can now be SS
+        "S": { name: "Domínio Celestial Despedaçado", roomsMin: 9, roomsMax: 12, monsterRank: "SS", bossRank: "SSS", bossBaseStats: { vidaMin: 8000, vidaMax: 11000, danoMin: 250, danoMax: 350, xpMin: 40000, xpMax: 60000 }, lordeDaMorteChance: 0.5 } // Monsters and Boss can now be SS/SSS
     };
 
     function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
@@ -1235,7 +1235,7 @@
             }
         }
 
-        const vitalidadeBonusVida = tempVitalidade * 2;
+        const vitalidadeBonusVida = tempVitalidade * 5;
         game.player.vidaMax = Math.floor(BASE_HP + vitalidadeBonusVida);
         game.player.vidaAtual = Math.min(game.player.vidaAtual, game.player.vidaMax);
         game.player.vitalidadeBonusVida = vitalidadeBonusVida;

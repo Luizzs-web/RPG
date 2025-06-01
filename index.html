@@ -2424,34 +2424,28 @@
                 const chanceFuga = calcularChanceFuga(game.batalha.monstro);
                 const sucesso = Math.random() < chanceFuga;
                 if (sucesso) {
-                    showBattleInterface(false);
-                    toggleHeaderNavButtons(false);
-                    toggleChatInput(false);
-                    mostrarMensagem(`Você tentou fugir e conseguiu escapar do <span class="font-bold text-rose-400">${game.batalha.monstro.nome}</span>!<br/><br/>O que deseja fazer agora?`);
-                    game.batalha.emBatalha = false; game.monstroAtual = null;
-                    if (game.dungeon.active) {
-                        // AQUI ESTÁ O PROBLEMA ORIGINAL: Chama fugirDaMasmorra, que sai completamente.
-                        // Precisamos ajustar para que o fluxo da masmorra continue.
-                        // Ao invés de fugirDaMasmorra, vamos para a próxima sala ou oferecer opções de dungeon.
-                        game.dungeon.currentRoom++; // Avança para a próxima sala (como se tivesse vencido ou um encontro vazio)
-                        mostrarMensagem(`Você conseguiu fugir do <span class="font-bold text-rose-400">${game.batalha.monstro.nome}</span> e avança para a próxima sala da masmorra...`);
-                        setTimeout(() => {
-                            if (game.dungeon.currentRoom >= game.dungeon.totalRooms) { // Se fugiu da última sala (pré-boss), pode sair ou tentar o boss.
-                                game.dungeon.isBossRoomConfirmation = true; // Força a confirmação do boss
-                                avancarSalaMasmorra(); // Redireciona para a lógica de "última sala"
-                            } else {
-                                avancarSalaMasmorra(); // Vai para a próxima sala
-                            }
-                        }, 1000); // Pequeno delay antes de avançar
-                        // Não chame abrirInicio() aqui, pois o fluxo da dungeon vai continuar.
-                    } else {
-                        abrirInicio(); // Se não está em dungeon, volta para o início normal
-                    }
-                } else {
-                    mostrarMensagem(`Você tentou fugir, mas falhou! O <span class="font-bold text-rose-400">${game.batalha.monstro.nome}</span> aproveita para atacar você!`);
-                    setTimeout(() => monstroAtaca(), 1000);
-                }
-                atualizarStatusAtributos();
+            showBattleInterface(false);
+            toggleHeaderNavButtons(false);
+            toggleChatInput(false);
+            // A mensagem principal de fuga será tratada por fugirDaMasmorra ou abrirInicio
+            game.batalha.emBatalha = false; game.monstroAtual = null;
+
+            if (game.dungeon.active) {
+                // CORREÇÃO: Chamar fugirDaMasmorra para sair da dungeon ao invés de avançar.
+                // O parâmetro 'false' indica que não foi uma fuga da "porta do chefe".
+                mostrarMensagem(`Você conseguiu fugir do <span class="font-bold text-rose-400">${game.batalha.monstro.nome}</span> e escapou d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400">${game.dungeon.name}</span>.`);
+                setTimeout(() => { // Adiciona um pequeno delay para a mensagem ser lida
+                    fugirDaMasmorra(false);
+                }, 1500);
+            } else {
+                mostrarMensagem(`Você tentou fugir e conseguiu escapar do <span class="font-bold text-rose-400">${game.batalha.monstro.nome}</span>!<br/><br/>O que deseja fazer agora?`);
+                abrirInicio(); // Se não está em dungeon, volta para o início normal
+            }
+        } else {
+            mostrarMensagem(`Você tentou fugir, mas falhou! O <span class="font-bold text-rose-400">${game.batalha.monstro.nome}</span> aproveita para atacar você!`);
+            setTimeout(() => monstroAtaca(), 1000);
+        }
+        atualizarStatusAtributos();
             }
             function mostrarMenuInvocarSombras() {
                 if (!game.batalha.emBatalha || !game.batalha.turnoJogador || game.batalha.jogadorAgiuNoTurno) {

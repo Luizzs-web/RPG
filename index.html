@@ -1304,8 +1304,8 @@
 
                 const rankIndex = rankToIndex(rank);
                 // Fallback para nome do monstro caso o rank não exista em MONSTRO_NOMES
-            const nomesDisponiveis = MONSTRO_NOMES[rank] || [`Monstro Desconhecido Rank ${rank}`];
-            const nome = randomChoice(nomesDisponiveis);
+                const nomesDisponiveis = MONSTRO_NOMES[rank] || [`Monstro Desconhecido Rank ${rank}`];
+                const nome = randomChoice(nomesDisponiveis);
 
                 let vidaBase = 0;
                 let danoBase = 0;
@@ -1962,23 +1962,94 @@
             }
 
             window.onload = () => {
+                console.log("window.onload disparado."); // Log para confirmar que onload iniciou
+
                 initializeGoogleSignInRelatedElements();
                 iniciarJogo();
-                document.getElementById("atributos-screen")?.addEventListener("click", manipularBotaoAtributo);
-                document.getElementById("btn-salvar-atributos")?.addEventListener("click", salvarAtributos);
-                document.getElementById("btn-comprar-mercador")?.addEventListener("click", comprarItensMercador);
 
-                // NOVO: Inicializa o modo de adição de atributos
+                // --- BOTÕES DE NAVEGAÇÃO SUPERIOR ---
+                const btnInicio = document.getElementById("btn-inicio");
+                if (btnInicio) {
+                    console.log("btn-inicio encontrado. Anexando listener.");
+                    btnInicio.addEventListener("click", abrirInicio);
+                } else {
+                    console.error("ERRO FATAL: Botão 'btn-inicio' não encontrado no HTML!");
+                }
+
+                const btnAtributos = document.getElementById("btn-atributos");
+                if (btnAtributos) {
+                    console.log("btn-atributos encontrado. Anexando listener.");
+                    btnAtributos.addEventListener("click", abrirAtributos);
+                } else {
+                    console.error("ERRO FATAL: Botão 'btn-atributos' não encontrado no HTML!");
+                }
+
+                const btnSkills = document.getElementById("btn-skills");
+                if (btnSkills) {
+                    console.log("btn-skills encontrado. Anexando listener.");
+                    btnSkills.addEventListener("click", abrirSkills);
+                } else {
+                    console.error("ERRO FATAL: Botão 'btn-skills' não encontrado no HTML!");
+                }
+
+                const btnInventario = document.getElementById("btn-inventario");
+                if (btnInventario) {
+                    console.log("btn-inventario encontrado. Anexando listener.");
+                    btnInventario.addEventListener("click", abrirInventario);
+                } else {
+                    console.error("ERRO FATAL: Botão 'btn-inventario' não encontrado no HTML!");
+                }
+
+                const btnMercador = document.getElementById("btn-mercador");
+                if (btnMercador) {
+                    console.log("btn-mercador encontrado. Anexando listener.");
+                    btnMercador.addEventListener("click", abrirMercador);
+                } else {
+                    console.warn("Aviso: Botão 'btn-mercador' não encontrado (pode ser normal se estiver oculto por padrão).");
+                }
+
+                const btnSair = document.getElementById("btn-sair");
+                if (btnSair) {
+                    console.log("btn-sair encontrado. Anexando listener.");
+                    btnSair.addEventListener("click", sairJogo);
+                } else {
+                    console.error("ERRO FATAL: Botão 'btn-sair' não encontrado no HTML!");
+                }
+                // --- FIM DOS BOTÕES DE NAVEGAÇÃO SUPERIOR ---
+
+                // Listeners para elementos internos de telas específicas
+                const atributosScreenElement = document.getElementById("atributos-screen");
+                if (atributosScreenElement) {
+                    atributosScreenElement.addEventListener("click", manipularBotaoAtributo);
+                } else {
+                    console.warn("Aviso: Elemento 'atributos-screen' não encontrado para listener de clique de atributo.");
+                }
+
+                const btnSalvarAtributos = document.getElementById("btn-salvar-atributos");
+                if (btnSalvarAtributos) {
+                    btnSalvarAtributos.addEventListener("click", salvarAtributos);
+                } else {
+                    console.warn("Aviso: Botão 'btn-salvar-atributos' não encontrado.");
+                }
+
+                const btnComprarMercador = document.getElementById("btn-comprar-mercador");
+                if (btnComprarMercador) {
+                    btnComprarMercador.addEventListener("click", comprarItensMercador);
+                } else {
+                    console.warn("Aviso: Botão 'btn-comprar-mercador' não encontrado.");
+                }
+
+                // Inicializa o modo de adição de atributos
                 const attributeModeButtons = document.querySelectorAll('.attribute-mode-btn');
                 attributeModeButtons.forEach(btn => {
-                    btn.addEventListener('click', manipularBotaoAtributo); // Usa o mesmo manipulador
+                    btn.addEventListener('click', manipularBotaoAtributo);
                 });
-                // Define o modo +1 como ativo por padrão no início
                 const defaultModeButton = document.querySelector('.attribute-mode-btn[data-amount="1"]');
                 if (defaultModeButton) {
                     defaultModeButton.classList.add('active');
                 }
 
+                // Listeners de Batalha
                 document.getElementById("btn-battle-fight")?.addEventListener("click", () => {
                     if (game.batalha.emBatalha && game.batalha.turnoJogador && !game.batalha.jogadorAgiuNoTurno) {
                         mostrarHabilidadesArma();
@@ -2003,6 +2074,38 @@
                         mostrarMensagem("Não é possível fugir de um chefe!");
                     }
                 });
+
+                // --- LISTENERS PARA O CHAT DE COMANDO ---
+                const btnSendCommand = document.getElementById("btn-send-command");
+                if (btnSendCommand) {
+                    console.log("btn-send-command encontrado. Anexando listener.");
+                    btnSendCommand.addEventListener("click", () => {
+                        const commandInput = document.getElementById("chat-command-input");
+                        if (commandInput && commandInput.value) {
+                            processChatCommand(commandInput.value);
+                        }
+                    });
+                } else {
+                    console.warn("Aviso: Botão 'btn-send-command' não encontrado.");
+                }
+
+                const chatCommandInputElement = document.getElementById("chat-command-input");
+                if (chatCommandInputElement) {
+                    console.log("chat-command-input encontrado. Anexando listener de keypress.");
+                    chatCommandInputElement.addEventListener("keypress", (event) => {
+                        if (event.key === "Enter") {
+                            if (chatCommandInputElement.value) {
+                                processChatCommand(chatCommandInputElement.value);
+                                event.preventDefault(); // Prevenir comportamento padrão do Enter (ex: submeter formulário)
+                            }
+                        }
+                    });
+                } else {
+                    console.warn("Aviso: Campo 'chat-command-input' não encontrado.");
+                }
+                // --- FIM DOS LISTENERS DO CHAT DE COMANDO ---
+
+                console.log("Fim da configuração de window.onload.");
             };
 
             function atualizarMercadorVisibilidade() {
@@ -2404,7 +2507,6 @@
             function tentarFugir() {
                 if (game.batalha.monstro?.isArquiteto && game.batalha.arquitetoBattleRefused) {
                     mostrarMensagem("Contra o Arquiteto, após recusar sua oferta, apenas sua arma básica responde. Poções, habilidades e fuga são inúteis.");
-                    // Ensure main battle commands are visible if submenu was open
                     document.getElementById("battle-submenu-choices").innerHTML = "";
                     document.getElementById("battle-submenu-choices").classList.add("hidden");
                     document.getElementById("battle-main-commands").classList.remove("hidden");
@@ -2423,30 +2525,30 @@
 
                 const chanceFuga = calcularChanceFuga(game.batalha.monstro);
                 const sucesso = Math.random() < chanceFuga;
-                if (sucesso) {
-            showBattleInterface(false);
-            toggleHeaderNavButtons(false);
-            toggleChatInput(false);
-            // A mensagem principal de fuga será tratada por fugirDaMasmorra ou abrirInicio
-            game.batalha.emBatalha = false; game.monstroAtual = null;
 
-            if (game.dungeon.active) {
-                // CORREÇÃO: Chamar fugirDaMasmorra para sair da dungeon ao invés de avançar.
-                // O parâmetro 'false' indica que não foi uma fuga da "porta do chefe".
-                mostrarMensagem(`Você conseguiu fugir do <span class="font-bold text-rose-400">${game.batalha.monstro.nome}</span> e escapou d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400">${game.dungeon.name}</span>.`);
-                setTimeout(() => { // Adiciona um pequeno delay para a mensagem ser lida
-                    fugirDaMasmorra(false);
-                }, 1500);
-            } else {
-                mostrarMensagem(`Você tentou fugir e conseguiu escapar do <span class="font-bold text-rose-400">${game.batalha.monstro.nome}</span>!<br/><br/>O que deseja fazer agora?`);
-                abrirInicio(); // Se não está em dungeon, volta para o início normal
-            }
-        } else {
-            mostrarMensagem(`Você tentou fugir, mas falhou! O <span class="font-bold text-rose-400">${game.batalha.monstro.nome}</span> aproveita para atacar você!`);
-            setTimeout(() => monstroAtaca(), 1000);
-        }
-        atualizarStatusAtributos();
-            }
+                if (sucesso) {
+                    showBattleInterface(false);
+                    toggleHeaderNavButtons(false);
+                    toggleChatInput(false);
+                    game.batalha.emBatalha = false; game.monstroAtual = null;
+
+                    if (game.dungeon.active) {
+                        // Esta parte parece correta
+                        mostrarMensagem(`Você conseguiu fugir do <span class="font-bold text-rose-400">${game.batalha.monstro.nome}</span> e escapou d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400">${game.dungeon.name}</span>.`);
+                        setTimeout(() => {
+                            fugirDaMasmorra(false); // 'false' indica que não foi da porta do chefe
+                        }, 1500);
+                    } else {
+                        mostrarMensagem(`Você tentou fugir e conseguiu escapar do <span class="font-bold text-rose-400">${game.batalha.monstro.nome}</span>!<br/><br/>O que deseja fazer agora?`);
+                        abrirInicio();
+                    }
+                } else {
+                    mostrarMensagem(`Você tentou fugir, mas falhou! O <span class="font-bold text-rose-400">${game.batalha.monstro.nome}</span> aproveita para atacar você!`);
+                    setTimeout(() => monstroAtaca(), 1000);
+                }
+                atualizarStatusAtributos();
+            } arStatusAtributos();
+
             function mostrarMenuInvocarSombras() {
                 if (!game.batalha.emBatalha || !game.batalha.turnoJogador || game.batalha.jogadorAgiuNoTurno) {
                     mostrarMensagem("Não é o momento de gerenciar suas sombras.");
@@ -3975,13 +4077,16 @@
                 game.estado = "atributos";
                 atualizarRank();
                 atualizarAtributosDerivados();
-                atualizarStatusAtributos();
+                atualizarStatusAtributos(); // Atualiza os spans de status gerais, usado por várias telas
+
                 document.getElementById("game-screen")?.classList.add("hidden");
                 document.getElementById("atributos-screen")?.classList.remove("hidden");
                 document.getElementById("inventario-screen")?.classList.add("hidden");
                 document.getElementById("mercador-screen")?.classList.add("hidden");
                 document.getElementById("skills-screen")?.classList.add("hidden");
-                atualizarTelaAtributos();
+                document.getElementById("character-setup-screen")?.classList.add("hidden");
+
+                atualizarTelaAtributos(); // Popula especificamente a tela de atributos
                 updateGoogleSignInUI();
             }
 
@@ -4071,14 +4176,15 @@
                 abrirInicio();
             }
 
+            // Função original (verifique se não há alterações acidentais)
             function abrirInicio() {
-                toggleHeaderNavButtons(false);
+                toggleHeaderNavButtons(false); // ESSENCIAL: Reabilita os botões do header
                 toggleChatInput(false);
                 game.estado = "inicio";
                 game.dungeon.active = false;
                 game.dungeon.isBossRoomConfirmation = false;
                 game.batalha.isBossBattle = false;
-                if (!game.batalha.emBatalha) {
+                if (!game.batalha.emBatalha) { // Só limpa buffs se não estiver voltando de uma batalha para o menu de skills, por exemplo
                     game.player.activeBuffs = [];
                 }
 
@@ -4087,13 +4193,15 @@
                 document.getElementById("inventario-screen")?.classList.add("hidden");
                 document.getElementById("mercador-screen")?.classList.add("hidden");
                 document.getElementById("skills-screen")?.classList.add("hidden");
+                document.getElementById("character-setup-screen")?.classList.add("hidden");
+
 
                 if (game.player.metLordeDaMorte && !game.player.classe) {
-                    const mockLorde = { isLordeDaMorte: true };
-                    if (tentarDesbloquearNecromante(mockLorde)) return;
+                    const mockLorde = { isLordeDaMorte: true }; // Simula o Lorde para o desbloqueio
+                    if (tentarDesbloquearNecromante(mockLorde)) return; // Se desbloquear Necro, ele lida com a UI
                 }
                 if (!game.player.classe && atribuirClasseAleatoriaSeNecessario()) {
-                    return;
+                    return; // Se atribuir classe, ela lida com a UI
                 }
 
                 let inicioMsg = `Você está na <span class="font-bold text-sky-400">Área ${DUNGEON_CONFIG[game.player.currentArea].name}</span> do mundo de Arkham.<br/><br/>O que deseja fazer?`;
@@ -4102,7 +4210,7 @@
                 }
 
                 mostrarMensagem(inicioMsg);
-                limparEscolhas();
+                limparEscolhas(); // Limpa escolhas anteriores (como as da batalha ou de outras telas)
 
                 if (game.player.classe === "Necromante" && game.player.lastDefeatedMonsterInfo && game.player.magiasAdquiridas.includes("n_extracao_sombras")) {
                     const extracaoSkill = CLASSES_DATA.Necromante.habilidades.find(h => h.id === "n_extracao_sombras");
@@ -4120,25 +4228,39 @@
                                     rankOriginal: lastMonster.rank, rankSombra: shadowRank,
                                     statsOriginais: { vidaMax: lastMonster.vidaMax, danoFisico: lastMonster.danoFisico, danoMagico: lastMonster.danoMagico }
                                 };
-                                game.player.recipienteSombras.push(newShadow);
-                                game.player.lastDefeatedMonsterInfo = null;
-                                atualizarRecipienteSombrasTela();
-                                atualizarStatusAtributos();
-                                abrirInicio();
+
+                                if (game.player.recipienteSombras.length < game.player.recipienteCapacity) {
+                                    game.player.recipienteSombras.push(newShadow);
+                                    game.player.lastDefeatedMonsterInfo = null; // Limpa após extração bem-sucedida
+                                    atualizarRecipienteSombrasTela(); // Atualiza a UI se a tela de inventário/sombras estiver visível
+                                    mostrarMensagem(`Você extraiu a <span class="text-purple-300">${newShadow.nomeSombra}</span>! Ela foi adicionada ao seu Recipiente.<br/>Mana restante: ${game.player.manaAtual}/${game.player.manaMax}.<br/><br/>O que fazer agora?`);
+                                    // Re-apresentar escolhas sem a de extração, ou com ela desabilitada
+                                    abrirInicio(); // Chama abrirInicio de novo para reconstruir as escolhas sem a opção de extrair o mesmo monstro
+                                } else {
+                                    mostrarMensagem(`Seu Recipiente de Sombras está cheio (${game.player.recipienteSombras.length}/${game.player.recipienteCapacity}). Não foi possível extrair a sombra. Mana não gasta.`);
+                                    game.player.manaAtual += manaCost; // Devolve mana
+                                    abrirInicio(); // Reconstroi o menu
+                                }
                             } else {
                                 mostrarMensagem(`Mana insuficiente para Extração de Sombras. (${manaCost} necessário).`);
-                                adicionarEscolha("Voltar", abrirInicio);
+                                // Não precisa limpar escolhas aqui, pois o jogador não agiu. Apenas a mensagem é mostrada.
+                                // Para melhorar, poderia re-mostrar as opções de abrirInicio()
+                                abrirInicio();
                             }
-                        }, false, extracaoSkill.descricao);
+                            atualizarStatusAtributos(); // Atualiza o display de mana
+                        }, game.player.manaAtual < calcularGastoMana(extracaoSkill) || game.player.recipienteSombras.length >= game.player.recipienteCapacity, extracaoSkill.descricao);
                     }
                 }
 
                 adicionarEscolha("Explorar a área", explorarArea);
                 adicionarEscolha(`Entrar na Masmorra (${DUNGEON_CONFIG[game.player.currentArea].name})`, () => entrarMasmorra(game.player.currentArea));
-                adicionarEscolha("Ver atributos", abrirAtributos);
-                adicionarEscolha("Abrir habilidades", abrirSkills);
-                adicionarEscolha("Abrir inventário", abrirInventario);
-                if (game.player.nivel >= 10) adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+                // As escolhas abaixo são para navegação, não ações que consomem turno ou estado crítico
+                adicionarEscolha("Ver atributos", abrirAtributos, game.batalha.emBatalha);
+                adicionarEscolha("Abrir habilidades", abrirSkills, game.batalha.emBatalha);
+                adicionarEscolha("Abrir inventário", abrirInventario, game.batalha.emBatalha);
+                if (game.player.nivel >= 10) {
+                    adicionarEscolha("Mudar de Área", abrirTelaMudarArea, game.batalha.emBatalha);
+                }
 
                 updateGoogleSignInUI();
                 atualizarStatusAtributos();
@@ -4146,13 +4268,17 @@
 
             function abrirInventario() {
                 game.estado = "inventario";
+                // Não precisa de atualizarRank ou atributosDerivados aqui, a menos que o inventário precise
+
                 document.getElementById("game-screen")?.classList.add("hidden");
                 document.getElementById("atributos-screen")?.classList.add("hidden");
                 document.getElementById("inventario-screen")?.classList.remove("hidden");
                 document.getElementById("mercador-screen")?.classList.add("hidden");
                 document.getElementById("skills-screen")?.classList.add("hidden");
-                atualizarInventarioTela();
-                atualizarRecipienteSombrasTela();
+                document.getElementById("character-setup-screen")?.classList.add("hidden");
+
+                atualizarInventarioTela(); // Popula a lista de itens e equipamentos
+                atualizarRecipienteSombrasTela(); // Popula a lista de sombras
                 updateGoogleSignInUI();
             }
 
@@ -4589,12 +4715,16 @@
 
             function abrirSkills() {
                 game.estado = "skills";
+                // Não precisa de atualizarRank ou atributosDerivados aqui, a menos que skills dependam disso diretamente para exibição
+
                 document.getElementById("game-screen")?.classList.add("hidden");
                 document.getElementById("atributos-screen")?.classList.add("hidden");
                 document.getElementById("inventario-screen")?.classList.add("hidden");
                 document.getElementById("mercador-screen")?.classList.add("hidden");
                 document.getElementById("skills-screen")?.classList.remove("hidden");
-                atualizarSkillsTela();
+                document.getElementById("character-setup-screen")?.classList.add("hidden");
+
+                atualizarSkillsTela(); // Popula a tela de skills
                 updateGoogleSignInUI();
             }
 
@@ -4866,7 +4996,7 @@
                 let msg = playerInitiatedAtBossDoor ?
                     `Você decidiu recuar d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400">${game.dungeon.name}</span> antes de enfrentar o chefe. A prudência é uma virtude.` :
                     `Você fugiu da batalha e, consequentemente, d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400">${game.dungeon.name}</span>.`;
-                msg += `<br/><br/><span class="font-semibold text-white">Você retornou à entrada da Área ${game.player.currentArea}.</span>`; // More explicit message
+                msg += `<br/><br/><span class="font-semibold text-white">Você retornou à entrada da Área ${game.player.currentArea}.</span>`;
 
                 game.dungeon.active = false;
                 game.estado = "inicio";
@@ -4877,7 +5007,7 @@
                 if (game.player.sombraAtiva) game.player.sombraAtiva = null;
 
                 mostrarMensagem(msg);
-                abrirInicio(); // This will present the main screen choices
+                abrirInicio(); // Isto deve limpar a tela e mostrar as opções da área
                 atualizarStatusAtributos();
                 updateGoogleSignInUI();
             }

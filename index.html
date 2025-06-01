@@ -1417,15 +1417,43 @@
 
             const SLOT_EQUIPAVEL = ["Capacete", "Peitoral", "Calça", "Botas", "Arma", "Escudo", "Anel", "Colar"];
             const SUBTIPOS_ARMA = Object.keys(TIPOS_DE_ARMAS).filter(tipo => tipo !== "Nenhuma");
-
+            const ATOMIC_WEAPON_DATA = TIPOS_DE_ARMAS["Atomic"];
 
             function gerarItem(rank) {
                 const tipoBase = Math.random() < 0.8 ? randomChoice(SLOT_EQUIPAVEL) : "Poção";
                 let tipoFinal = tipoBase;
                 let subTipoArma = null;
+                if (!allowAtomic && rank === "SSS" && Math.random() < 0.5) {
+                    if (rank === "SSS") {
+                        rank = randomChoice(["SS", "S", "A"]); // Degrade rank if it's not allowed to be Atomic SSS
+                    }
+                }
+                if (allowAtomic && rank === "SSS" && subTipoArma === "Atomic") {
+                    return {
+                        id: crypto.randomUUID(), // New ID for each instance
+                        nome: "Atomic",
+                        tipo: "Arma",
+                        subTipoArma: "Atomic",
+                        rank: "SSS",
+                        efeitos: {
+                            forca: 1000,
+                            agilidade: 1000,
+                            inteligencia: 1000,
+                            resistencia: 1000,
+                            vitalidade: 1000,
+                            percepcao: 1000,
+                            refinoMagico: 1000 // Very high, effectively 1000% mana cost reduction
+                        },
+                        preco: 99999999999, // Extremely high price
+                        isPotion: false,
+                        isUnique: true // Mark it as unique
+                    };
+                }
 
                 if (tipoBase === "Arma") {
-                    subTipoArma = randomChoice(SUBTIPOS_ARMA);
+                    // Filter out "Atomic" from normal weapon generation if not allowed
+                    const availableSubtypes = allowAtomic ? SUBTIPOS_ARMA : SUBTIPOS_ARMA.filter(s => s !== "Atomic");
+                    subTipoArma = randomChoice(availableSubtypes);
                 }
                 if (tipoBase === "Poção") {
                     const tipoPocao = Math.random() < 0.5 ? "drop" : "compra";
@@ -3369,7 +3397,7 @@
                 submenu.innerHTML = "";
 
                 pocaoItens.forEach(pocaoStack => {
-                    adicionarEscolha(`<span class="math-inline">\{pocaoStack\.nome\} \(x</span>{pocaoStack.quantity})`, () => {
+                    adicionarEscolha(`${pocaoStack.nome} (x${pocaoStack.quantity})`, () => {
                         usarPocao(pocaoStack);
                         document.getElementById("battle-submenu-choices").innerHTML = "";
                         document.getElementById("battle-submenu-choices").classList.add("hidden");
@@ -3831,6 +3859,9 @@
                 if (game.player.sombraAtiva) game.player.sombraAtiva = null; // Sombra always dissipates after any battle for now
 
                 let xpGanhoBase = monstro.xpGanho;
+                if (monstro.isBoss) {
+                    xpGanhoBase *= 2;
+                }
                 let xpFinal = Math.floor(xpGanhoBase * (1 + game.player.xpBonus));
                 // --- Marcado XP Benefit ---
                 if (game.player.isMarcado) {
@@ -3870,6 +3901,14 @@
                         const rankIndexMonstroBase = rankToIndex(monstro.rank);
                         for (let i = 0; i < numeroDeItensADropar; i++) {
                             let itemRankForDropIndex = rankIndexMonstroBase;
+                            let allowAtomicDrop = false;
+
+                            // Allow Atomic drop only from SSS bosses or Monarchs
+                            if (monstro.isBoss && (monstro.rank === "SSS" || monstro.isMonarchBoss) && Math.random() < 0.1) { // 10% chance for Atomic from SSS/Monarch
+                                allowAtomicDrop = true;
+                            }
+
+                            // Existing logic for item rank generation based on monster rank
                             if (!monstro.isBoss) {
                                 const roll = Math.random();
                                 if (roll < 0.15) itemRankForDropIndex = Math.min(RANKS.length - 1, rankIndexMonstroBase + 1);
@@ -3881,9 +3920,16 @@
                                 else if (bossItemRoll < 0.40 && rankIndexMonstroBase < RANKS.length - 1) itemRankForDropIndex = rankIndexMonstroBase + 1;
                                 itemRankForDropIndex = clamp(itemRankForDropIndex, 0, RANKS.length - 1);
                             }
+
                             const rankItem = indexToRank(itemRankForDropIndex);
-                            const itemGerado = gerarItem(rankItem);
+                            const itemGerado = gerarItem(rankItem, allowAtomicDrop); // Pass allowAtomic to gerarItem
                             if (itemGerado) {
+                                // Check if the item is already unique and player already has it
+                                if (itemGerado.isUnique && game.player.inventario.some(i => i.id === itemGerado.id)) {
+                                    // Player already has this unique item, don't add it again.
+                                    continue; // Skip to next item generation
+                                }
+
                                 addItemToInventory(itemGerado);
                                 itensDropadosParaMensagem.push(`${itemGerado.nome} (Rank ${itemGerado.rank})`);
                             }
@@ -3898,7 +3944,7 @@
                     game.player.pontosDistribuir += 5;
                     for (const attr in game.player.atributos) { game.player.atributos[attr] = +(game.player.atributos[attr] + 1).toFixed(1); }
                     levelUpMessages.push(`Você subiu para o nível <span class="font-bold text-emerald-400">${game.player.nivel}</span>, ganhou 5 pontos para distribuir e +1 em todos os atributos!`);
-                    game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.30);
+                    game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.10);
                     atualizarMercadorVisibilidade();
                     atualizarRank();
                     const novasSkillsMsgsNotificacao = verificarDesbloqueioHabilidadesClasse();
@@ -5057,7 +5103,7 @@
                     return;
                 }
 
-                let bossIntroMsg = `Você entra na câmara final d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400"><span class="math-inline">\{game\.dungeon\.name\}</span\>\. O ar está pesado\. <br/\>O chefe da masmorra, <span class\="font\-bold text\-rose\-500"\></span>{boss.nome}</span> (Rank ${boss.rank}), encara você!`;
+                let bossIntroMsg = `Você entra na câmara final d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400">${game.dungeon.name}</span>. O ar está pesado. <br/>O chefe da masmorra, <span class="font-bold text-rose-500">${boss.nome}</span> (Rank ${boss.rank}), encara você!`;
                 if (boss.isLordeDaMorte) {
                     bossIntroMsg = `Você adentra a câmara final... e o ar congela. Das sombras profundas ergue-se o temível <span class="font-bold text-purple-400">${boss.nome}</span> (Rank ${boss.rank})!<br/>Seu olhar promete uma eternidade de servidão... ou uma morte rápida.`;
                 }
@@ -5110,7 +5156,7 @@
                     game.player.pontosDistribuir += 5;
                     for (const attr in game.player.atributos) { game.player.atributos[attr] = +(game.player.atributos[attr] + 1).toFixed(1); }
                     postDungeonLevelUpMessages.push(`UAU! O XP bônus fez você subir para o nível <span class="font-bold text-emerald-400">${game.player.nivel}</span>! Ganhou +5 pontos de atributo e +1 em todos os atributos!`);
-                    game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.30);
+                    game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.10);
                     atualizarRank();
                     const novasSkillsMsgs = verificarDesbloqueioHabilidadesClasse();
                     postDungeonLevelUpMessages = postDungeonLevelUpMessages.concat(novasSkillsMsgs);
@@ -5174,7 +5220,7 @@
                         for (const attr in game.player.atributos) {
                             game.player.atributos[attr] = +(game.player.atributos[attr] + 1).toFixed(1);
                         }
-                        game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.30);
+                        game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.10);
                     }
                     feedbackAlert = `Comando Divino: Você avançou ${levelsToAdd} níveis! Agora você está no Nível ${game.player.nivel}!`;
 
@@ -5293,7 +5339,7 @@
                         game.player.xp -= game.player.xpProximoNivel; game.player.nivel++; game.player.pontosDistribuir += 5;
                         for (const attr_key in game.player.atributos) game.player.atributos[attr_key] = +(game.player.atributos[attr_key] + 1).toFixed(1);
                         cheatLevelUpMessages.push(`Nível ${game.player.nivel}!`);
-                        game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.30);
+                        game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.10);
                         atualizarRank();
                         const skillUnlocks = verificarDesbloqueioHabilidadesClasse();
                         cheatLevelUpMessages = cheatLevelUpMessages.concat(skillUnlocks.map(s => s.replace(/<[^>]*>/g, "")));

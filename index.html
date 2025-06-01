@@ -1281,20 +1281,9 @@
 
 
             function gerarMonstro(rank, isLordeDaMorte = false) {
-                // Definições de dificuldade customizadas para monstros de masmorra
-                const customMonsterStats = {
-                    "E": { vida: 180, dano: 30 },
-                    "D": { vida: 250, dano: 40 },
-                    "C": { vida: 300, dano: 50 },
-                    "B": { vida: 550, dano: 70 },
-                    "A": { vida: 800, dano: 87 },
-                    "S": { vida: 1200, dano: 100 },
-                    "SS": { vida: 1600, dano: 300 }, // Adicionado para masmorras de rank A e S
-                    "SSS": { vida: 2400, dano: 400 } // Adicionado para masmorras de rank S
-                };
+                const customMonsterStats = { /* ... seu objeto customMonsterStats ... */ };
 
                 if (isLordeDaMorte) {
-                    // Lógica para o Lorde da Morte permanece inalterada
                     return {
                         nome: "Lorde da Morte", rank: "S", vidaMax: 4000, vidaAtual: 4000,
                         danoFisico: 200, danoMagico: 150, xpGanho: 5000, fugaPct: 0,
@@ -1302,34 +1291,60 @@
                     };
                 }
 
+                // ---> INÍCIO DA MODIFICAÇÃO PARA ÁREA E (EXPLORAR) <---
+                // Verifica se estamos explorando (estado 'inicio'), na área 'E', o rank solicitado é 'E',
+                // não é o Lorde da Morte e não estamos ativos em uma dungeon.
+                if (game.estado === "inicio" &&
+                    game.player.currentArea === "E" &&
+                    rank === "E" &&
+                    !game.dungeon.active) { // Adicionado !game.dungeon.active para garantir que é exploração normal
+
+                    const nomesAreaE = MONSTRO_NOMES["E"] || ["Criatura Frágil da Área E"];
+                    const nomeMonstroEspecial = randomChoice(nomesAreaE);
+                    console.log(`Gerando monstro especial para Área E (Explorar): ${nomeMonstroEspecial}`);
+                    return {
+                        nome: `${nomeMonstroEspecial} (Exploração)`, // Nomeia para diferenciar
+                        rank: "E",
+                        vidaMax: 120,
+                        vidaAtual: 120,
+                        danoFisico: 15,
+                        danoMagico: Math.floor(15 * 0.3), // Ex: 30% do dano físico como mágico
+                        xpGanho: Math.floor(BASE_STATS.xpRankE * 1.1) || 11, // XP um pouco ajustado
+                        fugaPct: 0.67, // Fuga padrão para Rank E normal
+                        isBoss: false,
+                        isLordeDaMorte: false
+                        // Adicione portraitURL se desejar um específico para estes
+                    };
+                }
+                // ---> FIM DA MODIFICAÇÃO PARA ÁREA E (EXPLORAR) <---
+
                 const rankIndex = rankToIndex(rank);
-                // Fallback para nome do monstro caso o rank não exista em MONSTRO_NOMES
                 const nomesDisponiveis = MONSTRO_NOMES[rank] || [`Monstro Desconhecido Rank ${rank}`];
-                const nome = randomChoice(nomesDisponiveis);
+                const nomeMonstro = randomChoice(nomesDisponiveis);
 
-                let vidaBase = 0;
-                let danoBase = 0;
+                let vidaBase, danoBase;
 
-                // Usar os stats customizados se existirem para o rank
-                if (customMonsterStats[rank]) {
+                // Aplica stats customizados APENAS SE estiver DENTRO de uma dungeon.
+                // Monstros de exploração normal usarão o cálculo padrão.
+                if (game.dungeon.active && customMonsterStats[rank]) {
+                    console.log(`Usando customMonsterStats para ${rank} dentro da dungeon.`);
                     vidaBase = customMonsterStats[rank].vida;
                     danoBase = customMonsterStats[rank].dano;
                 } else {
-                    // Fallback para o cálculo original se o rank não estiver nos customMonsterStats
+                    console.log(`Calculando stats padrão para ${rank} (exploração ou sem custom).`);
                     vidaBase = Math.floor(50 * Math.pow(1.9, rankIndex) + randomInt(0, 20 * Math.pow(1.6, rankIndex)));
-                    const baseDanoFisicoRankE = 8;
+                    const baseDanoFisicoRankE = 8; // Mantenha sua base original para outros ranks
                     danoBase = Math.floor(baseDanoFisicoRankE * Math.pow(1.85, rankIndex));
                 }
 
-                const vidaMax = vidaBase + randomInt(0, Math.floor(vidaBase * 0.15)); // Pequena variação na vida
-                const danoFisico = danoBase + randomInt(0, Math.floor(danoBase * 0.1)); // Pequena variação no dano
-                const danoMagico = Math.max(0, Math.floor(danoFisico * 0.5)); // Dano mágico é 50% do físico, com mínimo de 0
+                const vidaMax = vidaBase + randomInt(0, Math.floor(vidaBase * 0.15));
+                const danoFisico = danoBase + randomInt(0, Math.floor(danoBase * 0.1));
+                const danoMagico = Math.max(0, Math.floor(danoFisico * 0.5));
+                const baseXpRankE = 10; // Sua base de XP para rank E
+                const xpGanho = (rank === "E" && !game.dungeon.active) ? 10 : Math.floor(baseXpRankE * Math.pow(2.3, rankIndex)); // XP normal para E em exploração ou cálculo para outros
+                const fugaPctMonstro = clamp(0.67 - 0.07 * rankIndex, 0.05, 0.67);
 
-                const baseXpRankE = 10;
-                const xpGanho = (rank === "E") ? baseXpRankE : Math.floor(baseXpRankE * Math.pow(2.3, rankIndex));
-                const fugaPct = clamp(0.67 - 0.07 * rankIndex, 0.05, 0.67);
-
-                return { nome, rank, vidaMax, vidaAtual: vidaMax, danoFisico, danoMagico, xpGanho, fugaPct, isBoss: false, isLordeDaMorte: false };
+                return { nome: nomeMonstro, rank, vidaMax, vidaAtual: vidaMax, danoFisico, danoMagico, xpGanho, fugaPct: fugaPctMonstro, isBoss: false, isLordeDaMorte: false };
             }
 
             function gerarMonstroMasmorra(monsterRank) {
@@ -1935,108 +1950,131 @@
             }
 
             function iniciarJogo(forceReset = false) {
+                let gameJustLoadedFromGoogle = false;
+
                 if (forceReset) {
                     game.player = createNewPlayerState();
                     game.dungeon = { active: false, name: "", typeRank: "E", totalRooms: 0, currentRoom: 0, monsterRankForRooms: "D", bossRankForDungeon: "C", bossDefeated: false, isBossRoomConfirmation: false };
-                    game.batalha = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, jogadorAgiuNoTurno: false, };
-                    game.estado = "inicio"; game.monstroAtual = null;
-                } else if (!isGoogleSignedIn || !loadGameFromGoogle()) {
-                    game.player = createNewPlayerState();
-                    game.dungeon = { active: false, name: "", typeRank: "E", totalRooms: 0, currentRoom: 0, monsterRankForRooms: "D", bossRankForDungeon: "C", bossDefeated: false, isBossRoomConfirmation: false };
-                    game.batalha = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, jogadorAgiuNoTurno: false, };
-                    game.estado = "inicio"; game.monstroAtual = null;
+                    game.batalha = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, isDesafioClasse: false, skillEmDesafioId: null, desafioBossOriginalStats: null, tipoDesafioLorde: null, jogadorAgiuNoTurno: false };
+                    game.estado = "characterSetup";
+                    game.monstroAtual = null;
+                    if (isGoogleSignedIn && googleDecodedCredential) {
+                        deleteSavedGameForGoogleUser();
+                    }
+                } else {
+                    if (isGoogleSignedIn && googleDecodedCredential) {
+                        if (loadGameFromGoogle()) {
+                            gameJustLoadedFromGoogle = true;
+                        } else {
+                            game.player = createNewPlayerState();
+                            game.estado = "characterSetup";
+                        }
+                    } else {
+                        game.player = createNewPlayerState();
+                        game.estado = "characterSetup";
+                    }
                 }
 
-                toggleHeaderNavButtons(false);
-                toggleChatInput(false);
                 atualizarAtributosDerivados();
                 atualizarRank();
                 atualizarStatusAtributos();
                 atualizarMercadorVisibilidade();
                 atualizarRecipienteSombrasTela();
-
-                if (!atribuirClasseAleatoriaSeNecessario() && game.estado !== "necromancerUnlock" && game.estado !== "classeAtribuida") {
-                    abrirInicio();
-                }
                 updateGoogleSignInUI();
+
+                if (game.estado === "characterSetup") {
+                    document.getElementById('main-content')?.classList.add('hidden');
+                    document.getElementById('game-screen')?.classList.add('hidden');
+                    document.getElementById('atributos-screen')?.classList.add('hidden');
+                    document.getElementById('inventario-screen')?.classList.add('hidden');
+                    document.getElementById('skills-screen')?.classList.add('hidden');
+                    document.getElementById('mercador-screen')?.classList.add('hidden');
+                    const charSetupScreen = document.getElementById('character-setup-screen');
+                    if (charSetupScreen) {
+                        charSetupScreen.classList.remove('hidden');
+                        const playerNameInput = document.getElementById('player-name-input');
+                        if (playerNameInput) playerNameInput.value = game.player.nome;
+                    }
+                    toggleHeaderNavButtons(true); // Desabilita nav principal durante o setup
+                    toggleChatInput(true);
+                } else if (!gameJustLoadedFromGoogle) {
+                    // Se não acabou de carregar do Google e não está no setup, continua o fluxo normal
+                    toggleHeaderNavButtons(false);
+                    toggleChatInput(false);
+                    if (!atribuirClasseAleatoriaSeNecessario() && game.estado !== "necromancerUnlock" && game.estado !== "classeAtribuida") {
+                        abrirInicio();
+                    }
+                } else {
+                    // Se carregou do Google, abrirInicio() já foi chamado por loadGameFromGoogle()
+                    // Apenas garante que os botões estejam no estado correto
+                    toggleHeaderNavButtons(false);
+                    toggleChatInput(false);
+                }
             }
 
             window.onload = () => {
-                console.log("window.onload disparado."); // Log para confirmar que onload iniciou
+                console.log("window.onload disparado.");
 
                 initializeGoogleSignInRelatedElements();
-                iniciarJogo();
+                iniciarJogo(); // iniciarJogo agora pode mostrar a tela de setup
 
                 // --- BOTÕES DE NAVEGAÇÃO SUPERIOR ---
                 const btnInicio = document.getElementById("btn-inicio");
                 if (btnInicio) {
-                    console.log("btn-inicio encontrado. Anexando listener.");
                     btnInicio.addEventListener("click", abrirInicio);
                 } else {
                     console.error("ERRO FATAL: Botão 'btn-inicio' não encontrado no HTML!");
                 }
-
                 const btnAtributos = document.getElementById("btn-atributos");
                 if (btnAtributos) {
-                    console.log("btn-atributos encontrado. Anexando listener.");
                     btnAtributos.addEventListener("click", abrirAtributos);
                 } else {
                     console.error("ERRO FATAL: Botão 'btn-atributos' não encontrado no HTML!");
                 }
-
                 const btnSkills = document.getElementById("btn-skills");
                 if (btnSkills) {
-                    console.log("btn-skills encontrado. Anexando listener.");
                     btnSkills.addEventListener("click", abrirSkills);
                 } else {
                     console.error("ERRO FATAL: Botão 'btn-skills' não encontrado no HTML!");
                 }
-
                 const btnInventario = document.getElementById("btn-inventario");
                 if (btnInventario) {
-                    console.log("btn-inventario encontrado. Anexando listener.");
                     btnInventario.addEventListener("click", abrirInventario);
                 } else {
                     console.error("ERRO FATAL: Botão 'btn-inventario' não encontrado no HTML!");
                 }
-
                 const btnMercador = document.getElementById("btn-mercador");
                 if (btnMercador) {
-                    console.log("btn-mercador encontrado. Anexando listener.");
                     btnMercador.addEventListener("click", abrirMercador);
-                } else {
-                    console.warn("Aviso: Botão 'btn-mercador' não encontrado (pode ser normal se estiver oculto por padrão).");
-                }
-
+                } // Oculto por padrão, não precisa de erro fatal se não encontrado inicialmente.
                 const btnSair = document.getElementById("btn-sair");
                 if (btnSair) {
-                    console.log("btn-sair encontrado. Anexando listener.");
                     btnSair.addEventListener("click", sairJogo);
                 } else {
                     console.error("ERRO FATAL: Botão 'btn-sair' não encontrado no HTML!");
                 }
-                // --- FIM DOS BOTÕES DE NAVEGAÇÃO SUPERIOR ---
+
+                // --- LISTENER PARA SETUP DO PERSONAGEM ---
+                const btnSaveCharSetup = document.getElementById("btn-save-character-setup");
+                if (btnSaveCharSetup) {
+                    console.log("btn-save-character-setup encontrado. Anexando listener.");
+                    btnSaveCharSetup.addEventListener("click", salvarSetupPersonagem);
+                } else {
+                    console.warn("Aviso: Botão 'btn-save-character-setup' não encontrado (pode ser um problema se a tela de setup for usada).");
+                }
 
                 // Listeners para elementos internos de telas específicas
                 const atributosScreenElement = document.getElementById("atributos-screen");
                 if (atributosScreenElement) {
                     atributosScreenElement.addEventListener("click", manipularBotaoAtributo);
-                } else {
-                    console.warn("Aviso: Elemento 'atributos-screen' não encontrado para listener de clique de atributo.");
                 }
-
                 const btnSalvarAtributos = document.getElementById("btn-salvar-atributos");
                 if (btnSalvarAtributos) {
                     btnSalvarAtributos.addEventListener("click", salvarAtributos);
-                } else {
-                    console.warn("Aviso: Botão 'btn-salvar-atributos' não encontrado.");
                 }
-
                 const btnComprarMercador = document.getElementById("btn-comprar-mercador");
                 if (btnComprarMercador) {
                     btnComprarMercador.addEventListener("click", comprarItensMercador);
-                } else {
-                    console.warn("Aviso: Botão 'btn-comprar-mercador' não encontrado.");
                 }
 
                 // Inicializa o modo de adição de atributos
@@ -2078,33 +2116,24 @@
                 // --- LISTENERS PARA O CHAT DE COMANDO ---
                 const btnSendCommand = document.getElementById("btn-send-command");
                 if (btnSendCommand) {
-                    console.log("btn-send-command encontrado. Anexando listener.");
                     btnSendCommand.addEventListener("click", () => {
                         const commandInput = document.getElementById("chat-command-input");
                         if (commandInput && commandInput.value) {
                             processChatCommand(commandInput.value);
                         }
                     });
-                } else {
-                    console.warn("Aviso: Botão 'btn-send-command' não encontrado.");
                 }
-
                 const chatCommandInputElement = document.getElementById("chat-command-input");
                 if (chatCommandInputElement) {
-                    console.log("chat-command-input encontrado. Anexando listener de keypress.");
                     chatCommandInputElement.addEventListener("keypress", (event) => {
                         if (event.key === "Enter") {
                             if (chatCommandInputElement.value) {
                                 processChatCommand(chatCommandInputElement.value);
-                                event.preventDefault(); // Prevenir comportamento padrão do Enter (ex: submeter formulário)
+                                event.preventDefault();
                             }
                         }
                     });
-                } else {
-                    console.warn("Aviso: Campo 'chat-command-input' não encontrado.");
                 }
-                // --- FIM DOS LISTENERS DO CHAT DE COMANDO ---
-
                 console.log("Fim da configuração de window.onload.");
             };
 
@@ -2116,6 +2145,29 @@
                 } else {
                     mercadorBtn.classList.add("hidden");
                 }
+            }
+            function salvarSetupPersonagem() {
+                const playerNameInput = document.getElementById("player-name-input");
+                const playerPortraitInput = document.getElementById("player-portrait-input");
+
+                const playerName = playerNameInput ? playerNameInput.value.trim() : "Herói";
+                const playerPortrait = playerPortraitInput ? playerPortraitInput.value.trim() : "";
+
+                game.player.nome = playerName || "Herói";
+                game.player.portraitURL = playerPortrait || "https://via.placeholder.com/48?text=P";
+
+                const playerBattlePortrait = document.getElementById("player-battle-portrait");
+                if (playerBattlePortrait) playerBattlePortrait.src = game.player.portraitURL;
+
+                document.getElementById("character-setup-screen")?.classList.add("hidden");
+                document.getElementById("main-content")?.classList.remove("hidden");
+                game.estado = "inicio"; // Define o estado para o início do jogo
+
+                if (isGoogleSignedIn && googleDecodedCredential) {
+                    saveGameToGoogle();
+                }
+
+                abrirInicio();
             }
 
             function explorarArea() {
@@ -4729,195 +4781,195 @@
             }
 
             function atualizarSkillsTela() {
-    const lista = document.getElementById("lista-skills");
-    const classeInfoDiv = document.getElementById("classe-info-skills");
-    if (!lista || !classeInfoDiv) {
-        console.error("ERRO: Elementos da tela de skills não encontrados ('lista-skills' ou 'classe-info-skills').");
-        return;
-    }
-    lista.innerHTML = "";
-    classeInfoDiv.innerHTML = "";
+                const lista = document.getElementById("lista-skills");
+                const classeInfoDiv = document.getElementById("classe-info-skills");
+                if (!lista || !classeInfoDiv) {
+                    console.error("ERRO: Elementos da tela de skills não encontrados ('lista-skills' ou 'classe-info-skills').");
+                    return;
+                }
+                lista.innerHTML = "";
+                classeInfoDiv.innerHTML = "";
 
-    let currentClassName = game.player.classe;
-    let currentClassDesc = "Nenhuma classe foi definida ainda.";
-    let classTitleColor = "text-amber-400"; // Cor padrão se não houver classe
+                let currentClassName = game.player.classe;
+                let currentClassDesc = "Nenhuma classe foi definida ainda.";
+                let classTitleColor = "text-amber-400"; // Cor padrão se não houver classe
 
-    if (game.player.classe) {
-        const baseClassData = CLASSES_DATA[game.player.classe];
-        if (game.player.classe === "Necromante" && game.player.isMarcado) {
-            currentClassName = "Monarca das Sombras";
-            currentClassDesc = "Aquele que ascendeu além da morte, comandando as próprias sombras da existência.";
-            classTitleColor = "text-purple-300"; // Cor especial para Monarca
-        } else if (baseClassData) {
-            currentClassName = baseClassData.nomeDisplay;
-            currentClassDesc = baseClassData.descricao;
-            // Define uma cor padrão ou específica para outras classes se desejar, aqui usando uma genérica
-            classTitleColor = "text-sky-300"; 
-        }
-    } else {
-        // Se não tem classe, a descrição é um guia
-        currentClassDesc = `<p class="text-sm text-slate-400">Alcance Nível 10 e Rank D para que seu destino revele sua classe (aleatoriamente), ou derrote o Lorde da Morte para um caminho mais sombrio. Torne-se Marcado para desbloquear evoluções.</p>`;
-    }
+                if (game.player.classe) {
+                    const baseClassData = CLASSES_DATA[game.player.classe];
+                    if (game.player.classe === "Necromante" && game.player.isMarcado) {
+                        currentClassName = "Monarca das Sombras";
+                        currentClassDesc = "Aquele que ascendeu além da morte, comandando as próprias sombras da existência.";
+                        classTitleColor = "text-purple-300"; // Cor especial para Monarca
+                    } else if (baseClassData) {
+                        currentClassName = baseClassData.nomeDisplay;
+                        currentClassDesc = baseClassData.descricao;
+                        // Define uma cor padrão ou específica para outras classes se desejar, aqui usando uma genérica
+                        classTitleColor = "text-sky-300";
+                    }
+                } else {
+                    // Se não tem classe, a descrição é um guia
+                    currentClassDesc = `<p class="text-sm text-slate-400">Alcance Nível 10 e Rank D para que seu destino revele sua classe (aleatoriamente), ou derrote o Lorde da Morte para um caminho mais sombrio. Torne-se Marcado para desbloquear evoluções.</p>`;
+                }
 
-    // CORREÇÃO APLICADA AQUI: Uso correto de template literals
-    classeInfoDiv.innerHTML = `
+                // CORREÇÃO APLICADA AQUI: Uso correto de template literals
+                classeInfoDiv.innerHTML = `
         <p class="text-xl ${classTitleColor} font-semibold">Classe: ${currentClassName || "Nenhuma"}</p>
         <p class="text-sm text-slate-300">${currentClassDesc}</p>
     `;
 
-    if (!game.player.classe) {
-        lista.innerHTML = `<p class="text-slate-400 italic">Nenhuma habilidade disponível sem uma classe.</p>`;
-        return;
-    }
-
-    const actualClassData = CLASSES_DATA[game.player.classe];
-    if (!actualClassData || !actualClassData.habilidades || actualClassData.habilidades.length === 0) {
-        lista.innerHTML = `<p class="text-slate-400 italic">Esta classe não possui habilidades definidas.</p>`;
-        return;
-    }
-
-    let algumaSkillVisivel = false;
-
-    actualClassData.habilidades.forEach(skill => {
-        const isMonarcaSkill = !!skill.monarcaOnly;
-        if (isMonarcaSkill && !(game.player.classe === "Necromante" && game.player.isMarcado)) {
-            return; // Pula habilidades de Monarca se o jogador não for um
-        }
-
-        algumaSkillVisivel = true;
-        const isAcquired = game.player.magiasAdquiridas.includes(skill.id);
-        const div = document.createElement("div");
-        let divClasses = "bg-slate-600 rounded p-3 flex flex-col sm:flex-row sm:justify-between sm:items-start";
-
-        const playerLevelOk = game.player.nivel >= skill.unlockLevel;
-        let isEffectivelyLocked = false;
-        let lockReason = "";
-
-        if (!isAcquired) {
-            if (isMonarcaSkill) {
-                 // Habilidades de Monarca são desbloqueadas ao se tornar um, mas ainda podem ter um nível simbólico.
-                if (!playerLevelOk) {
-                    isEffectivelyLocked = true;
-                    lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel} de Monarca)`;
-                } else {
-                    lockReason = `(Disponível para aprender - Nv. ${skill.unlockLevel})`;
+                if (!game.player.classe) {
+                    lista.innerHTML = `<p class="text-slate-400 italic">Nenhuma habilidade disponível sem uma classe.</p>`;
+                    return;
                 }
-            } else if (game.player.classe === "Necromante" && (skill.id === "n_extracao_sombras" || skill.id === "n_invocar_sombra")) {
-                if (!game.player.metLordeDaMorte) { isEffectivelyLocked = true; lockReason = "(Bloqueada - Derrote o Lorde da Morte)"; }
-                else if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`; }
-                else { lockReason = `(Disponível para aprender - Nv. ${skill.unlockLevel})`; }
-            } else if (skill.requerDesafio) {
-                if (game.player.classe === "Necromante" && (skill.id === "n_dominio_sombras" || skill.id === "n_exercito_sombras")) {
-                    if (!game.player.metLordeDaMorte) { isEffectivelyLocked = true; lockReason = "(Bloqueada - Derrote o Lorde da Morte p/ desafio)"; }
-                    else if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel} p/ desafio)`; }
-                    else { lockReason = `(Desafio Disponível - Nv. ${skill.unlockLevel})`; }
-                } else { // Desafios de outras classes
-                    if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`; }
-                    else { lockReason = `(Desafio Disponível - Nv. ${skill.unlockLevel})`; }
+
+                const actualClassData = CLASSES_DATA[game.player.classe];
+                if (!actualClassData || !actualClassData.habilidades || actualClassData.habilidades.length === 0) {
+                    lista.innerHTML = `<p class="text-slate-400 italic">Esta classe não possui habilidades definidas.</p>`;
+                    return;
                 }
-            } else if (!playerLevelOk) { // Habilidades normais bloqueadas por nível
-                isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`;
-            } else { // Habilidades normais disponíveis para aprender
-                lockReason = `(Disponível para aprender - Nv. ${skill.unlockLevel})`;
-            }
-        }
 
-        if (isEffectivelyLocked && !isAcquired) { // Adiciona opacidade apenas se estiver bloqueada E não adquirida
-             divClasses += ' opacity-60';
-        }
-        div.className = divClasses;
+                let algumaSkillVisivel = false;
 
-        const infoDiv = document.createElement("div");
-        infoDiv.className = "flex flex-col flex-grow mb-2 sm:mb-0";
+                actualClassData.habilidades.forEach(skill => {
+                    const isMonarcaSkill = !!skill.monarcaOnly;
+                    if (isMonarcaSkill && !(game.player.classe === "Necromante" && game.player.isMarcado)) {
+                        return; // Pula habilidades de Monarca se o jogador não for um
+                    }
 
-        const nomeSpan = document.createElement("span");
-        let skillDisplayName = skill.nome;
-        let skillTitleColorClassName = "text-sky-400"; // Cor padrão para nomes de skill
-        if (game.player.classe === "Necromante" && game.player.isMarcado && isMonarcaSkill) {
-            skillDisplayName = skillDisplayName.replace("[Monarca] ", ""); // Limpa para exibição
-            skillTitleColorClassName = "text-purple-300"; // Cor para Monarca
-        } else if (game.player.classe === "Necromante") {
-            skillTitleColorClassName = "text-purple-400"; // Cor para Necromante base
-        }
-        // Outras classes podem ter cores específicas se desejar
+                    algumaSkillVisivel = true;
+                    const isAcquired = game.player.magiasAdquiridas.includes(skill.id);
+                    const div = document.createElement("div");
+                    let divClasses = "bg-slate-600 rounded p-3 flex flex-col sm:flex-row sm:justify-between sm:items-start";
 
-        nomeSpan.className = `font-semibold text-lg ${skillTitleColorClassName}`;
-        nomeSpan.textContent = `${skillDisplayName} (Rank ${skill.rank})`;
-        infoDiv.appendChild(nomeSpan);
+                    const playerLevelOk = game.player.nivel >= skill.unlockLevel;
+                    let isEffectivelyLocked = false;
+                    let lockReason = "";
 
-        const descSpan = document.createElement("span");
-        descSpan.className = "text-xs text-slate-300 mt-1";
-        let skillDescText = skill.descricao;
-        skillDescText += ` Custo Mana: ${calcularGastoMana(skill)}.`;
-
-        if (isAcquired) {
-            skillDescText += ` <span class="text-emerald-400">(Adquirida)</span>`;
-        } else if (lockReason) {
-            skillDescText += ` <span class="text-yellow-500">${lockReason}</span>`;
-        }
-        descSpan.innerHTML = skillDescText; // innerHTML é usado aqui por causa dos spans de status
-        infoDiv.appendChild(descSpan);
-        div.appendChild(infoDiv);
-
-        const btnDiv = document.createElement("div");
-        btnDiv.className = "mt-2 sm:mt-0 sm:ml-3 flex-shrink-0 skill-actions";
-
-        if (isAcquired) {
-            const btnEquipar = document.createElement("button");
-            btnEquipar.textContent = game.player.magiasEquipadas.includes(skill.id) ? "Desequipar" : "Equipar";
-            btnEquipar.addEventListener("click", () => {
-                if (game.player.magiasEquipadas.includes(skill.id)) {
-                    game.player.magiasEquipadas = game.player.magiasEquipadas.filter(id => id !== skill.id);
-                } else {
-                    if (game.player.magiasEquipadas.length >= 4) { alert("Você só pode equipar até 4 habilidades."); return; }
-                    game.player.magiasEquipadas.push(skill.id);
-                }
-                atualizarSkillsTela();
-            });
-            btnDiv.appendChild(btnEquipar);
-        } else if (!isEffectivelyLocked && playerLevelOk) {
-            if (skill.requerDesafio) {
-                const btnDesafio = document.createElement("button");
-                btnDesafio.textContent = "Iniciar Desafio";
-                btnDesafio.title = `Enfrente um desafio para aprender ${skill.nome}`;
-                btnDesafio.addEventListener("click", () => {
-                    if (game.batalha.emBatalha || game.dungeon.active) { alert("Você não pode iniciar um desafio durante uma batalha ou dentro de uma masmorra."); return; }
-                    if (confirm(`Você tem certeza que deseja enfrentar o desafio para aprender ${skill.nome}? Prepare-se!`)) {
-                        if (game.player.classe === "Necromante" && (skill.id === "n_dominio_sombras" || skill.id === "n_exercito_sombras")) {
-                            if (!game.player.metLordeDaMorte) { alert("Você precisa derrotar o Lorde da Morte primeiro para liberar este desafio!"); return; }
-                            iniciarDesafioLordeDaMorte(skill.requerDesafio, skill.id);
-                        } else {
-                            iniciarDesafioHabilidade(skill);
+                    if (!isAcquired) {
+                        if (isMonarcaSkill) {
+                            // Habilidades de Monarca são desbloqueadas ao se tornar um, mas ainda podem ter um nível simbólico.
+                            if (!playerLevelOk) {
+                                isEffectivelyLocked = true;
+                                lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel} de Monarca)`;
+                            } else {
+                                lockReason = `(Disponível para aprender - Nv. ${skill.unlockLevel})`;
+                            }
+                        } else if (game.player.classe === "Necromante" && (skill.id === "n_extracao_sombras" || skill.id === "n_invocar_sombra")) {
+                            if (!game.player.metLordeDaMorte) { isEffectivelyLocked = true; lockReason = "(Bloqueada - Derrote o Lorde da Morte)"; }
+                            else if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`; }
+                            else { lockReason = `(Disponível para aprender - Nv. ${skill.unlockLevel})`; }
+                        } else if (skill.requerDesafio) {
+                            if (game.player.classe === "Necromante" && (skill.id === "n_dominio_sombras" || skill.id === "n_exercito_sombras")) {
+                                if (!game.player.metLordeDaMorte) { isEffectivelyLocked = true; lockReason = "(Bloqueada - Derrote o Lorde da Morte p/ desafio)"; }
+                                else if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel} p/ desafio)`; }
+                                else { lockReason = `(Desafio Disponível - Nv. ${skill.unlockLevel})`; }
+                            } else { // Desafios de outras classes
+                                if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`; }
+                                else { lockReason = `(Desafio Disponível - Nv. ${skill.unlockLevel})`; }
+                            }
+                        } else if (!playerLevelOk) { // Habilidades normais bloqueadas por nível
+                            isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`;
+                        } else { // Habilidades normais disponíveis para aprender
+                            lockReason = `(Disponível para aprender - Nv. ${skill.unlockLevel})`;
                         }
                     }
+
+                    if (isEffectivelyLocked && !isAcquired) { // Adiciona opacidade apenas se estiver bloqueada E não adquirida
+                        divClasses += ' opacity-60';
+                    }
+                    div.className = divClasses;
+
+                    const infoDiv = document.createElement("div");
+                    infoDiv.className = "flex flex-col flex-grow mb-2 sm:mb-0";
+
+                    const nomeSpan = document.createElement("span");
+                    let skillDisplayName = skill.nome;
+                    let skillTitleColorClassName = "text-sky-400"; // Cor padrão para nomes de skill
+                    if (game.player.classe === "Necromante" && game.player.isMarcado && isMonarcaSkill) {
+                        skillDisplayName = skillDisplayName.replace("[Monarca] ", ""); // Limpa para exibição
+                        skillTitleColorClassName = "text-purple-300"; // Cor para Monarca
+                    } else if (game.player.classe === "Necromante") {
+                        skillTitleColorClassName = "text-purple-400"; // Cor para Necromante base
+                    }
+                    // Outras classes podem ter cores específicas se desejar
+
+                    nomeSpan.className = `font-semibold text-lg ${skillTitleColorClassName}`;
+                    nomeSpan.textContent = `${skillDisplayName} (Rank ${skill.rank})`;
+                    infoDiv.appendChild(nomeSpan);
+
+                    const descSpan = document.createElement("span");
+                    descSpan.className = "text-xs text-slate-300 mt-1";
+                    let skillDescText = skill.descricao;
+                    skillDescText += ` Custo Mana: ${calcularGastoMana(skill)}.`;
+
+                    if (isAcquired) {
+                        skillDescText += ` <span class="text-emerald-400">(Adquirida)</span>`;
+                    } else if (lockReason) {
+                        skillDescText += ` <span class="text-yellow-500">${lockReason}</span>`;
+                    }
+                    descSpan.innerHTML = skillDescText; // innerHTML é usado aqui por causa dos spans de status
+                    infoDiv.appendChild(descSpan);
+                    div.appendChild(infoDiv);
+
+                    const btnDiv = document.createElement("div");
+                    btnDiv.className = "mt-2 sm:mt-0 sm:ml-3 flex-shrink-0 skill-actions";
+
+                    if (isAcquired) {
+                        const btnEquipar = document.createElement("button");
+                        btnEquipar.textContent = game.player.magiasEquipadas.includes(skill.id) ? "Desequipar" : "Equipar";
+                        btnEquipar.addEventListener("click", () => {
+                            if (game.player.magiasEquipadas.includes(skill.id)) {
+                                game.player.magiasEquipadas = game.player.magiasEquipadas.filter(id => id !== skill.id);
+                            } else {
+                                if (game.player.magiasEquipadas.length >= 4) { alert("Você só pode equipar até 4 habilidades."); return; }
+                                game.player.magiasEquipadas.push(skill.id);
+                            }
+                            atualizarSkillsTela();
+                        });
+                        btnDiv.appendChild(btnEquipar);
+                    } else if (!isEffectivelyLocked && playerLevelOk) {
+                        if (skill.requerDesafio) {
+                            const btnDesafio = document.createElement("button");
+                            btnDesafio.textContent = "Iniciar Desafio";
+                            btnDesafio.title = `Enfrente um desafio para aprender ${skill.nome}`;
+                            btnDesafio.addEventListener("click", () => {
+                                if (game.batalha.emBatalha || game.dungeon.active) { alert("Você não pode iniciar um desafio durante uma batalha ou dentro de uma masmorra."); return; }
+                                if (confirm(`Você tem certeza que deseja enfrentar o desafio para aprender ${skill.nome}? Prepare-se!`)) {
+                                    if (game.player.classe === "Necromante" && (skill.id === "n_dominio_sombras" || skill.id === "n_exercito_sombras")) {
+                                        if (!game.player.metLordeDaMorte) { alert("Você precisa derrotar o Lorde da Morte primeiro para liberar este desafio!"); return; }
+                                        iniciarDesafioLordeDaMorte(skill.requerDesafio, skill.id);
+                                    } else {
+                                        iniciarDesafioHabilidade(skill);
+                                    }
+                                }
+                            });
+                            btnDiv.appendChild(btnDesafio);
+                        } else {
+                            const btnAprender = document.createElement("button");
+                            btnAprender.textContent = "Aprender Habilidade";
+                            btnAprender.title = `Aprenda ${skill.nome}.`;
+                            btnAprender.addEventListener("click", () => {
+                                if (game.player.magiasAdquiridas.includes(skill.id)) { alert("Você já aprendeu esta habilidade."); return; }
+                                game.player.magiasAdquiridas.push(skill.id);
+                                alert(`Você aprendeu ${skill.nome}!`);
+                                if (game.player.magiasEquipadas.length < 4) { game.player.magiasEquipadas.push(skill.id); alert(`${skill.nome} equipada automaticamente.`); }
+                                atualizarSkillsTela();
+                            });
+                            btnDiv.appendChild(btnAprender);
+                        }
+                    }
+
+                    if (btnDiv.hasChildNodes()) div.appendChild(btnDiv);
+                    lista.appendChild(div);
                 });
-                btnDiv.appendChild(btnDesafio);
-            } else { 
-                const btnAprender = document.createElement("button");
-                btnAprender.textContent = "Aprender Habilidade";
-                btnAprender.title = `Aprenda ${skill.nome}.`;
-                btnAprender.addEventListener("click", () => {
-                    if (game.player.magiasAdquiridas.includes(skill.id)) { alert("Você já aprendeu esta habilidade."); return; }
-                    game.player.magiasAdquiridas.push(skill.id);
-                    alert(`Você aprendeu ${skill.nome}!`);
-                    if (game.player.magiasEquipadas.length < 4) { game.player.magiasEquipadas.push(skill.id); alert(`${skill.nome} equipada automaticamente.`); }
-                    atualizarSkillsTela();
-                });
-                btnDiv.appendChild(btnAprender);
+
+                if (!algumaSkillVisivel) {
+                    const p = document.createElement("p");
+                    p.className = "text-slate-400 italic text-center py-4";
+                    p.textContent = "Nenhuma habilidade disponível para sua classe e nível atuais, ou desafios pendentes.";
+                    lista.appendChild(p);
+                }
             }
-        }
-
-        if (btnDiv.hasChildNodes()) div.appendChild(btnDiv);
-        lista.appendChild(div);
-    });
-
-    if (!algumaSkillVisivel) {
-        const p = document.createElement("p");
-        p.className = "text-slate-400 italic text-center py-4";
-        p.textContent = "Nenhuma habilidade disponível para sua classe e nível atuais, ou desafios pendentes.";
-        lista.appendChild(p);
-    }
-}
 
             function entrarMasmorra(dungeonTypeRank) {
                 const config = DUNGEON_CONFIG[dungeonTypeRank];

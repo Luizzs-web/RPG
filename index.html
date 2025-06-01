@@ -3839,7 +3839,7 @@
                 const eraDesafioClasse = game.batalha.isDesafioClasse;
                 const skillDesafiadaId = game.batalha.skillEmDesafioId;
                 const eraDesafioLorde = game.batalha.monstro?.isLordeDaMorteDesafio; // Check if it was a Lorde challenge
-                const tipoDesafioLordeVencido = game.batalha.tipoDesafioLorde;     // Store type before reset
+                const tipoDesafioLordeVencido = game.batalha.tipoDesafioLorde;        // Store type before reset
 
                 showBattleInterface(false);
                 game.batalha.emBatalha = false;
@@ -3890,7 +3890,8 @@
                     game.player.atributos[attr] = +(game.player.atributos[attr] + 0.1).toFixed(1);
                 }
                 game.player.vidaAtual = Math.min(game.player.vidaAtual + Math.floor(game.player.vidaMax * 0.3), game.player.vidaMax);
-                game.player.manaAtual = Math.min(game.player.manaAtual + Math.floor(game.player.manaMax * 0.3), game.player.manaMax);
+                // REMOVED: Mana regeneration after battle
+                // game.player.manaAtual = Math.min(game.player.manaAtual + Math.floor(game.player.manaMax * 0.3), game.player.manaMax);
                 game.player.activeBuffs = [];
 
                 let itensDropadosParaMensagem = [];
@@ -4031,7 +4032,7 @@
                             setTimeout(() => {
                                 toggleHeaderNavButtons(true);
                                 toggleChatInput(true);
-                                iniciarBatalha(monarchBoss); // This will set emBatalha to true
+                                iniciarBatalha(monarchBoss);
                             }, 3500);
                             updateGoogleSignInUI();
                             atualizarStatusAtributos();
@@ -4079,7 +4080,7 @@
                 }
                 msg += `<br/><br/>O que deseja fazer?`;
                 mostrarMensagem(msg);
-                limparEscolhas();
+                limparEscolhas(); // This clears the choices div
 
                 if (game.player.classe === "Necromante" && game.player.lastDefeatedMonsterInfo && game.player.magiasAdquiridas.includes("n_extracao_sombras")) {
                     const extracaoSkill = CLASSES_DATA.Necromante.habilidades.find(h => h.id === "n_extracao_sombras");
@@ -4092,40 +4093,35 @@
                                 const newRankIndex = Math.max(0, rankToIndex(lastMonster.rank) - 1);
                                 const shadowRank = indexToRank(newRankIndex);
                                 const shadowId = crypto.randomUUID();
-                                const newShadow = { id: shadowId, nomeOriginal: lastMonster.nome, nomeSombra: `Sombra de ${lastMonster.nome}`, rankOriginal: lastMonster.rank, rankSombra: shadowRank, statsOriginais: { vidaMax: lastMonster.vidaMax, danoFisico: lastMonster.danoFisico, danoMagico: lastMonster.danoMagico } };
+                                const newShadow = {
+                                    id: shadowId, nomeOriginal: lastMonster.nome, nomeSombra: `Sombra de ${lastMonster.nome}`,
+                                    rankOriginal: lastMonster.rank, rankSombra: shadowRank,
+                                    statsOriginais: { vidaMax: lastMonster.vidaMax, danoFisico: lastMonster.danoFisico, danoMagico: lastMonster.danoMagico }
+                                };
 
                                 if (game.player.recipienteSombras.length < game.player.recipienteCapacity) {
                                     game.player.recipienteSombras.push(newShadow);
-                                    game.player.lastDefeatedMonsterInfo = null;
-                                    atualizarRecipienteSombrasTela();
-                                    let msgExtracao = `Você extraiu a <span class="text-purple-300">${newShadow.nomeSombra}</span>! Ela foi adicionada ao seu Recipiente.<br/>Mana restante: ${game.player.manaAtual}/${game.player.manaMax}.<br/><br/>O que fazer agora?`;
-                                    mostrarMensagem(msgExtracao);
+                                    game.player.lastDefeatedMonsterInfo = null; // Limpa após extração bem-sucedida
+                                    atualizarRecipienteSombrasTela(); // Atualiza a UI se a tela de inventário/sombras estiver visível
+                                    mostrarMensagem(`Você extraiu a <span class="text-purple-300">${newShadow.nomeSombra}</span>! Ela foi adicionada ao seu Recipiente.<br/>Mana restante: ${game.player.manaAtual}/${game.player.manaMax}.<br/><br/>O que fazer agora?`);
+                                    // Re-apresentar escolhas sem a de extração, ou com ela desabilitada
+                                    abrirInicio(); // Chama abrirInicio de novo para reconstruir as escolhas sem a opção de extrair o mesmo monstro
                                 } else {
                                     mostrarMensagem(`Seu Recipiente de Sombras está cheio (${game.player.recipienteSombras.length}/${game.player.recipienteCapacity}). Não foi possível extrair a sombra. Mana não gasta.`);
-                                    game.player.manaAtual += manaCost; // Refund mana
+                                    game.player.manaAtual += manaCost; // Devolve mana
+                                    abrirInicio(); // Reconstroi o menu
                                 }
-                                limparEscolhas();
-                                if (leveledUp) adicionarEscolha("Distribuir Atributos", abrirAtributos);
-                                adicionarEscolha("Continuar explorando", explorarArea);
-                                adicionarEscolha(`Entrar na Masmorra (Rank ${game.player.currentArea})`, () => entrarMasmorra(game.player.currentArea));
-                                adicionarEscolha("Abrir habilidades", abrirSkills);
-                                adicionarEscolha("Abrir inventário", abrirInventario);
-                                if (game.player.nivel >= 10) adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
                             } else {
                                 mostrarMensagem(`Mana insuficiente para Extração de Sombras. (${manaCost} necessário).`);
-                                // Re-add choices without the extraction one or keep it disabled
-                                limparEscolhas();
-                                if (leveledUp) adicionarEscolha("Distribuir Atributos", abrirAtributos);
-                                adicionarEscolha("Continuar explorando", explorarArea);
-                                adicionarEscolha(`Entrar na Masmorra (Rank ${game.player.currentArea})`, () => entrarMasmorra(game.player.currentArea));
-                                adicionarEscolha("Abrir habilidades", abrirSkills);
-                                adicionarEscolha("Abrir inventário", abrirInventario);
-                                if (game.player.nivel >= 10) adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
+                                // Não precisa limpar escolhas aqui, pois o jogador não agiu. Apenas a mensagem é mostrada.
+                                // Para melhorar, poderia re-mostrar as opções de abrirInicio()
+                                abrirInicio();
                             }
-                            atualizarStatusAtributos();
-                        }, game.player.manaAtual < calcularGastoMana(extracaoSkill), extracaoSkill.descricao);
+                            atualizarStatusAtributos(); // Atualiza o display de mana
+                        }, game.player.manaAtual < calcularGastoMana(extracaoSkill) || game.player.recipienteSombras.length >= game.player.recipienteCapacity, extracaoSkill.descricao);
                     }
                 }
+                // ALWAYS add standard choices after any special actions
                 if (leveledUp) adicionarEscolha("Distribuir Atributos", abrirAtributos);
                 adicionarEscolha("Continuar explorando", explorarArea);
                 adicionarEscolha(`Entrar na Masmorra (Rank ${game.player.currentArea})`, () => entrarMasmorra(game.player.currentArea));

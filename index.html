@@ -770,7 +770,7 @@
         "Espada": {
             nomeDisplay: "Espada",
             habilidades: [
-                { id: "espada_corte_rapido", nome: "Corte Rápido", descricao: "Um golpe veloz e preciso.", danoMultiplicador: 1.1, custoMana: 5, rank: "E" },
+                { id: "espada_corte_rapido", nome: "Corte Rápido", descricao: "Um golpe veloz e preciso.", danoMultiplicador: 1.1, custoMana: 0, rank: "E" },
                 { id: "espada_estocada", nome: "Estocada Perfurante", descricao: "Uma estocada que busca um ponto vital.", danoMultiplicador: 1.3, custoMana: 8, rank: "D" },
                 { id: "espada_lamina_giratoria", nome: "Lâmina Giratória", descricao: "Um ataque amplo que pode desorientar.", danoMultiplicador: 1.0, custoMana: 12, rank: "C", efeito: { tipo: "debuff_precisao_inimigo", valor: 0.1, duracao: 2 } }
             ]
@@ -778,7 +778,7 @@
         "Clava": {
             nomeDisplay: "Clava",
             habilidades: [
-                { id: "clava_pancada", nome: "Pancada Pesada", descricao: "Um golpe lento, mas com força.", danoMultiplicador: 1.2, custoMana: 6, rank: "E" },
+                { id: "clava_pancada", nome: "Pancada Pesada", descricao: "Um golpe lento, mas com força.", danoMultiplicador: 1.2, custoMana: 0, rank: "E" },
                 { id: "clava_esmagar_cranio", nome: "Esmagar Crânio", descricao: "Um golpe poderoso com chance de atordoar.", danoMultiplicador: 1.4, custoMana: 10, rank: "D", efeito: { tipo: "chance_atordoar", chance: 0.25 } },
                 { id: "clava_impacto_brutal", nome: "Impacto Brutal", descricao: "Reduz a defesa do alvo com um golpe esmagador.", danoMultiplicador: 1.1, custoMana: 15, rank: "C", efeito: { tipo: "debuff_defesa_inimigo", valor: 0.15, duracao: 3 } }
             ]
@@ -786,7 +786,7 @@
         "Lança": {
             nomeDisplay: "Lança",
             habilidades: [
-                { id: "lanca_investida", nome: "Investida de Lança", descricao: "Avança rapidamente para perfurar.", danoMultiplicador: 1.2, custoMana: 7, rank: "E" },
+                { id: "lanca_investida", nome: "Investida de Lança", descricao: "Avança rapidamente para perfurar.", danoMultiplicador: 1.2, custoMana: 0, rank: "E" },
                 { id: "lanca_empalar", nome: "Empalar", descricao: "Causa dano e sangramento.", danoMultiplicador: 1.0, custoMana: 10, rank: "D", efeito: { tipo: "dot", dano_por_turno: 5, duracao: 3, tipoDanoDot: "fisico" } },
                 { id: "lanca_varredura", nome: "Varredura Defensiva", descricao: "Um golpe para manter distância, chance de recuar.", danoMultiplicador: 0.9, custoMana: 14, rank: "C" /* Efeito de recuo pode ser complexo, manter simples por ora */ }
             ]
@@ -794,7 +794,7 @@
         "Arco": {
             nomeDisplay: "Arco",
             habilidades: [
-                { id: "arco_tiro_preciso", nome: "Tiro Preciso", descricao: "Um disparo focado no ponto fraco.", danoMultiplicador: 1.1, custoMana: 5, rank: "E" },
+                { id: "arco_tiro_preciso", nome: "Tiro Preciso", descricao: "Um disparo focado no ponto fraco.", danoMultiplicador: 1.1, custoMana: 0, rank: "E" },
                 { id: "arco_flecha_farpada", nome: "Flecha Farpada", descricao: "Causa sangramento ao ser removida.", danoMultiplicador: 1.0, custoMana: 9, rank: "D", efeito: { tipo: "dot", dano_por_turno: 4, duracao: 3, tipoDanoDot: "fisico" } },
                 { id: "arco_tiro_duplo", nome: "Tiro Duplo", descricao: "Dispara duas flechas em rápida sucessão.", danoMultiplicador: 0.7, custoMana: 13, rank: "C", hits: 2 }
             ]
@@ -802,7 +802,7 @@
         "Besta": {
             nomeDisplay: "Besta",
             habilidades: [
-                { id: "besta_virote_pesado", nome: "Virote Pesado", descricao: "Um tiro potente que ignora parte da armadura.", danoMultiplicador: 1.3, custoMana: 8, rank: "E", efeito: { tipo: "ignora_defesa_parcial", valor: 0.1 } },
+                { id: "besta_virote_pesado", nome: "Virote Pesado", descricao: "Um tiro potente que ignora parte da armadura.", danoMultiplicador: 1.3, custoMana: 0, rank: "E", efeito: { tipo: "ignora_defesa_parcial", valor: 0.1 } },
                 { id: "besta_tiro_incapacitante", nome: "Tiro Incapacitante", descricao: "Mira nas juntas para dificultar o movimento.", danoMultiplicador: 0.9, custoMana: 11, rank: "D", efeito: { tipo: "debuff_agilidade_inimigo", valor: 0.1, duracao: 2 } },
                 { id: "besta_recarga_rapida", nome: "Recarga Rápida", descricao: "Prepara um tiro extra para o próximo turno ou causa dano extra imediato.", danoMultiplicador: 1.5, custoMana: 16, rank: "C" }
             ]
@@ -810,7 +810,7 @@
         "Manoplas": {
             nomeDisplay: "Manoplas",
             habilidades: [
-                { id: "manoplas_soco_veloz", nome: "Soco Veloz", descricao: "Uma sequência rápida de golpes.", danoMultiplicador: 0.6, custoMana: 4, rank: "E", hits: 2 },
+                { id: "manoplas_soco_veloz", nome: "Soco Veloz", descricao: "Uma sequência rápida de golpes.", danoMultiplicador: 0.6, custoMana: 0, rank: "E", hits: 2 },
                 { id: "manoplas_quebra_guarda", nome: "Quebra-Guarda", descricao: "Um golpe forte para abrir a defesa inimiga.", danoMultiplicador: 1.2, custoMana: 9, rank: "D", efeito: { tipo: "debuff_defesa_inimigo", valor: 0.1, duracao: 2 } },
                 { id: "manoplas_impacto_feroz", nome: "Impacto Feroz", descricao: "Concentra energia em um golpe devastador.", danoMultiplicador: 1.6, custoMana: 14, rank: "C" }
             ]

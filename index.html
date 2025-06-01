@@ -401,14 +401,8 @@
                 <i class="fas fa-save fa-lg"></i>
             </button>
             <div id="google-signin-button-container" class="mx-1">
-                <div class="g_id_signin"
-                     data-type="standard"
-                     data-theme="filled_black" 
-                     data-size="large"
-                     data-text="signin_with"
-                     data-shape="rectangular"
-                     data-logo_alignment="left">
-                </div>
+    <div id="g_id_signin_button_div"></div>
+</div>
             </div>
             <span id="google-user-greeting" class="hidden text-sm"></span>
             <button id="btn-signout-google" aria-label="Sair da Conta Google" class="p-2 hidden" title="Sair da Conta Google">
@@ -1420,30 +1414,18 @@ updateGoogleSignInUI();
 }
 
 function initializeGoogleSignInRelatedElements() {
-    // Verifica se a biblioteca do Google Sign-In foi carregada
-    if (typeof google === 'undefined' || typeof google.accounts === 'undefined' || typeof google.accounts.id === 'undefined') {
-        console.error("A biblioteca Google Sign-In (GSI) ainda não carregou. O login com Google pode não funcionar imediatamente.");
-        // Adiciona um pequeno atraso e tenta novamente, ou informa o usuário.
-        // Por agora, vamos apenas logar e permitir que o HTML tente renderizar o botão.
-        // Se o GSI carregar depois, o botão deve aparecer.
-    }
-
-    // 1. INICIALIZAÇÃO DO CLIENTE GOOGLE SIGN-IN
-    // Esta é a parte crucial para ativar o GSI.
-    // Coloque isso no início da sua função initializeGoogleSignInRelatedElements
     if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-        google.accounts.id.initialize({
-            client_id: GOOGLE_CLIENT_ID, // Seu GOOGLE_CLIENT_ID já está definido no seu script
-            callback: handleGoogleCredentialResponse // Sua função de callback já está definida
-        });
+    google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredentialResponse
+    });
 
-        // O Google GSI irá renderizar automaticamente o botão de login no div com a classe "g_id_signin".
-        // Se você quisesse o prompt "One Tap", você chamaria google.accounts.id.prompt() aqui,
-        // mas para o botão padrão, a inicialização e o div no HTML são suficientes.
-    }
+    google.accounts.id.renderButton(
+        document.getElementById("g_id_signin_button_div"),
+        { type: "standard", theme: "filled_black", size: "large", text: "signin_with", shape: "rectangular", logo_alignment: "left" }
+    );
+}
 
-
-    // O restante da sua função continua aqui...
     if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com" ) {
         console.warn("Google Client ID não está configurado. O login com Google não funcionará.");
         const signInContainer = document.getElementById('google-signin-button-container');

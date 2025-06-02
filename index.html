@@ -119,84 +119,83 @@
 
     /* Atributos Screen */
     .atributos-fundo {
-        /* background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png'); */ /* Optional: Dark wood texture */
-        background-color: #31251E; /* Very Dark Brown for this screen's base */
-        border: 2px solid #1F1611; /* Even darker border */
+        
+        background-color: #31251E; 
+        border: 2px solid #1F1611; 
         padding: 1rem;
     }
     #atributos-screen h2, #atributos-screen h4 {
-        @apply text-[#E0C097]; /* Light Parchment for titles */
+        @apply text-[#E0C097]; 
     }
-    #atributos-screen .bg-slate-700, #atributos-screen .bg-slate-600 { /* For containers within attributes */
-        background-color: rgba(93, 64, 55, 0.4); /* #5D4037 base, semi-transparent */
-        border: 1px solid #4E342E; /* Darker brown border */
+    #atributos-screen .bg-slate-700, #atributos-screen .bg-slate-600 { 
+        background-color: rgba(93, 64, 55, 0.4);
+        border: 1px solid #4E342E; 
     }
     #status-nivel, #status-rank, #status-classe, #status-moedas,
     #bonus-dano-fisico, #bonus-dano-magico, #bonus-resistencia span, #bonus-fuga span, #bonus-esquiva span,
     #forca-val, #agilidade-val, #inteligencia-val, #resistencia-val, #vitalidade-val, #percepcao-val,
     #pontos-disponiveis {
-        @apply text-[#D7CCC8]; /* Light Beige for general values */
+        @apply text-[#D7CCC8]; 
     }
-    #status-nivel { @apply text-[#A5D6A7]; } /* Light Green */
-    #status-rank { @apply text-[#FFCA28]; } /* Amber/Gold */
-    #status-classe { @apply text-[#BCAAA4]; } /* Muted Light Brown */
-    #status-moedas { @apply text-[#FFCA28]; } /* Amber/Gold */
+    #status-nivel { @apply text-[#A5D6A7]; } 
+    #status-rank { @apply text-[#FFCA28]; } 
+    #status-classe { @apply text-[#BCAAA4]; } 
+    #status-moedas { @apply text-[#FFCA28]; } 
 
-    #atributos-screen .text-slate-400 { /* Small labels */
-        @apply text-[#A1887F]; /* Muted Brown (lighter than dark bg) */
+    #atributos-screen .text-slate-400 { 
+        @apply text-[#A1887F]; 
     }
-    #atributos-screen .text-purple-300 { @apply text-[#CE93D8]; } /* Light Purple for XP Label */
-    #atributos-screen .text-red-400 { @apply text-[#EF9A9A]; } /* Light Red for Vida Label */
-    #atributos-screen .text-blue-400 { @apply text-[#90CAF9]; } /* Light Blue for Mana Label */
+    #atributos-screen .text-purple-300 { @apply text-[#CE93D8]; } 
+    #atributos-screen .text-red-400 { @apply text-[#EF9A9A]; } 
+    #atributos-screen .text-blue-400 { @apply text-[#90CAF9]; } 
 
-    #bonus-dano-fisico { @apply text-[#FFAB91]; } /* Light Orange/Peach for physical damage */
-    #bonus-dano-magico { @apply text-[#81D4FA]; } /* Light Cyan for magical damage */
-    #bonus-resistencia span { @apply text-[#A5D6A7]; } /* Light green for reduction value */
-    #bonus-esquiva span, #bonus-fuga span { @apply text-[#BCAAA4]; } /* Muted light brown for evasion/escape */
+    #bonus-dano-fisico { @apply text-[#FFAB91]; } 
+    #bonus-dano-magico { @apply text-[#81D4FA]; } 
+    #bonus-resistencia span { @apply text-[#A5D6A7]; }
+    #bonus-esquiva span, #bonus-fuga span { @apply text-[#BCAAA4]; } 
 
     #forca-rank, #agilidade-rank, #inteligencia-rank, #resistencia-rank, #vitalidade-rank, #percepcao-rank {
-        @apply text-[#FFCA28]; /* Amber/Gold for attribute ranks */
+        @apply text-[#FFCA28]; 
     }
     #pontos-disponiveis { @apply text-[#FFCA28]; }
 
     #status-xp-bar, #status-vida-bar, #status-mana-bar {
-        border: 1px solid #543C32; /* Darker Wood brown border for bars */
+        border: 1px solid #543C32; 
     }
-    /* Attribute Modification Buttons */
+   
     #atributos-screen .btn-attr {
         font-family: 'Merriweather', serif;
         @apply text-[#FFF8E1] transition-colors px-3 py-1 rounded-md focus:outline-none focus:ring-2;
     }
-    #atributos-screen button[data-action="dec"].btn-attr { /* Was: #A1887F hover:#8D6E63 */
-        @apply bg-[#8D6E63] hover:bg-[#6D4C41] focus:ring-[#795548]; /* Darker Muted Brown */
+    #atributos-screen button[data-action="dec"].btn-attr { 
+        @apply bg-[#8D6E63] hover:bg-[#6D4C41] focus:ring-[#795548]; 
     }
-    #atributos-screen button[data-action="inc"].btn-attr { /* Was: #795548 hover:#5D4037 */
-        @apply bg-[#6D4C41] hover:bg-[#543C32] focus:ring-[#6D4C41]; /* Wood Brown */
+    #atributos-screen button[data-action="inc"].btn-attr { 
+        @apply bg-[#6D4C41] hover:bg-[#543C32] focus:ring-[#6D4C41]; 
     }
 
-    /* BAR COLORS - Keep vibrant for visibility or choose desaturated versions */
-    #status-xp-bar { @apply bg-[#9C27B0]; }   /* Purple (deeper) */
-    #status-vida-bar { @apply bg-[#D32F2F]; } /* Red (deeper) */
-    #status-mana-bar { @apply bg-[#1976D2]; } /* Blue (deeper) */
+    
+    #status-xp-bar { @apply bg-[#9C27B0]; }  
+    #status-vida-bar { @apply bg-[#D32F2F]; } 
+    #status-mana-bar { @apply bg-[#1976D2]; }
 
     /* Battle Screen Progress Bars */
     #player-battle-hp-bar { @apply bg-[#D32F2F]; }
     #player-battle-mp-bar { @apply bg-[#1976D2]; }
     #player-battle-xp-bar { @apply bg-[#9C27B0]; }
-    #summon-battle-hp-bar { @apply bg-[#795548]; } /* Wood brown for summon HP */
-    #enemy-battle-hp-bar { @apply bg-[#E64A19]; } /* Deep Orange for enemy HP */
+    #summon-battle-hp-bar { @apply bg-[#795548]; }
+    #enemy-battle-hp-bar { @apply bg-[#E64A19]; } 
 
-    /* Battle Screen Text (HP/MP/XP values, names) */
-    #player-battle-name, #summon-battle-name { @apply text-[#FFCA28]; } /* Amber/Gold */
-    #enemy-battle-name { @apply text-[#FF8A65]; } /* Light Deep Orange for enemy name */
-
+  
+    #player-battle-name, #summon-battle-name { @apply text-[#FFCA28]; } 
+    #enemy-battle-name { @apply text-[#FF8A65]; } 
     #player-battle-hp-text, #player-battle-mp-text, #player-battle-xp-text,
     #summon-battle-hp-text,
     #enemy-battle-hp-text,
     #enemy-battle-rank {
-        @apply text-[#E0C097]; /* Light Parchment text on the battle display cards */
+        @apply text-[#E0C097]; 
     }
-    /* Specifically for labels like "HP", "MP", "XP" next to bars in battle */
+   
     #player-battle-display .text-xs.text-slate-300,
     #summon-battle-display .text-xs.text-slate-300,
     #enemy-battle-display .text-xs.text-slate-300 {
@@ -1095,14 +1094,14 @@
             const ITEM_RANKS = ["E", "D", "C", "B", "A", "S", "SS", "SSS"];
             const ITEM_BASE_PRICE = { E: 10, D: 25, C: 50, B: 100, A: 200, S: 400, SS: 600, SSS: 1000 };
             const ITEM_ATRIBUTOS_POR_RANK = {
-                E: { min: 5, max: 10 }, // Adjusted from 1,3
-                D: { min: 12, max: 20 }, // Adjusted from 3,5
-                C: { min: 22, max: 30 }, // Adjusted from 5,7
-                B: { min: 32, max: 40 }, // Adjusted from 7,10
-                A: { min: 60, max: 75 }, // Adjusted from 15,20
-                S: { min: 100, max: 115 }, // Adjusted from 30,40
-                SS: { min: 130, max: 150 }, // New tier
-                SSS: { min: 150, max: 200 }, // New tier
+                E: { min: 5, max: 10 },
+                D: { min: 12, max: 20 },
+                C: { min: 22, max: 30 },
+                B: { min: 32, max: 40 },
+                A: { min: 60, max: 75 },
+                S: { min: 100, max: 115 },
+                SS: { min: 130, max: 150 },
+                SSS: { min: 150, max: 200 },
             };
 
             const POTIONS = {
@@ -1111,15 +1110,15 @@
             };
             const ARQUITETO_STATS = {
                 nome: "Arquiteto",
-                rank: "SSS", // As per extreme stats
+                rank: "SSS",
                 vidaMax: 9999,
                 danoFisico: 9999,
-                danoMagico: 9999, // Or a portion of fisico
-                xpGanho: 10000, // Or some other significant amount
+                danoMagico: 9999,
+                xpGanho: 10000,
                 fugaPct: 0,
                 isBoss: true,
-                isArquiteto: true, // Special flag
-                habilidades: [] // Can be left empty or given some thematic non-damaging abilities
+                isArquiteto: true,
+                habilidades: []
             };
             const MONARCH_BOSS_STATS = {
                 "Gelo": { nomeDisplay: "Monarca do Gelo", vida: 10000, dano: 1000, rank: "S", xp: 15000, portrait: "https://source.unsplash.com/random/48x48/?ice,monster,king,evil" },
@@ -1291,32 +1290,30 @@
                     };
                 }
 
-                // ---> INÍCIO DA MODIFICAÇÃO PARA ÁREA E (EXPLORAR) <---
-                // Verifica se estamos explorando (estado 'inicio'), na área 'E', o rank solicitado é 'E',
-                // não é o Lorde da Morte e não estamos ativos em uma dungeon.
+
                 if (game.estado === "inicio" &&
                     game.player.currentArea === "E" &&
                     rank === "E" &&
-                    !game.dungeon.active) { // Adicionado !game.dungeon.active para garantir que é exploração normal
+                    !game.dungeon.active) {
 
                     const nomesAreaE = MONSTRO_NOMES["E"] || ["Criatura Frágil da Área E"];
                     const nomeMonstroEspecial = randomChoice(nomesAreaE);
                     console.log(`Gerando monstro especial para Área E (Explorar): ${nomeMonstroEspecial}`);
                     return {
-                        nome: `${nomeMonstroEspecial} (Exploração)`, // Nomeia para diferenciar
+                        nome: `${nomeMonstroEspecial} (Exploração)`,
                         rank: "E",
                         vidaMax: 120,
                         vidaAtual: 120,
                         danoFisico: 15,
-                        danoMagico: Math.floor(15 * 0.3), // Ex: 30% do dano físico como mágico
-                        xpGanho: Math.floor(BASE_STATS.xpRankE * 1.1) || 11, // XP um pouco ajustado
-                        fugaPct: 0.67, // Fuga padrão para Rank E normal
+                        danoMagico: Math.floor(15 * 0.3),
+                        xpGanho: Math.floor(BASE_STATS.xpRankE * 1.1) || 11,
+                        fugaPct: 0.67,
                         isBoss: false,
                         isLordeDaMorte: false
-                        // Adicione portraitURL se desejar um específico para estes
+
                     };
                 }
-                // ---> FIM DA MODIFICAÇÃO PARA ÁREA E (EXPLORAR) <---
+
 
                 const rankIndex = rankToIndex(rank);
                 const nomesDisponiveis = MONSTRO_NOMES[rank] || [`Monstro Desconhecido Rank ${rank}`];
@@ -1324,8 +1321,6 @@
 
                 let vidaBase, danoBase;
 
-                // Aplica stats customizados APENAS SE estiver DENTRO de uma dungeon.
-                // Monstros de exploração normal usarão o cálculo padrão.
                 if (game.dungeon.active && customMonsterStats[rank]) {
                     console.log(`Usando customMonsterStats para ${rank} dentro da dungeon.`);
                     vidaBase = customMonsterStats[rank].vida;
@@ -1333,14 +1328,14 @@
                 } else {
                     console.log(`Calculando stats padrão para ${rank} (exploração ou sem custom).`);
                     vidaBase = Math.floor(50 * Math.pow(1.9, rankIndex) + randomInt(0, 20 * Math.pow(1.6, rankIndex)));
-                    const baseDanoFisicoRankE = 8; // Mantenha sua base original para outros ranks
+                    const baseDanoFisicoRankE = 8;
                     danoBase = Math.floor(baseDanoFisicoRankE * Math.pow(1.85, rankIndex));
                 }
 
                 const vidaMax = vidaBase + randomInt(0, Math.floor(vidaBase * 0.15));
                 const danoFisico = danoBase + randomInt(0, Math.floor(danoBase * 0.1));
                 const danoMagico = Math.max(0, Math.floor(danoFisico * 0.5));
-                const baseXpRankE = 10; // Sua base de XP para rank E
+                const baseXpRankE = 10;
                 const xpGanho = (rank === "E" && !game.dungeon.active) ? 10 : Math.floor(baseXpRankE * Math.pow(2.3, rankIndex)); // XP normal para E em exploração ou cálculo para outros
                 const fugaPctMonstro = clamp(0.67 - 0.07 * rankIndex, 0.05, 0.67);
 
@@ -1375,14 +1370,14 @@
             function gerarBossMasmorra(dungeonTypeRank, actualBossRank) {
                 const dungeonConfig = DUNGEON_CONFIG[dungeonTypeRank];
 
-                // --- NEW: Arquiteto Spawn Logic for Rank D Dungeons ---
+
                 if (dungeonTypeRank === "D" && dungeonConfig.arquitetoChance && Math.random() < dungeonConfig.arquitetoChance) {
                     if (!game.player.isMarcado) {
                         game.batalha.pendingArquitetoEncounter = true;
-                        return { ...ARQUITETO_STATS, vidaAtual: ARQUITETO_STATS.vidaMax }; // Ensure vidaAtual is set
+                        return { ...ARQUITETO_STATS, vidaAtual: ARQUITETO_STATS.vidaMax };
                     }
                 }
-                // --- END NEW Arquiteto Logic ---
+
 
                 if (dungeonConfig && dungeonConfig.lordeDaMorteChance &&
                     !game.player.classe &&
@@ -1390,7 +1385,7 @@
                     !game.player.metLordeDaMorte &&
                     Math.random() < dungeonConfig.lordeDaMorteChance) {
                     game.player.metLordeDaMorte = true;
-                    return gerarMonstro(null, true); // This already sets vidaAtual
+                    return gerarMonstro(null, true);
                 }
 
                 const config = DUNGEON_CONFIG[dungeonTypeRank];
@@ -1411,74 +1406,85 @@
             }
 
             const ITEM_PREFIXOS = {
-    E: ["Simples", "Rústico", "Comum", "Velho", "Frágil"],
-    D: ["Robusto", "Resistente", "Forte", "Ágil", "Místico"],
-    C: ["Encantado", "Sagrado", "Veloz", "Poderoso", "Duradouro"],
-    B: ["Épico", "Lendário", "Mágico", "Imponente", "Vibrante"],
-    A: ["Divino", "Celestial", "Supremo", "Inquebrável", "Radiante"],
-    S: ["Ancestral", "Mítico", "Eterno", "Soberano", "Infinito"],
-   
-    SS: ["Artefato", "Titânico", "Corrompido", "Santificado", "Abissal", "Espectral"],
-    SSS: ["Primordial", "Cósmico", "Absoluto", "Divindade Menor", "Inconcebível", "Paradoxal"]
-};
+                E: ["Simples", "Rústico", "Comum", "Velho", "Frágil"],
+                D: ["Robusto", "Resistente", "Forte", "Ágil", "Místico"],
+                C: ["Encantado", "Sagrado", "Veloz", "Poderoso", "Duradouro"],
+                B: ["Épico", "Lendário", "Mágico", "Imponente", "Vibrante"],
+                A: ["Divino", "Celestial", "Supremo", "Inquebrável", "Radiante"],
+                S: ["Ancestral", "Mítico", "Eterno", "Soberano", "Infinito"],
+                // ADICIONE AS LINHAS ABAIXO:
+                SS: ["Artefato", "Titânico", "Corrompido", "Santificado", "Abissal", "Espectral"],
+                SSS: ["Primordial", "Cósmico", "Absoluto", "Divindade Menor", "Inconcebível", "Paradoxal"]
             };
 
             const SLOT_EQUIPAVEL = ["Capacete", "Peitoral", "Calça", "Botas", "Arma", "Escudo", "Anel", "Colar"];
             const SUBTIPOS_ARMA = Object.keys(TIPOS_DE_ARMAS).filter(tipo => tipo !== "Nenhuma");
             const ATOMIC_WEAPON_DATA = TIPOS_DE_ARMAS["Atomic"];
 
-            function gerarItem(rank) {
+            function gerarItem(rankDoItemASerGerado, monstroPermiteDropAtomic) {
                 const tipoBase = Math.random() < 0.8 ? randomChoice(SLOT_EQUIPAVEL) : "Poção";
                 let tipoFinal = tipoBase;
                 let subTipoArma = null;
-                if (!allowAtomic && rank === "SSS" && Math.random() < 0.5) {
-                    if (rank === "SSS") {
-                        rank = randomChoice(["SS", "S", "A"]); // Degrade rank if it's not allowed to be Atomic SSS
+
+                if (tipoBase === "Arma" && rankDoItemASerGerado === "SSS" && monstroPermiteDropAtomic) {
+                    if (Math.random() < 0.10) {
+                        return {
+                            id: crypto.randomUUID(),
+                            nome: "Atomic",
+                            tipo: "Arma",
+                            subTipoArma: "Atomic",
+                            rank: "SSS",
+                            efeitos: {
+                                forca: 1000, agilidade: 1000, inteligencia: 1000,
+                                resistencia: 1000, vitalidade: 1000, percepcao: 1000,
+                                refinoMagico: 1000
+                            },
+                            preco: 99999999999,
+                            isPotion: false,
+                            isUnique: true
+                        };
+                    } else {
+                        const availableSubtypes = SUBTIPOS_ARMA.filter(s => s !== "Atomic");
+                        if (availableSubtypes.length > 0) {
+                            subTipoArma = randomChoice(availableSubtypes);
+                        }
+                    }
+                } else if (tipoBase === "Arma") {
+                    const availableSubtypes = SUBTIPOS_ARMA.filter(s => s !== "Atomic");
+                    if (availableSubtypes.length > 0) {
+                        subTipoArma = randomChoice(availableSubtypes);
                     }
                 }
-                if (allowAtomic && rank === "SSS" && subTipoArma === "Atomic") {
-                    return {
-                        id: crypto.randomUUID(), // New ID for each instance
-                        nome: "Atomic",
-                        tipo: "Arma",
-                        subTipoArma: "Atomic",
-                        rank: "SSS",
-                        efeitos: {
-                            forca: 1000,
-                            agilidade: 1000,
-                            inteligencia: 1000,
-                            resistencia: 1000,
-                            vitalidade: 1000,
-                            percepcao: 1000,
-                            refinoMagico: 1000 // Very high, effectively 1000% mana cost reduction
-                        },
-                        preco: 99999999999, // Extremely high price
-                        isPotion: false,
-                        isUnique: true // Mark it as unique
-                    };
-                }
 
-                if (tipoBase === "Arma") {
-                    // Filter out "Atomic" from normal weapon generation if not allowed
-                    const availableSubtypes = allowAtomic ? SUBTIPOS_ARMA : SUBTIPOS_ARMA.filter(s => s !== "Atomic");
-                    subTipoArma = randomChoice(availableSubtypes);
-                }
                 if (tipoBase === "Poção") {
                     const tipoPocao = Math.random() < 0.5 ? "drop" : "compra";
                     const pocaoBase = POTIONS[tipoPocao];
-                    return { id: pocaoBase.id, nome: pocaoBase.nome, tipo: "Poção", rank: rank, efeitos: {}, preco: tipoPocao === "compra" ? 50 : (ITEM_BASE_PRICE[rank] || 10), curaVidaPct: pocaoBase.curaVidaPct, curaManaPct: pocaoBase.curaManaPct, descricao: pocaoBase.descricao, isPotion: true };
+                    return {
+                        id: pocaoBase.id,
+                        nome: pocaoBase.nome,
+                        tipo: "Poção",
+                        rank: rankDoItemASerGerado,
+                        efeitos: {},
+                        preco: tipoPocao === "compra" ? 50 : (ITEM_BASE_PRICE[rankDoItemASerGerado] || 10),
+                        curaVidaPct: pocaoBase.curaVidaPct,
+                        curaManaPct: pocaoBase.curaManaPct,
+                        descricao: pocaoBase.descricao,
+                        isPotion: true
+                    };
                 }
-                const prefixo = randomChoice(ITEM_PREFIXOS[rank]);
-                let nome;
+
+                const prefixo = randomChoice(ITEM_PREFIXOS[rankDoItemASerGerado]);
+                let nomeItem;
                 if (subTipoArma) {
-                    nome = `${randomChoice(ITEM_PREFIXOS[rank])} ${TIPOS_DE_ARMAS[subTipoArma].nomeDisplay}`;
-                } else if (tipoFinal !== "Poção") {
-                    nome = `${randomChoice(ITEM_PREFIXOS[rank])} ${tipoFinal}`;
+                    nomeItem = `${prefixo} ${TIPOS_DE_ARMAS[subTipoArma].nomeDisplay}`;
+                } else if (tipoFinal === "Arma" && !subTipoArma) {
+                    nomeItem = `${prefixo} Lâmina Poderosa`;
                 } else {
-                    // Should not happen for this branch, but good practice.
+                    nomeItem = `${prefixo} ${tipoFinal}`;
                 }
+
                 const efeitos = {};
-                const { min, max } = ITEM_ATRIBUTOS_POR_RANK[rank];
+                const { min, max } = ITEM_ATRIBUTOS_POR_RANK[rankDoItemASerGerado];
                 const pontos = randomInt(min, max);
 
                 switch (tipoFinal) {
@@ -1495,8 +1501,19 @@
                     case "Anel": efeitos.inteligencia = pontos; break;
                     case "Colar": efeitos.agilidade = randomInt(Math.floor(min / 2), Math.floor(max / 2)); efeitos.percepcao = randomInt(Math.floor(min / 2), Math.floor(max / 2)); break;
                 }
-                const preco = ITEM_BASE_PRICE[rank] * (1 + Math.random() * 0.5 + rankToIndex(rank) * 0.1);
-                return { id: crypto.randomUUID(), nome, tipo: tipoFinal, subTipoArma: subTipoArma, rank, efeitos, preco: Math.floor(preco), isPotion: false };
+
+                const preco = ITEM_BASE_PRICE[rankDoItemASerGerado] * (1 + Math.random() * 0.5 + rankToIndex(rankDoItemASerGerado) * 0.1);
+
+                return {
+                    id: crypto.randomUUID(),
+                    nome: nomeItem,
+                    tipo: tipoFinal,
+                    subTipoArma: subTipoArma,
+                    rank: rankDoItemASerGerado,
+                    efeitos,
+                    preco: Math.floor(preco),
+                    isPotion: false
+                };
             }
 
             function itemsAreIdentical(item1, item2) {
@@ -1661,28 +1678,28 @@
                 document.getElementById("status-nivel").textContent = game.player.nivel;
                 document.getElementById("status-rank").textContent = game.player.rank;
 
-                // --- MODIFIED BLOCK FOR CLASS NAME ---
+
                 let classeNome = "Nenhuma";
-                let classeTitle = "Nenhuma"; // For the tooltip
+                let classeTitle = "Nenhuma";
                 if (game.player.classe) {
                     if (game.player.classe === "Necromante" && game.player.isMarcado) {
                         classeNome = "Monarca das Sombras";
-                        classeTitle = "Monarca das Sombras (Marcado)"; // More descriptive title
+                        classeTitle = "Monarca das Sombras (Marcado)";
                     } else {
                         classeNome = CLASSES_DATA[game.player.classe]?.nomeDisplay || game.player.classe;
                         classeTitle = classeNome;
-                        if (game.player.isMarcado) { // If Marcado but not Necromancer Monarch
+                        if (game.player.isMarcado) {
                             classeTitle += " (Marcado)";
                         }
                     }
-                } else if (game.player.isMarcado) { // Marcado but no class yet
+                } else if (game.player.isMarcado) {
                     classeTitle = "Marcado";
                 }
-                // --- END MODIFIED BLOCK ---
+
 
                 const classeElement = document.getElementById("status-classe");
                 classeElement.textContent = classeNome;
-                classeElement.title = classeTitle; // Use the potentially more descriptive title
+                classeElement.title = classeTitle;
 
                 document.getElementById("status-moedas").textContent = game.player.moedas;
                 document.getElementById("status-xp").textContent = game.player.xp;
@@ -2052,7 +2069,7 @@
                 console.log("window.onload disparado.");
 
                 initializeGoogleSignInRelatedElements();
-                iniciarJogo(); // iniciarJogo agora pode mostrar a tela de setup
+                iniciarJogo();
 
                 // --- BOTÕES DE NAVEGAÇÃO SUPERIOR ---
                 const btnInicio = document.getElementById("btn-inicio");
@@ -2082,7 +2099,7 @@
                 const btnMercador = document.getElementById("btn-mercador");
                 if (btnMercador) {
                     btnMercador.addEventListener("click", abrirMercador);
-                } // Oculto por padrão, não precisa de erro fatal se não encontrado inicialmente.
+                }
                 const btnSair = document.getElementById("btn-sair");
                 if (btnSair) {
                     btnSair.addEventListener("click", sairJogo);
@@ -2090,16 +2107,13 @@
                     console.error("ERRO FATAL: Botão 'btn-sair' não encontrado no HTML!");
                 }
 
-                // --- LISTENER PARA SETUP DO PERSONAGEM ---
                 const btnSaveCharSetup = document.getElementById("btn-save-character-setup");
                 if (btnSaveCharSetup) {
-                    console.log("btn-save-character-setup encontrado. Anexando listener.");
                     btnSaveCharSetup.addEventListener("click", salvarSetupPersonagem);
                 } else {
-                    console.warn("Aviso: Botão 'btn-save-character-setup' não encontrado (pode ser um problema se a tela de setup for usada).");
+                    console.warn("Aviso: Botão 'btn-save-character-setup' não encontrado.");
                 }
 
-                // Listeners para elementos internos de telas específicas
                 const atributosScreenElement = document.getElementById("atributos-screen");
                 if (atributosScreenElement) {
                     atributosScreenElement.addEventListener("click", manipularBotaoAtributo);
@@ -2113,7 +2127,6 @@
                     btnComprarMercador.addEventListener("click", comprarItensMercador);
                 }
 
-                // Inicializa o modo de adição de atributos
                 const attributeModeButtons = document.querySelectorAll('.attribute-mode-btn');
                 attributeModeButtons.forEach(btn => {
                     btn.addEventListener('click', manipularBotaoAtributo);
@@ -2123,7 +2136,6 @@
                     defaultModeButton.classList.add('active');
                 }
 
-                // Listeners de Batalha
                 document.getElementById("btn-battle-fight")?.addEventListener("click", () => {
                     if (game.batalha.emBatalha && game.batalha.turnoJogador && !game.batalha.jogadorAgiuNoTurno) {
                         mostrarHabilidadesArma();
@@ -2149,26 +2161,29 @@
                     }
                 });
 
-                // --- LISTENERS PARA O CHAT DE COMANDO ---
+                // Bloco Corrigido para os Listeners do Chat de Comando
                 const btnSendCommand = document.getElementById("btn-send-command");
-                if (btnSendCommand) {
+                const chatCommandInputElement = document.getElementById("chat-command-input");
+
+                if (btnSendCommand && chatCommandInputElement) {
                     btnSendCommand.addEventListener("click", () => {
-                        const commandInput = document.getElementById("chat-command-input");
-                        if (commandInput && commandInput.value) {
-                            processChatCommand(commandInput.value);
+                        if (chatCommandInputElement.value) {
+                            processChatCommand(chatCommandInputElement.value);
+                            chatCommandInputElement.value = ""; // Limpa o campo após enviar
                         }
                     });
-                }
-                const chatCommandInputElement = document.getElementById("chat-command-input");
-                if (chatCommandInputElement) {
+
                     chatCommandInputElement.addEventListener("keypress", (event) => {
                         if (event.key === "Enter") {
+                            event.preventDefault(); // Previne o comportamento padrão do Enter (ex: submit de formulário)
                             if (chatCommandInputElement.value) {
                                 processChatCommand(chatCommandInputElement.value);
-                                event.preventDefault();
+                                chatCommandInputElement.value = ""; // Limpa o campo após enviar
                             }
                         }
                     });
+                } else {
+                    console.error("ERRO: Elementos do chat de comando ('btn-send-command' ou 'chat-command-input') não encontrados.");
                 }
                 console.log("Fim da configuração de window.onload.");
             };
@@ -2317,9 +2332,8 @@
                             msg += ` Equipada automaticamente.`;
                         }
                     }
-                    // ... (rest of the function remains the same)
                 }
-                return false; // Return false as it's handled separately, not as a general skill unlock.
+                return false;
             }
 
             function atribuirClasseAleatoriaSeNecessario() {
@@ -2558,15 +2572,10 @@
             }
 
             function desabilitarBotoesAcaoBatalha() {
-                const btnUsarArma = document.getElementById("btn-battle-fight");
-                const btnSkill = document.getElementById("btn-battle-skill");
-                const btnItem = document.getElementById("btn-battle-item");
-                const btnEscape = document.getElementById("btn-battle-escape");
-
-                if (btnUsarArma) btnUsarArma.disabled = true;
-                if (btnSkill) btnSkill.disabled = true;
-                if (btnItem) btnItem.disabled = true;
-                if (btnEscape) btnEscape.disabled = true;
+                document.getElementById("btn-battle-fight")?.setAttribute("disabled", "true");
+                document.getElementById("btn-battle-skill")?.setAttribute("disabled", "true");
+                document.getElementById("btn-battle-item")?.setAttribute("disabled", "true");
+                document.getElementById("btn-battle-escape")?.setAttribute("disabled", "true");
             }
 
             function habilitarBotoesAcaoBatalha() {
@@ -2577,18 +2586,40 @@
                 const monstro = game.batalha.monstro;
 
                 const isArquitetoRefused = monstro?.isArquiteto && game.batalha.arquitetoBattleRefused;
-
-                if (btnUsarArma) btnUsarArma.disabled = false;
-
                 const isDesafioExercito = game.batalha.tipoDesafioLorde === "lorde_exercito";
+
+                if (btnUsarArma) btnUsarArma.disabled = isArquitetoRefused && (monstro?.isArquiteto && game.player.equipamento.arma?.subTipoArma !== "Atomic"); // Se recusou Arquiteto, só Atomic funciona
+
                 const temClasse = !!game.player.classe;
                 const temSkillsEquipadas = game.player.magiasEquipadas && game.player.magiasEquipadas.length > 0;
                 if (btnSkill) btnSkill.disabled = isArquitetoRefused || isDesafioExercito || !(temClasse && temSkillsEquipadas);
 
                 const temPocoes = game.player.inventario.some(i => i.isPotion && i.quantity > 0);
-                if (btnItem) btnItem.disabled = isArquitetoRefused || isDesafioExercito || !temPocoes;
+                const podeUsarPocaoContraBoss = monstro?.isLordeDaMorte || !monstro?.isBoss; // Pode usar contra Lorde da Morte ou não-bosses
+                if (btnItem) btnItem.disabled = isArquitetoRefused || isDesafioExercito || !temPocoes || (monstro?.isBoss && !podeUsarPocaoContraBoss);
 
-                if (btnEscape) btnEscape.disabled = isArquitetoRefused || (monstro && monstro.isBoss) || (monstro && monstro.isLordeDaMorteDesafio) || (monstro?.isArquiteto && game.batalha.arquitetoBattleRefused);
+
+                let podeFugir = !(monstro && (monstro.isBoss || monstro.isLordeDaMorteDesafio));
+                if (isArquitetoRefused) podeFugir = false; // Não pode fugir do Arquiteto se recusou
+                if (monstro?.isMonarchBoss) podeFugir = false; // Não pode fugir de Monarcas
+
+                // Exceção: Habilidade "Troca de Sombras" do Monarca permite fugir
+                const temTrocaSombras = game.player.magiasEquipadas.includes("ms_troca_sombras") && game.player.classe === "Necromante" && game.player.isMarcado;
+
+                if (btnEscape) btnEscape.disabled = !temTrocaSombras && !podeFugir;
+
+
+                // Se for o Arquiteto e recusou, e a arma não for Atomic, desabilita tudo menos o básico
+                if (isArquitetoRefused && game.player.equipamento.arma?.subTipoArma !== "Atomic") {
+                    if (btnUsarArma && TIPOS_DE_ARMAS[game.player.equipamento.arma?.subTipoArma || "Nenhuma"]?.nomeDisplay !== "Desarmado") {
+                        // Permite apenas o primeiro ataque da arma "Desarmado" se nenhuma arma Atomic equipada
+                    } else if (btnUsarArma) {
+                        btnUsarArma.disabled = false; // permite soco se desarmado
+                    }
+                    if (btnSkill) btnSkill.disabled = true;
+                    if (btnItem) btnItem.disabled = true;
+                    if (btnEscape) btnEscape.disabled = true;
+                }
             }
 
 
@@ -2718,7 +2749,16 @@
 
 
             function atacarMonstro(tipo, skill = null) {
-                if (!game.batalha.emBatalha || !game.batalha.monstro) return;
+                if (!game.batalha.emBatalha || !game.batalha.monstro) {
+                    mostrarMensagem("Não há monstro para atacar.");
+                    return;
+                }
+                if (!game.batalha.turnoJogador || game.batalha.jogadorAgiuNoTurno) {
+                    if (game.batalha.jogadorAgiuNoTurno) mostrarMensagem("Você já agiu neste turno.");
+                    else mostrarMensagem("Não é seu turno.");
+                    return;
+                }
+
                 const monstro = game.batalha.monstro;
                 let dano = 0;
                 let msgPart = "";
@@ -2727,88 +2767,78 @@
                 let mainMsg = "";
                 let shadowAttackMsg = "";
 
-                if (tipo === "fisico") {
+                if (tipo === "fisico") { // Ataque físico básico (se implementado separadamente das skills de arma)
+                    game.batalha.jogadorAgiuNoTurno = true;
+                    desabilitarBotoesAcaoBatalha();
                     dano = calcularDanoFisico();
-                    msgPart = "um ataque físico";
+                    msgPart = "um ataque físico básico"; // Ajuste esta mensagem se necessário
                 } else if (tipo === "magico" && skill) {
-                    // --- IMPORTANT: Handle "Invocar Sombra" as a menu trigger, not a direct attack ---
                     if (skill.efeito?.tipo === "invocar_sombra") {
-                        mostrarMensagem("Escolha uma sombra para invocar ou guardar a ativa:");
-                        mostrarMenuInvocarSombras();
+                        mostrarMenuInvocarSombras(); // Esta função agora é o ponto de entrada para invocar/gerenciar sombras
+                        // Não consome o turno principal aqui, o menu de invocação lidará com isso.
                         return;
                     }
 
                     const gastoMana = calcularGastoMana(skill);
                     if (game.player.manaAtual < gastoMana) {
-                        mostrarMensagem(`Você não tem mana suficiente para usar <span class="font-bold text-sky-400">${skill.nome}</span>. Mana necessária: ${gastoMana}`);
+                        mostrarMensagem(`Você não tem mana suficiente para usar <span class="font-bold text-sky-400">${skill.nome}</span>. Mana necessária: ${gastoMana}.`);
+                        // Permite ao jogador escolher outra magia ou voltar
+                        document.getElementById("battle-submenu-choices").innerHTML = "";
+                        document.getElementById("battle-submenu-choices").classList.add("hidden");
+                        document.getElementById("battle-main-commands").classList.remove("hidden");
+                        habilitarBotoesAcaoBatalha(); // Reabilita botões principais
+                        usarMagiaMenu(); // Reabre o menu de magias
                         return;
                     }
                     game.player.manaAtual -= gastoMana;
-                    msgPart = `a habilidade <span class="font-bold text-sky-400">${skill.nome}</span>`;
-                    game.batalha.jogadorAgiuNoTurno = true; // Consumes turn for non-invocation skills
-                    desabilitarBotoesAcaoBatalha();
+                    game.batalha.jogadorAgiuNoTurno = true; // Confirma que o jogador agiu
+                    desabilitarBotoesAcaoBatalha(); // Desabilita botões durante a ação
 
-                    // --- Lógica de Efeitos da Habilidade ---
+                    msgPart = `a habilidade <span class="font-bold text-sky-400">${skill.nome}</span>`;
+
+                    // Lógica de efeitos da habilidade de classe
                     if (skill.efeito) {
                         switch (skill.efeito.tipo) {
-                            // Inside atacarMonstro, within the 'else if (tipo === "magico" && skill)' block,
-                            // inside the 'switch (skill.efeito.tipo)'
-                            // ... existing cases ...
-                            case "escape_battle_dungeon": // Monarca: Troca de Sombras
+                            case "escape_battle_dungeon":
                                 if (game.player.classe === "Necromante" && game.player.isMarcado) {
                                     mostrarMensagem("Com um piscar de sombras, você troca de lugar com um servo distante e escapa ileso!");
-                                    game.batalha.emBatalha = false;
-                                    game.batalha.monstro = null;
-                                    if (game.dungeon.active) {
-                                        game.dungeon.active = false;
-                                        // Optionally, add a penalty or specific message for leaving dungeon this way
-                                    }
-                                    game.player.activeBuffs = []; // Clear buffs on escape
-                                    showBattleInterface(false);
-                                    game.batalha.jogadorAgiuNoTurno = true; // Consumes turn, but battle ends
-                                    desabilitarBotoesAcaoBatalha(); // Disable further actions
-                                    setTimeout(() => {
-                                        abrirInicio(); // Go to main screen
-                                        toggleHeaderNavButtons(false);
-                                        toggleChatInput(false);
-                                    }, 1500);
-                                    dano = 0;
-                                } else {
-                                    msgPart += ", mas o poder da troca falha."; dano = 0;
-                                }
+                                    game.batalha.emBatalha = false; game.batalha.monstro = null;
+                                    if (game.dungeon.active) game.dungeon.active = false;
+                                    game.player.activeBuffs = []; showBattleInterface(false);
+                                    setTimeout(() => { abrirInicio(); toggleHeaderNavButtons(false); toggleChatInput(false); }, 1500);
+                                    dano = 0; return; // Sai da função após escapar
+                                } else { msgPart += ", mas o poder da troca falha."; dano = 0; }
                                 break;
-
-                            case "critical_strike_conditional": // Monarca: Acerto Crítico
+                            case "critical_strike_conditional":
                                 if (game.player.classe === "Necromante" && game.player.isMarcado) {
                                     if (rankToIndex(game.player.rank) > rankToIndex(monstro.rank)) {
                                         dano = Math.floor((game.player.currentDanoFisico + game.player.currentDanoMagico) * 2);
                                         msgPart += ` com um <span class="font-bold text-red-400">Golpe Devastador do Monarca</span>`;
                                     } else {
-                                        dano = calcularDanoFisico();
-                                        msgPart += `, mas a aura do inimigo era muito forte para um golpe crítico total. O ataque causa dano físico normal`;
+                                        dano = calcularDanoFisico(); // Dano físico normal se rank não for maior
+                                        msgPart += `, mas a aura do inimigo era muito forte. O ataque causa dano físico normal`;
                                     }
-                                } else {
-                                    dano = calcularDanoFisico(); msgPart += ", mas o poder do monarca não fluiu. O ataque causa dano físico normal";
-                                }
+                                } else { dano = calcularDanoFisico(); msgPart += ", mas o poder do monarca não fluiu."; }
                                 break;
-
-                            case "full_restore": // Monarca: Recuperação Total
+                            case "full_restore":
                                 if (game.player.classe === "Necromante" && game.player.isMarcado) {
-                                    game.player.vidaAtual = game.player.vidaMax;
-                                    game.player.manaAtual = game.player.manaMax;
-                                    msgPart += ` e <span class="text-emerald-300">restaurou completamente sua Vida e Mana</span> com poder sombrio!`;
+                                    game.player.vidaAtual = game.player.vidaMax; game.player.manaAtual = game.player.manaMax;
+                                    msgPart += ` e <span class="text-emerald-300">restaurou completamente sua Vida e Mana</span>!`;
                                     dano = 0;
-                                } else {
-                                    msgPart += ", mas a energia da recuperação não se manifestou."; dano = 0;
-                                }
+                                } else { msgPart += ", mas a energia da recuperação não se manifestou."; dano = 0; }
                                 break;
-
                             case "extracao_sombra":
-                                if (game.player.lastDefeatedMonsterInfo) {
+                                // ... (lógica de extração como no original, garantindo que lastDefeatedMonsterInfo é verificado) ...
+                                // Certifique-se que esta ação não prossiga para ataque do monstro imediatamente se for uma ação "fora de combate" no menu.
+                                // No contexto de batalha, se for uma skill usada NO TURNO, então o turno do monstro segue.
+                                // Se for chamada do menu de início, é diferente.
+                                // Para este contexto (dentro de atacarMonstro), é uma ação de turno.
+                                if (game.player.lastDefeatedMonsterInfo && !game.player.lastDefeatedMonsterInfo.isBoss) { // Adicionado !isBoss
                                     if (game.player.recipienteSombras.length >= game.player.recipienteCapacity) {
-                                        msgPart += `, mas seu Recipiente de Sombras está cheio! Não foi possível extrair a sombra.`;
-                                        game.player.manaAtual += gastoMana; // Refund mana if extraction fails due to full capacity
+                                        msgPart += `, mas seu Recipiente de Sombras está cheio!`;
+                                        game.player.manaAtual += gastoMana; // Devolve mana
                                     } else {
+                                        // ... lógica de criar sombra ... (mantida do original)
                                         const lastMonster = game.player.lastDefeatedMonsterInfo;
                                         const newRankIndex = Math.max(0, rankToIndex(lastMonster.rank) - 1);
                                         const shadowRank = indexToRank(newRankIndex);
@@ -2819,50 +2849,28 @@
                                             statsOriginais: { vidaMax: lastMonster.vidaMax, danoFisico: lastMonster.danoFisico, danoMagico: lastMonster.danoMagico }
                                         };
                                         game.player.recipienteSombras.push(newShadow);
-                                        msgPart += ` em um ritual profano. Você extraiu a <span class="text-purple-300">${newShadow.nomeSombra} (Rank ${newShadow.rankSombra})</span> e a guardou no Recipiente!`;
+                                        msgPart += ` em um ritual profano. Você extraiu a <span class="text-purple-300">${newShadow.nomeSombra} (Rank ${newShadow.rankSombra})</span>!`;
                                         game.player.lastDefeatedMonsterInfo = null;
                                         atualizarRecipienteSombrasTela();
                                     }
-                                } else {
-                                    msgPart += `, mas não havia uma essência de monstro recém-derrotado para extrair.`;
-                                }
-                                dano = 0; // Extraction doesn't deal damage
+                                } else { msgPart += `, mas não havia uma essência elegível para extrair.`; game.player.manaAtual += gastoMana; } // Devolve mana
+                                dano = 0;
                                 break;
-
                             case "ataque_exercito_sombras_completo":
+                                // ... (lógica do exército como no original) ...
                                 if (game.player.recipienteSombras.length === 0 && !game.player.sombraAtiva) {
-                                    msgPart += `, mas seu recipiente de sombras está vazio e nenhuma sombra ativa! O ritual falha.`;
-                                    game.player.manaAtual += gastoMana; // Refund mana if no shadows to attack with
-                                    dano = 0;
+                                    msgPart += `, mas seu exército não respondeu!`; game.player.manaAtual += gastoMana; dano = 0;
                                 } else {
                                     msgPart += `! <span class="text-red-500 font-bold">Um portal sombrio se abre!</span>`;
                                     let danoTotalExercito = 0;
-                                    let sombrasAtacantesDesc = [];
-
-                                    if (game.player.sombraAtiva && game.player.sombraAtiva.statsAtuais) {
-                                        const sa = game.player.sombraAtiva;
-                                        let danoSombraIndividual = Math.max(1, sa.statsAtuais.danoBase + rankToIndex(sa.rankSombra));
-                                        const dominioBuff = game.player.activeBuffs.find(b => b.id === 'n_dominio_sombras');
-                                        if (dominioBuff) {
-                                            danoSombraIndividual = Math.floor(danoSombraIndividual * (1 + dominioBuff.valor));
-                                        }
-                                        danoTotalExercito += danoSombraIndividual;
-                                        sombrasAtacantesDesc.push(`${sa.nomeSombra} (Rank ${sa.rankSombra}) causando ${danoSombraIndividual}`);
-                                    }
-
-                                    game.player.recipienteSombras.forEach(sombraRecipiente => {
-                                        const danoBaseSombraRecipiente = Math.max(1, Math.floor((sombraRecipiente.statsOriginais.danoFisico || 0) * 0.5));
-                                        let danoSombraIndividual = Math.max(1, danoBaseSombraRecipiente + rankToIndex(sombraRecipiente.rankSombra));
-                                        danoTotalExercito += danoSombraIndividual;
-                                        sombrasAtacantesDesc.push(`${sombraRecipiente.nomeSombra} (Rank ${sombraRecipiente.rankSombra}) causando ${danoSombraIndividual}`);
-                                    });
-
+                                    if (game.player.sombraAtiva?.statsAtuais) { /* ... cálculo ... */ danoTotalExercito += Math.max(1, game.player.sombraAtiva.statsAtuais.danoBase + rankToIndex(game.player.sombraAtiva.rankSombra)); }
+                                    game.player.recipienteSombras.forEach(s => { /* ... cálculo ... */ danoTotalExercito += Math.max(1, Math.floor((s.statsOriginais.danoFisico || 0) * 0.5) + rankToIndex(s.rankSombra)); });
                                     dano = danoTotalExercito;
-                                    msgPart += `<br/>Seu exército de ${game.player.recipienteSombras.length + (game.player.sombraAtiva ? 1 : 0)} sombras ataca em uníssono!`;
+                                    msgPart += `<br/>Seu exército de ${game.player.recipienteSombras.length + (game.player.sombraAtiva ? 1 : 0)} sombras ataca!`;
                                 }
                                 break;
-
-                            case "dano_caotico": // Melodia do Caos do Bardo
+                            case "dano_caotico":
+                                // ... (lógica do dano caótico como no original) ...
                                 const playerRankIndex = rankToIndex(game.player.rank);
                                 const monsterRankIndex = rankToIndex(monstro.rank);
                                 const rankDiff = playerRankIndex - monsterRankIndex;
@@ -2871,165 +2879,69 @@
                                     msgPart += `. A melodia enfraquece o inimigo!`;
                                 } else if (rankDiff === 0) {
                                     dano = Math.floor(monstro.vidaMax * 0.50);
-                                    const selfDmg = Math.floor(game.player.vidaMax * 0.30);
-                                    game.player.vidaAtual -= selfDmg;
-                                    selfDamageMsg = ` A canção ressoa perigosamente, causando <span class="font-bold text-orange-400">${selfDmg}</span> de dano a você!`;
+                                    const selfDmg = Math.floor(game.player.vidaMax * 0.30); game.player.vidaAtual -= selfDmg;
+                                    selfDamageMsg = ` A canção ressoa, causando <span class="font-bold text-orange-400">${selfDmg}</span> de dano a você!`;
                                     msgPart += `. A canção atinge um equilíbrio caótico!`;
                                 } else {
-                                    dano = 0;
-                                    const selfDmgPercentage = 0.35 + (0.05 * Math.abs(rankDiff));
-                                    const selfDmg = Math.floor(game.player.vidaMax * selfDmgPercentage);
-                                    game.player.vidaAtual -= selfDmg;
-                                    selfDamageMsg = ` A melodia se volta contra você, causando <span class="font-bold text-orange-400">${selfDmg}</span> de dano! O monstro parece ileso.`;
-                                    msgPart += `. A canção é suprimida pela força do inimigo!`;
+                                    dano = 0; const selfDmgPercentage = 0.35 + (0.05 * Math.abs(rankDiff));
+                                    const selfDmg = Math.floor(game.player.vidaMax * selfDmgPercentage); game.player.vidaAtual -= selfDmg;
+                                    selfDamageMsg = ` A melodia se volta contra você, causando <span class="font-bold text-orange-400">${selfDmg}</span> de dano!`;
+                                    msgPart += `. A canção é suprimida!`;
                                 }
-                                if (game.player.vidaAtual <= 0) {
-                                    game.player.vidaAtual = 0;
-                                    playerDefeatedBySkill = true;
-                                }
+                                if (game.player.vidaAtual <= 0) { game.player.vidaAtual = 0; playerDefeatedBySkill = true; }
                                 break;
-
-                            case "cura": // Cura do Paladino
-                                const cura = Math.floor(skill.efeito.valor_base + (game.player.atributos.inteligencia * (skill.efeito.escala_inteligencia || 0)));
-                                game.player.vidaAtual = Math.min(game.player.vidaAtual + cura, game.player.vidaMax);
-                                msgPart += ` e curou <span class="font-bold text-emerald-400">${cura}</span> de vida!`;
-                                dano = 0; // Habilidades de cura não causam dano
+                            case "cura":
+                            case "cura_percentual_vida_max":
+                                // ... (lógica de cura como no original) ...
+                                const curaVal = skill.efeito.tipo === "cura" ? Math.floor(skill.efeito.valor_base + (game.player.atributos.inteligencia * (skill.efeito.escala_inteligencia || 0)))
+                                    : Math.floor(game.player.vidaMax * skill.efeito.valor);
+                                game.player.vidaAtual = Math.min(game.player.vidaAtual + curaVal, game.player.vidaMax);
+                                msgPart += ` e curou <span class="font-bold text-emerald-400">${curaVal}</span> de vida!`;
+                                dano = 0;
                                 break;
-
-                            case "cura_percentual_vida_max": // Milagre de Música do Bardo
-                                const curaPct = Math.floor(game.player.vidaMax * skill.efeito.valor);
-                                game.player.vidaAtual = Math.min(game.player.vidaAtual + curaPct, game.player.vidaMax);
-                                msgPart += ` e curou <span class="font-bold text-emerald-400">${curaPct}</span> de vida!`;
-                                dano = 0; // Habilidades de cura não causam dano
-                                break;
-
                             case "buff_dano_fisico":
                             case "buff_resistencia":
                             case "buff_dano_sombra_ativa":
-                                // Remove buff existente do mesmo tipo antes de adicionar um novo
                                 game.player.activeBuffs = game.player.activeBuffs.filter(b => b.id !== skill.id);
-                                game.player.activeBuffs.push({
-                                    id: skill.id,
-                                    nomeSkill: skill.nome,
-                                    tipo: skill.efeito.tipo,
-                                    valor: skill.efeito.valor,
-                                    duracao: skill.efeito.duracao // Duração já inclui o turno atual
-                                });
-                                msgPart += ` e ativou ${skill.nome}!`;
-                                // Reaplicar atributos derivados para que os buffs sejam considerados
-                                atualizarAtributosDerivados();
-                                dano = 0; // Buffs não causam dano direto
+                                game.player.activeBuffs.push({ id: skill.id, nomeSkill: skill.nome, tipo: skill.efeito.tipo, valor: skill.efeito.valor, duracao: skill.efeito.duracao });
+                                msgPart += ` e ativou ${skill.nome}!`; atualizarAtributosDerivados(); dano = 0;
                                 break;
-
-                            case "debuff_precisao_inimigo":
-                            case "debuff_agilidade_inimigo":
-                            case "debuff_defesa_inimigo":
-                                // Adicionar debuff ao monstro. Vamos precisar de um array de buffs/debuffs para o monstro.
-                                if (!monstro.activeDebuffs) monstro.activeDebuffs = [];
-                                // Remover debuff existente do mesmo tipo antes de adicionar um novo
-                                monstro.activeDebuffs = monstro.activeDebuffs.filter(d => d.id !== skill.id);
-                                monstro.activeDebuffs.push({
-                                    id: skill.id,
-                                    nomeSkill: skill.nome,
-                                    tipo: skill.efeito.tipo,
-                                    valor: skill.efeito.valor,
-                                    duracao: skill.efeito.duracao // Duração já inclui o turno atual
-                                });
-                                msgPart += ` e aplicou um efeito em ${monstro.nome}!`;
-                                dano = (skill.tipoDano === "magico") ? calcularDanoMagico(skill) : skill.danoBase + Math.floor(game.player.currentDanoFisico * 0.5);
-                                break;
-
-                            case "chance_atordoar":
-                                // Atordoar o inimigo. Precisa de uma flag de "atordoado" no monstro.
-                                dano = (skill.tipoDano === "magico") ? calcularDanoMagico(skill) : skill.danoBase + Math.floor(game.player.currentDanoFisico * 0.5);
-                                if (Math.random() < skill.efeito.chance) {
-                                    monstro.isStunned = true;
-                                    monstro.stunDuration = 1; // Atordoado por 1 turno do monstro
-                                    msgPart += ` e atordoou ${monstro.nome}!`;
-                                } else {
-                                    msgPart += `, mas não atordoou ${monstro.nome}.`;
-                                }
-                                break;
-
-                            case "dot": // Damage over Time (Sangramento, Veneno)
-                                // Adicionar DoT ao monstro. Precisa de um array de DoTs no monstro.
-                                if (!monstro.activeDots) monstro.activeDots = [];
-                                // Remover DoT existente do mesmo tipo (para não acumular o mesmo sangramento/veneno)
-                                monstro.activeDots = monstro.activeDots.filter(d => d.id !== skill.id);
-                                monstro.activeDots.push({
-                                    id: skill.id,
-                                    nomeSkill: skill.nome,
-                                    danoPorTurno: skill.efeito.dano_por_turno,
-                                    duracao: skill.efeito.duracao,
-                                    tipoDanoDot: skill.efeito.tipoDanoDot || "fisico" // default para fisico se não especificado
-                                });
-                                msgPart += ` e causou ${skill.nome} em ${monstro.nome}!`;
-                                dano = (skill.tipoDano === "magico") ? calcularDanoMagico(skill) : skill.danoBase + Math.floor(game.player.currentDanoFisico * 0.5);
-                                break;
-
-                            case "multi_hit": // Chuva de Flechas
-                                const numeroDeHits = skill.efeito.hits || 1;
-                                let danoTotalMultiHit = 0;
-                                for (let i = 0; i < numeroDeHits; i++) {
-                                    let danoBaseSkill = (skill.danoBase || 0) + (skill.tipoDano === "magico" ? game.player.currentDanoMagico : game.player.currentDanoFisico * 0.5);
-                                    danoTotalMultiHit += Math.floor(danoBaseSkill * (skill.danoMultiplicador || 1.0));
-                                }
-                                dano = danoTotalMultiHit;
-                                msgPart += ` e disparou ${numeroDeHits} flechas!`;
-                                break;
-
-                            case "dano_bonus_vida_baixa": // Execução do Assassino
-                                dano = (skill.tipoDano === "magico") ? calcularDanoMagico(skill) : skill.danoBase + Math.floor(game.player.currentDanoFisico * 0.5);
-                                if (monstro.vidaAtual / monstro.vidaMax <= skill.efeito.limiar_vida) {
-                                    dano = Math.floor(dano * skill.efeito.multiplicador);
-                                    msgPart += ` com dano bônus de execução!`;
-                                }
-                                break;
-
-                            case "ignora_defesa_parcial": // Virote Pesado da Besta
-                                dano = (skill.tipoDano === "magico") ? calcularDanoMagico(skill) : skill.danoBase + Math.floor(game.player.currentDanoFisico * (skill.danoMultiplicador || 1.0));
-                                // Para simplificar, vou aplicar como dano adicional direto, mas idealmente seria ignorar a resistência.
-                                // Para uma implementação mais precisa, você precisaria aplicar a redução de defesa ao monstro.
-                                // Por enquanto, vamos fazer um dano extra.
-                                dano += Math.floor(dano * (skill.efeito.valor || 0.1));
-                                msgPart += ` ignorando parte da armadura!`;
-                                break;
-
-                            default:
-                                // Habilidades que causam dano padrão sem efeito específico aqui
-                                dano = (skill.tipoDano === "magico") ? calcularDanoMagico(skill) : skill.danoBase + Math.floor(game.player.currentDanoFisico * 0.5);
+                            // Adicionar mais casos de efeitos de CLASSE aqui
+                            default: // Habilidade de classe com dano mas sem efeito especial listado
+                                dano = (skill.tipoDano === "magico") ? calcularDanoMagico(skill) : (skill.danoBase || 0) + Math.floor(game.player.currentDanoFisico * 0.5);
                                 break;
                         }
-                    } else {
-                        // Se não tem efeito, é uma skill de dano base
-                        dano = (skill.tipoDano === "magico") ? calcularDanoMagico(skill) : skill.danoBase + Math.floor(game.player.currentDanoFisico * 0.5);
+                    } else { // Habilidade de classe sem bloco de 'efeito', puramente dano
+                        dano = (skill.tipoDano === "magico") ? calcularDanoMagico(skill) : (skill.danoBase || 0) + Math.floor(game.player.currentDanoFisico * 0.5);
                     }
+                } else {
+                    mostrarMensagem("Tipo de ataque inválido ou habilidade não fornecida.");
+                    habilitarBotoesAcaoBatalha(); // Reabilita se a ação falhou antes de consumir turno
+                    return;
                 }
 
                 if (dano > 0) monstro.vidaAtual -= dano;
                 if (monstro.vidaAtual < 0) monstro.vidaAtual = 0;
 
-                mainMsg = `Você usou ${msgPart} no <span class="font-bold text-rose-400">${monstro.nome}</span>`;
+                mainMsg = `Você usou ${msgPart}`;
                 if (dano > 0) {
                     mainMsg += ` e causou <span class="font-bold text-amber-400">${dano}</span> de dano.`;
-                } else if (!(skill && (skill.efeito?.tipo === "extracao_sombra" || skill.efeito?.tipo.startsWith("cura") || skill.id === 'b_melodia_caos' || skill.efeito?.tipo.startsWith("buff") || skill.efeito?.tipo.startsWith("debuff") || skill.efeito?.tipo === "ataque_exercito_sombras_completo"))) {
-                    // Only append "não causou dano direto" if it was truly a non-damaging action.
-                    mainMsg += `, mas não causou dano direto.`;
+                } else if (!(skill && (skill.efeito?.tipo.includes("cura") || skill.efeito?.tipo.startsWith("buff") || skill.efeito?.tipo === "extracao_sombra" || skill.efeito?.tipo === "escape_battle_dungeon"))) {
+                    // Não adiciona "não causou dano" para curas/buffs/etc.
                 }
+
                 mainMsg += `<br/>Vida do monstro: ${monstro.vidaAtual} / ${monstro.vidaMax}.`;
                 if (selfDamageMsg) mainMsg += selfDamageMsg;
-                if (tipo === "magico") mainMsg += `<br/>Mana restante: ${game.player.manaAtual} / ${game.player.manaMax}.`;
+                if (tipo === "magico" && skill) mainMsg += `<br/>Mana restante: ${game.player.manaAtual} / ${game.player.manaMax}.`;
 
-
-                // Shadow's attack logic after player's action
                 if (game.player.sombraAtiva && monstro.vidaAtual > 0 && !playerDefeatedBySkill && game.player.sombraAtiva.statsAtuais) {
                     const sombra = game.player.sombraAtiva;
                     const danoSombra = Math.max(1, sombra.statsAtuais.danoBase + rankToIndex(sombra.rankSombra));
                     monstro.vidaAtual -= danoSombra;
                     if (monstro.vidaAtual < 0) monstro.vidaAtual = 0;
                     shadowAttackMsg = `<br/>Sua <span class="text-purple-300">${sombra.nomeSombra}</span> ataca, causando <span class="font-bold text-violet-400">${danoSombra}</span> de dano! Vida do monstro: ${monstro.vidaAtual} / ${monstro.vidaMax}.`;
+                    mainMsg += shadowAttackMsg;
                 }
-                mainMsg += shadowAttackMsg;
 
                 if (playerDefeatedBySkill) mainMsg += `<br/><br/><span class="font-bold text-rose-500">Sua própria magia o derrotou!</span>`;
 
@@ -3039,15 +2951,16 @@
                 updateEnemyBattleDisplay(monstro);
                 updateSummonBattleDisplay();
 
-                // Check for battle end or proceed to monster's turn
+                // Limpa submenu e mostra comandos principais (se não foi uma ação que já limpou)
+                document.getElementById("battle-submenu-choices").innerHTML = "";
+                document.getElementById("battle-submenu-choices").classList.add("hidden");
+                // document.getElementById("battle-main-commands").classList.remove("hidden"); // Será reabilitado pelo monstroAtaca
+
                 if (playerDefeatedBySkill) {
                     setTimeout(() => { showBattleInterface(false); gameOver(); }, 1500);
                 } else if (monstro.vidaAtual <= 0) {
                     setTimeout(() => { showBattleInterface(false); derrotarMonstro(monstro); }, 1200);
                 } else {
-                    document.getElementById("battle-submenu-choices").innerHTML = "";
-                    document.getElementById("battle-submenu-choices").classList.add("hidden");
-                    document.getElementById("battle-main-commands").classList.remove("hidden");
                     setTimeout(() => monstroAtaca(), 1200);
                 }
             }
@@ -3100,13 +3013,23 @@
 
             function executarHabilidadeArma(habilidade, nomeArmaUsada) {
                 if (!game.batalha.emBatalha || !game.batalha.monstro || game.batalha.jogadorAgiuNoTurno) {
-                    if (game.batalha.jogadorAgiuNoTurno) mostrarMensagem("Você já agiu neste turno.");
+                    if (game.batalha.jogadorAgiuNoTurno) {
+                        mostrarMensagem("Você já agiu neste turno.");
+                    } else {
+                        mostrarMensagem("Não é possível usar habilidade de arma agora.");
+                    }
+                    if (!game.batalha.jogadorAgiuNoTurno) {
+                        document.getElementById("battle-submenu-choices").innerHTML = "";
+                        document.getElementById("battle-submenu-choices").classList.add("hidden");
+                        document.getElementById("battle-main-commands").classList.remove("hidden");
+                        habilitarBotoesAcaoBatalha();
+                    }
                     return;
                 }
 
                 const monstro = game.batalha.monstro;
-                // MODIFICADO: Calcular custo de mana (incluindo percentual)
                 let custoMana;
+
                 if (habilidade.custoManaPercent !== undefined) {
                     custoMana = Math.floor(game.player.manaMax * habilidade.custoManaPercent);
                 } else {
@@ -3115,52 +3038,41 @@
 
                 if (game.player.manaAtual < custoMana) {
                     mostrarMensagem(`Você não tem mana suficiente para usar ${habilidade.nome}. Mana necessária: ${custoMana}.`);
-                    const submenu = document.getElementById("battle-submenu-choices");
-                    submenu.innerHTML = "";
-                    submenu.classList.add("hidden");
-                    document.getElementById("battle-main-commands").classList.remove("hidden");
-                    habilitarBotoesAcaoBatalha();
-                    mostrarHabilidadesArma(); // Re-show skill list so player can choose another or cancel
+                    mostrarHabilidadesArma();
                     return;
                 }
+
                 game.player.manaAtual -= custoMana;
+                game.batalha.jogadorAgiuNoTurno = true;
+                desabilitarBotoesAcaoBatalha();
 
                 let danoTotalCausado = 0;
                 let logHits = [];
                 const numeroDeHits = habilidade.hits || 1;
-                let msg = `Você usou <span class="font-bold text-cyan-400">${habilidade.nome}</span> com sua ${nomeArmaUsada}.`; // Mensagem inicial
-                let danoAplicadoAoMonstro = true; // Flag para saber se o dano é no monstro ou outro efeito
+                let msg = `Você usou <span class="font-bold text-cyan-400">${habilidade.nome}</span> com sua ${nomeArmaUsada}.`;
+                let danoAplicadoAoMonstro = true;
 
-                // NOVO: Lógica para "I'm Atomic" (damage_percentage_current_hp)
                 if (habilidade.efeito?.tipo === "damage_percentage_current_hp") {
                     const danoPercentual = Math.floor(monstro.vidaAtual * habilidade.efeito.valor);
                     danoTotalCausado = danoPercentual;
-                    logHits.push(danoTotalCausado); // Registra como um único hit para consistência de log
+                    logHits.push(danoTotalCausado);
                     msg += ` Uma onda de energia pura engole o inimigo!`;
-                }
-                // NOVO: Lógica para "Time Stop" (enemy_stun_turns) - não causa dano direto
-                else if (habilidade.efeito?.tipo === "enemy_stun_turns") {
+                } else if (habilidade.efeito?.tipo === "enemy_stun_turns") {
                     monstro.isStunned = true;
                     monstro.stunDuration = (monstro.stunDuration || 0) + habilidade.efeito.duracao;
                     msg += ` O tempo para ao redor do ${monstro.nome} por ${habilidade.efeito.duracao} turno(s)!`;
-                    danoAplicadoAoMonstro = false; // Time Stop não causa dano
-                    danoTotalCausado = 0; // Garante que nenhum dano seja aplicado
-                } else { // Lógica existente para outros tipos de dano e habilidades com hits
+                    danoAplicadoAoMonstro = false;
+                    danoTotalCausado = 0;
+                } else {
                     for (let i = 0; i < numeroDeHits; i++) {
                         let danoDoHit;
-                        // NOVO: Checar por danoBase fixo na habilidade (ex: Speed Slash, Devastation)
                         if (habilidade.danoBase !== undefined) {
-                            danoDoHit = habilidade.danoBase; // Dano fixo por hit
-                        } else { // Dano baseado nos stats do jogador e multiplicador da skill
-                            let danoBaseJogador = calcularDanoFisico(); // Ou outra lógica se a skill for mágica
+                            danoDoHit = habilidade.danoBase;
+                        } else {
+                            let danoBaseJogador = calcularDanoFisico();
                             danoDoHit = Math.floor(danoBaseJogador * (habilidade.danoMultiplicador || 1.0));
                         }
-
                         if (habilidade.efeito?.tipo === "ignora_defesa_parcial" && monstro.rank !== "S") {
-                            // Este efeito pode precisar de ajuste se danoBase for usado, pois ignora_defesa_parcial
-                            // geralmente é um bônus sobre o dano calculado.
-                            // Se danoBase é absoluto, este bônus pode ser aplicado a ele ou ser um efeito separado.
-                            // Por ora, aplicaremos ao danoDoHit calculado.
                             danoDoHit = Math.floor(danoDoHit * (1 + (habilidade.efeito.valor || 0.1)));
                         }
                         danoTotalCausado += danoDoHit;
@@ -3173,65 +3085,34 @@
                     if (monstro.vidaAtual < 0) monstro.vidaAtual = 0;
                 }
 
-
-                game.batalha.jogadorAgiuNoTurno = true;
-                desabilitarBotoesAcaoBatalha();
-
-                // Mensagem de dano (ajustada)
                 if (habilidade.efeito?.tipo === "damage_percentage_current_hp") {
                     msg += ` Causou <span class="font-bold text-amber-400">${danoTotalCausado}</span> de dano (${(habilidade.efeito.valor * 100).toFixed(0)}% da vida atual).`;
                 } else if (habilidade.efeito?.tipo === "enemy_stun_turns") {
-                    // A mensagem de stun já foi adicionada. Não precisa de mensagem de dano.
-                } else if (numeroDeHits > 1) { // Para multi-hit skills como Devastation
+                    // Mensagem já adicionada
+                } else if (numeroDeHits > 1) {
                     msg += ` Atingiu ${numeroDeHits} vezes, causando ${logHits.join(' + ')} = <span class="font-bold text-amber-400">${danoTotalCausado}</span> de dano.`;
-                } else if (danoTotalCausado > 0) { // Para Speed Slash e outros single hits com dano
+                } else if (danoTotalCausado > 0) {
                     msg += ` Causou <span class="font-bold text-amber-400">${danoTotalCausado}</span> de dano.`;
                 } else if (!danoAplicadoAoMonstro) {
-                    // Mensagem já tratada (ex: Time Stop)
+                    // Mensagem já tratada (ex: stun)
                 } else {
-                    msg += ` Mas não causou dano direto.`; // Se uma habilidade ofensiva por algum motivo não causou dano
+                    msg += ` Mas não causou dano direto.`;
                 }
 
-
                 if (habilidade.efeito && habilidade.efeito.tipo !== "damage_percentage_current_hp" && habilidade.efeito.tipo !== "enemy_stun_turns") {
-                    switch (habilidade.efeito.tipo) {
-                        case "debuff_precisao_inimigo":
-                            msg += ` O inimigo parece desorientado!`;
-                            // Implementar lógica de debuff no monstro se necessário
-                            if (!monstro.activeDebuffs) monstro.activeDebuffs = [];
-                            monstro.activeDebuffs = monstro.activeDebuffs.filter(d => d.id !== habilidade.id); // Evitar duplicatas
-                            monstro.activeDebuffs.push({ id: habilidade.id, tipo: "debuff_precisao_inimigo", valor: habilidade.efeito.valor, duracao: habilidade.efeito.duracao, nomeSkill: habilidade.nome });
-                            break;
-                        case "chance_atordoar":
-                            if (Math.random() < habilidade.efeito.chance) {
-                                msg += ` O inimigo está atordoado!`;
-                                monstro.isStunned = true;
-                                monstro.stunDuration = (monstro.stunDuration || 0) + 1; // Adiciona 1 turno ao stun existente ou inicia
-                            }
-                            break;
-                        case "debuff_defesa_inimigo":
-                            msg += ` A defesa do inimigo foi reduzida!`;
-                            if (!monstro.activeDebuffs) monstro.activeDebuffs = [];
-                            monstro.activeDebuffs = monstro.activeDebuffs.filter(d => d.id !== habilidade.id);
-                            monstro.activeDebuffs.push({ id: habilidade.id, tipo: "debuff_defesa_inimigo", valor: habilidade.efeito.valor, duracao: habilidade.efeito.duracao, nomeSkill: habilidade.nome });
-                            break;
-                        case "dot":
-                            msg += ` O inimigo começa a sangrar!`;
-                            if (!monstro.activeDots) monstro.activeDots = [];
-                            monstro.activeDots = monstro.activeDots.filter(d => d.id !== habilidade.id);
-                            monstro.activeDots.push({ id: habilidade.id, danoPorTurno: habilidade.efeito.dano_por_turno, duracao: habilidade.efeito.duracao, tipoDanoDot: habilidade.efeito.tipoDanoDot || "fisico", nomeSkill: habilidade.nome });
-                            break;
-                        case "debuff_agilidade_inimigo":
-                            msg += ` Os movimentos do inimigo foram dificultados!`;
-                            if (!monstro.activeDebuffs) monstro.activeDebuffs = [];
-                            monstro.activeDebuffs = monstro.activeDebuffs.filter(d => d.id !== habilidade.id);
-                            monstro.activeDebuffs.push({ id: habilidade.id, tipo: "debuff_agilidade_inimigo", valor: habilidade.efeito.valor, duracao: habilidade.efeito.duracao, nomeSkill: habilidade.nome });
-                            break;
+                    if (habilidade.efeito.tipo === "debuff_defesa_inimigo") {
+                        if (!monstro.activeDebuffs) monstro.activeDebuffs = [];
+                        monstro.activeDebuffs = monstro.activeDebuffs.filter(d => d.id !== habilidade.id);
+                        monstro.activeDebuffs.push({ id: habilidade.id, tipo: "debuff_defesa_inimigo", valor: habilidade.efeito.valor, duracao: habilidade.efeito.duracao, nomeSkill: habilidade.nome });
+                        msg += ` A defesa do inimigo foi reduzida!`;
                     }
+                    // Adicionar outros 'else if' para mais tipos de efeitos de arma aqui
                 }
 
                 msg += `<br/>Vida do <span class="font-bold text-rose-400">${monstro.nome}</span>: ${monstro.vidaAtual} / ${monstro.vidaMax}.`;
-                if (custoMana > 0) msg += `<br/>Mana restante: ${game.player.manaAtual} / ${game.player.manaMax}.`;
+                if (custoMana > 0) {
+                    msg += `<br/>Mana restante: ${game.player.manaAtual} / ${game.player.manaMax}.`;
+                }
 
                 let shadowAttackMsg = "";
                 if (game.player.sombraAtiva && monstro.vidaAtual > 0 && game.player.sombraAtiva.statsAtuais) {
@@ -3240,31 +3121,287 @@
                     monstro.vidaAtual -= danoSombra;
                     if (monstro.vidaAtual < 0) monstro.vidaAtual = 0;
                     shadowAttackMsg = `<br/>Sua <span class="text-purple-300">${sombra.nomeSombra}</span> ataca, causando <span class="font-bold text-violet-400">${danoSombra}</span> de dano! Vida do monstro: ${monstro.vidaAtual} / ${monstro.vidaMax}.`;
+                    msg += shadowAttackMsg;
                 }
-                msg += shadowAttackMsg;
-
 
                 mostrarMensagem(msg);
-                atualizarStatusAtributos(); // Atualiza status gerais
-                updatePlayerBattleDisplay(); // Atualiza display de batalha do jogador
-                updateEnemyBattleDisplay(monstro); // Atualiza display de batalha do inimigo
-                updateSummonBattleDisplay(); // Atualiza display da sombra
+                atualizarStatusAtributos();
+                updatePlayerBattleDisplay();
+                updateEnemyBattleDisplay(monstro);
+                updateSummonBattleDisplay();
 
                 document.getElementById("battle-submenu-choices").innerHTML = "";
                 document.getElementById("battle-submenu-choices").classList.add("hidden");
-                document.getElementById("battle-main-commands").classList.remove("hidden");
 
                 if (monstro.vidaAtual <= 0) {
-                    setTimeout(() => { showBattleInterface(false); derrotarMonstro(monstro); }, 1500);
+                    setTimeout(() => {
+                        try {
+                            showBattleInterface(false);
+                            derrotarMonstro(monstro);
+                        } catch (e) {
+                            console.error("Erro ao finalizar batalha (executarHabilidadeArma):", e);
+                            mostrarMensagem("Erro crítico ao finalizar batalha: " + e.message + ". Tente recarregar.");
+                        }
+                    }, 1500);
                 } else {
                     setTimeout(() => monstroAtaca(), 1500);
                 }
             }
 
+            function derrotarMonstro(monstro) {
+                const eraDesafioClasseVencido = game.batalha.isDesafioClasse && monstro.isDesafioClasseBoss;
+                const skillDesafioIdVencida = game.batalha.skillEmDesafioId;
+                const eraLordeDeDesafioVencido = monstro.isLordeDaMorteDesafio;
+                const tipoDesafioLordeOriginalVencido = game.batalha.tipoDesafioLorde;
+
+                try {
+                    showBattleInterface(false);
+                } catch (e) {
+                    console.error("Erro em showBattleInterface dentro de derrotarMonstro:", e);
+                }
+
+                game.batalha.emBatalha = false;
+                game.batalha.isDesafioClasse = false;
+                game.batalha.skillEmDesafioId = null;
+                game.batalha.desafioBossOriginalStats = null;
+                game.batalha.tipoDesafioLorde = null;
+                game.batalha.isBossBattle = false;
+
+                if (game.player.classe === "Necromante" &&
+                    !monstro.isBoss &&
+                    !eraDesafioClasseVencido &&
+                    !eraLordeDeDesafioVencido &&
+                    game.player.magiasAdquiridas.includes("n_extracao_sombras")) {
+                    game.player.lastDefeatedMonsterInfo = {
+                        nome: monstro.nome, rank: monstro.rank,
+                        vidaMax: monstro.vidaMax, danoFisico: monstro.danoFisico, danoMagico: monstro.danoMagico,
+                    };
+                } else {
+                    game.player.lastDefeatedMonsterInfo = null;
+                }
+                if (game.player.sombraAtiva) game.player.sombraAtiva = null;
+
+                let xpGanhoBase = monstro.xpGanho;
+                if (monstro.isBoss && !eraDesafioClasseVencido && !eraLordeDeDesafioVencido) {
+                    xpGanhoBase *= 2;
+                }
+                let xpFinal = Math.floor(xpGanhoBase * (1 + game.player.xpBonus));
+                if (game.player.isMarcado) {
+                    xpFinal *= 2;
+                }
+                game.player.xp += xpFinal;
+
+                let moedasGanhas = 0;
+                if (!eraDesafioClasseVencido && !eraLordeDeDesafioVencido) {
+                    moedasGanhas = randomInt(5, 20) * (rankToIndex(monstro.rank) + 1) * (monstro.isBoss ? 5 : 1);
+                    game.player.moedas += moedasGanhas;
+                }
+
+                for (const attr in game.player.atributos) {
+                    game.player.atributos[attr] = +(game.player.atributos[attr] + 0.1).toFixed(1);
+                }
+                game.player.vidaAtual = Math.min(game.player.vidaAtual + Math.floor(game.player.vidaMax * 0.3), game.player.vidaMax);
+                game.player.manaAtual = Math.min(game.player.manaAtual + Math.floor(game.player.manaMax * 0.3), game.player.manaMax);
+                game.player.activeBuffs = [];
+
+                let itensDropadosParaMensagem = [];
+                if (!eraDesafioClasseVencido && !eraLordeDeDesafioVencido) {
+                    const dropChance = monstro.isBoss ? 1.0 : 0.7;
+                    if (Math.random() < dropChance) {
+                        const numeroDeItensADropar = monstro.isBoss ? 3 : 1;
+                        const rankIndexMonstroBase = rankToIndex(monstro.rank);
+
+                        for (let i = 0; i < numeroDeItensADropar; i++) {
+                            let itemRankForDropIndex = rankIndexMonstroBase;
+
+                            if (!monstro.isBoss) {
+                                const roll = Math.random();
+                                if (roll < 0.15) itemRankForDropIndex = Math.min(RANKS.length - 1, rankIndexMonstroBase + 1);
+                                else if (roll < 0.70) itemRankForDropIndex = rankIndexMonstroBase;
+                                else itemRankForDropIndex = Math.max(0, rankIndexMonstroBase - 1);
+                            } else {
+                                const bossItemRoll = Math.random();
+                                if (bossItemRoll < 0.20 && rankIndexMonstroBase > 0) itemRankForDropIndex = rankIndexMonstroBase - 1;
+                                else if (bossItemRoll < 0.60 && rankIndexMonstroBase < RANKS.length - 1) itemRankForDropIndex = rankIndexMonstroBase + 1;
+                            }
+                            itemRankForDropIndex = clamp(itemRankForDropIndex, 0, RANKS.length - 1);
+                            const rankDoItemGerado = indexToRank(itemRankForDropIndex);
+
+                            let monstroPermiteDropAtomicFlag = false;
+                            if (rankToIndex(monstro.rank) >= rankToIndex("S")) {
+                                monstroPermiteDropAtomicFlag = true;
+                            }
+                            if (monstro.isBoss && (monstro.rank === "SSS" || monstro.isMonarchBoss) && Math.random() < 0.1) {
+                                monstroPermiteDropAtomicFlag = true;
+                            }
+
+                            const itemGerado = gerarItem(rankDoItemGerado, monstroPermiteDropAtomicFlag);
+
+                            if (itemGerado) {
+                                if (itemGerado.isUnique && game.player.inventario.some(invItem => invItem.id === itemGerado.id || invItem.nome === itemGerado.nome)) {
+                                    continue;
+                                }
+                                addItemToInventory(itemGerado);
+                                itensDropadosParaMensagem.push(`${itemGerado.nome} (Rank ${itemGerado.rank})`);
+                            }
+                        }
+                    }
+                }
+
+                let leveledUp = false;
+                let levelUpMessages = [];
+                while (game.player.xp >= game.player.xpProximoNivel) {
+                    leveledUp = true; game.player.xp -= game.player.xpProximoNivel; game.player.nivel++;
+                    game.player.pontosDistribuir += 5;
+                    for (const attr in game.player.atributos) { game.player.atributos[attr] = +(game.player.atributos[attr] + 1).toFixed(1); }
+                    levelUpMessages.push(`Você subiu para o nível <span class="font-bold text-emerald-400">${game.player.nivel}</span>, ganhou 5 pontos para distribuir e +1 em todos os atributos!`);
+                    game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.10);
+                    atualizarMercadorVisibilidade();
+                    atualizarRank();
+                    const novasSkillsMsgs = verificarDesbloqueioHabilidadesClasse();
+                    levelUpMessages = levelUpMessages.concat(novasSkillsMsgs);
+                }
+                atualizarAtributosDerivados();
+
+                let msgVitoria = `Você derrotou o <span class="font-bold text-rose-400">${monstro.nome}</span>!`;
+                if (!eraDesafioClasseVencido && !eraLordeDeDesafioVencido) {
+                    msgVitoria += `<br/>Ganhou <span class="font-bold text-amber-400">${xpFinal} XP</span>${game.player.isMarcado ? " (Dobrado!)" : ""} e <span class="font-bold text-amber-300">${moedasGanhas}</span> moedas.`;
+                } else {
+                    msgVitoria += `<br/>Ganhou <span class="font-bold text-amber-400">${xpFinal} XP</span>${game.player.isMarcado ? " (Dobrado!)" : ""} pela vitória no desafio.`;
+                }
+
+                if (itensDropadosParaMensagem.length > 0) {
+                    msgVitoria += `<br/><br/><span class="font-semibold text-amber-300">${monstro.isBoss ? "O Chefe deixou cair os seguintes tesouros:" : "O monstro deixou cair:"}</span>`;
+                    itensDropadosParaMensagem.forEach(nomeItem => {
+                        msgVitoria += `<br/>- <span class="font-bold text-sky-400">${nomeItem}</span>`;
+                    });
+                } else if (monstro.isBoss && !eraDesafioClasseVencido && !eraLordeDeDesafioVencido && !game.dungeon.active) {
+                    msgVitoria += `<br/><br/>O Chefe não deixou cair nenhum item utilizável desta vez.`;
+                }
+
+                if (levelUpMessages.length > 0) msgVitoria += "<br/><br/>" + levelUpMessages.join("<br/>");
+
+                if (monstro.isLordeDaMorte && !eraLordeDeDesafioVencido) {
+                    if (tentarDesbloquearNecromante(monstro)) {
+                        const necroUnlockMsgElement = document.getElementById("story-text");
+                        const necroUnlockMsg = necroUnlockMsgElement ? necroUnlockMsgElement.innerHTML : "";
+                        mostrarMensagem(msgVitoria + "<hr class='my-2 border-slate-600'>" + necroUnlockMsg);
+                        return;
+                    }
+                }
+
+                if (eraLordeDeDesafioVencido && skillDesafioIdVencida) {
+                    const skillAprendidaObj = CLASSES_DATA.Necromante.habilidades.find(h => h.id === skillDesafioIdVencida);
+                    if (skillAprendidaObj) {
+                        if (!game.player.magiasAdquiridas.includes(skillDesafioIdVencida)) game.player.magiasAdquiridas.push(skillDesafioIdVencida);
+                        msgVitoria += `<br/><br/><span class="font-bold text-yellow-300 animate-ping">PODER DESBLOQUEADO!</span> Você superou o Lorde da Morte (${tipoDesafioLordeOriginalVencido === "lorde_dominio" ? "Desafio de Domínio" : "Desafio de Exército"}) e dominou <span class="font-bold text-sky-300">${skillAprendidaObj.nome}</span>!`;
+                        if (game.player.magiasEquipadas.length < 4 && !game.player.magiasEquipadas.includes(skillDesafioIdVencida)) {
+                            game.player.magiasEquipadas.push(skillDesafioIdVencida);
+                            msgVitoria += ` A habilidade foi equipada automaticamente.`;
+                        }
+                    } else {
+                        msgVitoria += `<br/><br/><span class="font-bold text-yellow-300">VITÓRIA SOBRE O LORDE!</span> Você sente seu domínio sobre as sombras se aprofundar!`;
+                    }
+                    mostrarMensagem(msgVitoria + "<br/><br/>Você retorna fortalecido. O que deseja fazer?");
+                    limparEscolhas();
+                    adicionarEscolha("Ver Habilidades", abrirSkills);
+                    adicionarEscolha("Continuar Aventura", abrirInicio);
+                    atualizarStatusAtributos(); atualizarSkillsTela(); toggleHeaderNavButtons(false); toggleChatInput(false); updateGoogleSignInUI();
+                    return;
+                }
+
+                if (eraDesafioClasseVencido && skillDesafioIdVencida) {
+                    const skillAprendidaObj = CLASSES_DATA[game.player.classe]?.habilidades.find(h => h.id === skillDesafioIdVencida);
+                    if (skillAprendidaObj) {
+                        if (!game.player.magiasAdquiridas.includes(skillDesafioIdVencida)) game.player.magiasAdquiridas.push(skillDesafioIdVencida);
+                        msgVitoria += `<br/><br/><span class="font-bold text-green-400">Desafio Concluído!</span> Você dominou <span class="font-bold text-sky-400">${skillAprendidaObj.nome}</span>!`;
+                        if (game.player.magiasEquipadas.length < 4 && !game.player.magiasEquipadas.includes(skillDesafioIdVencida)) {
+                            game.player.magiasEquipadas.push(skillDesafioIdVencida);
+                            msgVitoria += ` Equipada automaticamente.`;
+                        }
+                    } else {
+                        msgVitoria += `<br/><br/><span class="font-bold text-green-400">Desafio Concluído!</span> Você sente um novo poder despertar!`;
+                    }
+                    mostrarMensagem(msgVitoria + "<br/><br/>Você retorna fortalecido. O que deseja fazer?");
+                    limparEscolhas();
+                    adicionarEscolha("Ver Habilidades", abrirSkills);
+                    adicionarEscolha("Continuar Aventura", abrirInicio);
+                    atualizarStatusAtributos(); atualizarSkillsTela(); toggleHeaderNavButtons(false); toggleChatInput(false); updateGoogleSignInUI();
+                    return;
+                }
+
+                if (!game.player.classe && atribuirClasseAleatoriaSeNecessario()) {
+                    const classAssignMsgElement = document.getElementById("story-text");
+                    const classAssignMsg = classAssignMsgElement ? classAssignMsgElement.innerHTML : "";
+                    mostrarMensagem(msgVitoria + "<hr class='my-2 border-slate-600'>" + classAssignMsg);
+                    atualizarStatusAtributos(); atualizarSkillsTela();
+                    return;
+                }
+
+                if (game.dungeon.active) {
+                    if (monstro.isBoss) {
+                        if (rankToIndex(game.dungeon.typeRank) >= rankToIndex("B") && Math.random() < 0.10 && !monstro.isMonarchBoss && !monstro.isArquiteto) {
+                            const monarchBoss = gerarMonarcaAleatorio();
+                            if (monarchBoss) {
+                                msgVitoria += `<br/><br/><span class="font-extrabold text-yellow-300 animate-pulse">MAS ESPERE!</span> Assim que você pensou que a masmorra estava limpa, uma presença avassaladora emerge das ruínas do chefe derrotado! O <span class="font-bold text-red-500">${monarchBoss.nome}</span> está aqui!`;
+                                mostrarMensagem(msgVitoria);
+                                game.monstroAtual = monarchBoss;
+                                game.dungeon.bossDefeated = true;
+                                game.estado = "batalha";
+                                setTimeout(() => {
+                                    toggleHeaderNavButtons(true); toggleChatInput(true);
+                                    iniciarBatalha(monarchBoss);
+                                }, 3500);
+                                updateGoogleSignInUI(); atualizarStatusAtributos();
+                                return;
+                            }
+                        }
+                        completarMasmorra(msgVitoria);
+                        return;
+                    } else {
+                        msgVitoria += `<br/><br/>Você avança para a próxima sala da masmorra...`;
+                        mostrarMensagem(msgVitoria);
+                        atualizarStatusAtributos();
+                        setTimeout(() => { game.dungeon.currentRoom++; avancarSalaMasmorra(); }, 2000);
+                        return;
+                    }
+                }
+
+                toggleHeaderNavButtons(false);
+                toggleChatInput(false);
+
+                if (leveledUp) {
+                    msgVitoria += `<br/><br/>Você tem ${game.player.pontosDistribuir} pontos de atributo para distribuir.`;
+                }
+                if (game.player.lastDefeatedMonsterInfo && game.player.classe === "Necromante" && game.player.magiasAdquiridas.includes("n_extracao_sombras")) {
+                    msgVitoria += `<br/><br/><span class="text-purple-300">Você sente a essência do ${game.player.lastDefeatedMonsterInfo.nome} pronta para ser extraída...</span>`;
+                }
+
+                mostrarMensagem(msgVitoria + "<br/><br/>Retornando à exploração da área...");
+
+                atualizarStatusAtributos();
+                atualizarSkillsTela();
+                updateGoogleSignInUI();
+
+                setTimeout(() => {
+                    try {
+                        showBattleInterface(false);
+                        if (game.dungeon.active) {
+
+                        } else {
+                            abrirInicio();
+                        }
+                    } catch (e) {
+                        console.error("Erro crítico ao tentar retornar à exploração após derrotar monstro:", e);
+                        mostrarMensagem("ERRO CRÍTICO AO FINALIZAR. Por favor, recarregue a página. Detalhes: " + e.message);
+                    }
+                }, 3000);
+            }
+
             function usarMagiaMenu() {
                 if (game.batalha.monstro?.isArquiteto && game.batalha.arquitetoBattleRefused) {
                     mostrarMensagem("Contra o Arquiteto, após recusar sua oferta, apenas sua arma básica responde. Poções, habilidades e fuga são inúteis.");
-                    // Ensure main battle commands are visible if submenu was open
+
                     document.getElementById("battle-submenu-choices").innerHTML = "";
                     document.getElementById("battle-submenu-choices").classList.add("hidden");
                     document.getElementById("battle-main-commands").classList.remove("hidden");
@@ -3324,49 +3461,36 @@
                         skillInfo += " (Sem Sombras)";
                     }
 
-                    // --- NEW LOGIC FOR INVOKING SHADOWS ---
-                    if (skill.efeito?.tipo === "invocar_sombra") {
-                        // "Invocar Sombra" should *always* be available to open the menu,
-                        // but individual actions within that menu might be disabled.
-                        // Mana cost will be applied when a choice is made in the shadow menu.
 
-                        // Check if there are any shadows to interact with (either active or in recipient)
+                    if (skill.efeito?.tipo === "invocar_sombra") {
+
                         const hasAnyShadowsToManage = game.player.sombraAtiva || game.player.recipienteSombras.length > 0;
 
-                        // If the player doesn't have any shadows acquired yet, disable the skill to open the menu.
-                        // Also, consider the Necromancer's specific unlock condition for these skills.
+
                         if (!game.player.metLordeDaMorte && (skill.id === "n_extracao_sombras" || skill.id === "n_invocar_sombra")) {
                             isDisabled = true;
                             skillInfo += " (Requer Lorde da Morte)";
                         } else if (!hasAnyShadowsToManage) {
-                            // If the skill is "Invocar Sombra" and there are no shadows in recipient AND no active shadow,
-                            // then the skill is effectively unusable.
+
                             isDisabled = true;
                             skillInfo += " (Recipiente Vazio)";
                         }
 
-                        // The 'mana cost' shown for the button to open the menu can be a base cost
-                        // or 0, as the real cost is on the action inside the menu.
-                        const displayCost = 10; // A nominal cost to open the shadow menu, or the actual cost if you want to apply it here.
+
+                        const displayCost = 10;
                         skillInfo = `${skill.nome} (Rank ${skill.rank}) - Mana: ${displayCost}`;
                         if (isDisabled) {
                             skillInfo += " (Não Disponível)";
                         }
 
                         adicionarEscolha(skillInfo, () => {
-                            // Before opening the menu, if a cost is applied to opening the menu:
-                            // if (game.player.manaAtual < displayCost) {
-                            //     mostrarMensagem(`Mana insuficiente para abrir o menu de sombras. Mana necessária: ${displayCost}`);
-                            //     return;
-                            // }
-                            // game.player.manaAtual -= displayCost; // Consume mana to open menu
-                            // updatePlayerBattleDisplay(); // Update display for mana cost
-                            mostrarMenuInvocarSombras(); // Open the dedicated shadow menu
-                            // Don't desabilitarBotoesAcaoBatalha here, as the shadow menu will handle turn.
+
+                            mostrarMenuInvocarSombras();
+
                         }, isDisabled, titleText, "submenu");
 
                     } else {
-                        // Original logic for other skills that deal damage or apply effects directly
+
                         adicionarEscolha(skillInfo, () => {
                             atacarMonstro("magico", skill);
                             document.getElementById("battle-submenu-choices").innerHTML = "";
@@ -3426,7 +3550,7 @@
                 if (!pocaoStack || pocaoStack.quantity <= 0) { return; }
                 if (game.batalha.monstro?.isArquiteto && game.batalha.arquitetoBattleRefused) {
                     mostrarMensagem("Contra o Arquiteto, após recusar sua oferta, apenas sua arma básica responde. Poções, habilidades e fuga são inúteis.");
-                    // Ensure main battle commands are visible if submenu was open
+
                     document.getElementById("battle-submenu-choices").innerHTML = "";
                     document.getElementById("battle-submenu-choices").classList.add("hidden");
                     document.getElementById("battle-main-commands").classList.remove("hidden");
@@ -3474,673 +3598,222 @@
                 setTimeout(() => monstroAtaca(), 1200);
 
             }
-
-
+            // SUBSTITUA ESTA FUNÇÃO INTEIRA
             function monstroAtaca() {
-                if (!game.batalha.emBatalha || !game.batalha.monstro) return;
-                decrementarBuffs(); // Decrementa a duração dos buffs do jogador
-                const monstro = game.batalha.monstro;
-                let msg = "";
-                let targetPlayer = true; // Define se o ataque é para o jogador ou sombra
+                if (!game.batalha.emBatalha || !game.batalha.monstro || game.player.vidaAtual <= 0) {
+                    return;
+                }
 
-                // --- Processar DoTs (Damage over Time) no monstro ---
+                game.batalha.turnoJogador = false;
+                const monstro = game.batalha.monstro;
+                let logMensagens = [];
+
                 if (monstro.activeDots && monstro.activeDots.length > 0) {
-                    let dotsToRemove = [];
-                    let totalDotDamage = 0;
-                    monstro.activeDots.forEach(dot => {
-                        monstro.vidaAtual -= dot.danoPorTurno;
-                        totalDotDamage += dot.danoPorTurno;
+                    let danoTotalDot = 0;
+                    monstro.activeDots = monstro.activeDots.filter(dot => {
+                        const danoDoTAtual = dot.danoPorTurno;
+                        monstro.vidaAtual -= danoDoTAtual;
+                        danoTotalDot += danoDoTAtual;
                         dot.duracao--;
-                        if (dot.duracao <= 0) {
-                            dotsToRemove.push(dot);
-                        }
+                        logMensagens.push(`<span class="text-orange-400">${monstro.nome} sofre ${danoDoTAtual} de dano de ${dot.nomeSkill || 'efeito contínuo'}!</span>`);
+                        return dot.duracao > 0;
                     });
-                    if (totalDotDamage > 0) {
-                        msg += `<span class="font-bold text-rose-500">O ${monstro.nome} sofre ${totalDotDamage} de dano</span> de efeitos persistentes!`;
-                        if (monstro.vidaAtual < 0) monstro.vidaAtual = 0;
-                    }
-                    monstro.activeDots = monstro.activeDots.filter(dot => !dotsToRemove.includes(dot));
-                    if (monstro.vidaAtual <= 0) { // Se o monstro morrer de DoT, a batalha termina aqui
-                        mostrarMensagem(msg + `<br/>O ${monstro.nome} sucumbiu aos ferimentos!`); // Adiciona mensagem final do DoT
-                        updateEnemyBattleDisplay(monstro);
-                        updatePlayerBattleDisplay();
-                        updateSummonBattleDisplay(); // Adicionado para consistência
-                        setTimeout(() => { showBattleInterface(false); derrotarMonstro(monstro); }, 1200);
+                    if (monstro.vidaAtual < 0) monstro.vidaAtual = 0;
+                    if (danoTotalDot > 0) logMensagens.push(`Vida do monstro: ${monstro.vidaAtual} / ${monstro.vidaMax}.`);
+                    updateEnemyBattleDisplay(monstro);
+
+                    if (monstro.vidaAtual <= 0) {
+                        logMensagens.push(`<br/><span class="font-bold text-emerald-400">${monstro.nome} sucumbiu aos ferimentos contínuos!</span>`);
+                        mostrarMensagem(logMensagens.join('<br/>'));
+                        setTimeout(() => { showBattleInterface(false); derrotarMonstro(monstro); }, 1500);
                         return;
                     }
                 }
-
-                // --- Processar Atordoamento do monstro ---
-                // MODIFICADO: Melhorar a lógica de stunDuration para Time Stop e outros stuns
-                if (monstro.isStunned && monstro.stunDuration && monstro.stunDuration > 0) {
-                    monstro.stunDuration--;
-                    let stunMsgPart = "está atordoado";
-                    if (monstro.activeDebuffs?.find(d => d.tipo === "enemy_stun_turns")) { // Checa se é o Time Stop
-                        stunMsgPart = `está paralisado pelo efeito de Time Stop (${monstro.stunDuration} turno(s) restantes)`;
-                    } else if (monstro.stunDuration > 0) {
-                        stunMsgPart = `está atordoado (${monstro.stunDuration} turno(s) restantes)`;
-                    }
-                    msg += `<br/>O ${monstro.nome} ${stunMsgPart} e perdeu o turno!`;
-
-                    if (monstro.stunDuration <= 0) {
-                        monstro.isStunned = false;
-                        // stunDuration já é 0 ou menos, não precisa resetar para 0 explicitamente aqui.
-                        // Remove o debuff de stun específico se houver
-                        if (monstro.activeDebuffs) {
-                            monstro.activeDebuffs = monstro.activeDebuffs.filter(d => d.tipo !== "enemy_stun_turns" && d.tipo !== "chance_atordoar");
-                        }
-                    }
-                    // Se atordoado, pule o ataque do monstro
-                    msg += `<br/><br/>Sua vez!`; // Passa a vez para o jogador
-                    mostrarMensagem(msg);
-                    updatePlayerBattleDisplay();
-                    updateEnemyBattleDisplay(monstro);
-                    updateSummonBattleDisplay();
-                    atualizarStatusAtributos();
-                    game.batalha.jogadorAgiuNoTurno = false;
-                    habilitarBotoesAcaoBatalha();
-                    return; // Termina o turno do monstro aqui
-                }
-                // Resetar isStunned se stunDuration chegou a zero em um turno anterior e não foi resetado
-                if (monstro.isStunned && (!monstro.stunDuration || monstro.stunDuration <= 0)) {
-                    monstro.isStunned = false;
-                    if (monstro.activeDebuffs) { // Limpa qualquer debuff de stun restante
-                        monstro.activeDebuffs = monstro.activeDebuffs.filter(d => d.tipo !== "enemy_stun_turns" && d.tipo !== "chance_atordoar");
-                    }
-                }
-
-                // --- Processar Debuffs no monstro (aplicar antes do cálculo de dano) ---
-                let tempDanoFisicoMonstro = monstro.danoFisico;
-                let tempDanoMagicoMonstro = monstro.danoMagico;
-                let tempPrecisaoMonstro = 1.0; // Assume 100% de precisão base
 
                 if (monstro.activeDebuffs && monstro.activeDebuffs.length > 0) {
-                    let debuffsToRemove = [];
-                    monstro.activeDebuffs.forEach(debuff => {
-                        if (debuff.tipo === "debuff_precisao_inimigo") {
-                            tempPrecisaoMonstro -= debuff.valor; // Reduz a precisão
-                        } else if (debuff.tipo === "debuff_defesa_inimigo") {
-                            // Este debuff no monstro significa que ELE toma mais dano,
-                            // não que ele causa menos. O cálculo de dano RECEBIDO pelo monstro
-                            // já deveria considerar isso se implementado do lado do jogador.
-                            // Aqui, não afeta o dano QUE O MONSTRO CAUSA.
-                        } else if (debuff.tipo === "debuff_agilidade_inimigo") {
-                            // Pode afetar a chance do monstro de esquivar ou a precisão do jogador contra ele.
-                            // Não afeta diretamente o dano que o monstro causa.
-                        }
+                    monstro.activeDebuffs = monstro.activeDebuffs.filter(debuff => {
                         debuff.duracao--;
                         if (debuff.duracao <= 0) {
-                            debuffsToRemove.push(debuff);
-                            msg += `<br/>O efeito de ${debuff.nomeSkill || 'debuff'} em ${monstro.nome} terminou.`;
+                            logMensagens.push(`<span class="text-sky-300">O efeito de ${debuff.nomeSkill || 'debuff'} em ${monstro.nome} terminou.</span>`);
+                            return false;
                         }
+                        return true;
                     });
-                    monstro.activeDebuffs = monstro.activeDebuffs.filter(debuff => !debuffsToRemove.includes(debuff));
-                }
-                tempPrecisaoMonstro = Math.max(0.1, tempPrecisaoMonstro); // Garante chance mínima de acerto
-
-
-                // Lógica de ataque do monstro
-                if (monstro.isLordeDaMorteDesafio && game.batalha.tipoDesafioLorde === "lorde_dominio") {
-                    let lordeAgiu = false;
-                    if (monstro.copiaRecipienteSombras && monstro.copiaRecipienteSombras.length > 0 && !monstro.sombraAtivaCopiada && Math.random() < 0.5) {
-                        const skillLordeInvocar = monstro.habilidadesLorde?.find(h => h.efeito.tipo === "lorde_invoca_sombra_copiada");
-                        if (skillLordeInvocar && monstro.manaAtual >= skillLordeInvocar.manaBase) {
-                            monstro.manaAtual -= skillLordeInvocar.manaBase;
-                            const sombraParaInvocarPeloLorde = monstro.copiaRecipienteSombras.shift();
-
-                            const vidaSombraLorde = Math.max(1, Math.floor(sombraParaInvocarPeloLorde.statsOriginais.vidaMax * 0.5));
-                            const danoSombraLorde = Math.max(1, Math.floor((sombraParaInvocarPeloLorde.statsOriginais.danoFisico || 0) * 0.5));
-                            monstro.sombraAtivaCopiada = {
-                                ...sombraParaInvocarPeloLorde,
-                                statsAtuais: { vidaMax: vidaSombraLorde, vidaAtual: vidaSombraLorde, danoBase: danoSombraLorde }
-                            };
-                            msg += (msg ? "<br/>" : "") + `O <span class="font-bold text-purple-600">${monstro.nome}</span> comanda uma <span class="text-violet-400">${monstro.sombraAtivaCopiada.nomeSombra}</span> das suas próprias fileiras para atacá-lo!`;
-                            lordeAgiu = true;
-                        }
-                    }
-
-                    if (monstro.sombraAtivaCopiada && monstro.sombraAtivaCopiada.statsAtuais.vidaAtual > 0) {
-                        const sombraDoLorde = monstro.sombraAtivaCopiada;
-                        let danoCausadoPelaSombraDoLorde = Math.max(1, sombraDoLorde.statsAtuais.danoBase + rankToIndex(sombraDoLorde.rankSombra));
-                        danoCausadoPelaSombraDoLorde = calcularDanoRecebido(danoCausadoPelaSombraDoLorde); // Jogador recebe dano
-                        game.player.vidaAtual -= danoCausadoPelaSombraDoLorde;
-                        if (game.player.vidaAtual < 0) game.player.vidaAtual = 0;
-                        msg += (lordeAgiu || msg ? "<br/>" : "") + `A <span class="text-violet-400">${sombraDoLorde.nomeSombra}</span> do Lorde ataca, causando <span class="font-bold text-rose-500">${danoCausadoPelaSombraDoLorde}</span> de dano.`;
-                        lordeAgiu = true; // Marcar que uma ação ocorreu
-                    }
-
-                    const danoMonstroBase = tempDanoFisicoMonstro; // Usa dano físico ajustado por debuffs
-                    const danoRecebidoJogador = calcularDanoRecebido(danoMonstroBase);
-                    game.player.vidaAtual -= danoRecebidoJogador;
-                    if (game.player.vidaAtual < 0) game.player.vidaAtual = 0;
-                    msg += (lordeAgiu || msg ? "<br/>" : "") + `O <span class="font-bold text-purple-600">${monstro.nome}</span> ataca impiedosamente, causando <span class="font-bold text-rose-500">${danoRecebidoJogador}</span> de dano.`;
-                    msg += `<br/>Sua vida: ${game.player.vidaAtual} / ${game.player.vidaMax}.`;
-
-                } else if (monstro.isDesafioClasseBoss) {
-                    let skillUsadaPeloBoss = null;
-                    if (monstro.habilidades && monstro.habilidades.length > 0) {
-                        const skillsDisponiveisParaBoss = monstro.habilidades.filter(h =>
-                            (calcularGastoManaParaBoss(h, monstro)) <= monstro.manaAtual
-                        );
-
-                        if (skillsDisponiveisParaBoss.length > 0) {
-                            skillUsadaPeloBoss = randomChoice(skillsDisponiveisParaBoss);
-                        }
-                    }
-
-                    if (skillUsadaPeloBoss) {
-                        const custoManaBoss = calcularGastoManaParaBoss(skillUsadaPeloBoss, monstro);
-                        monstro.manaAtual -= custoManaBoss;
-
-                        let danoBossSkillTotal = 0;
-                        const numeroDeHitsBoss = skillUsadaPeloBoss.hits || 1;
-                        let logHitsBossArray = [];
-
-                        for (let i = 0; i < numeroDeHitsBoss; i++) {
-                            let danoHitAtualBoss = 0;
-                            if (skillUsadaPeloBoss.danoBase) {
-                                danoHitAtualBoss = Math.floor((skillUsadaPeloBoss.danoBase +
-                                    (skillUsadaPeloBoss.tipoDano === "magico" ? tempDanoMagicoMonstro : tempDanoFisicoMonstro * 0.7)) * 0.75);
-                            } else if (skillUsadaPeloBoss.danoMultiplicador) {
-                                danoHitAtualBoss = Math.floor(tempDanoFisicoMonstro * skillUsadaPeloBoss.danoMultiplicador * 0.75);
-                            } else {
-                                danoHitAtualBoss = Math.floor(tempDanoFisicoMonstro * 0.5);
-                            }
-                            danoHitAtualBoss = Math.max(1, danoHitAtualBoss);
-                            logHitsBossArray.push(danoHitAtualBoss);
-                            danoBossSkillTotal += danoHitAtualBoss;
-                        }
-
-                        const danoRecebidoJogador = calcularDanoRecebido(danoBossSkillTotal);
-                        game.player.vidaAtual -= danoRecebidoJogador;
-                        if (game.player.vidaAtual < 0) game.player.vidaAtual = 0;
-
-                        msg = (msg ? msg + "<br/>" : "") + `O <span class="font-bold text-purple-400">${monstro.nome}</span> conjura <span class="font-bold text-sky-400">${skillUsadaPeloBoss.nome}</span>!`;
-                        if (numeroDeHitsBoss > 1) {
-                            msg += ` Atinge ${numeroDeHitsBoss} vezes, causando ${logHitsBossArray.join(' + ')} = <span class="font-bold text-rose-500">${danoRecebidoJogador}</span> de dano em você.`;
-                        } else {
-                            msg += ` Causa <span class="font-bold text-rose-500">${danoRecebidoJogador}</span> de dano em você.`;
-                        }
-                        if (custoManaBoss > 0) msg += `<br/>Mana do Eco: ${monstro.manaAtual} / ${monstro.manaMax}.`;
-
-                    } else {
-                        const danoRecebidoJogador = calcularDanoRecebido(tempDanoFisicoMonstro);
-                        game.player.vidaAtual -= danoRecebidoJogador;
-                        if (game.player.vidaAtual < 0) game.player.vidaAtual = 0;
-                        msg = (msg ? msg + "<br/>" : "") + `O <span class="font-bold text-purple-400">${monstro.nome}</span> ataca fisicamente, causando <span class="font-bold text-rose-500">${danoRecebidoJogador}</span> de dano.<br/>Sua vida: ${game.player.vidaAtual} / ${game.player.vidaMax}.`;
-                    }
-                } else { // Monstro normal
-                    if (game.player.sombraAtiva && game.player.sombraAtiva.statsAtuais && game.player.sombraAtiva.statsAtuais.vidaAtual > 0) {
-                        if (Math.random() < 0.4) {
-                            targetPlayer = false;
-                        }
-                    }
-
-                    if (Math.random() > tempPrecisaoMonstro) { // Monstro errou (tempPrecisaoMonstro já foi ajustado por debuffs)
-                        msg = (msg ? msg + "<br/>" : "") + `O <span class="font-bold text-rose-400">${monstro.nome}</span> tentou atacar, mas errou!`;
-                    } else { // Monstro acertou
-                        const ataqueMagicoMonstro = !monstro.isBoss && tempDanoMagicoMonstro > 0 && Math.random() < 0.4;
-                        let danoMonstroBase = ataqueMagicoMonstro ? tempDanoMagicoMonstro : tempDanoFisicoMonstro;
-
-                        if (monstro.isBoss) { // Lógica de dano para Bosses normais (não desafio)
-                            if (tempDanoFisicoMonstro > (tempDanoMagicoMonstro || 0)) {
-                                danoMonstroBase = tempDanoFisicoMonstro + (Math.random() < 0.3 ? randomInt(0, Math.floor((tempDanoMagicoMonstro || tempDanoFisicoMonstro * 0.2) * 0.5)) : 0);
-                            } else {
-                                danoMonstroBase = (tempDanoMagicoMonstro || 0) + (Math.random() < 0.3 ? randomInt(0, Math.floor(tempDanoFisicoMonstro * 0.5)) : 0);
-                            }
-                            danoMonstroBase = Math.max(1, danoMonstroBase, tempDanoFisicoMonstro, (tempDanoMagicoMonstro || 0));
-                        }
-
-                        if (targetPlayer) {
-                            const danoRecebidoJogador = calcularDanoRecebido(danoMonstroBase);
-                            game.player.vidaAtual -= danoRecebidoJogador;
-                            if (game.player.vidaAtual < 0) game.player.vidaAtual = 0;
-                            msg = (msg ? msg + "<br/>" : "") + `O <span class="font-bold text-rose-400">${monstro.nome}</span> atacou você com ${monstro.isBoss ? (monstro.isLordeDaMorte ? "um golpe da morte" : "um golpe devastador") : (ataqueMagicoMonstro ? "magia sombria" : "um ataque físico")} e causou <span class="font-bold text-rose-500">${danoRecebidoJogador}</span> de dano.<br/>Sua vida: ${game.player.vidaAtual} / ${game.player.vidaMax}`;
-                        } else { // Alvo é a sombra
-                            const sombra = game.player.sombraAtiva;
-                            const danoSombraRecebido = Math.max(1, danoMonstroBase); // Sombra não tem resistenciaPct
-                            sombra.statsAtuais.vidaAtual -= danoSombraRecebido;
-                            msg = (msg ? msg + "<br/>" : "") + `O <span class="font-bold text-rose-400">${monstro.nome}</span> atacou sua <span class="text-purple-300">${sombra.nomeSombra}</span> causando <span class="font-bold text-orange-400">${danoSombraRecebido}</span> de dano.`;
-                            if (sombra.statsAtuais.vidaAtual <= 0) {
-                                sombra.statsAtuais.vidaAtual = 0;
-                                msg += `<br/>Sua <span class="text-purple-300">${sombra.nomeSombra}</span> foi destruída!`;
-                                game.player.sombraAtiva = null;
-                            } else {
-                                msg += `<br/>Vida da <span class="text-purple-300">${sombra.nomeSombra}</span>: ${sombra.statsAtuais.vidaAtual} / ${sombra.statsAtuais.vidaMax}.`;
-                            }
-                        }
-                    }
                 }
 
-                if (game.player.vidaAtual <= 0) {
-                    if (game.player.classe === "Necromante" &&
-                        game.player.recipienteSombras.length > 0 &&
-                        !game.batalha.isDesafioClasse &&
-                        !(game.batalha.monstro && game.batalha.monstro.isLordeDaMorteDesafio)) {
+                if (monstro.isStunned) {
+                    logMensagens.push(`<span class="font-bold text-yellow-400">${monstro.nome} está atordoado e não pode atacar!</span>`);
+                    monstro.stunDuration = (monstro.stunDuration || 1) - 1;
+                    if (monstro.stunDuration <= 0) {
+                        monstro.isStunned = false;
+                        logMensagens.push(`${monstro.nome} não está mais atordoado.`);
+                    }
+                } else {
+                    let danoMonstroBase = monstro.danoFisico;
+                    let tipoAtaqueMonstroMsg = "um ataque físico";
 
-                        const sombraSacrificada = game.player.recipienteSombras.shift();
-                        game.player.vidaAtual = Math.floor(game.player.vidaMax * 0.5);
-                        if (game.player.sombraAtiva) {
-                            msg += `<br/>Sua sombra ativa, ${game.player.sombraAtiva.nomeSombra}, se dissipa com o golpe fatal!`;
-                            game.player.sombraAtiva = null;
+                    if (monstro.habilidadesLorde && monstro.habilidadesLorde.length > 0 && Math.random() < 0.5) {
+                        const skillMonstro = randomChoice(monstro.habilidadesLorde);
+
+                        if (skillMonstro) {
+                            const custoManaMonstro = calcularGastoManaParaBoss(skillMonstro, monstro);
+
+                            if (!monstro.manaAtual || monstro.manaAtual >= custoManaMonstro) {
+                                if (monstro.manaAtual) monstro.manaAtual -= custoManaMonstro;
+                                tipoAtaqueMonstroMsg = `a habilidade <span class="font-bold text-red-400">${skillMonstro.nome}</span>`;
+
+                                if (skillMonstro.efeito?.tipo === "lorde_invoca_sombra_copiada" && monstro.copiaRecipienteSombras?.length > 0) {
+                                    const sombraInvocada = randomChoice(monstro.copiaRecipienteSombras);
+                                    if (sombraInvocada) {
+                                        monstro.sombraAtivaCopiada = {
+                                            ...sombraInvocada,
+                                            statsAtuais: {
+                                                vidaMax: Math.floor(sombraInvocada.statsOriginais.vidaMax * 0.7),
+                                                vidaAtual: Math.floor(sombraInvocada.statsOriginais.vidaMax * 0.7),
+                                                danoBase: Math.floor((sombraInvocada.statsOriginais.danoFisico || 0) * 0.7)
+                                            }
+                                        };
+                                        monstro.copiaRecipienteSombras = monstro.copiaRecipienteSombras.filter(s => s.id !== sombraInvocada.id);
+                                        logMensagens.push(`O Lorde da Morte comanda uma <span class="text-purple-400">${monstro.sombraAtivaCopiada.nomeSombra}</span> para a batalha!`);
+                                        danoMonstroBase = 0;
+                                    }
+                                } else if (skillMonstro.efeito?.tipo !== "lorde_invoca_sombra_copiada") {
+                                    danoMonstroBase = skillMonstro.danoBase || Math.floor(monstro.danoFisico * (skillMonstro.danoMultiplicador || 1.0));
+                                }
+                            }
                         }
-                        game.player.activeBuffs = [];
+                    }
 
-                        msg += `<br/><br/><span class="font-bold text-purple-500 animate-pulse">TRAIÇÃO DA MORTE!</span> Quando a escuridão o reivindicava, <span class="text-purple-300">${sombraSacrificada.nomeSombra} (Rank ${sombraSacrificada.rankSombra})</span> se desfez, rasgando sua alma de volta ao mundo dos vivos! Você retorna com 50% da vida. A sombra se foi para sempre.`;
-                        msg += `<br/>A batalha termina abruptamente. Você se sente fraco, mas vivo.`;
+                    if (monstro.sombraAtivaCopiada?.statsAtuais && monstro.sombraAtivaCopiada.statsAtuais.vidaAtual > 0) {
+                        const sombraCopiada = monstro.sombraAtivaCopiada;
+                        const danoSombraLorde = Math.max(1, sombraCopiada.statsAtuais.danoBase + rankToIndex(sombraCopiada.rankSombra));
+                        const danoRecebidoPelaSombraLorde = calcularDanoRecebido(danoSombraLorde);
+                        game.player.vidaAtual -= danoRecebidoPelaSombraLorde;
+                        logMensagens.push(`A <span class="text-purple-400">${sombraCopiada.nomeSombra}</span> do Lorde ataca, causando <span class="font-bold text-orange-400">${danoRecebidoPelaSombraLorde}</span> de dano!`);
+                        if (game.player.vidaAtual <= 0) {
+                            game.player.vidaAtual = 0;
+                            updatePlayerBattleDisplay();
+                            logMensagens.push(`<br/><span class="font-bold text-rose-500">Você foi derrotado pela sombra do Lorde!</span>`);
+                            mostrarMensagem(logMensagens.join('<br/>'));
+                            setTimeout(() => {
+                                showBattleInterface(false);
+                                if (monstro.isLordeDaMorteDesafio) falharDesafioLordeDaMorte();
+                                else gameOver();
+                            }, 1500);
+                            return;
+                        }
+                    }
 
-                        mostrarMensagem(msg);
+                    if (danoMonstroBase > 0) {
+                        let danoFinalRecebido = calcularDanoRecebido(danoMonstroBase);
+                        game.player.vidaAtual -= danoFinalRecebido;
+                        logMensagens.push(`O <span class="font-bold text-rose-400">${monstro.nome}</span> usa ${tipoAtaqueMonstroMsg} e causa <span class="font-bold text-orange-400">${danoFinalRecebido}</span> de dano!`);
+                    } else if (tipoAtaqueMonstroMsg.includes("habilidade") && !logMensagens.some(msg => msg.includes("Lorde da Morte comanda uma"))) {
+                        logMensagens.push(`O <span class="font-bold text-rose-400">${monstro.nome}</span> usa ${tipoAtaqueMonstroMsg}!`);
+                    }
 
-                        game.batalha.emBatalha = false;
-                        game.monstroAtual = null;
-                        showBattleInterface(false);
-                        toggleHeaderNavButtons(false);
-                        toggleChatInput(false);
-
-                        atualizarRecipienteSombrasTela();
+                    if (game.player.vidaAtual <= 0) {
+                        game.player.vidaAtual = 0;
                         updatePlayerBattleDisplay();
-                        updateSummonBattleDisplay();
-                        atualizarStatusAtributos();
-
-                        setTimeout(() => {
-                            mostrarMensagem(msg + "<br/><br/>Você foi levado à tela de atributos para se recompor.");
-                            abrirAtributos();
-                        }, 3500);
-                        return;
-
-                    } else {
-                        msg += (msg ? "<br/>" : "") + (game.batalha.isDesafioClasse ? "<br/><br/>Você falhou no desafio..." :
-                            (game.batalha.monstro && game.batalha.monstro.isLordeDaMorteDesafio ? "<br/><br/>O Lorde da Morte provou ser demais para você desta vez..." : "<br/><br/>Você foi derrotado!"));
-                        mostrarMensagem(msg);
-                        updatePlayerBattleDisplay();
-                        updateSummonBattleDisplay(); // Atualiza display da sombra também na derrota
+                        logMensagens.push(`<br/><span class="font-bold text-rose-500">Você foi derrotado!</span>`);
+                        mostrarMensagem(logMensagens.join('<br/>'));
                         setTimeout(() => {
                             showBattleInterface(false);
-                            if (game.batalha.isDesafioClasse) {
-                                falharDesafioHabilidade();
-                            } else if (game.batalha.monstro && game.batalha.monstro.isLordeDaMorteDesafio) {
-                                falharDesafioLordeDaMorte();
-                            } else {
-                                gameOver();
-                            }
+                            if (game.batalha.isDesafioClasse) falharDesafioHabilidade();
+                            else if (monstro.isLordeDaMorteDesafio) falharDesafioLordeDaMorte();
+                            else gameOver();
                         }, 1500);
                         return;
                     }
                 }
 
-                msg += `<br/><br/>Sua vez!`;
-                mostrarMensagem(msg);
+                decrementarBuffs();
 
+                logMensagens.push(`<br/>Sua vez! O que fazer?`);
+                mostrarMensagem(logMensagens.join('<br/>'));
+
+                game.batalha.turnoJogador = true;
+                game.batalha.jogadorAgiuNoTurno = false;
+
+                atualizarStatusAtributos();
                 updatePlayerBattleDisplay();
                 updateEnemyBattleDisplay(monstro);
                 updateSummonBattleDisplay();
-                atualizarStatusAtributos();
-                game.batalha.jogadorAgiuNoTurno = false;
+
+                const mainCommandsDiv = document.getElementById("battle-main-commands");
+                const submenuChoicesDiv = document.getElementById("battle-submenu-choices");
+
+                if (mainCommandsDiv) {
+                    mainCommandsDiv.classList.remove("hidden");
+                }
+                if (submenuChoicesDiv) {
+                    submenuChoicesDiv.classList.add("hidden");
+                    submenuChoicesDiv.innerHTML = "";
+                }
+
                 habilitarBotoesAcaoBatalha();
-
-                document.getElementById("battle-submenu-choices").innerHTML = "";
-                document.getElementById("battle-submenu-choices").classList.add("hidden");
-                document.getElementById("battle-main-commands").classList.remove("hidden");
             }
 
-            function verificarDesbloqueioHabilidadesClasse() {
-                if (!game.player.classe) return [];
-                const classeAtual = CLASSES_DATA[game.player.classe];
-                if (!classeAtual || !classeAtual.habilidades) return [];
+            function habilitarBotoesAcaoBatalha() {
+                const btnUsarArma = document.getElementById("btn-battle-fight");
+                const btnSkill = document.getElementById("btn-battle-skill");
+                const btnItem = document.getElementById("btn-battle-item");
+                const btnEscape = document.getElementById("btn-battle-escape");
 
-                let notificacoesParaMensagemDeLevelUp = [];
+                if (btnUsarArma) btnUsarArma.removeAttribute("disabled");
+                if (btnSkill) btnSkill.removeAttribute("disabled");
+                if (btnItem) btnItem.removeAttribute("disabled");
+                if (btnEscape) btnEscape.removeAttribute("disabled");
 
-                classeAtual.habilidades.forEach(skill => {
-                    const isAcquired = game.player.magiasAdquiridas.includes(skill.id);
-                    const playerLevelOk = game.player.nivel >= skill.unlockLevel;
+                const monstro = game.batalha.monstro;
+                const isArquitetoRefused = monstro?.isArquiteto && game.batalha.arquitetoBattleRefused;
+                const isDesafioExercito = game.batalha.tipoDesafioLorde === "lorde_exercito";
 
-                    if (!isAcquired) {
-                        let lockReason = "";
-                        let isEffectivelyLocked = false;
-
-                        // Necromancer specific initial skills handled by defeating Lord of Death
-                        if (game.player.classe === "Necromante" && (skill.id === "n_extracao_sombras" || skill.id === "n_invocar_sombra")) {
-                            if (!game.player.metLordeDaMorte) {
-                                isEffectivelyLocked = true;
-                                lockReason = "(Bloqueada - Derrote o Lorde da Morte)";
-                            } else if (!playerLevelOk) {
-                                isEffectivelyLocked = true;
-                                lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`;
-                            } else {
-                                // This case means Lorde is met, level is met, but skill not acquired.
-                                // It should have been auto-acquired by tentarDesbloquearNecromante.
-                                // If not, it means the player either used a cheat that bypassed this, or
-                                // something else prevented it. We'll mark it as available to learn manually if it somehow slipped.
-                                notificacoesParaMensagemDeLevelUp.push(`Você pode aprender <span class="font-bold text-sky-400">${skill.nome}</span> (Nv. ${skill.unlockLevel})! Visite a tela de Habilidades.`);
-                            }
-                        }
-                        // Challenge-based skills (including Necromancer's advanced ones)
-                        else if (skill.requerDesafio) {
-                            if (game.player.classe === "Necromante" && (skill.id === "n_dominio_sombras" || skill.id === "n_exercito_sombras")) {
-                                if (!game.player.metLordeDaMorte) {
-                                    isEffectivelyLocked = true;
-                                    lockReason = "(Bloqueada - Derrote o Lorde da Morte para liberar o desafio)";
-                                } else if (!playerLevelOk) {
-                                    isEffectivelyLocked = true;
-                                    lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel} para liberar o desafio)`;
-                                } else {
-                                    notificacoesParaMensagemDeLevelUp.push(`Um desafio para dominar <span class="font-bold text-yellow-400">${skill.nome}</span> (Nv. ${skill.unlockLevel}) está agora disponível! Visite a tela de Habilidades.`);
-                                }
-                            } else { // General challenge skills for other classes
-                                if (!playerLevelOk) {
-                                    isEffectivelyLocked = true;
-                                    lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`;
-                                } else {
-                                    notificacoesParaMensagemDeLevelUp.push(`Um desafio para dominar <span class="font-bold text-yellow-400">${skill.nome}</span> (Nv. ${skill.unlockLevel}) está agora disponível! Visite a tela de Habilidades.`);
-                                }
-                            }
-                        }
-                        // Skills that unlock purely by level (not requiring challenge and not initial Necromancer skills)
-                        else if (playerLevelOk) {
-                            notificacoesParaMensagemDeLevelUp.push(`Você pode aprender <span class="font-bold text-sky-400">${skill.nome}</span>! Visite a tela de Habilidades.`);
+                if (btnUsarArma) {
+                    btnUsarArma.disabled = false;
+                    if (isArquitetoRefused && game.player.equipamento.arma?.subTipoArma !== "Atomic") {
+                        if (TIPOS_DE_ARMAS[game.player.equipamento.arma?.subTipoArma || "Nenhuma"]?.nomeDisplay !== "Desarmado") {
+                            btnUsarArma.disabled = true;
                         }
                     }
-                });
-                return notificacoesParaMensagemDeLevelUp;
+                }
+
+                if (btnSkill) {
+                    const temClasse = !!game.player.classe;
+                    const temSkillsEquipadas = game.player.magiasEquipadas && game.player.magiasEquipadas.length > 0;
+                    btnSkill.disabled = isArquitetoRefused || isDesafioExercito || !(temClasse && temSkillsEquipadas);
+                }
+
+                if (btnItem) {
+                    const temPocoes = game.player.inventario.some(i => i.isPotion && i.quantity > 0);
+                    const podeUsarPocaoContraBossAtual = monstro && (monstro.isLordeDaMorte || !monstro.isBoss || monstro.isLordeDaMorteDesafio || monstro.isArquiteto);
+                    btnItem.disabled = isArquitetoRefused || isDesafioExercito || !temPocoes || (monstro?.isBoss && !podeUsarPocaoContraBossAtual);
+                }
+
+                if (btnEscape) {
+                    let naoPodeFugir = false;
+                    if (monstro) {
+                        naoPodeFugir = monstro.isBoss || monstro.isLordeDaMorteDesafio || monstro.isMonarchBoss;
+                    }
+                    if (isArquitetoRefused) naoPodeFugir = true;
+
+                    const temTrocaSombras = game.player.magiasEquipadas.includes("ms_troca_sombras") &&
+                        game.player.classe === "Necromante" &&
+                        game.player.isMarcado;
+
+                    btnEscape.disabled = naoPodeFugir && !temTrocaSombras;
+                }
             }
-            function derrotarMonstro(monstro) {
-                const eraDesafioClasse = game.batalha.isDesafioClasse;
-                const skillDesafiadaId = game.batalha.skillEmDesafioId;
-                const eraDesafioLorde = game.batalha.monstro?.isLordeDaMorteDesafio; // Check if it was a Lorde challenge
-                const tipoDesafioLordeVencido = game.batalha.tipoDesafioLorde;        // Store type before reset
 
-                showBattleInterface(false);
-                game.batalha.emBatalha = false;
-                game.batalha.isDesafioClasse = false;
-                game.batalha.skillEmDesafioId = null;
-                game.batalha.desafioBossOriginalStats = null;
-                game.batalha.tipoDesafioLorde = null; // Reset Lorde challenge type
-
-                if (game.player.classe === "Necromante" && !monstro.isBoss && !eraDesafioClasse && !eraDesafioLorde && game.player.magiasAdquiridas.includes("n_extracao_sombras")) {
-                    game.player.lastDefeatedMonsterInfo = {
-                        nome: monstro.nome, rank: monstro.rank,
-                        vidaMax: monstro.vidaMax, danoFisico: monstro.danoFisico, danoMagico: monstro.danoMagico,
-                    };
-                } else {
-                    game.player.lastDefeatedMonsterInfo = null;
-                }
-                if (game.player.sombraAtiva) game.player.sombraAtiva = null; // Sombra always dissipates after any battle for now
-
-                let xpGanhoBase = monstro.xpGanho;
-                if (monstro.isBoss) {
-                    xpGanhoBase *= 2;
-                }
-                let xpFinal = Math.floor(xpGanhoBase * (1 + game.player.xpBonus));
-                // --- Marcado XP Benefit ---
-                if (game.player.isMarcado) {
-                    xpFinal *= 2;
-                }
-                // --- End Marcado XP Benefit ---
-                let moedasGanhas = 0;
-
-                if (!eraDesafioClasse && !eraDesafioLorde) {
-                    moedasGanhas = randomInt(5, 20) * (rankToIndex(monstro.rank) + 1) * (monstro.isBoss ? 5 : 1);
-                    game.player.moedas += moedasGanhas;
-                } else if (eraDesafioLorde) {
-                    // XP for Lorde challenge is already set in its stats from gerarLordeDaMorteParaDesafio
-                    // Moedas for Lorde challenge can be specific if desired, or 0
-                    // moedasGanhas = 200; // Example fixed coins for Lorde challenge
-                    // game.player.moedas += moedasGanhas;
-                } else if (eraDesafioClasse) {
-                    // XP for class challenge is set in gerarBossDesafioClasse
-                    // moedasGanhas = 50; // Example fixed coins for class challenge
-                    // game.player.moedas += moedasGanhas;
-                }
-
-                game.player.xp += xpFinal;
-
-                for (const attr in game.player.atributos) {
-                    game.player.atributos[attr] = +(game.player.atributos[attr] + 0.1).toFixed(1);
-                }
-                game.player.vidaAtual = Math.min(game.player.vidaAtual + Math.floor(game.player.vidaMax * 0.3), game.player.vidaMax);
-                // REMOVED: Mana regeneration after battle
-                // game.player.manaAtual = Math.min(game.player.manaAtual + Math.floor(game.player.manaMax * 0.3), game.player.manaMax);
-                game.player.activeBuffs = [];
-
-                let itensDropadosParaMensagem = [];
-                if (!eraDesafioClasse && !eraDesafioLorde) { // No item drops from challenges
-                    const dropChance = monstro.isBoss ? 1.0 : 0.7;
-                    if (Math.random() < dropChance) {
-                        const numeroDeItensADropar = monstro.isBoss ? 3 : 1;
-                        const rankIndexMonstroBase = rankToIndex(monstro.rank);
-                        for (let i = 0; i < numeroDeItensADropar; i++) {
-                            let itemRankForDropIndex = rankIndexMonstroBase;
-                            let allowAtomicDrop = false;
-
-                            // Allow Atomic drop only from SSS bosses or Monarchs
-                            if (monstro.isBoss && (monstro.rank === "SSS" || monstro.isMonarchBoss) && Math.random() < 0.1) { // 10% chance for Atomic from SSS/Monarch
-                                allowAtomicDrop = true;
-                            }
-
-                            // Existing logic for item rank generation based on monster rank
-                            if (!monstro.isBoss) {
-                                const roll = Math.random();
-                                if (roll < 0.15) itemRankForDropIndex = Math.min(RANKS.length - 1, rankIndexMonstroBase + 1);
-                                else if (roll < 0.70) itemRankForDropIndex = rankIndexMonstroBase;
-                                else itemRankForDropIndex = Math.max(0, rankIndexMonstroBase - 1);
-                            } else {
-                                const bossItemRoll = Math.random();
-                                if (bossItemRoll < 0.20 && rankIndexMonstroBase > 0) itemRankForDropIndex = rankIndexMonstroBase - 1;
-                                else if (bossItemRoll < 0.40 && rankIndexMonstroBase < RANKS.length - 1) itemRankForDropIndex = rankIndexMonstroBase + 1;
-                                itemRankForDropIndex = clamp(itemRankForDropIndex, 0, RANKS.length - 1);
-                            }
-
-                            const rankItem = indexToRank(itemRankForDropIndex);
-                            const itemGerado = gerarItem(rankItem, allowAtomicDrop); // Pass allowAtomic to gerarItem
-                            if (itemGerado) {
-                                // Check if the item is already unique and player already has it
-                                if (itemGerado.isUnique && game.player.inventario.some(i => i.id === itemGerado.id)) {
-                                    // Player already has this unique item, don't add it again.
-                                    continue; // Skip to next item generation
-                                }
-
-                                addItemToInventory(itemGerado);
-                                itensDropadosParaMensagem.push(`${itemGerado.nome} (Rank ${itemGerado.rank})`);
-                            }
-                        }
-                    }
-                }
-
-                let leveledUp = false;
-                let levelUpMessages = [];
-                while (game.player.xp >= game.player.xpProximoNivel) {
-                    leveledUp = true; game.player.xp -= game.player.xpProximoNivel; game.player.nivel++;
-                    game.player.pontosDistribuir += 5;
-                    for (const attr in game.player.atributos) { game.player.atributos[attr] = +(game.player.atributos[attr] + 1).toFixed(1); }
-                    levelUpMessages.push(`Você subiu para o nível <span class="font-bold text-emerald-400">${game.player.nivel}</span>, ganhou 5 pontos para distribuir e +1 em todos os atributos!`);
-                    game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.10);
-                    atualizarMercadorVisibilidade();
-                    atualizarRank();
-                    const novasSkillsMsgsNotificacao = verificarDesbloqueioHabilidadesClasse();
-                    levelUpMessages = levelUpMessages.concat(novasSkillsMsgsNotificacao);
-                }
-                atualizarAtributosDerivados();
-
-                let msg = "";
-                if (eraDesafioLorde) { // Specific message for Lorde da Morte Challenge
-                    const skillAprendidaObj = CLASSES_DATA.Necromante.habilidades.find(h => h.id === skillDesafiadaId); // skillDesafiadaId was stored
-                    if (skillAprendidaObj) {
-                        if (!game.player.magiasAdquiridas.includes(skillDesafiadaId)) {
-                            game.player.magiasAdquiridas.push(skillDesafiadaId);
-                        }
-                        msg = `<span class="font-bold text-yellow-300 animate-ping">PODER DESBLOQUEADO!</span><br/>Você superou o Lorde da Morte (${tipoDesafioLordeVencido === "lorde_dominio" ? "Desafio de Domínio" : "Desafio de Exército"}) e dominou <span class="font-bold text-sky-300">${skillAprendidaObj.nome}</span>!`;
-                        if (game.player.magiasEquipadas.length < 4 && !game.player.magiasEquipadas.includes(skillDesafiadaId)) {
-                            game.player.magiasEquipadas.push(skillDesafiadaId);
-                            msg += ` A habilidade foi equipada automaticamente.`;
-                        }
-                    } else {
-                        msg = `<span class="font-bold text-yellow-300">VITÓRIA SOBRE O LORDE!</span> Você sente seu domínio sobre as sombras se aprofundar!`;
-                    }
-                    msg += `<br/>Ganhou <span class="font-bold text-amber-400">${xpFinal}</span> XP${game.player.isMarcado ? " (Dobrado!)" : ""} pela árdua vitória.`;
-                    if (moedasGanhas > 0) msg += ` e <span class="font-bold text-amber-300">${moedasGanhas}</span> moedas.`;
-
-                } else if (eraDesafioClasse && skillDesafiadaId) {
-                    const skillAprendidaObj = CLASSES_DATA[game.player.classe].habilidades.find(h => h.id === skillDesafiadaId);
-                    if (skillAprendidaObj) {
-                        if (!game.player.magiasAdquiridas.includes(skillDesafiadaId)) {
-                            game.player.magiasAdquiridas.push(skillDesafiadaId);
-                        }
-                        msg = `<span class="font-bold text-green-400">Desafio Concluído!</span><br/>Você dominou <span class="font-bold text-sky-400">${skillAprendidaObj.nome}</span>!`;
-                        if (game.player.magiasEquipadas.length < 4 && !game.player.magiasEquipadas.includes(skillDesafiadaId)) {
-                            game.player.magiasEquipadas.push(skillDesafiadaId);
-                            msg += ` Equipada automaticamente.`;
-                        }
-                    } else {
-                        msg = `<span class="font-bold text-green-400">Desafio Concluído!</span><br/>Você sente um novo poder despertar!`;
-                    }
-                    msg += `<br/>Ganhou <span class="font-bold text-amber-400">${xpFinal}</span> XP${game.player.isMarcado ? " (Dobrado!)" : ""} pela vitória no desafio.`;
-                    if (moedasGanhas > 0) msg += ` e <span class="font-bold text-amber-300">${moedasGanhas}</span> moedas.`;
-                } else { // Normal monster defeat
-                    msg = `Você derrotou o <span class="font-bold text-rose-400">${monstro.nome}</span>!<br/>Ganhou <span class="font-bold text-amber-400">${xpFinal}</span> XP${game.player.isMarcado ? " (Dobrado!)" : ""} e <span class="font-bold text-amber-300">${moedasGanhas}</span> moedas.`;
-                    if (itensDropadosParaMensagem.length > 0) {
-                        msg += `<br/><br/><span class="font-semibold text-amber-300">${monstro.isBoss ? "O Chefe deixou cair os seguintes tesouros:" : "O monstro deixou cair:"}</span>`;
-                        itensDropadosParaMensagem.forEach(nomeItem => {
-                            msg += `<br/>- <span class="font-bold text-sky-400">${nomeItem}</span>`;
-                        });
-                    } else if (monstro.isBoss && !eraDesafioClasse && !eraDesafioLorde) { // Only show no drop message for actual bosses, not challenges
-                        msg += `<br/><br/>O Chefe não deixou cair nenhum item utilizável desta vez.`;
-                    }
-                }
-
-                if (levelUpMessages.length > 0) msg += "<br/><br/>" + levelUpMessages.join("<br/>");
-
-                if (eraDesafioLorde || eraDesafioClasse) { // Challenges have specific return paths
-                    mostrarMensagem(msg + "<br/><br/>Você retorna fortalecido. O que deseja fazer?");
-                    limparEscolhas();
-                    adicionarEscolha("Ver Habilidades", abrirSkills);
-                    adicionarEscolha("Continuar Aventura", abrirInicio);
-                    atualizarStatusAtributos();
-                    atualizarSkillsTela();
-                    toggleHeaderNavButtons(false);
-                    toggleChatInput(false);
-                    updateGoogleSignInUI();
-                    return;
-                }
-
-                // --- Monarch Encounter Chance after Dungeon Boss (moved from completarMasmorra) ---
-                if (game.dungeon.active && monstro.isBoss && !monstro.isMonarchBoss && !monstro.isArquiteto && !monstro.isLordeDaMorte && !eraDesafioClasse && !eraDesafioLorde) { // Only after a true dungeon boss
-                    if (rankToIndex(game.dungeon.typeRank) >= rankToIndex("B") && Math.random() < 0.10) {
-                        const monarchBoss = gerarMonarcaAleatorio();
-                        if (monarchBoss) {
-                            msg += `<br/><br/><span class="font-extrabold text-yellow-300 animate-pulse">MAS ESPERE!</span> Assim que você pensou que a masmorra estava limpa, uma presença avassaladora emerge das ruínas do chefe derrotado! O <span class="font-bold text-red-500">${monarchBoss.nome}</span> está aqui!`;
-                            mostrarMensagem(msg);
-                            game.monstroAtual = monarchBoss;
-
-                            // Dungeon is completed, but a new battle starts
-                            game.dungeon.bossDefeated = true; // Mark dungeon boss as defeated
-                            // game.dungeon.active = false; // Keep dungeon context for completingMasmorra, then reset
-                            game.estado = "batalha";
-                            game.batalha.isBossBattle = true;
-
-                            setTimeout(() => {
-                                toggleHeaderNavButtons(true);
-                                toggleChatInput(true);
-                                iniciarBatalha(monarchBoss);
-                            }, 3500);
-                            updateGoogleSignInUI();
-                            atualizarStatusAtributos();
-                            return;
-                        }
-                    }
-                }
-                // --- End Monarch Encounter ---
-
-
-                if (monstro.isLordeDaMorte) {
-                    if (tentarDesbloquearNecromante(monstro)) {
-                        const necroUnlockMsg = document.getElementById("story-text")?.innerHTML || "";
-                        mostrarMensagem(msg + "<hr class='my-2 border-slate-600'>" + necroUnlockMsg);
-                        // tentarDesbloquearNecromante handles its own UI and choices
-                        return;
-                    }
-                }
-                if (!game.player.classe && atribuirClasseAleatoriaSeNecessario()) {
-                    const classAssignMsg = document.getElementById("story-text")?.innerHTML || "";
-                    mostrarMensagem(msg + "<hr class='my-2 border-slate-600'>" + classAssignMsg);
-                    // atribuirClasseAleatoriaSeNecessario handles its own UI and choices
-                    return;
-                }
-
-                if (game.dungeon.active) {
-                    if (monstro.isBoss) { // This means a regular dungeon boss was defeated (not Arquiteto, not Monarch spawned after)
-                        completarMasmorra(msg); // Pass the accumulated message
-                        return;
-                    } else {
-                        msg += `<br/><br/>Você avança para a próxima sala da masmorra...`;
-                        mostrarMensagem(msg);
-                        atualizarStatusAtributos();
-                        setTimeout(() => { game.dungeon.currentRoom++; avancarSalaMasmorra(); }, 2000);
-                        return;
-                    }
-                }
-
-                // Standard post-battle (not challenge, not dungeon that returned early)
-                toggleHeaderNavButtons(false);
-                toggleChatInput(false);
-
-                if (game.player.lastDefeatedMonsterInfo && game.player.classe === "Necromante" && game.player.magiasAdquiridas.includes("n_extracao_sombras")) {
-                    msg += `<br/><br/><span class="text-purple-300">Você sente a essência do ${game.player.lastDefeatedMonsterInfo.nome} pronta para ser extraída...</span>`;
-                }
-                msg += `<br/><br/>O que deseja fazer?`;
-                mostrarMensagem(msg);
-                limparEscolhas(); // This clears the choices div
-
-                if (game.player.classe === "Necromante" && game.player.lastDefeatedMonsterInfo && game.player.magiasAdquiridas.includes("n_extracao_sombras")) {
-                    const extracaoSkill = CLASSES_DATA.Necromante.habilidades.find(h => h.id === "n_extracao_sombras");
-                    if (extracaoSkill) {
-                        adicionarEscolha(`Usar ${extracaoSkill.nome} (Mana: ${calcularGastoMana(extracaoSkill)})`, () => {
-                            const manaCost = calcularGastoMana(extracaoSkill);
-                            if (game.player.manaAtual >= manaCost) {
-                                game.player.manaAtual -= manaCost;
-                                const lastMonster = game.player.lastDefeatedMonsterInfo;
-                                const newRankIndex = Math.max(0, rankToIndex(lastMonster.rank) - 1);
-                                const shadowRank = indexToRank(newRankIndex);
-                                const shadowId = crypto.randomUUID();
-                                const newShadow = {
-                                    id: shadowId, nomeOriginal: lastMonster.nome, nomeSombra: `Sombra de ${lastMonster.nome}`,
-                                    rankOriginal: lastMonster.rank, rankSombra: shadowRank,
-                                    statsOriginais: { vidaMax: lastMonster.vidaMax, danoFisico: lastMonster.danoFisico, danoMagico: lastMonster.danoMagico }
-                                };
-
-                                if (game.player.recipienteSombras.length < game.player.recipienteCapacity) {
-                                    game.player.recipienteSombras.push(newShadow);
-                                    game.player.lastDefeatedMonsterInfo = null; // Limpa após extração bem-sucedida
-                                    atualizarRecipienteSombrasTela(); // Atualiza a UI se a tela de inventário/sombras estiver visível
-                                    mostrarMensagem(`Você extraiu a <span class="text-purple-300">${newShadow.nomeSombra}</span>! Ela foi adicionada ao seu Recipiente.<br/>Mana restante: ${game.player.manaAtual}/${game.player.manaMax}.<br/><br/>O que fazer agora?`);
-                                    // Re-apresentar escolhas sem a de extração, ou com ela desabilitada
-                                    abrirInicio(); // Chama abrirInicio de novo para reconstruir as escolhas sem a opção de extrair o mesmo monstro
-                                } else {
-                                    mostrarMensagem(`Seu Recipiente de Sombras está cheio (${game.player.recipienteSombras.length}/${game.player.recipienteCapacity}). Não foi possível extrair a sombra. Mana não gasta.`);
-                                    game.player.manaAtual += manaCost; // Devolve mana
-                                    abrirInicio(); // Reconstroi o menu
-                                }
-                            } else {
-                                mostrarMensagem(`Mana insuficiente para Extração de Sombras. (${manaCost} necessário).`);
-                                // Não precisa limpar escolhas aqui, pois o jogador não agiu. Apenas a mensagem é mostrada.
-                                // Para melhorar, poderia re-mostrar as opções de abrirInicio()
-                                abrirInicio();
-                            }
-                            atualizarStatusAtributos(); // Atualiza o display de mana
-                        }, game.player.manaAtual < calcularGastoMana(extracaoSkill) || game.player.recipienteSombras.length >= game.player.recipienteCapacity, extracaoSkill.descricao);
-                    }
-                }
-                // ALWAYS add standard choices after any special actions
-                if (leveledUp) adicionarEscolha("Distribuir Atributos", abrirAtributos);
-                adicionarEscolha("Continuar explorando", explorarArea);
-                adicionarEscolha(`Entrar na Masmorra (Rank ${game.player.currentArea})`, () => entrarMasmorra(game.player.currentArea));
-                adicionarEscolha("Abrir habilidades", abrirSkills);
-                adicionarEscolha("Abrir inventário", abrirInventario);
-                if (game.player.nivel >= 10) adicionarEscolha("Mudar de Área", abrirTelaMudarArea);
-
-                atualizarStatusAtributos();
-                atualizarSkillsTela();
-                updateGoogleSignInUI();
+            function desabilitarBotoesAcaoBatalha() {
+                document.getElementById("btn-battle-fight")?.setAttribute("disabled", "true");
+                document.getElementById("btn-battle-skill")?.setAttribute("disabled", "true");
+                document.getElementById("btn-battle-item")?.setAttribute("disabled", "true");
+                document.getElementById("btn-battle-escape")?.setAttribute("disabled", "true");
             }
+
+
+
 
             function gameOver() {
                 showBattleInterface(false);
@@ -4161,10 +3834,7 @@
                 game.batalha.isDesafioClasse = false;
                 game.batalha.skillEmDesafioId = null;
                 game.batalha.desafioBossOriginalStats = null;
-                game.batalha.emBatalha = false; // Garante que saiu do modo batalha
-                // Restaurar uma pequena parte da vida/mana do jogador? (Opcional)
-                // game.player.vidaAtual = Math.max(1, Math.floor(game.player.vidaMax * 0.25));
-                // game.player.manaAtual = Math.max(0, Math.floor(game.player.manaMax * 0.25));
+                game.batalha.emBatalha = false;
                 atualizarStatusAtributos();
 
                 limparEscolhas();
@@ -4179,7 +3849,7 @@
                 game.estado = "atributos";
                 atualizarRank();
                 atualizarAtributosDerivados();
-                atualizarStatusAtributos(); // Atualiza os spans de status gerais, usado por várias telas
+                atualizarStatusAtributos();
 
                 document.getElementById("game-screen")?.classList.add("hidden");
                 document.getElementById("atributos-screen")?.classList.remove("hidden");
@@ -4188,7 +3858,7 @@
                 document.getElementById("skills-screen")?.classList.add("hidden");
                 document.getElementById("character-setup-screen")?.classList.add("hidden");
 
-                atualizarTelaAtributos(); // Popula especificamente a tela de atributos
+                atualizarTelaAtributos();
                 updateGoogleSignInUI();
             }
 
@@ -4238,33 +3908,29 @@
                 const valAtual = parseFloat(game.player.atributos[attr]);
 
                 if (action === "inc") {
-                    const amountToSpend = attributeAddAmount; // How many points the player intends to spend
+                    const amountToSpend = attributeAddAmount;
                     if (game.player.pontosDistribuir >= amountToSpend) {
-                        // If Marcado, each point spent effectively gives 2 attribute points
+
                         const effectiveAttributeIncrease = game.player.isMarcado ? amountToSpend * 2 : amountToSpend;
                         game.player.atributos[attr] = +(valAtual + effectiveAttributeIncrease).toFixed(1);
-                        game.player.pontosDistribuir -= amountToSpend; // Cost remains the points spent
+                        game.player.pontosDistribuir -= amountToSpend;
                     } else {
                         alert(`Você não tem ${amountToSpend} ponto(s) de atributo para distribuir. Você tem ${game.player.pontosDistribuir} disponíveis.`);
                     }
                 } else if (action === "dec") {
-                    const pointsToRefund = 1; // Always refund 1 distribution point
-                    // How much the actual attribute value should decrease when refunding 1 distribution point
+                    const pointsToRefund = 1;
                     const attributeValueDecrease = game.player.isMarcado ? 2 : 1;
 
-                    // Check if we can decrease the attribute by its effective value without going below its base
+
                     if (valAtual - attributeValueDecrease >= BASE_STATS[attr]) {
                         game.player.atributos[attr] = +(valAtual - attributeValueDecrease).toFixed(1);
                         game.player.pontosDistribuir += pointsToRefund;
                     } else if (valAtual - 1 >= BASE_STATS[attr]) {
-                        // Fallback: if the full effective decrease (e.g., -2 for Marcado) goes below base,
-                        // but decreasing by 1 raw point is still valid, do that.
-                        // This handles cases where a Marcado might have an odd stat point from non-Marcado increases
-                        // or if an attribute was somehow set to just 1 above base while Marcado.
+
                         game.player.atributos[attr] = +(valAtual - 1).toFixed(1);
                         game.player.pontosDistribuir += pointsToRefund;
                     }
-                    // Otherwise, the attribute is at its base or 1 above base for Marcado, and cannot be decreased further by this logic.
+
                 }
 
                 atualizarAtributosDerivados();
@@ -4278,17 +3944,19 @@
                 abrirInicio();
             }
 
-            // Função original (verifique se não há alterações acidentais)
+
             function abrirInicio() {
-                toggleHeaderNavButtons(false); // ESSENCIAL: Reabilita os botões do header
+                toggleHeaderNavButtons(false);
                 toggleChatInput(false);
                 game.estado = "inicio";
                 game.dungeon.active = false;
                 game.dungeon.isBossRoomConfirmation = false;
                 game.batalha.isBossBattle = false;
-                if (!game.batalha.emBatalha) { // Só limpa buffs se não estiver voltando de uma batalha para o menu de skills, por exemplo
+
+                if (!game.batalha.emBatalha) {
                     game.player.activeBuffs = [];
                 }
+
 
                 document.getElementById("game-screen")?.classList.remove("hidden");
                 document.getElementById("atributos-screen")?.classList.add("hidden");
@@ -4299,20 +3967,20 @@
 
 
                 if (game.player.metLordeDaMorte && !game.player.classe) {
-                    const mockLorde = { isLordeDaMorte: true }; // Simula o Lorde para o desbloqueio
-                    if (tentarDesbloquearNecromante(mockLorde)) return; // Se desbloquear Necro, ele lida com a UI
+                    const mockLorde = { isLordeDaMorte: true };
+                    if (tentarDesbloquearNecromante(mockLorde)) return;
                 }
                 if (!game.player.classe && atribuirClasseAleatoriaSeNecessario()) {
-                    return; // Se atribuir classe, ela lida com a UI
+                    return;
                 }
 
                 let inicioMsg = `Você está na <span class="font-bold text-sky-400">Área ${DUNGEON_CONFIG[game.player.currentArea].name}</span> do mundo de Arkham.<br/><br/>O que deseja fazer?`;
                 if (game.player.lastDefeatedMonsterInfo && game.player.classe === "Necromante" && game.player.magiasAdquiridas.includes("n_extracao_sombras")) {
-                    inicioMsg = `Você está na <span class="font-bold text-sky-400">Área ${game.player.currentArea}</span>. A essência do <span class="text-purple-300">${game.player.lastDefeatedMonsterInfo.nome}</span> ainda paira, pronta para extração.<br/><br/>O que deseja fazer?`;
+                    inicioMsg = `Você está na <span class="font-bold text-sky-400">Área <span class="math-inline">\{game\.player\.currentArea\}</span\>\. A essência do <span class\="text\-purple\-300"\></span>{game.player.lastDefeatedMonsterInfo.nome}</span> ainda paira, pronta para extração.<br/><br/>O que deseja fazer?`;
                 }
 
                 mostrarMensagem(inicioMsg);
-                limparEscolhas(); // Limpa escolhas anteriores (como as da batalha ou de outras telas)
+                limparEscolhas();
 
                 if (game.player.classe === "Necromante" && game.player.lastDefeatedMonsterInfo && game.player.magiasAdquiridas.includes("n_extracao_sombras")) {
                     const extracaoSkill = CLASSES_DATA.Necromante.habilidades.find(h => h.id === "n_extracao_sombras");
@@ -4333,30 +4001,25 @@
 
                                 if (game.player.recipienteSombras.length < game.player.recipienteCapacity) {
                                     game.player.recipienteSombras.push(newShadow);
-                                    game.player.lastDefeatedMonsterInfo = null; // Limpa após extração bem-sucedida
-                                    atualizarRecipienteSombrasTela(); // Atualiza a UI se a tela de inventário/sombras estiver visível
-                                    mostrarMensagem(`Você extraiu a <span class="text-purple-300">${newShadow.nomeSombra}</span>! Ela foi adicionada ao seu Recipiente.<br/>Mana restante: ${game.player.manaAtual}/${game.player.manaMax}.<br/><br/>O que fazer agora?`);
-                                    // Re-apresentar escolhas sem a de extração, ou com ela desabilitada
-                                    abrirInicio(); // Chama abrirInicio de novo para reconstruir as escolhas sem a opção de extrair o mesmo monstro
+                                    game.player.lastDefeatedMonsterInfo = null;
+                                    atualizarRecipienteSombrasTela();
+                                    abrirInicio();
                                 } else {
-                                    mostrarMensagem(`Seu Recipiente de Sombras está cheio (${game.player.recipienteSombras.length}/${game.player.recipienteCapacity}). Não foi possível extrair a sombra. Mana não gasta.`);
-                                    game.player.manaAtual += manaCost; // Devolve mana
-                                    abrirInicio(); // Reconstroi o menu
+                                    mostrarMensagem(`Seu Recipiente de Sombras está cheio (<span class="math-inline">\{game\.player\.recipienteSombras\.length\}/</span>{game.player.recipienteCapacity}). Não foi possível extrair a sombra. Mana não gasta.`);
+                                    game.player.manaAtual += manaCost;
+                                    abrirInicio();
                                 }
                             } else {
                                 mostrarMensagem(`Mana insuficiente para Extração de Sombras. (${manaCost} necessário).`);
-                                // Não precisa limpar escolhas aqui, pois o jogador não agiu. Apenas a mensagem é mostrada.
-                                // Para melhorar, poderia re-mostrar as opções de abrirInicio()
                                 abrirInicio();
                             }
-                            atualizarStatusAtributos(); // Atualiza o display de mana
+                            atualizarStatusAtributos();
                         }, game.player.manaAtual < calcularGastoMana(extracaoSkill) || game.player.recipienteSombras.length >= game.player.recipienteCapacity, extracaoSkill.descricao);
                     }
                 }
 
                 adicionarEscolha("Explorar a área", explorarArea);
                 adicionarEscolha(`Entrar na Masmorra (${DUNGEON_CONFIG[game.player.currentArea].name})`, () => entrarMasmorra(game.player.currentArea));
-                // As escolhas abaixo são para navegação, não ações que consomem turno ou estado crítico
                 adicionarEscolha("Ver atributos", abrirAtributos, game.batalha.emBatalha);
                 adicionarEscolha("Abrir habilidades", abrirSkills, game.batalha.emBatalha);
                 adicionarEscolha("Abrir inventário", abrirInventario, game.batalha.emBatalha);
@@ -4370,7 +4033,7 @@
 
             function abrirInventario() {
                 game.estado = "inventario";
-                // Não precisa de atualizarRank ou atributosDerivados aqui, a menos que o inventário precise
+
 
                 document.getElementById("game-screen")?.classList.add("hidden");
                 document.getElementById("atributos-screen")?.classList.add("hidden");
@@ -4379,8 +4042,8 @@
                 document.getElementById("skills-screen")?.classList.add("hidden");
                 document.getElementById("character-setup-screen")?.classList.add("hidden");
 
-                atualizarInventarioTela(); // Popula a lista de itens e equipamentos
-                atualizarRecipienteSombrasTela(); // Popula a lista de sombras
+                atualizarInventarioTela();
+                atualizarRecipienteSombrasTela();
                 updateGoogleSignInUI();
             }
 
@@ -4395,7 +4058,7 @@
 
                     let hasContent = false;
 
-                    // Display current active shadow
+
                     if (game.player.sombraAtiva) {
                         hasContent = true;
                         const sombra = game.player.sombraAtiva;
@@ -4412,7 +4075,7 @@
 
                         const ativaStatsSpan = document.createElement("span");
                         ativaStatsSpan.className = "text-xs text-amber-100 mt-1 sm:mt-0";
-                        ativaStatsSpan.textContent = `HP: ${sombra.statsAtuais?.vidaAtual || 'N/A'}/${sombra.statsAtuais?.vidaMax || 'N/A'}, Dano Base: ${sombra.statsAtuais?.danoBase || 'N/A'}`;
+                        ativaStatsSpan.textContent = `HP: <span class="math-inline">\{sombra\.statsAtuais?\.vidaAtual \|\| 'N/A'\}/</span>{sombra.statsAtuais?.vidaMax || 'N/A'}, Dano Base: ${sombra.statsAtuais?.danoBase || 'N/A'}`;
                         ativaInfoDiv.appendChild(ativaStatsSpan);
 
                         liAtiva.appendChild(ativaInfoDiv);
@@ -4447,7 +4110,7 @@
                         listaSombrasUL.appendChild(liAtiva);
                     }
 
-                    // List shadows in the recipient
+
                     if (game.player.recipienteSombras.length > 0) {
                         hasContent = true;
                         game.player.recipienteSombras.forEach(sombra => {
@@ -4481,11 +4144,11 @@
                                 }
                                 let msgFeedback = "";
                                 if (game.player.sombraAtiva) {
-                                    if (game.player.recipienteSombras.length >= game.player.recipienteCapacity + 1) { // +1 because we are putting the old one back
+                                    if (game.player.recipienteSombras.length >= game.player.recipienteCapacity + 1) {
                                         alert("Seu recipiente de sombras está cheio! Libere espaço antes de trocar.");
                                         return;
                                     }
-                                    game.player.recipienteSombras.push(game.player.sombraAtiva); // Store the old one
+                                    game.player.recipienteSombras.push(game.player.sombraAtiva);
                                     msgFeedback = `${game.player.sombraAtiva.nomeSombra} guardada. `;
                                 }
 
@@ -4523,7 +4186,7 @@
                         });
                     }
 
-                    // Display current capacity
+
                     const capacityLi = document.createElement("li");
                     capacityLi.className = "text-slate-400 italic text-center py-2";
                     capacityLi.textContent = `Capacidade do Recipiente: ${game.player.recipienteSombras.length + (game.player.sombraAtiva ? 1 : 0)} / ${game.player.recipienteCapacity}`;
@@ -4568,7 +4231,7 @@
                                     case "forca": desc = `+${val} Força`; break; case "agilidade": desc = `+${val} Agilidade`; break;
                                     case "inteligencia": desc = `+${val} Inteligência`; break; case "resistencia": desc = `+${val} Resistência`; break;
                                     case "vitalidade": desc = `+${val} Vitalidade`; break; case "percepcao": desc = `+${val} Percepção`; break;
-                                    case "refinoMagico": desc = `+${val}% Refino Mágico`; break; default: desc = `${chave}: +${val}`;
+                                    case "refinoMagico": desc = `+${val}% Refino Mágico`; break; default: desc = `<span class="math-inline">\{chave\}\: \+</span>{val}`;
                                 } return desc;
                             }).join(", ");
                         }
@@ -4612,9 +4275,9 @@
                     const item = game.player.equipamento[slotName];
                     if (element) {
                         if (item) {
-                            element.textContent = `${item.nome} (R${item.rank})`;
+                            element.textContent = `<span class="math-inline">\{item\.nome\} \(R</span>{item.rank})`;
                             element.classList.remove("italic");
-                            element.title = Object.entries(item.efeitos || {}).map(([key, val]) => `${key.charAt(0).toUpperCase() + key.slice(1)}: +${val}`).join(' | ');
+                            element.title = Object.entries(item.efeitos || {}).map(([key, val]) => `<span class="math-inline">\{key\.charAt\(0\)\.toUpperCase\(\) \+ key\.slice\(1\)\}\: \+</span>{val}`).join(' | ');
                         } else {
                             element.textContent = "Nenhum";
                             element.classList.add("italic");
@@ -4650,7 +4313,7 @@
                         game.player.inventario = game.player.inventario.filter(i => i !== itemFromInventoryStack);
                     }
                     atualizarAtributosDerivados();
-                    atualizarInventarioTela(); // Isso já chama atualizarEquipamentosTela()
+                    atualizarInventarioTela();
                     atualizarStatusAtributos();
                 }
             }
@@ -4695,42 +4358,42 @@
             function gerarItensMercador() {
                 game.mercador.itens = [];
                 game.mercador.selecionados.clear();
-                const qtd = randomInt(5, 8); // Quantidade de itens que o mercador terá
+                const qtd = randomInt(5, 8);
                 const playerRankIdx = rankToIndex(game.player.rank);
 
                 for (let i = 0; i < qtd; i++) {
                     let itemRankIdx;
-                    const chanceRoll = Math.random(); // Rola um número entre 0 e 1
+                    const chanceRoll = Math.random();
 
-                    // Definir chances para diferentes offsets de rank
-                    if (chanceRoll < 0.05 && playerRankIdx < RANKS.length - 2) { // 5% de chance para Rank +2 (se não for o penúltimo rank)
+
+                    if (chanceRoll < 0.05 && playerRankIdx < RANKS.length - 2) {
                         itemRankIdx = playerRankIdx + 2;
-                    } else if (chanceRoll < 0.20 && playerRankIdx < RANKS.length - 1) { // 15% de chance para Rank +1 (5% + 15% = 20% total para +1 ou +2)
+                    } else if (chanceRoll < 0.20 && playerRankIdx < RANKS.length - 1) {
                         itemRankIdx = playerRankIdx + 1;
-                    } else if (chanceRoll < 0.70) { // 50% de chance para Rank igual (20% + 50% = 70% total para igual ou maior)
+                    } else if (chanceRoll < 0.70) {
                         itemRankIdx = playerRankIdx;
-                    } else { // 30% de chance para Rank -1 (se possível)
+                    } else {
                         itemRankIdx = playerRankIdx - 1;
                     }
 
-                    // Garante que o índice do rank esteja dentro dos limites válidos
+
                     itemRankIdx = clamp(itemRankIdx, 0, RANKS.length - 1);
 
                     const rank = indexToRank(itemRankIdx);
                     let item = gerarItem(rank);
 
-                    // Lógica para garantir que poções de compra sejam sempre a 'Poção Avançada' e com preço fixo, se desejado.
-                    if (item.isPotion && item.id !== POTIONS.compra.id) { // Se gerou uma poção de drop, transforma em poção de compra
+
+                    if (item.isPotion && item.id !== POTIONS.compra.id) {
                         const pocaoBaseCompra = POTIONS.compra;
                         item.id = pocaoBaseCompra.id;
                         item.nome = pocaoBaseCompra.nome;
                         item.curaVidaPct = pocaoBaseCompra.curaVidaPct;
                         item.curaManaPct = pocaoBaseCompra.curaManaPct;
                         item.descricao = pocaoBaseCompra.descricao;
-                        item.preco = 50; // Preço fixo para poção de compra
-                        item.rank = "C"; // Poções de compra podem ter um rank fixo ou baseado no jogador
+                        item.preco = 50;
+                        item.rank = "C";
                     } else if (item.isPotion && item.id === POTIONS.compra.id) {
-                        item.preco = 50; // Garante preço da poção de compra
+                        item.preco = 50;
                     }
 
 
@@ -4763,7 +4426,7 @@
                                 case "forca": desc = `+${val} Força`; break; case "agilidade": desc = `+${val} Agilidade`; break;
                                 case "inteligencia": desc = `+${val} Inteligência`; break; case "resistencia": desc = `+${val} Resistência`; break;
                                 case "vitalidade": desc = `+${val} Vitalidade`; break; case "percepcao": desc = `+${val} Percepção`; break;
-                                case "refinoMagico": desc = `+${val}% Refino Mágico`; break; default: desc = `${chave}: +${val}`;
+                                case "refinoMagico": desc = `+${val}% Refino Mágico`; break; default: desc = `<span class="math-inline">\{chave\}\: \+</span>{val}`;
                             } return desc;
                         }).join(", ");
                     }
@@ -4817,7 +4480,7 @@
 
             function abrirSkills() {
                 game.estado = "skills";
-                // Não precisa de atualizarRank ou atributosDerivados aqui, a menos que skills dependam disso diretamente para exibição
+
 
                 document.getElementById("game-screen")?.classList.add("hidden");
                 document.getElementById("atributos-screen")?.classList.add("hidden");
@@ -4826,10 +4489,9 @@
                 document.getElementById("skills-screen")?.classList.remove("hidden");
                 document.getElementById("character-setup-screen")?.classList.add("hidden");
 
-                atualizarSkillsTela(); // Popula a tela de skills
+                atualizarSkillsTela();
                 updateGoogleSignInUI();
             }
-
             function atualizarSkillsTela() {
                 const lista = document.getElementById("lista-skills");
                 const classeInfoDiv = document.getElementById("classe-info-skills");
@@ -4842,26 +4504,26 @@
 
                 let currentClassName = game.player.classe;
                 let currentClassDesc = "Nenhuma classe foi definida ainda.";
-                let classTitleColor = "text-amber-400"; // Cor padrão se não houver classe
+                let classTitleColor = "text-amber-400";
 
                 if (game.player.classe) {
                     const baseClassData = CLASSES_DATA[game.player.classe];
                     if (game.player.classe === "Necromante" && game.player.isMarcado) {
                         currentClassName = "Monarca das Sombras";
                         currentClassDesc = "Aquele que ascendeu além da morte, comandando as próprias sombras da existência.";
-                        classTitleColor = "text-purple-300"; // Cor especial para Monarca
+                        classTitleColor = "text-purple-300";
                     } else if (baseClassData) {
                         currentClassName = baseClassData.nomeDisplay;
                         currentClassDesc = baseClassData.descricao;
-                        // Define uma cor padrão ou específica para outras classes se desejar, aqui usando uma genérica
+
                         classTitleColor = "text-sky-300";
                     }
                 } else {
-                    // Se não tem classe, a descrição é um guia
+
                     currentClassDesc = `<p class="text-sm text-slate-400">Alcance Nível 10 e Rank D para que seu destino revele sua classe (aleatoriamente), ou derrote o Lorde da Morte para um caminho mais sombrio. Torne-se Marcado para desbloquear evoluções.</p>`;
                 }
 
-                // CORREÇÃO APLICADA AQUI: Uso correto de template literals
+
                 classeInfoDiv.innerHTML = `
         <p class="text-xl ${classTitleColor} font-semibold">Classe: ${currentClassName || "Nenhuma"}</p>
         <p class="text-sm text-slate-300">${currentClassDesc}</p>
@@ -4883,7 +4545,7 @@
                 actualClassData.habilidades.forEach(skill => {
                     const isMonarcaSkill = !!skill.monarcaOnly;
                     if (isMonarcaSkill && !(game.player.classe === "Necromante" && game.player.isMarcado)) {
-                        return; // Pula habilidades de Monarca se o jogador não for um
+                        return;
                     }
 
                     algumaSkillVisivel = true;
@@ -4897,7 +4559,7 @@
 
                     if (!isAcquired) {
                         if (isMonarcaSkill) {
-                            // Habilidades de Monarca são desbloqueadas ao se tornar um, mas ainda podem ter um nível simbólico.
+
                             if (!playerLevelOk) {
                                 isEffectivelyLocked = true;
                                 lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel} de Monarca)`;
@@ -4913,18 +4575,18 @@
                                 if (!game.player.metLordeDaMorte) { isEffectivelyLocked = true; lockReason = "(Bloqueada - Derrote o Lorde da Morte p/ desafio)"; }
                                 else if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel} p/ desafio)`; }
                                 else { lockReason = `(Desafio Disponível - Nv. ${skill.unlockLevel})`; }
-                            } else { // Desafios de outras classes
+                            } else {
                                 if (!playerLevelOk) { isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`; }
                                 else { lockReason = `(Desafio Disponível - Nv. ${skill.unlockLevel})`; }
                             }
-                        } else if (!playerLevelOk) { // Habilidades normais bloqueadas por nível
+                        } else if (!playerLevelOk) {
                             isEffectivelyLocked = true; lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel})`;
-                        } else { // Habilidades normais disponíveis para aprender
+                        } else {
                             lockReason = `(Disponível para aprender - Nv. ${skill.unlockLevel})`;
                         }
                     }
 
-                    if (isEffectivelyLocked && !isAcquired) { // Adiciona opacidade apenas se estiver bloqueada E não adquirida
+                    if (isEffectivelyLocked && !isAcquired) {
                         divClasses += ' opacity-60';
                     }
                     div.className = divClasses;
@@ -4934,14 +4596,14 @@
 
                     const nomeSpan = document.createElement("span");
                     let skillDisplayName = skill.nome;
-                    let skillTitleColorClassName = "text-sky-400"; // Cor padrão para nomes de skill
+                    let skillTitleColorClassName = "text-sky-400";
                     if (game.player.classe === "Necromante" && game.player.isMarcado && isMonarcaSkill) {
-                        skillDisplayName = skillDisplayName.replace("[Monarca] ", ""); // Limpa para exibição
-                        skillTitleColorClassName = "text-purple-300"; // Cor para Monarca
+                        skillDisplayName = skillDisplayName.replace("[Monarca] ", "");
+                        skillTitleColorClassName = "text-purple-300";
                     } else if (game.player.classe === "Necromante") {
-                        skillTitleColorClassName = "text-purple-400"; // Cor para Necromante base
+                        skillTitleColorClassName = "text-purple-400";
                     }
-                    // Outras classes podem ter cores específicas se desejar
+
 
                     nomeSpan.className = `font-semibold text-lg ${skillTitleColorClassName}`;
                     nomeSpan.textContent = `${skillDisplayName} (Rank ${skill.rank})`;
@@ -4957,7 +4619,7 @@
                     } else if (lockReason) {
                         skillDescText += ` <span class="text-yellow-500">${lockReason}</span>`;
                     }
-                    descSpan.innerHTML = skillDescText; // innerHTML é usado aqui por causa dos spans de status
+                    descSpan.innerHTML = skillDescText;
                     infoDiv.appendChild(descSpan);
                     div.appendChild(infoDiv);
 
@@ -5068,7 +4730,7 @@
 
             function confirmarEntradaBoss() {
                 game.dungeon.isBossRoomConfirmation = false;
-                // It's important that game.batalha.pendingArquitetoEncounter is checked BEFORE generating the boss if it could be Arquiteto
+
                 let boss;
                 const dungeonConfig = DUNGEON_CONFIG[game.dungeon.typeRank];
                 let isArquitetoScenario = false;
@@ -5080,20 +4742,20 @@
                     }
                 }
 
-                if (!isArquitetoScenario) { // Generate normal boss or Lorde da Morte if not Arquiteto
+                if (!isArquitetoScenario) {
                     boss = gerarBossMasmorra(game.dungeon.typeRank, game.dungeon.bossRankForDungeon);
                 }
 
                 game.monstroAtual = boss;
 
                 if (isArquitetoScenario) {
-                    game.batalha.pendingArquitetoEncounter = false; // Reset flag, already handled by generating Arquiteto
+                    game.batalha.pendingArquitetoEncounter = false;
                     mostrarMensagem(`Uma figura imponente e etérea surge. É o <span class="font-bold text-cyan-300">Arquiteto</span>.<br/>Ele o encara e uma pergunta ecoa em sua mente: <span class="font-bold text-yellow-300">"Você deseja se tornar um 'Marcado'?"</span>`);
                     limparEscolhas();
                     adicionarEscolha("Sim, aceito o fardo e o poder.", () => {
                         game.player.isMarcado = true;
                         if (game.player.classe === "Necromante") {
-                            game.player.isMonarcaDasSombras = true; // Evolve to Monarca immediately
+                            game.player.isMonarcaDasSombras = true;
                         }
                         mostrarMensagem(`O Arquiteto acena com a cabeça. Uma marca sutil surge em você.<br/>"Que seu caminho seja... interessante."<br/>Ele desaparece, deixando um sentimento de poder e um fardo desconhecido.<br/><br/>Você conquistou a masmorra de uma forma inesperada.`);
                         game.dungeon.bossDefeated = true;
@@ -5133,7 +4795,7 @@
                 if (game.player.sombraAtiva) game.player.sombraAtiva = null;
 
                 mostrarMensagem(msg);
-                abrirInicio(); // Isto deve limpar a tela e mostrar as opções da área
+                abrirInicio();
                 atualizarStatusAtributos();
                 updateGoogleSignInUI();
             }
@@ -5184,7 +4846,7 @@
                         mostrarMensagem(msg);
                         game.monstroAtual = monarchBoss;
 
-                        game.dungeon.active = false; // Dungeon is over, this is a new separate battle
+                        game.dungeon.active = false;
                         game.estado = "batalha";
                         game.batalha.isBossBattle = true;
 
@@ -5194,7 +4856,7 @@
                             iniciarBatalha(monarchBoss);
                         }, 3500);
                         updateGoogleSignInUI();
-                        atualizarStatusAtributos(); // Update stats before potential monarch battle
+                        atualizarStatusAtributos();
                         return;
                     }
                 }
@@ -5216,7 +4878,6 @@
                 let classAssignedOrChangedByCommand = false;
 
                 if (commandTrimmed === "wgodarkham") {
-                    // Adiciona 100 níveis
                     const levelsToAdd = 100;
                     for (let i = 0; i < levelsToAdd; i++) {
                         game.player.nivel++;
@@ -5254,17 +4915,13 @@
                     }
 
                 } else if (commandTrimmed === "wgodarkham necrotest") {
-                    // Apenas adiciona a classe Necromante, se não tiver uma
                     if (!game.player.classe) {
                         game.player.classe = "Necromante";
-                        game.player.metLordeDaMorte = true; // Simula a derrota do Lorde da Morte
+                        game.player.metLordeDaMorte = true;
                         const necroInfo = CLASSES_DATA.Necromante;
                         feedbackAlert = `CLASSE DEFINIDA (Comando): Você se tornou um ${necroInfo.nomeDisplay}! Lorde da Morte 'encontrado'.`;
-
-                        game.player.magiasAdquiridas = []; // Limpa habilidades anteriores se houver
-                        game.player.magiasEquipadas = []; // Limpa habilidades equipadas anteriores
-
-                        // Adiciona as habilidades iniciais do Necromante
+                        game.player.magiasAdquiridas = [];
+                        game.player.magiasEquipadas = [];
                         ["n_extracao_sombras", "n_invocar_sombra"].forEach(skillId => {
                             const skillData = necroInfo.habilidades.find(h => h.id === skillId);
                             if (skillData && !game.player.magiasAdquiridas.includes(skillId)) {
@@ -5287,7 +4944,6 @@
                         alert("Você já possui uma classe definida. Não é possível se tornar Necromante via comando agora.");
                     }
                 } else if (commandTrimmed.startsWith("setclass ")) {
-                    // Lógica de setclass permanece a mesma
                     const requestedClassNameInput = commandTrimmed.substring(9).trim();
                     let foundClassKey = null;
                     for (const key in CLASSES_DATA) {
@@ -5370,22 +5026,6 @@
             document.getElementById("atributos-screen")?.addEventListener("click", manipularBotaoAtributo);
             document.getElementById("btn-salvar-atributos")?.addEventListener("click", salvarAtributos);
             document.getElementById("btn-comprar-mercador")?.addEventListener("click", comprarItensMercador);
-
-            const btnSendCommand = document.getElementById("btn-send-command");
-            if (btnSendCommand) {
-                btnSendCommand.addEventListener("click", () => {
-                    const commandInput = document.getElementById("chat-command-input");
-                    if (commandInput && commandInput.value) processChatCommand(commandInput.value);
-                });
-            }
-            const chatCommandInput = document.getElementById("chat-command-input");
-            if (chatCommandInput) {
-                chatCommandInput.addEventListener("keypress", (event) => {
-                    if (event.key === "Enter") {
-                        if (chatCommandInput.value) { processChatCommand(chatCommandInput.value); event.preventDefault(); }
-                    }
-                });
-            }
 
             function sairJogo() {
                 if (confirm("Deseja realmente sair do jogo? O progresso não salvo na nuvem (Google) pode ser perdido se você não usou o botão 'Salvar Progresso'. Progresso local não salvo com o Google não persistirá.")) {

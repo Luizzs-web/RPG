@@ -15,280 +15,257 @@
 
     <style type="text/tailwindcss">
         .attribute-mode-btn.active {
-    @apply bg-[#543C32] ring-2 ring-[#A1887F]; /* Cor ligeiramente mais escura e anel para indicar que está ativo */
+    @apply bg-[#543C32] ring-2 ring-[#A1887F]; 
 }
-        /* Adicionar ao seu CSS existente */
     #character-setup-screen.hidden {
         display: none;
     }
 
-    /* --- THEME: DARK BROWN --- */
     body {
-        /* background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png'); */ /* Optional: Subtle dark texture */
-        background-color: #3B2E26; /* Deep Dark Brown */
+        background-color: #3B2E26; 
         font-family: 'Merriweather', serif;
-        color: #D7CCC8; /* Light Beige/Brownish Gray text */
+        color: #D7CCC8; 
         transition: background-image 0.7s ease-in-out;
     }
 
-    /* Dynamic Background Classes */
     .bg-theme-default {
-        /* background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png') !important; */
-        background-color: #3B2E26 !important; /* Deep Dark Brown */
+        background-color: #3B2E26 !important; 
     }
     .bg-theme-forest {
-        background-image: url('https://source.unsplash.com/random/1920x1080/?dark,fantasy,forest,night') !important; /* Added night for darker feel */
+        background-image: url('https://source.unsplash.com/random/1920x1080/?dark,fantasy,forest,night') !important; 
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
     .bg-theme-battle {
-        background-image: url('https://source.unsplash.com/random/1920x1080/?battlefield,fantasy,medieval,gloomy') !important; /* Added gloomy */
+        background-image: url('https://source.unsplash.com/random/1920x1080/?battlefield,fantasy,medieval,gloomy') !important; 
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
     .bg-theme-dungeon {
-        background-image: url('https://source.unsplash.com/random/1920x1080/?dungeon,dark,stone,corridor,shadows') !important; /* Added shadows */
+        background-image: url('https://source.unsplash.com/random/1920x1080/?dungeon,dark,stone,corridor,shadows') !important; 
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
     .bg-theme-boss-hall {
-        background-image: url('https://source.unsplash.com/random/1920x1080/?throne,room,boss,hall,fantasy,epic,dark') !important; /* Added dark */
+        background-image: url('https://source.unsplash.com/random/1920x1080/?throne,room,boss,hall,fantasy,epic,dark') !important; 
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
 
-    /* Header Styling */
-    header.bg-slate-900 { /* Was: #5D4037 (Old Book) */
-        @apply bg-[#2A1F1B] border-b-2 border-[#1F1611]; /* Very Dark Brown, like a tome cover */
+    header.bg-slate-900 { 
+        @apply bg-[#2A1F1B] border-b-2 border-[#1F1611]; 
     }
-    header h1 { /* Was: #E0C097 */
-        @apply text-[#E0C097]; /* Parchment text for title - still good */
+    header h1 { 
+        @apply text-[#E0C097]; 
     }
-    header nav button, header nav button i { /* Was: #E0C097 hover:#FDF5E6 */
-        @apply text-[#D7CCC8] hover:text-[#FFF8E1]; /* Light Beige text, lighter hover (Cornsilk) */
+    header nav button, header nav button i { 
+        @apply text-[#D7CCC8] hover:text-[#FFF8E1]; 
         font-family: 'Merriweather', serif;
     }
-    header nav button#btn-save-google, header nav button#btn-save-google i { /* Was: #B08D57 hover:#A1887F */
-        @apply text-[#FFCA28] hover:text-[#FFB300]; /* Gold for save, brighter hover */
+    header nav button#btn-save-google, header nav button#btn-save-google i { 
+        @apply text-[#FFCA28] hover:text-[#FFB300]; 
     }
     header nav button#btn-signout-google, header nav button#btn-signout-google i,
-    header nav button#btn-sair, header nav button#btn-sair i { /* Was: #A1887F hover:#8D6E63 */
-        @apply text-[#BCAAA4] hover:text-[#A1887F]; /* Muted lighter brown for exit/signout */
+    header nav button#btn-sair, header nav button#btn-sair i { 
+        @apply text-[#BCAAA4] hover:text-[#A1887F]; 
     }
-    #google-user-greeting { /* Was: #E0C097 */
-        @apply text-[#D7CCC8]; /* Match nav button text */
-    }
-
-    /* Main Content Area */
-    #main-content {
-        /* background-color: transparent; */
+    #google-user-greeting { 
+        @apply text-[#D7CCC8]; 
     }
 
-    /* Game Screen Elements (Containers like story box, stat boxes) */
     #story-text, .bg-slate-700, .bg-slate-800, .bg-slate-600 {
-        background-color: rgba(60, 45, 38, 0.6); /* Darker Semi-transparent Brown #3C2D26 base */
-        border: 1px solid rgba(83, 64, 55, 0.5); /* #534037 base border */
+        background-color: rgba(60, 45, 38, 0.6); 
+        border: 1px solid rgba(83, 64, 55, 0.5); 
         @apply shadow-md;
     }
     #story-text {
-        background-color: rgba(74, 59, 50, 0.65); /* Slightly more opaque/distinct for story text readability #4A3B32 base */
-        border: 1px solid #6D4C41; /* Wood Brown border */
-        @apply text-lg leading-relaxed select-text text-[#E0C097]; /* Light Parchment text */
+        background-color: rgba(74, 59, 50, 0.65); 
+        border: 1px solid #6D4C41; 
+        @apply text-lg leading-relaxed select-text text-[#E0C097]; 
     }
 
-    /* Buttons - General Styling */
     #choices button,
     #battle-main-commands button,
     #btn-salvar-atributos,
     #btn-comprar-mercador {
-        @apply bg-[#6D4C41] hover:bg-[#543C32] text-[#FFF8E1] border border-[#4E342E] shadow-sm; /* Wood Brown bg, Cornsilk text */
-        @apply focus:ring-[#A1887F] focus:ring-offset-2 focus:ring-offset-[#3B2E26]; /* Muted brown ring, dark offset */
+        @apply bg-[#6D4C41] hover:bg-[#543C32] text-[#FFF8E1] border border-[#4E342E] shadow-sm; 
+        @apply focus:ring-[#A1887F] focus:ring-offset-2 focus:ring-offset-[#3B2E26]; 
         font-family: 'Merriweather', serif;
     }
     #choices button:disabled,
     #battle-main-commands button:disabled,
     #btn-comprar-mercador:disabled {
-        @apply bg-[#5A4A44] text-[#887972] border-[#4A3A34] cursor-default; /* Muted dark background, muted lighter text for disabled */
+        @apply bg-[#5A4A44] text-[#887972] border-[#4A3A34] cursor-default; 
         font-family: 'Merriweather', serif;
     }
 
-    /* Atributos Screen */
     .atributos-fundo {
-        
-        background-color: #31251E; 
-        border: 2px solid #1F1611; 
+        background-color: #31251E;  
+        border: 2px solid #1F1611;  
         padding: 1rem;
     }
     #atributos-screen h2, #atributos-screen h4 {
-        @apply text-[#E0C097]; 
+        @apply text-[#E0C097];  
     }
-    #atributos-screen .bg-slate-700, #atributos-screen .bg-slate-600 { 
+    #atributos-screen .bg-slate-700, #atributos-screen .bg-slate-600 {  
         background-color: rgba(93, 64, 55, 0.4);
-        border: 1px solid #4E342E; 
+        border: 1px solid #4E342E;  
     }
     #status-nivel, #status-rank, #status-classe, #status-moedas,
     #bonus-dano-fisico, #bonus-dano-magico, #bonus-resistencia span, #bonus-fuga span, #bonus-esquiva span,
     #forca-val, #agilidade-val, #inteligencia-val, #resistencia-val, #vitalidade-val, #percepcao-val,
     #pontos-disponiveis {
-        @apply text-[#D7CCC8]; 
+        @apply text-[#D7CCC8];  
     }
-    #status-nivel { @apply text-[#A5D6A7]; } 
-    #status-rank { @apply text-[#FFCA28]; } 
-    #status-classe { @apply text-[#BCAAA4]; } 
-    #status-moedas { @apply text-[#FFCA28]; } 
+    #status-nivel { @apply text-[#A5D6A7]; }  
+    #status-rank { @apply text-[#FFCA28]; }  
+    #status-classe { @apply text-[#BCAAA4]; }  
+    #status-moedas { @apply text-[#FFCA28]; }  
 
-    #atributos-screen .text-slate-400 { 
-        @apply text-[#A1887F]; 
+    #atributos-screen .text-slate-400 {  
+        @apply text-[#A1887F];  
     }
-    #atributos-screen .text-purple-300 { @apply text-[#CE93D8]; } 
-    #atributos-screen .text-red-400 { @apply text-[#EF9A9A]; } 
-    #atributos-screen .text-blue-400 { @apply text-[#90CAF9]; } 
+    #atributos-screen .text-purple-300 { @apply text-[#CE93D8]; }  
+    #atributos-screen .text-red-400 { @apply text-[#EF9A9A]; }  
+    #atributos-screen .text-blue-400 { @apply text-[#90CAF9]; }  
 
-    #bonus-dano-fisico { @apply text-[#FFAB91]; } 
-    #bonus-dano-magico { @apply text-[#81D4FA]; } 
+    #bonus-dano-fisico { @apply text-[#FFAB91]; }  
+    #bonus-dano-magico { @apply text-[#81D4FA]; }  
     #bonus-resistencia span { @apply text-[#A5D6A7]; }
-    #bonus-esquiva span, #bonus-fuga span { @apply text-[#BCAAA4]; } 
+    #bonus-esquiva span, #bonus-fuga span { @apply text-[#BCAAA4]; }  
 
     #forca-rank, #agilidade-rank, #inteligencia-rank, #resistencia-rank, #vitalidade-rank, #percepcao-rank {
-        @apply text-[#FFCA28]; 
+        @apply text-[#FFCA28];  
     }
     #pontos-disponiveis { @apply text-[#FFCA28]; }
 
     #status-xp-bar, #status-vida-bar, #status-mana-bar {
-        border: 1px solid #543C32; 
+        border: 1px solid #543C32;  
     }
-   
+    
     #atributos-screen .btn-attr {
         font-family: 'Merriweather', serif;
         @apply text-[#FFF8E1] transition-colors px-3 py-1 rounded-md focus:outline-none focus:ring-2;
     }
-    #atributos-screen button[data-action="dec"].btn-attr { 
-        @apply bg-[#8D6E63] hover:bg-[#6D4C41] focus:ring-[#795548]; 
+    #atributos-screen button[data-action="dec"].btn-attr {  
+        @apply bg-[#8D6E63] hover:bg-[#6D4C41] focus:ring-[#795548];  
     }
-    #atributos-screen button[data-action="inc"].btn-attr { 
-        @apply bg-[#6D4C41] hover:bg-[#543C32] focus:ring-[#6D4C41]; 
+    #atributos-screen button[data-action="inc"].btn-attr {  
+        @apply bg-[#6D4C41] hover:bg-[#543C32] focus:ring-[#6D4C41];  
     }
 
-    
     #status-xp-bar { @apply bg-[#9C27B0]; }  
-    #status-vida-bar { @apply bg-[#D32F2F]; } 
+    #status-vida-bar { @apply bg-[#D32F2F]; }  
     #status-mana-bar { @apply bg-[#1976D2]; }
 
-    /* Battle Screen Progress Bars */
     #player-battle-hp-bar { @apply bg-[#D32F2F]; }
     #player-battle-mp-bar { @apply bg-[#1976D2]; }
     #player-battle-xp-bar { @apply bg-[#9C27B0]; }
     #summon-battle-hp-bar { @apply bg-[#795548]; }
-    #enemy-battle-hp-bar { @apply bg-[#E64A19]; } 
+    #enemy-battle-hp-bar { @apply bg-[#E64A19]; }  
 
-  
-    #player-battle-name, #summon-battle-name { @apply text-[#FFCA28]; } 
-    #enemy-battle-name { @apply text-[#FF8A65]; } 
+    #player-battle-name, #summon-battle-name { @apply text-[#FFCA28]; }  
+    #enemy-battle-name { @apply text-[#FF8A65]; }  
     #player-battle-hp-text, #player-battle-mp-text, #player-battle-xp-text,
     #summon-battle-hp-text,
     #enemy-battle-hp-text,
     #enemy-battle-rank {
-        @apply text-[#E0C097]; 
+        @apply text-[#E0C097];  
     }
-   
+    
     #player-battle-display .text-xs.text-slate-300,
     #summon-battle-display .text-xs.text-slate-300,
     #enemy-battle-display .text-xs.text-slate-300 {
-        @apply text-[#BCAAA4]; /* Muted Light Brown for these small labels */
+        @apply text-[#BCAAA4]; 
     }
 
-    /* Scrollbar */
     ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
     }
     ::-webkit-scrollbar-track {
-        background: #2A1F1B; /* Very Dark Brown track */
+        background: #2A1F1B; 
     }
     ::-webkit-scrollbar-thumb {
-        background: #6D4C41; /* Wood Brown thumb */
+        background: #6D4C41; 
         border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-        background: #543C32; /* Darker Wood Brown thumb hover */
+        background: #543C32; 
     }
 
     #lista-sombras-recipiente li { margin-bottom: 8px; }
 
     .equipment-slot-label {
-        @apply font-semibold text-sm text-[#BCAAA4] block mb-1; /* Muted Light Brown */
+        @apply font-semibold text-sm text-[#BCAAA4] block mb-1; 
     }
     .equipment-slot-display {
-        @apply text-xs text-[#D7CCC8] italic bg-[rgba(93,64,55,0.4)] p-2 rounded min-h-[38px] flex items-center justify-center text-center border border-[#4E342E]; /* Light Beige text, Dark Brown border */
+        @apply text-xs text-[#D7CCC8] italic bg-[rgba(93,64,55,0.4)] p-2 rounded min-h-[38px] flex items-center justify-center text-center border border-[#4E342E]; 
     }
-    /* .equipment-grid styles remain the same (layout) */
     .character-placeholder-container i {
-        @apply text-[#A1887F]; /* Muted Brown (original, fine for placeholder on dark) */
+        @apply text-[#A1887F]; 
     }
 
-    /* Skills Screen Enhancement */
-    #skills-screen h2 { @apply text-[#E0C097] border-b-2 border-[#6D4C41] pb-2; } /* Light Parchment title, Wood Brown border */
-    #classe-info-skills { @apply mb-4 text-lg text-[#D7CCC8]; } /* Light Beige */
+    #skills-screen h2 { @apply text-[#E0C097] border-b-2 border-[#6D4C41] pb-2; } 
+    #classe-info-skills { @apply mb-4 text-lg text-[#D7CCC8]; } 
     #classe-info-skills p:first-child { @apply font-bold text-[#E0C097]; }
     #lista-skills {
-        background-color: rgba(60, 45, 38, 0.3); /* Dark Brown transparent */
-        border: 1px solid #786054; /* Muted Dark Gold/Brown border */
+        background-color: rgba(60, 45, 38, 0.3); 
+        border: 1px solid #786054; 
         @apply rounded-lg p-4 max-h-[450px] overflow-y-auto space-y-4;
     }
     #lista-skills > div {
-        background-color: rgba(83, 60, 47, 0.6) !important; /* Darker Semi-transparent Brown */
-        border: 1px solid #6D4C41; /* Wood Brown border */
+        background-color: rgba(83, 60, 47, 0.6) !important; 
+        border: 1px solid #6D4C41; 
         @apply rounded-md p-4 shadow;
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
     }
-    #lista-skills > div.opacity-60 { /* For locked skills */
-        background-color: rgba(74, 59, 50, 0.5) !important; /* Slightly different Darker semi-transparent */
+    #lista-skills > div.opacity-60 { 
+        background-color: rgba(74, 59, 50, 0.5) !important; 
         border-color: #543C32;
     }
     #lista-skills .skill-title {
-        @apply font-bold text-lg text-[#FFCA28]; /* Amber/Gold */
+        @apply font-bold text-lg text-[#FFCA28]; 
     }
     #lista-skills .skill-description {
-        @apply text-sm text-[#D7CCC8] mt-1 mb-1 leading-relaxed; /* Light Beige text */
+        @apply text-sm text-[#D7CCC8] mt-1 mb-1 leading-relaxed; 
     }
     #lista-skills .skill-meta {
-        @apply text-xs text-[#BCAAA4] italic mt-1; /* Muted Light Brown */
+        @apply text-xs text-[#BCAAA4] italic mt-1; 
     }
     #lista-skills .skill-actions button {
-        @apply bg-[#8D6E63] hover:bg-[#6D4C41] text-[#FFF8E1] text-xs px-3 py-1.5 rounded; /* Dark Muted Brown, Cornsilk text */
+        @apply bg-[#8D6E63] hover:bg-[#6D4C41] text-[#FFF8E1] text-xs px-3 py-1.5 rounded; 
         font-family: 'Merriweather', serif;
     }
-    #skills-screen p.italic { @apply text-[#BCAAA4]; } /* Muted Light Brown for general note */
+    #skills-screen p.italic { @apply text-[#BCAAA4]; } 
 
-    /* Inventario Screen */
     #inventario-screen h2, #inventario-screen h3 { @apply text-[#E0C097] border-b-2 border-[#6D4C41] pb-1; }
-    #inventario-screen .bg-slate-700 { /* Container for items/equipment */
-        background-color: rgba(93, 64, 55, 0.4); /* #5D4037 base, semi-transparent */
+    #inventario-screen .bg-slate-700 { 
+        background-color: rgba(93, 64, 55, 0.4); 
         border: 1px solid #4E342E;
     }
     #lista-itens li, #lista-sombras-recipiente li {
-        background-color: rgba(83, 60, 47, 0.5) !important; /* Darker semi-transparent Brown */
-        border: 1px solid #786054; /* Muted Dark Gold/Brown border */
+        background-color: rgba(83, 60, 47, 0.5) !important; 
+        border: 1px solid #786054; 
     }
-    #lista-itens .font-semibold, #lista-sombras-recipiente .text-purple-300 { /* Item/Shadow names */
-        @apply text-[#FFCA28]; /* Amber/Gold for item names */
+    #lista-itens .font-semibold, #lista-sombras-recipiente .text-purple-300 { 
+        @apply text-[#FFCA28]; 
     }
-    #lista-sombras-recipiente .text-purple-300 { @apply text-[#CE93D8]; } /* Light Purple for shadow names */
+    #lista-sombras-recipiente .text-purple-300 { @apply text-[#CE93D8]; } 
 
-    #lista-itens .text-xs.text-slate-300, /* Item effects description */
-    #recipiente-sombras-container .text-slate-400 { /* "Empty" message for shadows */
-        @apply text-[#BCAAA4]; /* Muted Light Brown */
+    #lista-itens .text-xs.text-slate-300, 
+    #recipiente-sombras-container .text-slate-400 { 
+        @apply text-[#BCAAA4]; 
     }
 
-    /* Mercador Screen */
     #mercador-screen h2 { @apply text-[#E0C097] border-b-2 border-[#6D4C41] pb-2; }
-    #mercador-screen .bg-slate-700 { /* Container for merchant items */
+    #mercador-screen .bg-slate-700 { 
         background-color: rgba(93, 64, 55, 0.4);
         border: 1px solid #4E342E;
     }
@@ -296,50 +273,43 @@
         background-color: rgba(83, 60, 47, 0.5) !important;
         border: 1px solid #786054;
     }
-    #mercador-screen #lista-mercador .font-semibold.text-sky-400 { /* Item name */
-        @apply text-[#90CAF9]; /* Light Blue for item names */
+    #mercador-screen #lista-mercador .font-semibold.text-sky-400 { 
+        @apply text-[#90CAF9]; 
     }
-    #mercador-screen #lista-mercador .text-xs.text-slate-300 { /* Item effects */
-        @apply text-[#BCAAA4]; /* Muted Light Brown */
+    #mercador-screen #lista-mercador .text-xs.text-slate-300 { 
+        @apply text-[#BCAAA4]; 
     }
-    #mercador-screen #lista-mercador .font-semibold.text-amber-300 { /* Price */
-        @apply text-[#FFCA28]; /* Amber/Gold */
+    #mercador-screen #lista-mercador .font-semibold.text-amber-300 { 
+        @apply text-[#FFCA28]; 
     }
 
-    /* Battle Interface Container */
     #battle-interface-container {
-        background-color: rgba(60, 45, 38, 0.4); /* Semi-transparent Darker Brown #3C2D26 base */
+        background-color: rgba(60, 45, 38, 0.4); 
     }
     #player-battle-display, #enemy-battle-display, #summon-battle-display {
-        background-color: rgba(93, 64, 55, 0.5) !important; /* #5D4037 base, Semi-transparent cards */
-        border: 1px solid #4E342E; /* Dark Brown border */
+        background-color: rgba(93, 64, 55, 0.5) !important; 
+        border: 1px solid #4E342E; 
     }
 
-    /* Footer command bar */
-    footer.bg-slate-900 { /* Was: #5D4037 */
-        @apply bg-[#2A1F1B] border-t-2 border-[#1F1611]; /* Match header */
+    footer.bg-slate-900 { 
+        @apply bg-[#2A1F1B] border-t-2 border-[#1F1611]; 
     }
     #chat-command-input {
-        @apply bg-[#4E342E] text-[#E0C097] border-[#6D4C41] placeholder-[#A1887F]; /* Dark Brown bg, Parchment text, Wood Brown border, Muted Brown placeholder */
+        @apply bg-[#4E342E] text-[#E0C097] border-[#6D4C41] placeholder-[#A1887F]; 
         @apply focus:ring-[#786054] focus:border-[#786054];
         font-family: 'Merriweather', serif;
     }
     #btn-send-command {
-        @apply bg-[#6D4C41] hover:bg-[#543C32] text-[#FFF8E1]; /* Wood Brown bg, Cornsilk text */
+        @apply bg-[#6D4C41] hover:bg-[#543C32] text-[#FFF8E1]; 
         font-family: 'Merriweather', serif;
     }
 
-    /* Boss Door Visual */
     #boss-door-visual {
-        /* Styles remain mostly the same as it's an overlay */
-        /* ... */
-        border: 5px solid #1F1611; /* Even darker border to match header style */
+        border: 5px solid #1F1611; 
     }
-    /* .hide-game-content remains the same */
 
-    /* Character Setup Screen */
     #character-setup-screen {
-        background-color: #31251E !important; /* Override inline style for old paper */
+        background-color: #31251E !important; 
         border: 2px solid #1F1611 !important;
     }
     #character-setup-screen h2 { @apply text-[#E0C097]; }
@@ -349,7 +319,7 @@
     }
     #character-setup-screen p.text-xs { @apply text-[#A1887F]; }
     #btn-save-character-setup {
-         @apply bg-[#6D4C41] hover:bg-[#543C32] text-[#FFF8E1] border border-[#4E342E];
+        @apply bg-[#6D4C41] hover:bg-[#543C32] text-[#FFF8E1] border border-[#4E342E];
     }
 
     </style>
@@ -384,7 +354,7 @@
                 <i class="fas fa-save fa-lg"></i>
             </button>
             <div id="google-signin-button-container" class="mx-1">
-                <div id="g_id_signin_button_div"></div>
+                 <div id="g_id_signin_button_div"></div> 
             </div>
             <span id="google-user-greeting" class="hidden text-sm"></span>
             <button id="btn-signout-google" aria-label="Sair da Conta Google" class="p-2 hidden"
@@ -824,7 +794,7 @@
 
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyA9XI8CH63q8IIiXFlbUDhmW22A1EBN6FE",
+            apiKey: "AIzaSyA9XI8CH63q8IIiXFlbUDhmW22A1EBN6FE", 
             authDomain: "wrpg-acb0e.firebaseapp.com",
             projectId: "wrpg-acb0e",
             storageBucket: "wrpg-acb0e.appspot.com",
@@ -885,15 +855,15 @@
                 { rank: "E", min: 0 }
             ];
             const INDIVIDUAL_ATTRIBUTE_RANK_THRESHOLDS = [
-                { rank: "S", min: RANK_MIN_TOTAL.S / 6 }, // Approx 18.33
-                { rank: "A", min: RANK_MIN_TOTAL.A / 6 }, // 13
-                { rank: "B", min: RANK_MIN_TOTAL.B / 6 }, // 9
-                { rank: "C", min: RANK_MIN_TOTAL.C / 6 }, // 4
-                { rank: "D", min: RANK_MIN_TOTAL.D / 6 }, // Approx 1.67
-                { rank: "E", min: RANK_MIN_TOTAL.E / 6 }  // 0
+                { rank: "S", min: RANK_MIN_TOTAL.S / 6 }, 
+                { rank: "A", min: RANK_MIN_TOTAL.A / 6 }, 
+                { rank: "B", min: RANK_MIN_TOTAL.B / 6 }, 
+                { rank: "C", min: RANK_MIN_TOTAL.C / 6 }, 
+                { rank: "D", min: RANK_MIN_TOTAL.D / 6 }, 
+                { rank: "E", min: RANK_MIN_TOTAL.E / 6 }  
             ];
             const TIPOS_DE_ARMAS = {
-                "Nenhuma": { // "Desarmado mantem o mesmo" - Original values preserved
+                "Nenhuma": { 
                     nomeDisplay: "Desarmado",
                     habilidades: [
                         { id: "desarmado_soco", nome: "Soco Certeiro", descricao: "Um soco rápido no alvo.", danoMultiplicador: 0.8, custoMana: 0, rank: "E" },
@@ -949,20 +919,20 @@
                         { id: "manoplas_impacto_feroz", nome: "Impacto Feroz", descricao: "Concentra energia em um golpe devastador.", danoMultiplicador: 1.7, custoManaPercent: 0.35, rank: "A" }
                     ]
                 },
-                "Atomic": { // "Atomic mantem a mesma" (for its unique structure), except skill 1 change
+                "Atomic": { 
                     nomeDisplay: "Atomic",
                     habilidades: [
                         {
                             id: "atomic_speed_slash",
                             nome: "Speed Slash",
-                            descricao: "Um ataque padrão ultra-rápido que usa seu atributo de ataque e adiciona 600 de dano.", // Changed
-                            danoMultiplicador: 1.0, // Added to use player's attack attribute
-                            danoBase: 600,          // Represents the +600 part
-                            custoMana: 0,          // Maintained
+                            descricao: "Um ataque padrão ultra-rápido que usa seu atributo de ataque e adiciona 600 de dano.", 
+                            danoMultiplicador: 1.0, 
+                            danoBase: 600,     
+                            custoMana: 0,      
                             rank: "SSS",
                             tipoDano: "fisico"
                         },
-                        { // This skill and others below remain as originally defined by user.
+                        { 
                             id: "atomic_time_stop",
                             nome: "Time Stop",
                             descricao: "Para o tempo, fazendo o inimigo não atacar por 2 turnos.",
@@ -993,13 +963,12 @@
             };
 
             function getAtributoRank(valor) {
-                // Iterate through the new individual attribute thresholds
                 for (const entry of INDIVIDUAL_ATTRIBUTE_RANK_THRESHOLDS) {
                     if (valor >= entry.min) {
                         return `(${entry.rank})`;
                     }
                 }
-                return "(E)"; // Default fallback if no rank is met (should hit E:0)
+                return "(E)"; 
             }
 
             const CLASSES_DATA = {
@@ -1088,7 +1057,7 @@
                             id: "ms_troca_sombras", nome: "[Monarca] Troca de Sombras", rank: "S", manaBase: 100, unlockLevel: 1,
                             descricao: "Troca de lugar com uma sombra distante, permitindo escapar de qualquer batalha ou masmorra instantaneamente para o início. Custa 100 Mana.",
                             efeito: { tipo: "escape_battle_dungeon" },
-                            monarcaOnly: true // Flag for Monarca specific skills
+                            monarcaOnly: true 
                         },
                         {
                             id: "ms_acerto_critico", nome: "[Monarca] Acerto Crítico", rank: "A", manaBase: 75, unlockLevel: 1,
@@ -1145,7 +1114,6 @@
                 "Bestas": { nomeDisplay: "Monarca das Bestas", vida: 10000, dano: 900, rank: "S", xp: 15000, portrait: "https://source.unsplash.com/random/48x48/?beast,monster,king,evil" },
                 "Demonio": { nomeDisplay: "Monarca Demoníaco", vida: 10666, dano: 1066, rank: "SS", xp: 22000, portrait: "https://source.unsplash.com/random/48x48/?demon,monster,king,evil" }
             };
-
             const DUNGEON_CONFIG = {
                 "E": { name: "Masmorra Esquecida", roomsMin: 4, roomsMax: 6, monsterRank: "D", bossRank: "C", bossBaseStats: { vidaMin: 580, vidaMax: 850, danoMin: 70, danoMax: 80, xpMin: 1200, xpMax: 1800 } },
                 "D": { name: "Covil Profundo", roomsMin: 5, roomsMax: 7, monsterRank: "C", bossRank: "B", bossBaseStats: { vidaMin: 1050, vidaMax: 1700, danoMin: 105, danoMax: 165, xpMin: 3500, xpMax: 5000 }, arquitetoChance: 0.05 },
@@ -1895,38 +1863,7 @@
                     if (greetingSpan) greetingSpan.textContent = '';
                 }
             }
-            function initializeGoogleSignInRelatedElements() {
-                if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-                    google.accounts.id.initialize({
-                        client_id: GOOGLE_CLIENT_ID,
-                        callback: handleGoogleCredentialResponse
-                    });
-
-                    google.accounts.id.renderButton(
-                        document.getElementById("g_id_signin_button_div"),
-                        { type: "standard", theme: "filled_black", size: "large", text: "signin_with", shape: "rectangular", logo_alignment: "left" }
-                    );
-                }
-
-                if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com") {
-                    console.warn("Google Client ID não está configurado. O login com Google não funcionará.");
-                    const signInContainer = document.getElementById('google-signin-button-container');
-                    if (signInContainer) signInContainer.innerHTML = '<p class="text-xs text-red-500 py-2">Login Google não configurado.</p>';
-                    const saveBtn = document.getElementById('btn-save-google');
-                    if (saveBtn) saveBtn.style.display = 'none';
-                    const signOutBtn = document.getElementById('btn-signout-google');
-                    if (signOutBtn) signOutBtn.style.display = 'none';
-                    return;
-                }
-
-                const saveButton = document.getElementById('btn-save-google');
-                if (saveButton) saveButton.addEventListener('click', saveGameToGoogle);
-
-                const signOutButton = document.getElementById('btn-signout-google');
-                if (signOutButton) signOutButton.addEventListener('click', handleGoogleSignOut);
-
-                updateGoogleSignInUI();
-            }
+            
             function createNewPlayerState() {
                 return {
                     nome: "Herói", classe: null, nivel: 1, xp: 0, xpProximoNivel: 100, rank: "E",
@@ -1951,6 +1888,58 @@
             }
 
             function iniciarJogo(forceReset = false) {
+    let gameJustLoadedFromCloud = false;
+
+    if (forceReset && currentFirebaseUser) {
+        deleteGameFromCloud(currentFirebaseUser.uid);
+    }
+
+    if (forceReset || !currentFirebaseUser) {
+        game.player = createNewPlayerState();
+        game.dungeon = { active: false, name: "", typeRank: "E", totalRooms: 0, currentRoom: 0, monsterRankForRooms: "D", bossRankForDungeon: "C", bossDefeated: false, isBossRoomConfirmation: false };
+        game.batalha = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, isDesafioClasse: false, skillEmDesafioId: null, desafioBossOriginalStats: null, tipoDesafioLorde: null, jogadorAgiuNoTurno: false };
+        game.monstroAtual = null;
+    }
+
+    atualizarAtributosDerivados();
+    atualizarRank();
+    atualizarStatusAtributos();
+    atualizarMercadorVisibilidade();
+    atualizarRecipienteSombrasTela();
+    updateGoogleSignInUI();
+
+
+    if (game.estado === "characterSetup") {
+        document.getElementById('main-content')?.classList.add('hidden');
+        document.getElementById('game-screen')?.classList.add('hidden');
+        document.getElementById('atributos-screen')?.classList.add('hidden');
+        document.getElementById('inventario-screen')?.classList.add('hidden');
+        document.getElementById('skills-screen')?.classList.add('hidden');
+        document.getElementById('mercador-screen')?.classList.add('hidden');
+        const charSetupScreen = document.getElementById('character-setup-screen');
+        if (charSetupScreen) {
+            charSetupScreen.classList.remove('hidden');
+            const playerNameInput = document.getElementById('player-name-input');
+            if (playerNameInput) playerNameInput.value = game.player.nome;
+            const playerPortraitInput = document.getElementById('player-portrait-input');
+            if (playerPortraitInput) playerPortraitInput.value = game.player.portraitURL === "https://via.placeholder.com/48?text=P" ? "" : (game.player.portraitURL || "");
+        }
+        toggleHeaderNavButtons(true);
+        toggleChatInput(true);
+    } else if (!gameJustLoadedFromCloud) {
+        toggleHeaderNavButtons(false);
+        toggleChatInput(false);
+        if (!atribuirClasseAleatoriaSeNecessario() && game.estado !== "necromancerUnlock" && game.estado !== "classeAtribuida") {
+            abrirInicio();
+        }
+    } else {
+        toggleHeaderNavButtons(false);
+        toggleChatInput(false);
+        if (game.estado !== "necromancerUnlock" && game.estado !== "classeAtribuida") {
+            abrirInicio();
+        }
+    }
+}function iniciarJogo(forceReset = false) {
                 let gameJustLoadedFromCloud = false;
 
                 if (forceReset && currentFirebaseUser) {
@@ -2167,130 +2156,130 @@
                 });
             }
             window.onload = () => {
-                console.log("window.onload disparado.");
+    console.log("window.onload disparado.");
 
-                initializeAuthListener();
+    initializeAuthListener();
 
-                const btnFirebaseGoogleLoginContainer = document.getElementById('google-signin-button-container');
-                const gSignInDivOriginal = document.getElementById("g_id_signin_button_div");
+    const btnFirebaseGoogleLoginContainer = document.getElementById('google-signin-button-container');
+    const gSignInDivOriginal = document.getElementById("g_id_signin_button_div");
 
-                if (gSignInDivOriginal) {
-                    gSignInDivOriginal.innerHTML = `<button id="btn-firebase-google-login" class="p-2 bg-[#4285F4] hover:bg-[#357ae8] text-white font-bold rounded flex items-center justify-center"><i class="fab fa-google mr-2"></i>Login com Google</button>`;
-                    const firebaseGoogleLoginButton = document.getElementById('btn-firebase-google-login');
-                    if (firebaseGoogleLoginButton) {
-                        firebaseGoogleLoginButton.addEventListener('click', signInWithGoogle);
-                    } else {
-                        console.error("Failed to create Firebase Google login button.");
-                    }
-                } else if (btnFirebaseGoogleLoginContainer) {
-                    const newLoginButton = document.createElement('button');
-                    newLoginButton.id = "btn-firebase-google-login";
-                    newLoginButton.className = "p-2 bg-[#4285F4] hover:bg-[#357ae8] text-white font-bold rounded flex items-center justify-center";
-                    newLoginButton.innerHTML = `<i class="fab fa-google mr-2"></i> Login com Google`;
-                    newLoginButton.addEventListener('click', signInWithGoogle);
-                    btnFirebaseGoogleLoginContainer.innerHTML = '';
-                    btnFirebaseGoogleLoginContainer.appendChild(newLoginButton);
-                } else {
-                    console.warn("Container do botão de login do Google ('google-signin-button-container' ou 'g_id_signin_button_div') não encontrado.");
+    if (gSignInDivOriginal) {
+        gSignInDivOriginal.innerHTML = `<button id="btn-firebase-google-login" class="p-2 bg-[#4285F4] hover:bg-[#357ae8] text-white font-bold rounded flex items-center justify-center"><i class="fab fa-google mr-2"></i>Login com Google</button>`;
+        const firebaseGoogleLoginButton = document.getElementById('btn-firebase-google-login');
+        if (firebaseGoogleLoginButton) {
+            firebaseGoogleLoginButton.addEventListener('click', signInWithGoogle);
+        } else {
+            console.error("Falha ao criar o botão de login do Google com Firebase.");
+        }
+    } else if (btnFirebaseGoogleLoginContainer) {
+        const newLoginButton = document.createElement('button');
+        newLoginButton.id = "btn-firebase-google-login";
+        newLoginButton.className = "p-2 bg-[#4285F4] hover:bg-[#357ae8] text-white font-bold rounded flex items-center justify-center";
+        newLoginButton.innerHTML = `<i class="fab fa-google mr-2"></i> Login com Google`;
+        newLoginButton.addEventListener('click', signInWithGoogle);
+        btnFirebaseGoogleLoginContainer.innerHTML = '';
+        btnFirebaseGoogleLoginContainer.appendChild(newLoginButton);
+    } else {
+        console.warn("Container do botão de login do Google ('google-signin-button-container' ou 'g_id_signin_button_div') não encontrado.");
+    }
+
+    const btnSaveCloud = document.getElementById('btn-save-google');
+    if (btnSaveCloud) {
+        btnSaveCloud.addEventListener('click', saveGameToCloud);
+    }
+
+    const btnSignOutCloud = document.getElementById('btn-signout-google');
+    if (btnSignOutCloud) {
+        btnSignOutCloud.addEventListener('click', signOutFromFirebase);
+    }
+
+    const commandFooter = document.querySelector('footer');
+    const chatInputForFocus = document.getElementById('chat-command-input');
+    document.addEventListener('keydown', function (event) {
+        if (event.shiftKey && (event.key === 'W' || event.key === 'w')) {
+            event.preventDefault();
+            if (commandFooter) {
+                commandFooter.classList.toggle('hidden');
+                if (!commandFooter.classList.contains('hidden') && chatInputForFocus) {
+                    chatInputForFocus.focus();
                 }
+            }
+        }
+    });
 
-                const btnSaveCloud = document.getElementById('btn-save-google');
-                if (btnSaveCloud) {
-                    btnSaveCloud.addEventListener('click', saveGameToCloud);
+    document.getElementById("btn-inicio")?.addEventListener("click", abrirInicio);
+    document.getElementById("btn-atributos")?.addEventListener("click", abrirAtributos);
+    document.getElementById("btn-skills")?.addEventListener("click", abrirSkills);
+    document.getElementById("btn-inventario")?.addEventListener("click", abrirInventario);
+    document.getElementById("btn-mercador")?.addEventListener("click", abrirMercador);
+    document.getElementById("btn-sair")?.addEventListener("click", sairJogo);
+    document.getElementById("btn-save-character-setup")?.addEventListener("click", salvarSetupPersonagem);
+
+    document.getElementById("atributos-screen")?.addEventListener("click", manipularBotaoAtributo);
+    document.getElementById("btn-salvar-atributos")?.addEventListener("click", salvarAtributos);
+    const attributeModeButtons = document.querySelectorAll('.attribute-mode-btn');
+    attributeModeButtons.forEach(btn => {
+        btn.addEventListener('click', manipularBotaoAtributo);
+    });
+    const defaultModeButton = document.querySelector('.attribute-mode-btn[data-amount="1"]');
+    if (defaultModeButton) {
+        defaultModeButton.classList.add('active');
+        if (game && game.player) {
+            game.player.attributeAddAmount = 1;
+        }
+    }
+
+    document.getElementById("btn-comprar-mercador")?.addEventListener("click", comprarItensMercador);
+
+    document.getElementById("btn-battle-fight")?.addEventListener("click", () => {
+        if (game.batalha.emBatalha && game.batalha.turnoJogador && !game.batalha.jogadorAgiuNoTurno) {
+            mostrarHabilidadesArma();
+        } else if (game.batalha.jogadorAgiuNoTurno) {
+            mostrarMensagem("Você já agiu neste turno.");
+        }
+    });
+    document.getElementById("btn-battle-skill")?.addEventListener("click", () => {
+        if (game.batalha.emBatalha && game.batalha.turnoJogador) {
+            usarMagiaMenu();
+        }
+    });
+    document.getElementById("btn-battle-item")?.addEventListener("click", () => {
+        if (game.batalha.emBatalha && game.batalha.turnoJogador) {
+            usarPocaoMenu();
+        }
+    });
+    document.getElementById("btn-battle-escape")?.addEventListener("click", () => {
+        if (game.batalha.emBatalha && game.batalha.turnoJogador && !(game.batalha.monstro.isBoss)) {
+            tentarFugir();
+        } else if (game.batalha.monstro.isBoss) {
+            mostrarMensagem("Não é possível fugir de um chefe!");
+        }
+    });
+
+    const btnSendCommand = document.getElementById("btn-send-command");
+    const chatCommandInputElement = document.getElementById("chat-command-input");
+
+    if (btnSendCommand && chatCommandInputElement) {
+        btnSendCommand.addEventListener("click", () => {
+            if (chatCommandInputElement.value) {
+                processChatCommand(chatCommandInputElement.value);
+                chatCommandInputElement.value = "";
+            }
+        });
+        chatCommandInputElement.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                if (chatCommandInputElement.value) {
+                    processChatCommand(chatCommandInputElement.value);
+                    chatCommandInputElement.value = "";
                 }
-
-                const btnSignOutCloud = document.getElementById('btn-signout-google');
-                if (btnSignOutCloud) {
-                    btnSignOutCloud.addEventListener('click', signOutFromFirebase);
-                }
-
-                const commandFooter = document.querySelector('footer');
-                const chatInputForFocus = document.getElementById('chat-command-input');
-                document.addEventListener('keydown', function (event) {
-                    if (event.shiftKey && (event.key === 'W' || event.key === 'w')) {
-                        event.preventDefault();
-                        if (commandFooter) {
-                            commandFooter.classList.toggle('hidden');
-                            if (!commandFooter.classList.contains('hidden') && chatInputForFocus) {
-                                chatInputForFocus.focus();
-                            }
-                        }
-                    }
-                });
-
-                document.getElementById("btn-inicio")?.addEventListener("click", abrirInicio);
-                document.getElementById("btn-atributos")?.addEventListener("click", abrirAtributos);
-                document.getElementById("btn-skills")?.addEventListener("click", abrirSkills);
-                document.getElementById("btn-inventario")?.addEventListener("click", abrirInventario);
-                document.getElementById("btn-mercador")?.addEventListener("click", abrirMercador);
-                document.getElementById("btn-sair")?.addEventListener("click", sairJogo);
-                document.getElementById("btn-save-character-setup")?.addEventListener("click", salvarSetupPersonagem);
-
-                document.getElementById("atributos-screen")?.addEventListener("click", manipularBotaoAtributo);
-                document.getElementById("btn-salvar-atributos")?.addEventListener("click", salvarAtributos);
-                const attributeModeButtons = document.querySelectorAll('.attribute-mode-btn');
-                attributeModeButtons.forEach(btn => {
-                    btn.addEventListener('click', manipularBotaoAtributo);
-                });
-                const defaultModeButton = document.querySelector('.attribute-mode-btn[data-amount="1"]');
-                if (defaultModeButton) {
-                    defaultModeButton.classList.add('active');
-                    if (game && game.player) { // Ensure game.player exists
-                        game.player.attributeAddAmount = 1;
-                    }
-                }
-
-                document.getElementById("btn-comprar-mercador")?.addEventListener("click", comprarItensMercador);
-
-                document.getElementById("btn-battle-fight")?.addEventListener("click", () => {
-                    if (game.batalha.emBatalha && game.batalha.turnoJogador && !game.batalha.jogadorAgiuNoTurno) {
-                        mostrarHabilidadesArma();
-                    } else if (game.batalha.jogadorAgiuNoTurno) {
-                        mostrarMensagem("Você já agiu neste turno.");
-                    }
-                });
-                document.getElementById("btn-battle-skill")?.addEventListener("click", () => {
-                    if (game.batalha.emBatalha && game.batalha.turnoJogador) {
-                        usarMagiaMenu();
-                    }
-                });
-                document.getElementById("btn-battle-item")?.addEventListener("click", () => {
-                    if (game.batalha.emBatalha && game.batalha.turnoJogador) {
-                        usarPocaoMenu();
-                    }
-                });
-                document.getElementById("btn-battle-escape")?.addEventListener("click", () => {
-                    if (game.batalha.emBatalha && game.batalha.turnoJogador && !(game.batalha.monstro.isBoss)) {
-                        tentarFugir();
-                    } else if (game.batalha.monstro.isBoss) {
-                        mostrarMensagem("Não é possível fugir de um chefe!");
-                    }
-                });
-
-                const btnSendCommand = document.getElementById("btn-send-command");
-                const chatCommandInputElement = document.getElementById("chat-command-input");
-
-                if (btnSendCommand && chatCommandInputElement) {
-                    btnSendCommand.addEventListener("click", () => {
-                        if (chatCommandInputElement.value) {
-                            processChatCommand(chatCommandInputElement.value);
-                            chatCommandInputElement.value = "";
-                        }
-                    });
-                    chatCommandInputElement.addEventListener("keypress", (event) => {
-                        if (event.key === "Enter") {
-                            event.preventDefault();
-                            if (chatCommandInputElement.value) {
-                                processChatCommand(chatCommandInputElement.value);
-                                chatCommandInputElement.value = "";
-                            }
-                        }
-                    });
-                } else {
-                    console.error("ERRO: Elementos do chat de comando ('btn-send-command' ou 'chat-command-input') não encontrados.");
-                }
-                console.log("Fim da configuração de window.onload.");
-            };
+            }
+        });
+    } else {
+        console.error("ERRO: Elementos do chat de comando ('btn-send-command' ou 'chat-command-input') não encontrados.");
+    }
+    console.log("Fim da configuração de window.onload.");
+};
 
             function atualizarMercadorVisibilidade() {
                 const mercadorBtn = document.getElementById("btn-mercador");
@@ -5346,15 +5335,16 @@
                 let leveledUpPostDungeon = false;
                 let postDungeonLevelUpMessages = [];
                 while (game.player.xp >= game.player.xpProximoNivel) {
-                    leveledUpPostDungeon = true; game.player.xp -= game.player.xpProximoNivel; game.player.nivel++;
-                    game.player.pontosDistribuir += 5;
-                    for (const attr in game.player.atributos) { game.player.atributos[attr] = +(game.player.atributos[attr] + 1).toFixed(1); }
-                    postDungeonLevelUpMessages.push(`UAU! O XP bônus fez você subir para o nível <span class="font-bold text-emerald-400">${game.player.nivel}</span>! Ganhou +5 pontos de atributo e +1 em todos os atributos!`);
-                    game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.10);
-                    atualizarRank();
-                    const novasSkillsMsgs = verificarDesbloqueioHabilidadesClasse();
-                    postDungeonLevelUpMessages = postDungeonLevelUpMessages.concat(novasSkillsMsgs);
-                }
+                    leveledUpPostDungeon = true; game.player.xp -= game.player.xpProximoNivel; game.player.nivel++;
+                    game.player.pontosDistribuir += 5;
+                    for (const attr in game.player.atributos) { game.player.atributos[attr] = +(game.player.atributos[attr] + 1).toFixed(1); }
+                    postDungeonLevelUpMessages.push(`UAU! O XP bônus fez você subir para o nível <span class="font-bold text-emerald-400">${game.player.nivel}</span>! Ganhou +5 pontos de atributo e +1 em todos os atributos!`);
+                    game.player.xpProximoNivel = Math.floor(game.player.xpProximoNivel * 1.10);
+                    atualizarMercadorVisibilidade();
+                    atualizarRank();
+                    const novasSkillsMsgs = verificarDesbloqueioHabilidadesClasse();
+                    postDungeonLevelUpMessages = postDungeonLevelUpMessages.concat(novasSkillsMsgs);
+                }
                 if (leveledUpPostDungeon) {
                     msg += "<br/><br/>" + postDungeonLevelUpMessages.join("<br/>");
                     atualizarAtributosDerivados();

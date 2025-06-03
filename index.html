@@ -788,26 +788,25 @@
     <div id="boss-door-visual" class="hidden"> <img
             src="https://source.unsplash.com/random/800x600/?fantasy,gate,door,ancient,stone,dark" alt="Porta do Chefe">
     </div>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-
+   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyA9XI8CH63q8IIiXFlbUDhmW22A1EBN6FE", 
-            authDomain: "wrpg-acb0e.firebaseapp.com",
-            projectId: "wrpg-acb0e",
-            storageBucket: "wrpg-acb0e.appspot.com",
-            messagingSenderId: "568658104266",
-            appId: "1:568658104266:web:b661e534384993c3f7c933",
-            measurementId: "G-DPHGLVYQ5S"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        let currentFirebaseUser = null; 
+        <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9XI8CH63q8IIiXFlbUDhmW22A1EBN6FE", 
+            authDomain: "wrpg-acb0e.firebaseapp.com",
+            projectId: "wrpg-acb0e",
+            storageBucket: "wrpg-acb0e.appspot.com",
+            messagingSenderId: "568658104266",
+            appId: "1:568658104266:web:b661e534384993c3f7c933",
+            measurementId: "G-DPHGLVYQ5S"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        
     </script>
 
     <script>
@@ -2103,42 +2102,45 @@
                 }
             }
             function initializeAuthListener() {
-                auth.onAuthStateChanged((user) => {
-                    if (user) {
-                        console.log("Usuário conectado:", user.uid);
-                        currentFirebaseUser = user;
-                        loadGameFromCloud(user.uid);
-                    } else {
-                        console.log("Nenhum usuário conectado.");
-                        currentFirebaseUser = null;
-                        isGoogleSignedIn = false;
-                        googleDecodedCredential = null;
-                        updateGoogleSignInUI();
-                        iniciarJogo(false);
-                    }
-                });
-            }
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            console.log("Usuário conectado:", user.uid);
+            currentFirebaseUser = user; 
+          
+            loadGameFromCloud(user.uid); 
+        } else {
+            console.log("Nenhum usuário conectado.");
+            currentFirebaseUser = null;
+            isGoogleSignedIn = false;
+            googleDecodedCredential = null;
+            updateGoogleSignInUI(); 
+            iniciarJogo(false);
+        }
+    });
+}
 
             function signInWithGoogle() {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                auth.signInWithPopup(provider)
-                    .then((result) => {
-                        console.log("Login com Google (popup) bem-sucedido para Firebase.");
-                        isGoogleSignedIn = true;
-                        googleDecodedCredential = {
-                            given_name: result.additionalUserInfo?.profile?.given_name || result.user.displayName.split(' ')[0],
-                            name: result.user.displayName
-                        };
-                        updateGoogleSignInUI();
-                    })
-                    .catch((error) => {
-                        console.error("Erro no login com Google (popup) para Firebase:", error.code, error.message);
-                        alert("Erro ao fazer login com Google: " + error.message);
-                        isGoogleSignedIn = false;
-                        googleDecodedCredential = null;
-                        updateGoogleSignInUI();
-                    });
-            }
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+        .then((result) => {
+      
+            console.log("Login com Google (popup) bem-sucedido para Firebase.");
+            isGoogleSignedIn = true; 
+            googleDecodedCredential = { 
+                given_name: result.additionalUserInfo?.profile?.given_name || result.user.displayName.split(' ')[0],
+                name: result.user.displayName
+            };
+        
+            updateGoogleSignInUI();
+        })
+        .catch((error) => {
+            console.error("Erro no login com Google (popup) para Firebase:", error.code, error.message);
+            alert("Erro ao fazer login com Google: " + error.message);
+            isGoogleSignedIn = false;
+            googleDecodedCredential = null;
+            updateGoogleSignInUI();
+        });
+}
 
             function signOutFromFirebase() {
                 if (game.batalha.emBatalha || (game.dungeon && game.dungeon.isBossRoomConfirmation)) {

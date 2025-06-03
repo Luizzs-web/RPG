@@ -793,9 +793,8 @@
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
   
     <script>
-        <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyA9XI8CH63q8IIiXFlbUDhmW22A1EBN6FE", 
+            apiKey: "AIzaSyA9XI8CH63q8IIiXFlbUDhmW22A1EBN6FE",
             authDomain: "wrpg-acb0e.firebaseapp.com",
             projectId: "wrpg-acb0e",
             storageBucket: "wrpg-acb0e.appspot.com",
@@ -804,10 +803,10 @@
             measurementId: "G-DPHGLVYQ5S"
         };
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        
-    </script>
+        var auth = firebase.auth();
+        var db = firebase.firestore();
+        var currentFirebaseUser = null;
+    </script>
 
     <script>
         (() => {

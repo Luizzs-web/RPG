@@ -3545,58 +3545,48 @@
             }
 
 
-            function usarPocao(pocaoStack) {
-                if (game.batalha.isBossBattle && !game.batalha.monstro.isLordeDaMorte) { return; }
-                if (!pocaoStack || pocaoStack.quantity <= 0) { return; }
+            function usarPocaoMenu() {
                 if (game.batalha.monstro?.isArquiteto && game.batalha.arquitetoBattleRefused) {
                     mostrarMensagem("Contra o Arquiteto, após recusar sua oferta, apenas sua arma básica responde. Poções, habilidades e fuga são inúteis.");
-
                     document.getElementById("battle-submenu-choices").innerHTML = "";
                     document.getElementById("battle-submenu-choices").classList.add("hidden");
                     document.getElementById("battle-main-commands").classList.remove("hidden");
                     return;
                 }
-                const curaVida = Math.floor(game.player.vidaMax * pocaoStack.curaVidaPct);
-                const curaMana = Math.floor(game.player.manaMax * pocaoStack.curaManaPct);
-                game.player.vidaAtual = Math.min(game.player.vidaAtual + curaVida, game.player.vidaMax);
-                game.player.manaAtual = Math.min(game.player.manaAtual + curaMana, game.player.manaMax);
-                pocaoStack.quantity--;
-                if (pocaoStack.quantity <= 0) game.player.inventario = game.player.inventario.filter(i => i !== pocaoStack);
-
-                let potionUseMessage = `Você usou <span class="font-bold text-sky-400">${pocaoStack.nome}</span> e recuperou ${curaVida} de vida e ${curaMana} de mana.`;
-                let shadowAttackMsg = "";
-
-                if (game.player.sombraAtiva && game.batalha.monstro.vidaAtual > 0 && game.player.sombraAtiva.statsAtuais) {
-                    const sombra = game.player.sombraAtiva;
-                    const danoSombra = Math.max(1, sombra.statsAtuais.danoBase + rankToIndex(sombra.rankSombra));
-                    game.batalha.monstro.vidaAtual -= danoSombra;
-                    if (game.batalha.monstro.vidaAtual < 0) game.batalha.monstro.vidaAtual = 0;
-                    shadowAttackMsg = `<br/>Sua <span class="text-purple-300">${sombra.nomeSombra}</span> ataca, causando <span class="font-bold text-violet-400">${danoSombra}</span> de dano! Vida do monstro: ${monstro.vidaAtual} / ${monstro.vidaMax}.`;
-                    potionUseMessage += shadowAttackMsg;
-
-                    if (game.batalha.monstro.vidaAtual <= 0) {
-                        mostrarMensagem(potionUseMessage);
-                        updatePlayerBattleDisplay();
-                        updateEnemyBattleDisplay(game.batalha.monstro);
-                        updateSummonBattleDisplay();
-                        atualizarInventarioTela();
-                        setTimeout(() => { showBattleInterface(false); derrotarMonstro(game.batalha.monstro); }, 1200);
-                        return;
-                    }
+                if (game.batalha.tipoDesafioLorde === "lorde_exercito") {
+                    mostrarMensagem("Poções estão seladas neste desafio!");
+                    document.getElementById("battle-submenu-choices").innerHTML = "";
+                    document.getElementById("battle-submenu-choices").classList.add("hidden");
+                    document.getElementById("battle-main-commands").classList.remove("hidden");
+                    habilitarBotoesAcaoBatalha();
+                    return;
+                }
+                if (game.batalha.isBossBattle && !game.batalha.monstro.isLordeDaMorte) {
+                    mostrarMensagem("Não é possível usar poções durante uma batalha de chefe (exceto Lorde da Morte)!"); return;
+                }
+                const pocaoItens = game.player.inventario.filter(i => i.isPotion && i.quantity > 0);
+                if (pocaoItens.length === 0) {
+                    mostrarMensagem("Você não tem poções no inventário."); return;
                 }
 
-                mostrarMensagem(potionUseMessage + `<br/><br/>O ${game.batalha.monstro.nome} se prepara para atacar!`);
+                mostrarMensagem("Escolha a poção para usar:");
+                const submenu = document.getElementById("battle-submenu-choices");
+                submenu.innerHTML = "";
 
-                updatePlayerBattleDisplay();
-                updateEnemyBattleDisplay(game.batalha.monstro);
-                updateSummonBattleDisplay();
-                atualizarInventarioTela();
-                atualizarStatusAtributos();
-
-                game.batalha.jogadorAgiuNoTurno = true;
-                desabilitarBotoesAcaoBatalha();
-                setTimeout(() => monstroAtaca(), 1200);
-
+                pocaoItens.forEach(pocaoStack => {
+                    adicionarEscolha(`${pocaoStack.nome} (x${pocaoStack.quantity})`, () => {
+                        usarPocao(pocaoStack);
+                        document.getElementById("battle-submenu-choices").innerHTML = "";
+                        document.getElementById("battle-submenu-choices").classList.add("hidden");
+                        document.getElementById("battle-main-commands").classList.remove("hidden");
+                    }, false, pocaoStack.descricao, "submenu");
+                });
+                adicionarEscolha("<i class='fas fa-arrow-left mr-2'></i>Voltar", () => {
+                    document.getElementById("battle-submenu-choices").innerHTML = "";
+                    document.getElementById("battle-submenu-choices").classList.add("hidden");
+                    document.getElementById("battle-main-commands").classList.remove("hidden");
+                    if (game.batalha.emBatalha) mostrarMensagem(`Turno do jogador. O que deseja fazer?`);
+                }, false, "Voltar para as ações principais", "submenu");
             }
             // SUBSTITUA ESTA FUNÇÃO INTEIRA
             function monstroAtaca() {
@@ -4275,9 +4265,9 @@
                     const item = game.player.equipamento[slotName];
                     if (element) {
                         if (item) {
-                            element.textContent = `<span class="math-inline">\{item\.nome\} \(R</span>{item.rank})`;
+                            element.textContent = `${item.nome} (Rank ${item.rank})`;
                             element.classList.remove("italic");
-                            element.title = Object.entries(item.efeitos || {}).map(([key, val]) => `<span class="math-inline">\{key\.charAt\(0\)\.toUpperCase\(\) \+ key\.slice\(1\)\}\: \+</span>{val}`).join(' | ');
+                            element.title = Object.entries(item.efeitos || {}).map(([key, val]) => `${key.charAt(0).toUpperCase() + key.slice(1)}: +${val}`).join(' | ');
                         } else {
                             element.textContent = "Nenhum";
                             element.classList.add("italic");
@@ -4515,19 +4505,16 @@
                     } else if (baseClassData) {
                         currentClassName = baseClassData.nomeDisplay;
                         currentClassDesc = baseClassData.descricao;
-
                         classTitleColor = "text-sky-300";
                     }
                 } else {
-
                     currentClassDesc = `<p class="text-sm text-slate-400">Alcance Nível 10 e Rank D para que seu destino revele sua classe (aleatoriamente), ou derrote o Lorde da Morte para um caminho mais sombrio. Torne-se Marcado para desbloquear evoluções.</p>`;
                 }
 
-
                 classeInfoDiv.innerHTML = `
-        <p class="text-xl ${classTitleColor} font-semibold">Classe: ${currentClassName || "Nenhuma"}</p>
-        <p class="text-sm text-slate-300">${currentClassDesc}</p>
-    `;
+<p class="text-xl ${classTitleColor} font-semibold">Classe: ${currentClassName || "Nenhuma"}</p>
+<p class="text-sm text-slate-300">${currentClassDesc}</p>
+`;
 
                 if (!game.player.classe) {
                     lista.innerHTML = `<p class="text-slate-400 italic">Nenhuma habilidade disponível sem uma classe.</p>`;
@@ -4559,7 +4546,6 @@
 
                     if (!isAcquired) {
                         if (isMonarcaSkill) {
-
                             if (!playerLevelOk) {
                                 isEffectivelyLocked = true;
                                 lockReason = `(Bloqueada - Requer Nv. ${skill.unlockLevel} de Monarca)`;
@@ -4603,7 +4589,6 @@
                     } else if (game.player.classe === "Necromante") {
                         skillTitleColorClassName = "text-purple-400";
                     }
-
 
                     nomeSpan.className = `font-semibold text-lg ${skillTitleColorClassName}`;
                     nomeSpan.textContent = `${skillDisplayName} (Rank ${skill.rank})`;
@@ -4681,6 +4666,45 @@
                     p.textContent = "Nenhuma habilidade disponível para sua classe e nível atuais, ou desafios pendentes.";
                     lista.appendChild(p);
                 }
+            }
+
+            function iniciarDesafioHabilidade(skillAlvo) {
+                if (!game.player.classe) {
+                    mostrarMensagem("Você precisa de uma classe para enfrentar desafios de habilidade.");
+                    return;
+                }
+                mostrarMensagem(`Você se prepara para o desafio de dominar <span class="font-bold text-sky-400">${skillAlvo.nome}</span>...<br/>Um eco de suas próprias proezas se materializa!`);
+                limparEscolhas();
+
+                const bossClone = gerarBossDesafioClasse(skillAlvo);
+                game.batalha.isDesafioClasse = true;
+                game.batalha.skillEmDesafioId = skillAlvo.id;
+                game.monstroAtual = bossClone;
+
+                setTimeout(() => {
+                    iniciarBatalha(bossClone);
+                }, 2500);
+            }
+
+            function iniciarDesafioLordeDaMorte(tipoDesafio, skillIdAlvo) {
+                mostrarMensagem(`Você se prepara para enfrentar o Lorde da Morte em um desafio para <span class="font-bold text-sky-400">${CLASSES_DATA.Necromante.habilidades.find(h => h.id === skillIdAlvo)?.nome || 'uma nova habilidade'}</span>...`);
+                limparEscolhas();
+
+                const lordeParaDesafio = gerarLordeDaMorteParaDesafio(tipoDesafio);
+                game.monstroAtual = lordeParaDesafio;
+
+                game.batalha.isDesafioClasse = false;
+                game.batalha.monstro = lordeParaDesafio;
+                game.batalha.skillEmDesafioId = skillIdAlvo;
+                game.batalha.tipoDesafioLorde = tipoDesafio;
+
+                if (tipoDesafio === "lorde_exercito") {
+                    mostrarMensagem(`Você sente suas energias arcanas e poções seladas! Apenas sua arma responderá neste confronto.`);
+                }
+
+                setTimeout(() => {
+                    iniciarBatalha(lordeParaDesafio);
+                }, 3000);
             }
 
             function entrarMasmorra(dungeonTypeRank) {

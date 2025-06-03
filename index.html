@@ -2282,26 +2282,35 @@
 };
 
             function atualizarMercadorVisibilidade() {
-                const mercadorBtn = document.getElementById("btn-mercador");
-                if (!mercadorBtn) return;
+    const mercadorBtn = document.getElementById("btn-mercador");
+    if (!mercadorBtn) {
+        console.error("Botão do mercador não encontrado no DOM!");
+        return;
+    }
 
-                // Condições para o mercador aparecer:
-                // 1. Nível do jogador é um múltiplo de 5 (e maior que 0).
-                // 2. O jogador NÃO está em batalha.
-                // 3. O jogador NÃO está em uma dungeon ativa.
-                // 4. O estado do jogo é "inicio" (tela principal de exploração).
-                const condicoesMet = game.player.nivel > 0 &&
-                    game.player.nivel % 5 === 0 &&
-                    !game.batalha.emBatalha &&
-                    !game.dungeon.active &&
-                    game.estado === "inicio";
+    const nivelOk = game.player.nivel > 0 && game.player.nivel % 5 === 0;
+    const naoEmBatalha = !game.batalha.emBatalha;
+    const naoEmMasmorra = !game.dungeon.active;
+    const estadoInicio = game.estado === "inicio";
 
-                if (condicoesMet) {
-                    mercadorBtn.classList.remove("hidden");
-                } else {
-                    mercadorBtn.classList.add("hidden");
-                }
-            }
+    const condicoesMet = nivelOk && naoEmBatalha && naoEmMasmorra && estadoInicio;
+
+ 
+    console.log(
+        `Atualizando Mercador: Nível=${game.player.nivel} (Ok: ${nivelOk}), `,
+        `EmBatalha=${game.batalha.emBatalha} (Ok: ${naoEmBatalha}), `,
+        `EmMasmorra=${game.dungeon.active} (Ok: ${naoEmMasmorra}), `,
+        `Estado=${game.estado} (Ok: ${estadoInicio}) --- Condições Met: ${condicoesMet}`
+    );
+
+    if (condicoesMet) {
+        mercadorBtn.classList.remove("hidden");
+        console.log("Mercador DEVE aparecer.");
+    } else {
+        mercadorBtn.classList.add("hidden");
+        console.log("Mercador DEVE estar escondido.");
+    }
+}
 
             function abrirInicio() {
                 toggleHeaderNavButtons(false);

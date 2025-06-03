@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>WRPG</title>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <title>WRPG</title>s
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -819,6 +818,27 @@
     <div id="boss-door-visual" class="hidden"> <img
             src="https://source.unsplash.com/random/800x600/?fantasy,gate,door,ancient,stone,dark" alt="Porta do Chefe">
     </div>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9XI8CH63q8IIiXFlbUDhmW22A1EBN6FE",
+            authDomain: "wrpg-acb0e.firebaseapp.com",
+            projectId: "wrpg-acb0e",
+            storageBucket: "wrpg-acb0e.appspot.com",
+            messagingSenderId: "568658104266",
+            appId: "1:568658104266:web:b661e534384993c3f7c933",
+            measurementId: "G-DPHGLVYQ5S"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        let currentFirebaseUser = null; 
+    </script>
 
     <script>
         (() => {
@@ -840,12 +860,6 @@
 
             document.getElementById("btn-inicio")?.addEventListener("click", abrirInicio);
 
-            "use strict";
-
-            let googleDecodedCredential = null;
-            let isGoogleSignedIn = false;
-            const GOOGLE_SAVE_KEY_PREFIX = "aethelRPG_save_";
-            const GOOGLE_CLIENT_ID = "202996671264-22eoon8o5ksj4pnu699988cic0oqp6mn.apps.googleusercontent.com";
 
             const RANKS = ["E", "D", "C", "B", "A", "S"];
             const RANK_MIN_TOTAL = { E: 0, D: 55, C: 140, B: 320, A: 460, S: 660 };
@@ -1788,16 +1802,7 @@
                 if (sendButton) sendButton.disabled = disable;
             }
 
-            function parseJwt(token) {
-                try {
-                    const base64Url = token.split('.')[1];
-                    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                    }).join(''));
-                    return JSON.parse(jsonPayload);
-                } catch (e) { console.error("Error parsing JWT: ", e); return null; }
-            }
+
 
             function updateGoogleSignInUI() {
                 const signInButtonContainer = document.getElementById('google-signin-button-container');
@@ -1834,23 +1839,58 @@
                     if (greetingSpan) greetingSpan.textContent = '';
                 }
             }
+            function iniciarJogo(forceReset = false) {
+                let gameJustLoadedFromCloud = false;
 
-            window.handleGoogleCredentialResponse = function (response) {
-                googleDecodedCredential = parseJwt(response.credential);
-                if (googleDecodedCredential) {
-                    isGoogleSignedIn = true;
-                    const gameLoaded = loadGameFromGoogle();
-                    if (gameLoaded) {
-                        setTimeout(() => mostrarMensagem(`Bem-vindo(a) de volta, ${googleDecodedCredential.given_name || googleDecodedCredential.name}! Seu progresso foi carregado.`), 50);
-                    } else {
-                        setTimeout(() => mostrarMensagem(`Bem-vindo(a), ${googleDecodedCredential.given_name || googleDecodedCredential.name}! Nenhum progresso salvo encontrado. Iniciando novo jogo.`), 50);
+                if (forceReset && currentFirebaseUser) {
+                    deleteGameFromCloud(currentFirebaseUser.uid);
+                }
+
+                if (forceReset || !currentFirebaseUser) {
+                    game.player = createNewPlayerState();
+                    game.dungeon = { active: false, name: "", typeRank: "E", totalRooms: 0, currentRoom: 0, monsterRankForRooms: "D", bossRankForDungeon: "C", bossDefeated: false, isBossRoomConfirmation: false };
+                    game.batalha = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, isDesafioClasse: false, skillEmDesafioId: null, desafioBossOriginalStats: null, tipoDesafioLorde: null, jogadorAgiuNoTurno: false };
+                    game.estado = "characterSetup";
+                    game.monstroAtual = null;
+                } else {
+                }
+
+                atualizarAtributosDerivados();
+                atualizarRank();
+                atualizarStatusAtributos();
+                atualizarMercadorVisibilidade();
+                atualizarRecipienteSombrasTela();
+                updateAuthUI(currentFirebaseUser);
+
+                if (game.estado === "characterSetup") {
+                    document.getElementById('main-content')?.classList.add('hidden');
+                    document.getElementById('game-screen')?.classList.add('hidden');
+                    document.getElementById('atributos-screen')?.classList.add('hidden');
+                    document.getElementById('inventario-screen')?.classList.add('hidden');
+                    document.getElementById('skills-screen')?.classList.add('hidden');
+                    document.getElementById('mercador-screen')?.classList.add('hidden');
+                    const charSetupScreen = document.getElementById('character-setup-screen');
+                    if (charSetupScreen) {
+                        charSetupScreen.classList.remove('hidden');
+                        const playerNameInput = document.getElementById('player-name-input');
+                        if (playerNameInput) playerNameInput.value = game.player.nome;
+                        const playerPortraitInput = document.getElementById('player-portrait-input');
+                        if (playerPortraitInput) playerPortraitInput.value = game.player.portraitURL === "https://via.placeholder.com/48?text=P" ? "" : game.player.portraitURL;
+                    }
+                    toggleHeaderNavButtons(true);
+                    toggleChatInput(true);
+                } else if (!gameJustLoadedFromCloud) {
+                    toggleHeaderNavButtons(false);
+                    toggleChatInput(false);
+                    if (!atribuirClasseAleatoriaSeNecessario() && game.estado !== "necromancerUnlock" && game.estado !== "classeAtribuida") {
+                        abrirInicio();
                     }
                 } else {
-                    isGoogleSignedIn = false;
-                    console.error("Falha ao decodificar credencial do Google.");
+                    toggleHeaderNavButtons(false);
+                    toggleChatInput(false);
                 }
-                updateGoogleSignInUI();
             }
+
 
             function initializeGoogleSignInRelatedElements() {
                 if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
@@ -1884,101 +1924,6 @@
 
                 updateGoogleSignInUI();
             }
-
-            function handleGoogleSignOut() {
-                const userIdToRevoke = googleDecodedCredential ? googleDecodedCredential.sub : null;
-                googleDecodedCredential = null;
-                isGoogleSignedIn = false;
-
-                if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-                    if (userIdToRevoke) {
-                        google.accounts.id.revoke(userIdToRevoke, done => {
-                        });
-                    }
-                    google.accounts.id.disableAutoSelect();
-                }
-                updateGoogleSignInUI();
-                mostrarMensagem("Você saiu da sua conta Google. O progresso não salvo ou não carregado pode ser perdido ao recarregar.<br/>Recarregando para um novo estado de jogo em alguns segundos...");
-                setTimeout(() => {
-                    iniciarJogo(true);
-                }, 3000);
-            }
-
-            function saveGameToGoogle() {
-                if (!isGoogleSignedIn || !googleDecodedCredential) {
-                    alert("Você precisa estar logado com o Google para salvar o progresso."); return;
-                }
-                try {
-                    const userId = googleDecodedCredential.sub;
-                    const playerDataToSave = JSON.parse(JSON.stringify(game.player));
-                    localStorage.setItem(GOOGLE_SAVE_KEY_PREFIX + userId, JSON.stringify(playerDataToSave));
-                    mostrarMensagem(`Progresso salvo na sua conta Google (${googleDecodedCredential.email || 'usuário'})!`);
-                    setTimeout(() => {
-                        if (game.estado === 'inicio' && !game.batalha.emBatalha) {
-                        }
-                    }, 2000);
-                } catch (error) {
-                    console.error("Erro ao salvar o jogo: ", error);
-                    alert("Ocorreu um erro ao tentar salvar seu progresso.");
-                }
-            }
-
-            function loadGameFromGoogle() {
-                if (!isGoogleSignedIn || !googleDecodedCredential) return false;
-                try {
-                    const userId = googleDecodedCredential.sub;
-                    const savedDataString = localStorage.getItem(GOOGLE_SAVE_KEY_PREFIX + userId);
-                    if (savedDataString) {
-                        const loadedPlayer = JSON.parse(savedDataString);
-                        const defaultPlayerState = createNewPlayerState();
-
-                        game.player = {
-                            ...defaultPlayerState,
-                            ...loadedPlayer,
-                            atributos: { ...defaultPlayerState.atributos, ...(loadedPlayer.atributos || {}) },
-                            equipamento: { ...defaultPlayerState.equipamento, ...(loadedPlayer.equipamento || {}) },
-                            inventario: loadedPlayer.inventario || [],
-                            magiasAdquiridas: loadedPlayer.magiasAdquiridas || [],
-                            magiasEquipadas: loadedPlayer.magiasEquipadas || [],
-                            activeBuffs: loadedPlayer.activeBuffs || [],
-                            recipienteSombras: loadedPlayer.recipienteSombras || [],
-                            sombraAtiva: loadedPlayer.sombraAtiva || null,
-                            lastDefeatedMonsterInfo: loadedPlayer.lastDefeatedMonsterInfo || null,
-                            metLordeDaMorte: loadedPlayer.metLordeDaMorte || false,
-                            vitalidadeBonusVida: loadedPlayer.vitalidadeBonusVida || 0,
-                            inteligenciaBonusMana: loadedPlayer.inteligenciaBonusMana || 0
-                        };
-
-                        atualizarAtributosDerivados();
-                        game.player.vidaAtual = Math.min(game.player.vidaAtual, game.player.vidaMax);
-                        game.player.manaAtual = Math.min(game.player.manaAtual, game.player.manaMax);
-
-                        atualizarRank();
-                        atualizarStatusAtributos();
-                        atualizarInventarioTela();
-                        atualizarSkillsTela();
-                        atualizarMercadorVisibilidade();
-                        abrirInicio();
-                        return true;
-                    }
-                    return false;
-                } catch (error) {
-                    console.error("Erro ao carregar o jogo: ", error);
-                    alert("Ocorreu um erro ao tentar carregar seu progresso. Iniciando um novo jogo.");
-                    iniciarJogo(true);
-                    return false;
-                }
-            }
-
-
-            function deleteSavedGameForGoogleUser() {
-                if (!isGoogleSignedIn || !googleDecodedCredential) return;
-                try {
-                    const userId = googleDecodedCredential.sub;
-                    localStorage.removeItem(GOOGLE_SAVE_KEY_PREFIX + userId);
-                } catch (error) { console.error("Erro ao deletar o jogo salvo: ", error); }
-            }
-
             function createNewPlayerState() {
                 return {
                     nome: "Herói", classe: null, nivel: 1, xp: 0, xpProximoNivel: 100, rank: "E",
@@ -2003,29 +1948,19 @@
             }
 
             function iniciarJogo(forceReset = false) {
-                let gameJustLoadedFromGoogle = false;
+                let gameJustLoadedFromCloud = false;
 
-                if (forceReset) {
+                if (forceReset && currentFirebaseUser) {
+                    deleteGameFromCloud(currentFirebaseUser.uid);
+                }
+
+                if (forceReset || !currentFirebaseUser) {
                     game.player = createNewPlayerState();
                     game.dungeon = { active: false, name: "", typeRank: "E", totalRooms: 0, currentRoom: 0, monsterRankForRooms: "D", bossRankForDungeon: "C", bossDefeated: false, isBossRoomConfirmation: false };
                     game.batalha = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, isDesafioClasse: false, skillEmDesafioId: null, desafioBossOriginalStats: null, tipoDesafioLorde: null, jogadorAgiuNoTurno: false };
                     game.estado = "characterSetup";
                     game.monstroAtual = null;
-                    if (isGoogleSignedIn && googleDecodedCredential) {
-                        deleteSavedGameForGoogleUser();
-                    }
                 } else {
-                    if (isGoogleSignedIn && googleDecodedCredential) {
-                        if (loadGameFromGoogle()) {
-                            gameJustLoadedFromGoogle = true;
-                        } else {
-                            game.player = createNewPlayerState();
-                            game.estado = "characterSetup";
-                        }
-                    } else {
-                        game.player = createNewPlayerState();
-                        game.estado = "characterSetup";
-                    }
                 }
 
                 atualizarAtributosDerivados();
@@ -2033,7 +1968,7 @@
                 atualizarStatusAtributos();
                 atualizarMercadorVisibilidade();
                 atualizarRecipienteSombrasTela();
-                updateGoogleSignInUI();
+                updateAuthUI(currentFirebaseUser);
 
                 if (game.estado === "characterSetup") {
                     document.getElementById('main-content')?.classList.add('hidden');
@@ -2047,19 +1982,18 @@
                         charSetupScreen.classList.remove('hidden');
                         const playerNameInput = document.getElementById('player-name-input');
                         if (playerNameInput) playerNameInput.value = game.player.nome;
+                        const playerPortraitInput = document.getElementById('player-portrait-input');
+                        if (playerPortraitInput) playerPortraitInput.value = game.player.portraitURL === "https://via.placeholder.com/48?text=P" ? "" : game.player.portraitURL;
                     }
-                    toggleHeaderNavButtons(true); // Desabilita nav principal durante o setup
+                    toggleHeaderNavButtons(true);
                     toggleChatInput(true);
-                } else if (!gameJustLoadedFromGoogle) {
-                    // Se não acabou de carregar do Google e não está no setup, continua o fluxo normal
+                } else if (!gameJustLoadedFromCloud) {
                     toggleHeaderNavButtons(false);
                     toggleChatInput(false);
                     if (!atribuirClasseAleatoriaSeNecessario() && game.estado !== "necromancerUnlock" && game.estado !== "classeAtribuida") {
                         abrirInicio();
                     }
                 } else {
-                    // Se carregou do Google, abrirInicio() já foi chamado por loadGameFromGoogle()
-                    // Apenas garante que os botões estejam no estado correto
                     toggleHeaderNavButtons(false);
                     toggleChatInput(false);
                 }
@@ -2068,64 +2002,61 @@
             window.onload = () => {
                 console.log("window.onload disparado.");
 
-                initializeGoogleSignInRelatedElements();
-                iniciarJogo();
+                initializeAuthListener();
 
-                // --- BOTÕES DE NAVEGAÇÃO SUPERIOR ---
-                const btnInicio = document.getElementById("btn-inicio");
-                if (btnInicio) {
-                    btnInicio.addEventListener("click", abrirInicio);
+                const btnFirebaseGoogleLoginContainer = document.getElementById('google-signin-button-container');
+                const gSignInDivOriginal = document.getElementById("g_id_signin_button_div");
+
+                if (gSignInDivOriginal) {
+                    gSignInDivOriginal.innerHTML = `<button id="btn-firebase-google-login" class="p-2 bg-[#4285F4] hover:bg-[#357ae8] text-white font-bold rounded flex items-center justify-center"><i class="fab fa-google mr-2"></i>Login com Google</button>`;
+                    document.getElementById('btn-firebase-google-login').addEventListener('click', signInWithGoogle);
+                } else if (btnFirebaseGoogleLoginContainer) {
+                    const newLoginButton = document.createElement('button');
+                    newLoginButton.id = "btn-firebase-google-login";
+                    newLoginButton.className = "p-2 bg-[#4285F4] hover:bg-[#357ae8] text-white font-bold rounded flex items-center justify-center";
+                    newLoginButton.innerHTML = `<i class="fab fa-google mr-2"></i> Login com Google`;
+                    newLoginButton.addEventListener('click', signInWithGoogle);
+                    btnFirebaseGoogleLoginContainer.innerHTML = '';
+                    btnFirebaseGoogleLoginContainer.appendChild(newLoginButton);
                 } else {
-                    console.error("ERRO FATAL: Botão 'btn-inicio' não encontrado no HTML!");
-                }
-                const btnAtributos = document.getElementById("btn-atributos");
-                if (btnAtributos) {
-                    btnAtributos.addEventListener("click", abrirAtributos);
-                } else {
-                    console.error("ERRO FATAL: Botão 'btn-atributos' não encontrado no HTML!");
-                }
-                const btnSkills = document.getElementById("btn-skills");
-                if (btnSkills) {
-                    btnSkills.addEventListener("click", abrirSkills);
-                } else {
-                    console.error("ERRO FATAL: Botão 'btn-skills' não encontrado no HTML!");
-                }
-                const btnInventario = document.getElementById("btn-inventario");
-                if (btnInventario) {
-                    btnInventario.addEventListener("click", abrirInventario);
-                } else {
-                    console.error("ERRO FATAL: Botão 'btn-inventario' não encontrado no HTML!");
-                }
-                const btnMercador = document.getElementById("btn-mercador");
-                if (btnMercador) {
-                    btnMercador.addEventListener("click", abrirMercador);
-                }
-                const btnSair = document.getElementById("btn-sair");
-                if (btnSair) {
-                    btnSair.addEventListener("click", sairJogo);
-                } else {
-                    console.error("ERRO FATAL: Botão 'btn-sair' não encontrado no HTML!");
+                    console.warn("Container do botão de login do Google ('google-signin-button-container' ou 'g_id_signin_button_div') não encontrado.");
                 }
 
-                const btnSaveCharSetup = document.getElementById("btn-save-character-setup");
-                if (btnSaveCharSetup) {
-                    btnSaveCharSetup.addEventListener("click", salvarSetupPersonagem);
-                } else {
-                    console.warn("Aviso: Botão 'btn-save-character-setup' não encontrado.");
+                const btnSaveCloud = document.getElementById('btn-save-google');
+                if (btnSaveCloud) {
+                    btnSaveCloud.addEventListener('click', saveGameToCloud);
                 }
 
-                const atributosScreenElement = document.getElementById("atributos-screen");
-                if (atributosScreenElement) {
-                    atributosScreenElement.addEventListener("click", manipularBotaoAtributo);
+                const btnSignOutCloud = document.getElementById('btn-signout-google');
+                if (btnSignOutCloud) {
+                    btnSignOutCloud.addEventListener('click', signOutFromFirebase);
                 }
-                const btnSalvarAtributos = document.getElementById("btn-salvar-atributos");
-                if (btnSalvarAtributos) {
-                    btnSalvarAtributos.addEventListener("click", salvarAtributos);
-                }
-                const btnComprarMercador = document.getElementById("btn-comprar-mercador");
-                if (btnComprarMercador) {
-                    btnComprarMercador.addEventListener("click", comprarItensMercador);
-                }
+
+                const commandFooter = document.querySelector('footer');
+                const chatInputForFocus = document.getElementById('chat-command-input');
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.shiftKey && (event.key === 'W' || event.key === 'w')) {
+                        event.preventDefault();
+                        if (commandFooter) {
+                            commandFooter.classList.toggle('hidden');
+                            if (!commandFooter.classList.contains('hidden') && chatInputForFocus) {
+                                chatInputForFocus.focus();
+                            }
+                        }
+                    }
+                });
+
+                document.getElementById("btn-inicio")?.addEventListener("click", abrirInicio);
+                document.getElementById("btn-atributos")?.addEventListener("click", abrirAtributos);
+                document.getElementById("btn-skills")?.addEventListener("click", abrirSkills);
+                document.getElementById("btn-inventario")?.addEventListener("click", abrirInventario);
+                document.getElementById("btn-mercador")?.addEventListener("click", abrirMercador);
+                document.getElementById("btn-sair")?.addEventListener("click", sairJogo);
+                document.getElementById("btn-save-character-setup")?.addEventListener("click", salvarSetupPersonagem);
+                document.getElementById("atributos-screen")?.addEventListener("click", manipularBotaoAtributo);
+                document.getElementById("btn-salvar-atributos")?.addEventListener("click", salvarAtributos);
+                document.getElementById("btn-comprar-mercador")?.addEventListener("click", comprarItensMercador);
 
                 const attributeModeButtons = document.querySelectorAll('.attribute-mode-btn');
                 attributeModeButtons.forEach(btn => {
@@ -2161,7 +2092,6 @@
                     }
                 });
 
-                // Bloco Corrigido para os Listeners do Chat de Comando
                 const btnSendCommand = document.getElementById("btn-send-command");
                 const chatCommandInputElement = document.getElementById("chat-command-input");
 
@@ -2169,16 +2099,16 @@
                     btnSendCommand.addEventListener("click", () => {
                         if (chatCommandInputElement.value) {
                             processChatCommand(chatCommandInputElement.value);
-                            chatCommandInputElement.value = ""; // Limpa o campo após enviar
+                            chatCommandInputElement.value = "";
                         }
                     });
 
                     chatCommandInputElement.addEventListener("keypress", (event) => {
                         if (event.key === "Enter") {
-                            event.preventDefault(); // Previne o comportamento padrão do Enter (ex: submit de formulário)
+                            event.preventDefault();
                             if (chatCommandInputElement.value) {
                                 processChatCommand(chatCommandInputElement.value);
-                                chatCommandInputElement.value = ""; // Limpa o campo após enviar
+                                chatCommandInputElement.value = "";
                             }
                         }
                     });
@@ -2212,12 +2142,13 @@
 
                 document.getElementById("character-setup-screen")?.classList.add("hidden");
                 document.getElementById("main-content")?.classList.remove("hidden");
-                game.estado = "inicio"; // Define o estado para o início do jogo
+                game.estado = "inicio";
 
-                if (isGoogleSignedIn && googleDecodedCredential) {
-                    saveGameToGoogle();
+                if (currentFirebaseUser) {
+                    saveGameToCloud();
                 }
-
+                toggleHeaderNavButtons(false);
+                toggleChatInput(false);
                 abrirInicio();
             }
 
@@ -3811,13 +3742,16 @@
                 toggleChatInput(true);
                 game.estado = "gameover";
                 if (game.dungeon.active) { game.dungeon.active = false; game.batalha.isBossBattle = false; }
-                if (isGoogleSignedIn) deleteSavedGameForGoogleUser();
+
+                if (currentFirebaseUser) {
+                    deleteGameFromCloud(currentFirebaseUser.uid);
+                }
                 if (game.player.sombraAtiva) game.player.sombraAtiva = null;
 
                 mostrarMensagem(`<span class="text-rose-600 font-extrabold text-3xl">Você morreu!</span><br/>O mundo de <span class="font-bold text-sky-400">Arkham</span> não foi gentil desta vez.<br/>Seu progresso salvo na nuvem (se houver) foi apagado.<br/><br/>Deseja recomeçar?`);
                 limparEscolhas();
                 adicionarEscolha("Recomeçar", () => iniciarJogo(true));
-                updateGoogleSignInUI();
+                updateAuthUI(currentFirebaseUser);
             }
             function falharDesafioHabilidade() {
                 mostrarMensagem(`Você não conseguiu superar o desafio para dominar <span class="font-bold text-sky-400">${CLASSES_DATA[game.player.classe].habilidades.find(h => h.id === game.batalha.skillEmDesafioId)?.nome || "esta habilidade"}</span>.<br/>Tente novamente quando estiver mais forte.`);

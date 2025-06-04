@@ -1357,72 +1357,142 @@
                     portrait: monarchData.portrait || `https://via.placeholder.com/48?text=${chosenKey.substring(0, 1)}M`
                 };
             }
-            function gerarBossMasmorra(dungeonTypeRank, actualBossRank) {
-                const dungeonConfig = DUNGEON_CONFIG[dungeonTypeRank];
+            function calculateXpForNextNLevels(currentLevel, currentXpToNext, numLevels) {
+            let totalXpNeeded = 0;
+            let xpToNextTemp = currentXpToNext;
+            for (let i = 0; i < numLevels; i++) {
+                totalXpNeeded += xpToNextTemp;
+                xpToNextTemp = Math.floor(xpToNextTemp * 1.10);
+            }
+            return totalXpNeeded;
+        }
 
-                if (dungeonTypeRank === "D" && dungeonConfig.arquitetoChance && Math.random() < dungeonConfig.arquitetoChance) {
-                    if (!game.player.isMarcado) {
-                        game.batalha.pendingArquitetoEncounter = true;
-                        return { ...ARQUITETO_STATS, vidaAtual: ARQUITETO_STATS.vidaMax };
-                    }
+        function gerarBossMasmorra(dungeonTypeRank, actualBossRankFromConfig) {
+            const dungeonConfig = DUNGEON_CONFIG[dungeonTypeRank];
+
+            if (dungeonTypeRank === "D" && dungeonConfig.arquitetoChance && Math.random() < dungeonConfig.arquitetoChance) {
+                if (!game.player.isMarcado) {
+                    return { ...ARQUITETO_STATS, vidaAtual: ARQUITETO_STATS.vidaMax, isArquitetoPending: true };
                 }
+            }
 
-                if (dungeonConfig && dungeonConfig.lordeDaMorteChance &&
-                    !game.player.classe &&
-                    game.player.nivel >= 20 && rankToIndex(game.player.rank) >= rankToIndex("B") &&
-                    !game.player.metLordeDaMorte &&
-                    Math.random() < dungeonConfig.lordeDaMorteChance) {
-                    game.player.metLordeDaMorte = true;
-                    return gerarMonstro(null, true);
-                }
+            if (dungeonConfig && dungeonConfig.lordeDaMorteChance &&
+                !game.player.classe &&
+                game.player.nivel >= 20 && rankToIndex(game.player.rank) >= rankToIndex("B") &&
+                !game.player.metLordeDaMorte &&
+                Math.random() < dungeonConfig.lordeDaMorteChance) {
+                game.player.metLordeDaMorte = true;
+                return gerarMonstro(null, true);
+            }
 
-                const config = DUNGEON_CONFIG[dungeonTypeRank];
-                if (!config || !config.bossBaseStats) {
-                    console.error(`Configuração de bossBaseStats não encontrada para dungeon rank ${dungeonTypeRank}`);
-                    const fallbackBossRank = actualBossRank || "C";
-                    const fallbackStats = DUNGEON_CONFIG["E"].bossBaseStats;
-                    const fbMon = gerarMonstro(fallbackBossRank);
-                    return {
-                        ...fbMon,
-                        nome: `Boss ${fallbackBossRank} Desconhecido`,
-                        isBoss: true,
-                        vidaMax: fallbackStats.vidaMin,
-                        vidaAtual: fallbackStats.vidaMin,
-                        danoFisico: fallbackStats.danoMin,
-                        danoMagico: Math.floor(fallbackStats.danoMin * 0.3),
-                        xpGanho: calculateXpForNextNLevels(game.player.nivel, game.player.xpProximoNivel, 3)
-                    };
-                }
-                const baseStats = config.bossBaseStats;
-                const nome = randomChoice(MONSTRO_NOMES[actualBossRank] || [`Boss ${actualBossRank}`]);
-                const vidaMax = randomInt(baseStats.vidaMin, baseStats.vidaMax);
-
-                const baseDanoFisicoRolled = randomInt(baseStats.danoMin, baseStats.danoMax);
-                const baseDanoMagicoRolled = Math.floor(baseDanoFisicoRolled * randomInt(30, 70) / 100);
-
-                let strengthMultiplier = 1.20;
-                if (rankToIndex(actualBossRank) >= rankToIndex("B")) {
-                    strengthMultiplier = 1.50;
-                }
-
-                const danoFisico = Math.floor(baseDanoFisicoRolled * strengthMultiplier);
-                const danoMagico = Math.floor(baseDanoMagicoRolled * strengthMultiplier);
-
-                let xpParaBoss = calculateXpForNextNLevels(game.player.nivel, game.player.xpProximoNivel, 3);
-                xpParaBoss = Math.floor(xpParaBoss * randomInt(100, 110) / 100);
-
+            if (!dungeonConfig || !dungeonConfig.bossBaseStats) {
+                console.error(`Configuração de bossBaseStats não encontrada para dungeon rank ${dungeonTypeRank}. Usando fallback.`);
+                const fallbackRank = actualBossRankFromConfig || "C";
+                const fallbackBossStats = DUNGEON_CONFIG["E"].bossBaseStats;
                 return {
-                    nome: `${nome} (Boss da Masmorra)`,
-                    rank: actualBossRank,
-                    vidaMax,
-                    vidaAtual: vidaMax,
-                    danoFisico,
-                    danoMagico,
-                    xpGanho: xpParaBoss,
+                    nome: `Guardião Desconhecido (Boss Rank ${fallbackRank})`,
+                    rank: fallbackRank,
+                    vidaMax: fallbackBossStats.vidaMin,
+                    vidaAtual: fallbackBossStats.vidaMin,
+                    danoFisico: fallbackBossStats.danoMin,
+                    danoMagico: Math.floor(fallbackBossStats.danoMin * 0.3),
+                    xpGanho: calculateXpForNextNLevels(game.player.nivel, game.player.xpProximoNivel, 2),
                     fugaPct: 0,
                     isBoss: true
                 };
             }
+
+            const baseStats = dungeonConfig.bossBaseStats;
+            const bossRank = actualBossRankFromConfig;
+            const nomesDisponiveis = MONSTRO_NOMES[bossRank] || [`Guardião de ${dungeonConfig.name}`];
+            const nomeBoss = randomChoice(nomesDisponiveis);
+
+            const vidaMax = randomInt(baseStats.vidaMin, baseStats.vidaMax);
+            const danoBaseFisicoRolled = randomInt(baseStats.danoMin, baseStats.danoMax);
+            const danoBaseMagicoRolled = Math.floor(danoBaseFisicoRolled * randomInt(30, 70) / 100);
+
+            let strengthMultiplier = 1.1;
+            if (rankToIndex(bossRank) >= rankToIndex("B")) {
+                strengthMultiplier = 1.3;
+            }
+            if (rankToIndex(bossRank) >= rankToIndex("S")) {
+                strengthMultiplier = 1.5;
+            }
+
+            const danoFisicoFinal = Math.floor(danoBaseFisicoRolled * strengthMultiplier);
+            const danoMagicoFinal = Math.floor(danoBaseMagicoRolled * strengthMultiplier);
+
+            let xpParaBoss = calculateXpForNextNLevels(game.player.nivel, game.player.xpProximoNivel, randomInt(2,4));
+            xpParaBoss = randomInt(baseStats.xpMin || xpParaBoss, baseStats.xpMax || Math.floor(xpParaBoss * 1.2));
+
+            return {
+                nome: `${nomeBoss} (Chefe da Masmorra)`,
+                rank: bossRank,
+                vidaMax: vidaMax,
+                vidaAtual: vidaMax,
+                danoFisico: danoFisicoFinal,
+                danoMagico: danoMagicoFinal,
+                xpGanho: xpParaBoss,
+                fugaPct: 0,
+                isBoss: true,
+                isArquiteto: false,
+                isLordeDaMorte: false
+            };
+        }
+
+        function confirmarEntradaBoss() {
+            game.dungeon.isBossRoomConfirmation = false;
+
+            let bossEncounter;
+            const dungeonConfig = DUNGEON_CONFIG[game.dungeon.typeRank];
+
+            bossEncounter = gerarBossMasmorra(game.dungeon.typeRank, game.dungeon.bossRankForDungeon);
+
+            if (!bossEncounter || typeof bossEncounter !== 'object' || typeof bossEncounter.nome === 'undefined' && !bossEncounter.isArquitetoPending) {
+                mostrarMensagem("Erro crítico ao preparar o chefe da masmorra. A masmorra foi considerada falha.");
+                limparEscolhas();
+                adicionarEscolha("Retornar ao Início", () => {
+                    game.dungeon.active = false;
+                    abrirInicio();
+                });
+                return;
+            }
+
+            game.monstroAtual = bossEncounter;
+
+            if (bossEncounter.isArquitetoPending) {
+                game.batalha.pendingArquitetoEncounter = false;
+                mostrarMensagem(`Uma figura imponente e etérea surge. É o <span class="font-bold text-cyan-300">Arquiteto</span>.<br/>Ele o encara e uma pergunta ecoa em sua mente: <span class="font-bold text-yellow-300">"Você deseja se tornar um 'Marcado'?"</span>`);
+                limparEscolhas();
+                adicionarEscolha("Sim, aceito o fardo e o poder.", () => {
+                    game.player.isMarcado = true;
+                    if (game.player.classe === "Necromante") {
+                        game.player.isMonarcaDasSombras = true;
+                    }
+                    mostrarMensagem(`O Arquiteto acena com a cabeça. Uma marca sutil surge em você.<br/>"Que seu caminho seja... interessante."<br/>Ele desaparece, deixando um sentimento de poder e um fardo desconhecido.<br/><br/>Você conquistou a masmorra de uma forma inesperada.`);
+                    game.dungeon.bossDefeated = true;
+                    setTimeout(() => completarMasmorra("Você se tornou um Marcado! O Arquiteto se foi."), 2000);
+                });
+                adicionarEscolha("Não, recuso tal destino.", () => {
+                    mostrarMensagem(`O Arquiteto suspira. "Uma pena. Então, enfrente o destino que escolheu."<br/>A batalha contra o <span class="font-bold text-cyan-300">Arquiteto</span> começa!`);
+                    game.batalha.arquitetoBattleRefused = true;
+                    setTimeout(() => {
+                        iniciarBatalha(bossEncounter);
+                    }, 1500);
+                });
+                return;
+            }
+
+            let bossIntroMsg = `Você entra na câmara final d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400">${game.dungeon.name}</span>. O ar está pesado. <br/>O chefe da masmorra, <span class="font-bold text-rose-500">${bossEncounter.nome}</span> (Rank ${bossEncounter.rank}), encara você!`;
+            if (bossEncounter.isLordeDaMorte) {
+                bossIntroMsg = `Você adentra a câmara final... e o ar congela. Das sombras profundas ergue-se o temível <span class="font-bold text-purple-400">${bossEncounter.nome}</span> (Rank ${bossEncounter.rank})!<br/>Seu olhar promete uma eternidade de servidão... ou uma morte rápida.`;
+            }
+            mostrarMensagem(bossIntroMsg);
+
+            setTimeout(() => {
+                iniciarBatalha(bossEncounter);
+            }, 1500);
+        }
             const ITEM_PREFIXOS = {
                 E: ["Simples", "Rústico", "Comum", "Velho", "Frágil"],
                 D: ["Robusto", "Resistente", "Forte", "Ágil", "Místico"],
@@ -5075,68 +5145,6 @@
                 }
                 updateGoogleSignInUI();
             }
-
-            function confirmarEntradaBoss() {
-                game.dungeon.isBossRoomConfirmation = false;
-
-                let bossEncounter;
-                const dungeonConfig = DUNGEON_CONFIG[game.dungeon.typeRank];
-                let isArquitetoScenarioSpecial = false;
-
-                if (game.dungeon.typeRank === "D" && dungeonConfig && dungeonConfig.arquitetoChance && Math.random() < dungeonConfig.arquitetoChance && !game.player.isMarcado) {
-                    bossEncounter = { ...ARQUITETO_STATS, vidaAtual: ARQUITETO_STATS.vidaMax };
-                    isArquitetoScenarioSpecial = true;
-                } else {
-                    bossEncounter = gerarBossMasmorra(game.dungeon.typeRank, game.dungeon.bossRankForDungeon);
-                }
-
-                game.monstroAtual = bossEncounter;
-
-                if (!bossEncounter || typeof bossEncounter !== 'object' || typeof bossEncounter.nome === 'undefined') {
-                    mostrarMensagem("Erro crítico ao preparar o chefe da masmorra. A masmorra foi considerada falha.");
-                    limparEscolhas();
-                    adicionarEscolha("Retornar ao Início", () => {
-                        game.dungeon.active = false;
-                        abrirInicio();
-                    });
-                    return;
-                }
-
-                if (isArquitetoScenarioSpecial) {
-                    game.batalha.pendingArquitetoEncounter = false;
-                    mostrarMensagem(`Uma figura imponente e etérea surge. É o <span class="font-bold text-cyan-300">Arquiteto</span>.<br/>Ele o encara e uma pergunta ecoa em sua mente: <span class="font-bold text-yellow-300">"Você deseja se tornar um 'Marcado'?"</span>`);
-                    limparEscolhas();
-                    adicionarEscolha("Sim, aceito o fardo e o poder.", () => {
-                        game.player.isMarcado = true;
-                        if (game.player.classe === "Necromante") {
-                            game.player.isMonarcaDasSombras = true;
-                        }
-                        mostrarMensagem(`O Arquiteto acena com a cabeça. Uma marca sutil surge em você.<br/>"Que seu caminho seja... interessante."<br/>Ele desaparece, deixando um sentimento de poder e um fardo desconhecido.<br/><br/>Você conquistou a masmorra de uma forma inesperada.`);
-                        game.dungeon.bossDefeated = true;
-                        setTimeout(() => completarMasmorra("Você se tornou um Marcado!"), 2000);
-                    });
-                    adicionarEscolha("Não, recuso tal destino.", () => {
-                        mostrarMensagem(`O Arquiteto suspira. "Uma pena. Então, enfrente o destino que escolheu."<br/>A batalha contra o <span class="font-bold text-cyan-300">Arquiteto</span> começa!`);
-                        game.batalha.arquitetoBattleRefused = true;
-                        setTimeout(() => {
-                            iniciarBatalha(bossEncounter);
-                        }, 1500);
-                    });
-                    return;
-                }
-
-                let bossIntroMsg = `Você entra na câmara final d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400">${game.dungeon.name}</span>. O ar está pesado. <br/>O chefe da masmorra, <span class="font-bold text-rose-500">${bossEncounter.nome}</span> (Rank ${bossEncounter.rank}), encara você!`;
-
-                if (bossEncounter.isLordeDaMorte) {
-                    bossIntroMsg = `Você adentra a câmara final... e o ar congela. Das sombras profundas ergue-se o temível <span class="font-bold text-purple-400">${bossEncounter.nome}</span> (Rank ${bossEncounter.rank})!<br/>Seu olhar promete uma eternidade de servidão... ou uma morte rápida.`;
-                }
-                mostrarMensagem(bossIntroMsg);
-
-                setTimeout(() => {
-                    iniciarBatalha(bossEncounter);
-                }, 1500);
-            }
-
             function fugirDaMasmorra(playerInitiatedAtBossDoor) {
                 showBattleInterface(false);
                 toggleHeaderNavButtons(false);

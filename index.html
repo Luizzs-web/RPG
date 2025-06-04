@@ -2686,38 +2686,38 @@
             }
 
             function iniciarBatalha(monstro) {
-                game.batalha.jogadorAgiuNoTurno = false;
-                habilitarBotoesAcaoBatalha();
-                toggleHeaderNavButtons(true);
-                toggleChatInput(true);
-                game.estado = "batalha"; game.batalha.emBatalha = true; game.batalha.monstro = monstro;
-                game.batalha.turnoJogador = true; game.batalha.isBossBattle = monstro.isBoss;
+                game.batalha.jogadorAgiuNoTurno = false;
+                habilitarBotoesAcaoBatalha(); // Garante que os botões de ação estejam habilitados
+                toggleHeaderNavButtons(true);
+                toggleChatInput(true);
+                game.estado = "batalha"; game.batalha.emBatalha = true; game.batalha.monstro = monstro;
+                game.batalha.turnoJogador = true; game.batalha.isBossBattle = monstro.isBoss;
 
-                decrementarBuffs();
+                decrementarBuffs();
 
-                let msg = `Você encontrou: <span class="font-bold text-rose-400">${monstro.nome}</span> (Rank ${monstro.rank}).`;
-                if (game.dungeon.active && !monstro.isBoss) {
-                    msg = `Sala ${game.dungeon.currentRoom + 1}/${game.dungeon.totalRooms} d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400">${game.dungeon.name}</span>.<br/>` + msg;
+                let msg = `Você encontrou: <span class="font-bold text-rose-400">${monstro.nome}</span> (Rank ${monstro.rank}).`;
+                if (game.dungeon.active && !monstro.isBoss) {
+                    msg = `Sala ${game.dungeon.currentRoom + 1}/${game.dungeon.totalRooms} d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400">${game.dungeon.name}</span>.<br/>` + msg;
 
-                } else if (monstro.isLordeDaMorte) {
-                    msg = `<span class="text-purple-600 font-extrabold">PRESENÇA SOMBRIA!</span><br/>O <span class="font-bold text-purple-400">${monstro.nome}</span> surge!<br/>` + msg;
-                } else if (monstro.isBoss) {
-                    msg = `<span class="text-rose-500 font-bold">BATALHA DE CHEFE!</span><br/>` + msg;
-                }
+                } else if (monstro.isLordeDaMorte) {
+                    msg = `<span class="text-purple-600 font-extrabold">PRESENÇA SOMBRIA!</span><br/>O <span class="font-bold text-purple-400">${monstro.nome}</span> surge!<br/>` + msg;
+                } else if (monstro.isBoss) {
+                    msg = `<span class="text-rose-500 font-bold">BATALHA DE CHEFE!</span><br/>` + msg;
+                }
 
-                if (game.player.sombraAtiva && game.player.sombraAtiva.statsAtuais) {
-                    const s = game.player.sombraAtiva;
-                    msg += `<br/><span class="text-purple-300">Sua ${s.nomeSombra} está pronta.</span>`;
-                }
-                msg += `<br/><br/>Sua vez!`;
+                if (game.player.sombraAtiva && game.player.sombraAtiva.statsAtuais) {
+                    const s = game.player.sombraAtiva;
+                    msg += `<br/><span class="text-purple-300">Sua ${s.nomeSombra} está pronta.</span>`;
+                }
+                msg += `<br/><br/>Sua vez!`;
 
-                mostrarMensagem(msg);
-                limparEscolhas();
-                showBattleInterface(true);
+                mostrarMensagem(msg);
+                limparEscolhas();
+                showBattleInterface(true);
 
-                atualizarStatusAtributos();
-                updateGoogleSignInUI();
-            }
+                atualizarStatusAtributos();
+                updateGoogleSignInUI();
+            }
 
             function gerarLordeDaMorteBaseStats() {
                 return {

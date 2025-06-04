@@ -5077,80 +5077,65 @@
             }
 
             function confirmarEntradaBoss() {
-    game.dungeon.isBossRoomConfirmation = false;
+                game.dungeon.isBossRoomConfirmation = false;
 
-    let boss;
-    const dungeonConfig = DUNGEON_CONFIG[game.dungeon.typeRank];
-    let isArquitetoScenario = false;
+                let bossEncounter;
+                const dungeonConfig = DUNGEON_CONFIG[game.dungeon.typeRank];
+                let isArquitetoScenarioSpecial = false;
 
-    if (game.dungeon.typeRank === "D" && dungeonConfig.arquitetoChance && Math.random() < dungeonConfig.arquitetoChance) {
-        if (!game.player.isMarcado) {
-            boss = { ...ARQUITETO_STATS, vidaAtual: ARQUITETO_STATS.vidaMax };
-            isArquitetoScenario = true;
-        }
-    }
+                if (game.dungeon.typeRank === "D" && dungeonConfig && dungeonConfig.arquitetoChance && Math.random() < dungeonConfig.arquitetoChance && !game.player.isMarcado) {
+                    bossEncounter = { ...ARQUITETO_STATS, vidaAtual: ARQUITETO_STATS.vidaMax };
+                    isArquitetoScenarioSpecial = true;
+                } else {
+                    bossEncounter = gerarBossMasmorra(game.dungeon.typeRank, game.dungeon.bossRankForDungeon);
+                }
 
-    if (!isArquitetoScenario) {
-        boss = gerarBossMasmorra(game.dungeon.typeRank, game.dungeon.bossRankForDungeon);
-    }
+                game.monstroAtual = bossEncounter;
 
-    game.monstroAtual = boss;
+                if (!bossEncounter || typeof bossEncounter !== 'object' || typeof bossEncounter.nome === 'undefined') {
+                    mostrarMensagem("Erro crítico ao preparar o chefe da masmorra. A masmorra foi considerada falha.");
+                    limparEscolhas();
+                    adicionarEscolha("Retornar ao Início", () => {
+                        game.dungeon.active = false;
+                        abrirInicio();
+                    });
+                    return;
+                }
 
-    if (!boss || typeof boss !== 'object' || typeof boss.nome === 'undefined') {
-        mostrarMensagem("Erro ao preparar o chefe da masmorra. Retornando ao menu inicial.");
-        limparEscolhas();
-        adicionarEscolha("Voltar ao Início", () => {
-            if (game.dungeon.active) {
-                game.dungeon.active = false;
-            }
-            abrirInicio();
-        });
-        return;
-    }
+                if (isArquitetoScenarioSpecial) {
+                    game.batalha.pendingArquitetoEncounter = false;
+                    mostrarMensagem(`Uma figura imponente e etérea surge. É o <span class="font-bold text-cyan-300">Arquiteto</span>.<br/>Ele o encara e uma pergunta ecoa em sua mente: <span class="font-bold text-yellow-300">"Você deseja se tornar um 'Marcado'?"</span>`);
+                    limparEscolhas();
+                    adicionarEscolha("Sim, aceito o fardo e o poder.", () => {
+                        game.player.isMarcado = true;
+                        if (game.player.classe === "Necromante") {
+                            game.player.isMonarcaDasSombras = true;
+                        }
+                        mostrarMensagem(`O Arquiteto acena com a cabeça. Uma marca sutil surge em você.<br/>"Que seu caminho seja... interessante."<br/>Ele desaparece, deixando um sentimento de poder e um fardo desconhecido.<br/><br/>Você conquistou a masmorra de uma forma inesperada.`);
+                        game.dungeon.bossDefeated = true;
+                        setTimeout(() => completarMasmorra("Você se tornou um Marcado!"), 2000);
+                    });
+                    adicionarEscolha("Não, recuso tal destino.", () => {
+                        mostrarMensagem(`O Arquiteto suspira. "Uma pena. Então, enfrente o destino que escolheu."<br/>A batalha contra o <span class="font-bold text-cyan-300">Arquiteto</span> começa!`);
+                        game.batalha.arquitetoBattleRefused = true;
+                        setTimeout(() => {
+                            iniciarBatalha(bossEncounter);
+                        }, 1500);
+                    });
+                    return;
+                }
 
-    if (isArquitetoScenario) {
-        game.batalha.pendingArquitetoEncounter = false;
-        mostrarMensagem(`Uma figura imponente e etérea surge. É o <span class="font-bold text-cyan-300">Arquiteto</span>.<br/>Ele o encara e uma pergunta ecoa em sua mente: <span class="font-bold text-yellow-300">"Você deseja se tornar um 'Marcado'?"</span>`);
-        limparEscolhas();
-        adicionarEscolha("Sim, aceito o fardo e o poder.", () => {
-            game.player.isMarcado = true;
-            if (game.player.classe === "Necromante") {
-                game.player.isMonarcaDasSombras = true;
-            }
-            mostrarMensagem(`O Arquiteto acena com a cabeça. Uma marca sutil surge em você.<br/>"Que seu caminho seja... interessante."<br/>Ele desaparece, deixando um sentimento de poder e um fardo desconhecido.<br/><br/>Você conquistou a masmorra de uma forma inesperada.`);
-            game.dungeon.bossDefeated = true;
-            setTimeout(() => completarMasmorra("Você se tornou um Marcado!"), 2000);
-        });
-        adicionarEscolha("Não, recuso tal destino.", () => {
-            mostrarMensagem(`O Arquiteto suspira. "Uma pena. Então, enfrente o destino que escolheu."<br/>A batalha contra o <span class="font-bold text-cyan-300">Arquiteto</span> começa!`);
-            game.batalha.arquitetoBattleRefused = true;
-            setTimeout(() => {
-                if (boss && typeof boss === 'object' && typeof boss.nome !== 'undefined') {
-                    iniciarBatalha(boss);
-                } else {
-                    mostrarMensagem("Erro ao iniciar batalha com o Arquiteto. Retornando.");
-                    abrirInicio();
-                }
-            }, 1500);
-        });
-        return;
-    }
+                let bossIntroMsg = `Você entra na câmara final d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400">${game.dungeon.name}</span>. O ar está pesado. <br/>O chefe da masmorra, <span class="font-bold text-rose-500">${bossEncounter.nome}</span> (Rank ${bossEncounter.rank}), encara você!`;
 
-    let bossIntroMsg = `Você entra na câmara final d${game.dungeon.name.includes('Fortaleza') || game.dungeon.name.includes('Masmorra') ? 'a' : 'os'} <span class="font-bold text-violet-400">${game.dungeon.name}</span>. O ar está pesado. <br/>O chefe da masmorra, <span class="font-bold text-rose-500">${boss.nome}</span> (Rank ${boss.rank}), encara você!`;
-    if (boss.isLordeDaMorte) {
-        bossIntroMsg = `Você adentra a câmara final... e o ar congela. Das sombras profundas ergue-se o temível <span class="font-bold text-purple-400">${boss.nome}</span> (Rank ${boss.rank})!<br/>Seu olhar promete uma eternidade de servidão... ou uma morte rápida.`;
-    }
-    mostrarMensagem(bossIntroMsg);
+                if (bossEncounter.isLordeDaMorte) {
+                    bossIntroMsg = `Você adentra a câmara final... e o ar congela. Das sombras profundas ergue-se o temível <span class="font-bold text-purple-400">${bossEncounter.nome}</span> (Rank ${bossEncounter.rank})!<br/>Seu olhar promete uma eternidade de servidão... ou uma morte rápida.`;
+                }
+                mostrarMensagem(bossIntroMsg);
 
-    setTimeout(() => {
-        if (boss && typeof boss === 'object' && typeof boss.nome !== 'undefined') {
-            iniciarBatalha(boss);
-        } else {
-            mostrarMensagem("Erro ao iniciar batalha com o chefe. Retornando.");
-            abrirInicio();
-        }
-    }, 1500);
-}
+                setTimeout(() => {
+                    iniciarBatalha(bossEncounter);
+                }, 1500);
+            }
 
             function fugirDaMasmorra(playerInitiatedAtBossDoor) {
                 showBattleInterface(false);

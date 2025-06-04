@@ -3405,7 +3405,7 @@
 
     decrementarBuffs(); // Decrementa buffs do jogador no final do turno do monstro
 
-    logMensagens.push(`<br/>Sua vez! Vida: <span class="math-inline">\{game\.player\.vidaAtual\}/</span>{game.player.vidaMax}. O que fazer?`);
+    logMensagens.push(`<br/>Sua vez! Vida: <span class="font-bold text-emerald-400">${game.player.vidaAtual}</span> / <span class="font-bold text-emerald-400">${game.player.vidaMax}</span>. O que fazer?`);
     mostrarMensagem(logMensagens.join('<br/>'));
 
     game.batalha.turnoJogador = true;
@@ -4459,7 +4459,7 @@
 
                         const ativaStatsSpan = document.createElement("span");
                         ativaStatsSpan.className = "text-xs text-amber-100 mt-1 sm:mt-0";
-                        ativaStatsSpan.textContent = `HP: <span class="math-inline">\{sombra\.statsAtuais?\.vidaAtual \|\| 'N/A'\}/</span>{sombra.statsAtuais?.vidaMax || 'N/A'}, Dano Base: ${sombra.statsAtuais?.danoBase || 'N/A'}`;
+                       ativaStatsSpan.innerHTML = `HP: <span class="font-bold text-amber-100">${sombra.statsAtuais?.vidaAtual || 'N/A'}</span> / <span class="font-bold text-amber-100">${sombra.statsAtuais?.vidaMax || 'N/A'}</span>, Dano Base: <span class="font-bold text-amber-100">${sombra.statsAtuais?.danoBase || 'N/A'}</span>`;
                         ativaInfoDiv.appendChild(ativaStatsSpan);
 
                         liAtiva.appendChild(ativaInfoDiv);
@@ -4722,144 +4722,6 @@
                     }
                 }
                 game.player.refinoMagicoPct = totalRefinoMagicoBonus / 100;
-            }
-
-            function abrirMercador() {
-                toggleHeaderNavButtons(true);
-                toggleChatInput(true);
-                game.estado = "mercador";
-                document.getElementById("game-screen")?.classList.add("hidden");
-                document.getElementById("atributos-screen")?.classList.add("hidden");
-                document.getElementById("inventario-screen")?.classList.add("hidden");
-                document.getElementById("mercador-screen")?.classList.remove("hidden");
-                document.getElementById("skills-screen")?.classList.add("hidden");
-                gerarItensMercador();
-                atualizarTelaMercador();
-                mostrarMensagem(`O mercador cumprimenta você. Você tem <span class="font-bold text-amber-300">${game.player.moedas}</span> moedas.<br/><br/>Selecione os itens que deseja comprar.`);
-                updateGoogleSignInUI();
-            }
-
-            function gerarItensMercador() {
-                game.mercador.itens = [];
-                game.mercador.selecionados.clear();
-                const qtd = randomInt(5, 8);
-                const playerRankIdx = rankToIndex(game.player.rank);
-
-                for (let i = 0; i < qtd; i++) {
-                    let itemRankIdx;
-                    const chanceRoll = Math.random();
-
-
-                    if (chanceRoll < 0.05 && playerRankIdx < RANKS.length - 2) {
-                        itemRankIdx = playerRankIdx + 2;
-                    } else if (chanceRoll < 0.20 && playerRankIdx < RANKS.length - 1) {
-                        itemRankIdx = playerRankIdx + 1;
-                    } else if (chanceRoll < 0.70) {
-                        itemRankIdx = playerRankIdx;
-                    } else {
-                        itemRankIdx = playerRankIdx - 1;
-                    }
-
-
-                    itemRankIdx = clamp(itemRankIdx, 0, RANKS.length - 1);
-
-                    const rank = indexToRank(itemRankIdx);
-                    let item = gerarItem(rank);
-
-
-                    if (item.isPotion && item.id !== POTIONS.compra.id) {
-                        const pocaoBaseCompra = POTIONS.compra;
-                        item.id = pocaoBaseCompra.id;
-                        item.nome = pocaoBaseCompra.nome;
-                        item.curaVidaPct = pocaoBaseCompra.curaVidaPct;
-                        item.curaManaPct = pocaoBaseCompra.curaManaPct;
-                        item.descricao = pocaoBaseCompra.descricao;
-                        item.preco = 50;
-                        item.rank = "C";
-                    } else if (item.isPotion && item.id === POTIONS.compra.id) {
-                        item.preco = 50;
-                    }
-
-
-                    game.mercador.itens.push(item);
-                }
-            }
-
-            function atualizarTelaMercador() {
-                const lista = document.getElementById("lista-mercador");
-                if (!lista) return;
-                lista.innerHTML = "";
-                if (game.mercador.itens.length === 0) {
-                    const li = document.createElement("li"); li.className = "text-slate-400 italic";
-                    li.textContent = "O mercador não tem mais itens para vender no momento."; lista.appendChild(li);
-                    atualizarBotaoComprar(); return;
-                }
-                game.mercador.itens.forEach((item) => {
-                    const li = document.createElement("li");
-                    li.className = "bg-slate-600 rounded p-3 flex flex-col sm:flex-row sm:justify-between sm:items-center";
-                    const infoDiv = document.createElement("div"); infoDiv.className = "flex flex-col flex-grow";
-                    const nomeSpan = document.createElement("span"); nomeSpan.className = "font-semibold text-sky-400";
-                    nomeSpan.textContent = `${item.nome} (Rank ${item.rank})`; infoDiv.appendChild(nomeSpan);
-                    const efeitosSpan = document.createElement("span"); efeitosSpan.className = "text-xs text-slate-300 mt-1";
-                    if (item.isPotion) {
-                        efeitosSpan.textContent = item.descricao;
-                    } else {
-                        efeitosSpan.innerHTML = Object.entries(item.efeitos || {}).map(([chave, val]) => {
-                            let desc = "";
-                            switch (chave) {
-                                case "forca": desc = `+${val} Força`; break; case "agilidade": desc = `+${val} Agilidade`; break;
-                                case "inteligencia": desc = `+${val} Inteligência`; break; case "resistencia": desc = `+${val} Resistência`; break;
-                                case "vitalidade": desc = `+${val} Vitalidade`; break; case "percepcao": desc = `+${val} Percepção`; break;
-                                case "refinoMagico": desc = `+${val}% Refino Mágico`; break; default: desc = `<span class="math-inline">\{chave\}\: \+</span>{val}`;
-                            } return desc;
-                        }).join(", ");
-                    }
-                    infoDiv.appendChild(efeitosSpan); li.appendChild(infoDiv);
-                    const compraDiv = document.createElement("div");
-                    compraDiv.className = "flex items-center space-x-3 mt-3 sm:mt-0 flex-shrink-0";
-                    const precoSpan = document.createElement("span"); precoSpan.className = "font-semibold text-amber-300";
-                    precoSpan.textContent = `${item.preco} moedas`; compraDiv.appendChild(precoSpan);
-                    const checkbox = document.createElement("input"); checkbox.type = "checkbox";
-                    checkbox.className = "w-5 h-5 cursor-pointer form-checkbox text-sky-500 bg-slate-800 border-slate-500 focus:ring-sky-400";
-                    checkbox.checked = game.mercador.selecionados.has(item);
-                    checkbox.addEventListener("change", (e) => {
-                        if (e.target.checked) { game.mercador.selecionados.add(item); } else { game.mercador.selecionados.delete(item); }
-                        atualizarBotaoComprar();
-                    });
-                    compraDiv.appendChild(checkbox); li.appendChild(compraDiv); lista.appendChild(li);
-                });
-                atualizarBotaoComprar();
-            }
-
-            function atualizarBotaoComprar() {
-                const btn = document.getElementById("btn-comprar-mercador");
-                if (!btn) return;
-                if (game.mercador.selecionados.size === 0) {
-                    btn.disabled = true; btn.textContent = "Comprar Selecionados"; return;
-                }
-                let totalPreco = 0; game.mercador.selecionados.forEach(item => totalPreco += item.preco);
-                btn.disabled = totalPreco > game.player.moedas || totalPreco === 0;
-                btn.textContent = `Comprar (${totalPreco} moedas)`;
-            }
-
-            function comprarItensMercador() {
-                if (game.mercador.selecionados.size === 0) return;
-                let totalPreco = 0; const itensCompradosNomes = [];
-                game.mercador.selecionados.forEach(item => totalPreco += item.preco);
-                if (totalPreco > game.player.moedas) { alert("Você não tem moedas suficientes."); return; }
-                game.player.moedas -= totalPreco;
-                game.mercador.selecionados.forEach(item => {
-                    addItemToInventory(item); itensCompradosNomes.push(item.nome);
-                    game.mercador.itens = game.mercador.itens.filter(merchantItem => merchantItem !== item);
-                });
-                alert(`Você comprou: ${itensCompradosNomes.join(", ")} por ${totalPreco} moedas.`);
-                game.mercador.selecionados.clear();
-                atualizarTelaMercador();
-                atualizarStatusAtributos();
-                atualizarInventarioTela();
-                const mercadorBtn = document.getElementById("btn-mercador");
-                if (mercadorBtn) mercadorBtn.classList.add("hidden");
-                abrirInicio();
             }
 
             function abrirSkills() {

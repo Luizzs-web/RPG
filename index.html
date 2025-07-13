@@ -1072,15 +1072,15 @@
 
             const ITEM_RANKS = ["E", "D", "C", "B", "A", "S", "SS", "SSS"];
             const ITEM_BASE_PRICE = { E: 10, D: 25, C: 50, B: 100, A: 200, S: 400, SS: 600, SSS: 1000 };
-            const ITEM_ATRIBUTOS_POR_RANK = { 
-                E: { min: 8, max: 20 },     
-                D: { min: 21, max: 40 },     
-                C: { min: 41, max: 65 },    
-                B: { min: 66, max: 90 },    
-                A: { min: 91, max: 130 },   
-                S: { min: 131, max: 180 },  
-                SS: { min: 181, max: 250 },  
-                SSS: { min: 251, max: 350 }, 
+            const ITEM_ATRIBUTOS_POR_RANK = {
+                E: { min: 8, max: 20 },
+                D: { min: 21, max: 40 },
+                C: { min: 41, max: 65 },
+                B: { min: 66, max: 90 },
+                A: { min: 91, max: 130 },
+                S: { min: 131, max: 180 },
+                SS: { min: 181, max: 250 },
+                SSS: { min: 251, max: 350 },
             };
 
 
@@ -1505,7 +1505,7 @@
                 let subTipoArma = null;
 
                 if (tipoBase === "Arma" && rankDoItemASerGerado === "SSS" && monstroPermiteDropAtomic) {
-                    if (Math.random() < 0.05) { 
+                    if (Math.random() < 0.05) {
                         return {
                             id: crypto.randomUUID(), nome: "Atomic", tipo: "Arma", subTipoArma: "Atomic", rank: "SSS",
                             efeitos: { forca: 500, inteligencia: 500, vitalidade: 200 },
@@ -1551,7 +1551,8 @@
             }
 
             function toggleHeaderNavButtons(disable) {
-                const btnIds = ["btn-inicio", "btn-atributos", "btn-skills", "btn-inventario", "btn-sair", "btn-mercador"]; // Adicionado "btn-mercador"
+                const btnIds = ["btn-inicio", "btn-atributos", "btn-skills", "btn-inventario", "btn-sair", "btn-mercador"];
+
                 btnIds.forEach(id => {
                     const button = document.getElementById(id);
                     if (button) button.disabled = disable;
@@ -1574,7 +1575,7 @@
 
                 for (let i = 0; i < 10; i++) {
                     const rankSorteado = randomChoice(listaPonderada);
-                    const novoItem = gerarItem(rankSorteado, false); 
+                    const novoItem = gerarItem(rankSorteado, false);
 
                     novoItem.preco = Math.floor(novoItem.preco * (1.5 + Math.random()));
                     game.mercador.itens.push(novoItem);
@@ -1686,7 +1687,7 @@
                         const rankIndexMonstroBase = rankToIndex(monstro.rank);
                         for (let i = 0; i < numeroDeItensADropar; i++) {
 
-                            if (monstro.isBoss && Math.random() < 0.1) { 
+                            if (monstro.isBoss && Math.random() < 0.1) {
                                 const dedoAmaldicoado = {
                                     id: "dedo_amaldicoado",
                                     nome: "Dedo Amaldiçoado",
@@ -1694,11 +1695,11 @@
                                     rank: "B",
                                     descricao: "Um objeto de poder imenso e sinistro. Consumir para absorver seu poder.",
                                     isConsumable: true,
-                                    isUnique: true 
+                                    isUnique: true
                                 };
                                 addItemToInventory(dedoAmaldicoado);
                                 itensDropadosParaMensagem.push(`<span class="font-bold text-red-500">${dedoAmaldicoado.nome}</span>`);
-                                continue; 
+                                continue;
                             }
                             let itemRankForDropIndex = rankIndexMonstroBase;
                             if (!monstro.isBoss) {
@@ -1775,7 +1776,7 @@
                 const a = game.player.atributos;
                 let bonusPercentual = { forca: 0, agilidade: 0, inteligencia: 0, resistencia: 0, vitalidade: 0, percepcao: 0 };
 
-             
+
                 for (const slot in game.player.equipamento) {
                     const item = game.player.equipamento[slot];
                     if (item && item.efeitos) {
@@ -1787,7 +1788,7 @@
                     }
                 }
 
-           
+
                 const forcaFinal = a.forca * (1 + bonusPercentual.forca / 100);
                 const vitalidadeFinal = a.vitalidade * (1 + bonusPercentual.vitalidade / 100);
                 const inteligenciaFinal = a.inteligencia * (1 + bonusPercentual.inteligencia / 100);
@@ -1810,13 +1811,13 @@
                 game.player.currentReducaoDano = Math.min(reducaoCalculada, 80);
                 game.player.resistenciaPct = game.player.currentReducaoDano / 100;
 
-  
+
                 let bonusFuga = agilidadeFinal * 0.1;
-                game.player.currentChanceFuga = Math.min(bonusFuga, 50); 
+                game.player.currentChanceFuga = Math.min(bonusFuga, 50);
                 game.player.agilidadePctFuga = game.player.currentChanceFuga / 100;
 
                 let bonusEsquiva = percepcaoFinal * 0.1;
-                game.player.currentChanceEsquiva = Math.min(bonusEsquiva, 50); 
+                game.player.currentChanceEsquiva = Math.min(bonusEsquiva, 50);
                 game.player.percepcaoPct = game.player.currentChanceEsquiva / 100;
 
                 aplicarBuffs();
@@ -1883,10 +1884,10 @@
             function calcularGastoMana(skill) {
                 let custoBase;
 
-             
+
                 if (skill.id === 'h_tecnica_reversa') {
                     const custoInicialPercent = 0.70;
-                    const reducaoPorUso = 0.02; 
+                    const reducaoPorUso = 0.02;
                     const custoMinimoPercent = 0.25;
 
                     let custoAtualPercent = custoInicialPercent - (game.player.tecnicaReversaMastery * reducaoPorUso);
@@ -2040,12 +2041,7 @@
                 const saveButton = document.getElementById('btn-save-google');
                 const greetingSpan = document.getElementById('google-user-greeting');
 
-                const criticalGameState = game.batalha.emBatalha ||
-                    (game.dungeon && game.dungeon.isBossRoomConfirmation) ||
-                    game.estado === 'gameover' ||
-                    game.estado === 'batalha' ||
-                    game.estado === 'classeAtribuida' ||
-                    game.estado === 'necromancerUnlock';
+                const criticalGameState = game.batalha.emBatalha || game.estado === 'batalha';
 
                 if (isGoogleSignedIn && googleDecodedCredential) {
                     if (signInButtonContainer) signInButtonContainer.style.display = 'none';
@@ -2081,7 +2077,7 @@
                     game.dungeon = { active: false, name: "", typeRank: "E", totalRooms: 0, currentRoom: 0, monsterRankForRooms: "D", bossRankForDungeon: "C", bossDefeated: false, isBossRoomConfirmation: false };
                     game.batalha = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, isDesafioClasse: false, skillEmDesafioId: null, desafioBossOriginalStats: null, tipoDesafioLorde: null, jogadorAgiuNoTurno: false };
                     game.monstroAtual = null;
-                    game.estado = "characterSetup";
+                    game.estado = "inicio";
                 }
 
                 atualizarAtributosDerivados();
@@ -2102,6 +2098,7 @@
                     document.getElementById('main-content')?.classList.remove('hidden');
                     abrirInicio();
                 }
+
 
                 async function loadGameFromCloud(userId) {
                     console.log(`Tentando carregar jogo da nuvem para UID: ${userId}`);
@@ -2177,7 +2174,7 @@
                             } else {
                                 abrirInicio();
                             }
-                         
+
 
                         } else {
                             console.log("Nenhum save encontrado na nuvem para este usuário. Iniciando novo jogo (estado characterSetup).");
@@ -2520,7 +2517,7 @@
                 game.batalha.monstro = monstro;
                 game.batalha.isBossBattle = monstro.isBoss;
                 game.batalha.usedPlayerSkills = [];
-                game.batalha.playerSkillsSealed = false;  
+                game.batalha.playerSkillsSealed = false;
 
                 decrementarBuffs();
                 toggleHeaderNavButtons(true);
@@ -2921,14 +2918,14 @@
                     dano = (skill.danoBase || 0) + game.player.currentDanoMagico + Math.floor(game.player.manaMax * (skill.escalaMana || 0));
 
                     if (skill.efeito) {
-                 
+
                         switch (skill.efeito.tipo) {
                             case 'hk_chance_lower_rank':
                                 if (rankToIndex(monstro.rank) < rankToIndex(game.player.rank) && Math.random() < skill.efeito.chance) {
                                     danoTotal = monstro.vidaMax;
                                     efeitoMsg = ` e o <span class="font-bold text-red-600">DESMANTELA</span> da existência!`;
                                 } else {
-                                    danoTotal = dano; 
+                                    danoTotal = dano;
                                 }
                                 break;
 
@@ -2937,7 +2934,7 @@
                                     danoTotal = monstro.vidaMax;
                                     efeitoMsg += ` Um dos cortes foi perfeito e <span class="font-bold text-red-600">CLIVOU</span> o inimigo!`;
                                 } else {
-                                    danoTotal = dano; 
+                                    danoTotal = dano;
                                 }
                                 break;
 
@@ -2958,7 +2955,7 @@
                                     danoTotal = monstro.vidaMax;
                                     efeitoMsg = ` e o <span class="font-extrabold text-red-700">CORTE ATINGIU O MUNDO</span>, apagando o inimigo!`;
                                 } else {
-                                    danoTotal = 0; 
+                                    danoTotal = 0;
                                     efeitoMsg = `. O corte se perdeu, errando o alvo. Suas técnicas amaldiçoadas estão seladas!`;
                                     game.batalha.curseSkillsDisabled = true;
                                 }
@@ -3570,15 +3567,15 @@
                 const novoNome = nomeInput.value.trim();
                 if (novoNome) {
                     game.player.nome = novoNome;
-                    document.getElementById('player-battle-name').textContent = novoNome; 
+                    document.getElementById('player-battle-name').textContent = novoNome;
                 }
 
-            
+
                 if (portraitInput.files && portraitInput.files[0]) {
                     const reader = new FileReader();
                     reader.onload = function (e) {
                         const novaImagemSrc = e.target.result;
-                        game.player.portraitSrc = novaImagemSrc; 
+                        game.player.portraitSrc = novaImagemSrc;
                         document.getElementById('player-battle-portrait').src = novaImagemSrc;
                     };
                     reader.readAsDataURL(portraitInput.files[0]);
@@ -3631,24 +3628,25 @@
             window.onload = () => {
                 initializeAuthListener();
                 setupBattleButtonListeners();
-
+                document.getElementById('btn-firebase-google-login')?.addEventListener('click', signInWithGoogle);
+                document.getElementById('btn-signout-google')?.addEventListener('click', signOutFromFirebase);  
                 document.getElementById("btn-send-command")?.addEventListener("click", () => {
                     const commandInput = document.getElementById("chat-command-input");
                     if (commandInput && commandInput.value.trim() !== "") {
                         processChatCommand(commandInput.value);
                     }
                 });
-
+                document.getElementById('btn-save-character-setup')?.addEventListener('click', finalizarSetupPersonagem);
                 document.getElementById("chat-command-input")?.addEventListener("keypress", function (event) {
                     if (event.key === "Enter") {
-                        event.preventDefault(); 
-                        document.getElementById("btn-send-command").click(); 
+                        event.preventDefault();
+                        document.getElementById("btn-send-command").click();
                     }
                 });
                 document.getElementById("btn-atributos")?.addEventListener("click", abrirAtributos);
                 document.getElementById("btn-skills")?.addEventListener("click", abrirSkills);
                 document.getElementById("btn-inventario")?.addEventListener("click", abrirInventario);
-                document.getElementById("btn-mercador")?.addEventListener("click", abrirMercador); 
+                document.getElementById("btn-mercador")?.addEventListener("click", abrirMercador);
                 document.getElementById("btn-sair")?.addEventListener("click", sairJogo);
 
                 document.getElementById("btn-inicio")?.addEventListener("click", abrirInicio);
@@ -3779,7 +3777,7 @@
                                     abrirInicio();
                                 } else {
                                     mostrarMensagem(`Seu Recipiente de Sombras está cheio (${game.player.recipienteSombras.length}/${game.player.recipienteCapacity}). Não foi possível extrair a sombra. Mana não gasta.`);
-                                    game.player.manaAtual += manaCost; 
+                                    game.player.manaAtual += manaCost;
                                     abrirInicio();
                                 }
                             } else {
@@ -3822,8 +3820,8 @@
                 const agora = Date.now();
 
                 if (proximaAtualizacaoLoja === 0 || agora > proximaAtualizacaoLoja) {
-                    gerarItensDaLoja(); 
-                    proximaAtualizacaoLoja = agora + TEMPO_ATUALIZACAO_LOJA; 
+                    gerarItensDaLoja();
+                    proximaAtualizacaoLoja = agora + TEMPO_ATUALIZACAO_LOJA;
                     alert("O mercador reabasteceu seu estoque!");
                 }
 
@@ -4068,7 +4066,7 @@
 
                     if (game.player.classe !== "Rei das Maldições") {
                         game.player.classe = "Rei das Maldições";
-                        game.player.magiasAdquiridas = []; 
+                        game.player.magiasAdquiridas = [];
                         game.player.magiasEquipadas = [];
                         alert("Seu corpo treme ao absorver o poder! Sua classe agora é Rei das Maldições!");
                     }
@@ -4361,7 +4359,7 @@
                         });
                         btnDiv.appendChild(btnEquipar);
                     } else if (isAcquired && (isPassive || skill.isChant)) {
-                        // Adiciona um texto para indicar que a habilidade especial está ativa/disponível
+                       
                         const specialSpan = document.createElement("span");
                         specialSpan.className = "text-xs italic text-amber-300 px-3 py-1.5";
                         specialSpan.textContent = skill.isChant ? "Encantamento (Automático)" : "Passiva (Sempre Ativa)";

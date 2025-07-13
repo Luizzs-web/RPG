@@ -2082,6 +2082,7 @@
 
                 atualizarAtributosDerivados();
                 atualizarRank();
+                atualizarInventarioTela();
                 atualizarStatusAtributos();
                 atualizarRecipienteSombrasTela();
                 updateGoogleSignInUI();
@@ -2522,6 +2523,7 @@
                 decrementarBuffs();
                 toggleHeaderNavButtons(true);
                 toggleChatInput(true);
+                document.getElementById("btn-mercador")?.classList.add("hidden");
 
                 let msg = `Você encontrou: <span class="font-bold text-rose-400">${monstro.nome}</span> (Rank ${monstro.rank}).`;
                 if (game.dungeon.active && !monstro.isBoss) {
@@ -3629,7 +3631,7 @@
                 initializeAuthListener();
                 setupBattleButtonListeners();
                 document.getElementById('btn-firebase-google-login')?.addEventListener('click', signInWithGoogle);
-                document.getElementById('btn-signout-google')?.addEventListener('click', signOutFromFirebase);  
+                document.getElementById('btn-signout-google')?.addEventListener('click', signOutFromFirebase);
                 document.getElementById("btn-send-command")?.addEventListener("click", () => {
                     const commandInput = document.getElementById("chat-command-input");
                     if (commandInput && commandInput.value.trim() !== "") {
@@ -3717,7 +3719,91 @@
                 abrirInicio();
             }
 
+            function gerarEquipamentoInicial(tipo, rank = 'E') {
+                const prefixo = "Recruta";
+                const nomeItem = `${prefixo} ${tipo}`;
+                const efeitos = {};
+                const { min, max } = ITEM_ATRIBUTOS_POR_RANK[rank];
+                const pontos = randomInt(min, max);
 
+                const atributosPossiveis = SLOT_EFEITOS[tipo];
+                if (atributosPossiveis) {
+                    efeitos[atributosPossiveis[0]] = pontos;
+                }
+
+                let subTipo = null;
+                if (tipo === "Arma") subTipo = "Espada";
+
+                return {
+                    id: crypto.randomUUID(),
+                    nome: nomeItem,
+                    tipo: tipo,
+                    subTipoArma: subTipo,
+                    rank: rank,
+                    efeitos: efeitos,
+                    preco: ITEM_BASE_PRICE[rank],
+                    isPotion: false
+                };
+            }
+            function createNewPlayerState() {
+                let player = {
+                    nome: "Herói",
+                    classe: null,
+                    nivel: 1,
+                    xp: 0,
+                    xpProximoNivel: 100,
+                    rank: "E",
+                    atributos: { ...BASE_STATS },
+                    pontosDistribuir: 10,
+                    attributeAddAmount: 1,
+                    lowHpVictories: 0,
+                    dedosConsumidos: 0,
+                    tecnicaReversaMastery: 0,
+                    vidaMax: BASE_HP,
+                    vidaAtual: BASE_HP,
+                    manaMax: BASE_MANA,
+                    manaAtual: BASE_MANA,
+                    danoFisicoBase: BASE_DANO_FISICO,
+                    danoMagicoBase: BASE_DANO_MAGICO,
+                    resistenciaPct: BASE_RESISTENCIA,
+                    refinoMagicoPct: 0,
+                    percepcaoPct: 0,
+                    agilidadePctFuga: 0,
+                    forcaPctDano: 0,
+                    isMarcado: false,
+                    isMonarcaDasSombras: false,
+                    inventario: [],
+                    equipamento: { capacete: null, peitoral: null, calca: null, botas: null, arma: null, escudo: null, anel: null, colar: null },
+                    moedas: 100,
+                    rodadas: 0,
+                    xpBonus: XP_BONUS_GLOBAL,
+                    magiasAdquiridas: [],
+                    magiasEquipadas: [],
+                    currentArea: "E",
+                    currentDanoFisico: BASE_DANO_FISICO,
+                    currentReducaoDano: BASE_RESISTENCIA,
+                    currentChanceFuga: 0,
+                    currentChanceEsquiva: 0,
+                    currentDanoMagico: BASE_DANO_MAGICO,
+                    activeBuffs: [],
+                    recipienteSombras: [],
+                    sombraAtiva: null,
+                    maxActiveShadows: 1,
+                    recipienteCapacity: 10,
+                    lastDefeatedMonsterInfo: null,
+                    metLordeDaMorte: false,
+                    vitalidadeBonusVida: 0,
+                    inteligenciaBonusMana: 0,
+                };
+
+                player.equipamento.capacete = gerarEquipamentoInicial("Capacete");
+                player.equipamento.peitoral = gerarEquipamentoInicial("Peitoral");
+                player.equipamento.calca = gerarEquipamentoInicial("Calça");
+                player.equipamento.botas = gerarEquipamentoInicial("Botas");
+                player.equipamento.arma = gerarEquipamentoInicial("Arma");
+
+                return player;
+            }
 
             function abrirInicio() {
                 toggleHeaderNavButtons(false);
@@ -3726,6 +3812,7 @@
                 game.dungeon.active = false;
                 game.dungeon.isBossRoomConfirmation = false;
                 game.batalha.isBossBattle = false;
+                document.getElementById("btn-mercador")?.classList.remove("hidden");
 
                 if (!game.batalha.emBatalha) {
                     game.player.activeBuffs = [];
@@ -4359,7 +4446,7 @@
                         });
                         btnDiv.appendChild(btnEquipar);
                     } else if (isAcquired && (isPassive || skill.isChant)) {
-                       
+
                         const specialSpan = document.createElement("span");
                         specialSpan.className = "text-xs italic text-amber-300 px-3 py-1.5";
                         specialSpan.textContent = skill.isChant ? "Encantamento (Automático)" : "Passiva (Sempre Ativa)";

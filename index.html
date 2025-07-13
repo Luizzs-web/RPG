@@ -703,7 +703,7 @@
         <div id="lista-skills" class="rounded-lg p-4 max-h-[450px] overflow-y-auto space-y-4">
         </div>
         <p class="mt-4 text-sm italic">Habilidades são desbloqueadas ao atingir certos níveis após sua classe
-            ser definida. Você pode equipar até 4 habilidades.</p>
+            ser definida. Você pode equipar até 10 habilidades.</p>
     </section>
 
     <section id="inventario-screen" class="max-w-4xl mx-auto space-y-6 hidden">
@@ -769,7 +769,7 @@
 
     <section id="mercador-screen" class="max-w-4xl mx-auto space-y-6 hidden">
         <h2 class="text-2xl font-bold mb-4">Mercador</h2>
-        <p class="mb-4">O mercador aparece a cada 5 níveis e oferece itens para venda.</p>
+        <p class="mb-4">O mercador atualiza a cada 30 e oferece itens para venda.</p>
         <div class="bg-slate-700 rounded-lg p-4 max-h-[400px] overflow-y-auto">
             <ul id="lista-mercador" class="space-y-4"></ul>
         </div>
@@ -868,9 +868,9 @@
                 "Nenhuma": {
                     nomeDisplay: "Desarmado",
                     habilidades: [
-                        { id: "desarmado_soco", nome: "Soco Certeiro", descricao: "Um soco rápido no alvo.", danoMultiplicador: 0.8, custoMana: 0, rank: "E" },
-                        { id: "desarmado_chute", nome: "Chute Baixo", descricao: "Um chute nas pernas do inimigo.", danoMultiplicador: 1.0, custoMana: 0, rank: "E" },
-                        { id: "desarmado_empurrao", nome: "Empurrão", descricao: "Tenta desequilibrar o alvo, causando pouco dano.", danoMultiplicador: 0.5, custoMana: 0, rank: "E" }
+                        { id: "desarmado_soco", nome: "Soco Certeiro", descricao: "Um soco rápido no alvo.", danoMultiplicador: 1.0, custoMana: 0, rank: "E" },
+                        { id: "desarmado_chute", nome: "Chute Baixo", descricao: "Um chute nas pernas do inimigo.", danoMultiplicador: 1.3, custoMana: 0, rank: "E" },
+                        { id: "desarmado_empurrao", nome: "Empurrão", descricao: "Tenta desequilibrar o alvo, causando pouco dano.", danoMultiplicador: 0.9, custoMana: 0, rank: "E" }
                     ]
                 },
                 "Espada": {
@@ -1118,61 +1118,6 @@
                 "A": { name: "Abismo Infernal", roomsMin: 8, roomsMax: 10, monsterRank: "S", bossRank: "SS", bossBaseStats: { vidaMin: 9000, vidaMax: 14000, danoMin: 1000, danoMax: 1400, xpMin: 20000, xpMax: 35000 }, lordeDaMorteChance: 1 },
                 "S": { name: "Domínio Celestial Despedaçado", roomsMin: 9, roomsMax: 12, monsterRank: "SS", bossRank: "SSS", bossBaseStats: { vidaMin: 15000, vidaMax: 23000, danoMin: 1500, danoMax: 2300, xpMin: 40000, xpMax: 60000 }, lordeDaMorteChance: 1.5 }
             };
-            function gerarEquipamentoInicial(tipo, rank = 'E') {
-                const prefixo = "de Recruta";
-                const nomeItem = `${tipo} ${prefixo}`;
-                const efeitos = {};
-                const { min, max } = ITEM_ATRIBUTOS_POR_RANK[rank];
-                const pontos = randomInt(min, max);
-
-                const atributosPossiveis = SLOT_EFEITOS[tipo];
-                if (atributosPossiveis) {
-                    efeitos[atributosPossiveis[0]] = pontos;
-                }
-
-                let subTipo = null;
-                if (tipo === "Arma") subTipo = "Espada"; // Arma inicial padrão
-
-                return {
-                    id: crypto.randomUUID(),
-                    nome: nomeItem,
-                    tipo: tipo,
-                    subTipoArma: subTipo,
-                    rank: rank,
-                    efeitos: efeitos,
-                    preco: ITEM_BASE_PRICE[rank],
-                    isPotion: false
-                };
-            }
-
-            function createNewPlayerState() {
-                let player = {
-                    nome: "Herói",
-                    classe: null,
-                    nivel: 1,
-                    xp: 0,
-                    xpProximoNivel: 100,
-                    rank: "E",
-                    atributos: { ...BASE_STATS },
-                    pontosDistribuir: 10,
-                    attributeAddAmount: 1,
-                    vidaMax: BASE_HP,
-                    vidaAtual: BASE_HP,
-                    manaMax: BASE_MANA,
-                    manaAtual: BASE_MANA,
-                    inventario: [],
-                    equipamento: { capacete: null, peitoral: null, calca: null, botas: null, arma: null, escudo: null, anel: null, colar: null },
-                    moedas: 100,
-                };
-
-                player.equipamento.capacete = gerarEquipamentoInicial("Capacete");
-                player.equipamento.peitoral = gerarEquipamentoInicial("Peitoral");
-                player.equipamento.calca = gerarEquipamentoInicial("Calça");
-                player.equipamento.botas = gerarEquipamentoInicial("Botas");
-                player.equipamento.arma = gerarEquipamentoInicial("Arma");
-
-                return player;
-            }
 
             function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
             function randomChoice(arr) { return arr[randomInt(0, arr.length - 1)]; }
@@ -1606,8 +1551,7 @@
             }
 
             function toggleHeaderNavButtons(disable) {
-                const btnIds = ["btn-inicio", "btn-atributos", "btn-skills", "btn-inventario", "btn-sair", "btn-mercador"];
-
+                const btnIds = ["btn-inicio", "btn-atributos", "btn-skills", "btn-inventario", "btn-sair", "btn-mercador"]; // Adicionado "btn-mercador"
                 btnIds.forEach(id => {
                     const button = document.getElementById(id);
                     if (button) button.disabled = disable;
@@ -1851,6 +1795,7 @@
                 const resistenciaFinal = a.resistencia * (1 + bonusPercentual.resistencia / 100);
                 const percepcaoFinal = a.percepcao * (1 + bonusPercentual.percepcao / 100);
 
+                // 3. Aplica os cálculos aos status do jogador
                 game.player.vidaMax = Math.floor(BASE_HP * (1 + vitalidadeFinal * 0.05));
                 game.player.vidaAtual = Math.min(game.player.vidaAtual, game.player.vidaMax);
                 game.player.vitalidadeBonusVida = game.player.vidaMax - BASE_HP;
@@ -1862,17 +1807,21 @@
                 game.player.currentDanoFisico = Math.floor(BASE_DANO_FISICO * (1 + forcaFinal * 0.0799));
                 game.player.currentDanoMagico = Math.floor(BASE_DANO_MAGICO * (1 + inteligenciaFinal * 0.06999));
 
+                // *** ATRIBUTOS SECUNDÁRIOS REBALANCEADOS E COM LIMITE ***
+
+                // Resistência: Cada ponto agora dá 0.1% de redução de dano.
                 let reducaoCalculada = resistenciaFinal * 0.1;
-                game.player.currentReducaoDano = Math.min(reducaoCalculada, 80);
+                game.player.currentReducaoDano = Math.min(reducaoCalculada, 80); // Limite de 80% para não ficar imortal
                 game.player.resistenciaPct = game.player.currentReducaoDano / 100;
 
-
+                // Fuga: Cada ponto de agilidade dá 0.1% de chance bônus de fuga, com limite de 50%.
                 let bonusFuga = agilidadeFinal * 0.1;
-                game.player.currentChanceFuga = Math.min(bonusFuga, 50);
+                game.player.currentChanceFuga = Math.min(bonusFuga, 50); // Cap em 50%
                 game.player.agilidadePctFuga = game.player.currentChanceFuga / 100;
 
+                // Esquiva: Cada ponto de percepção dá 0.1% de chance de esquiva, com limite de 50%.
                 let bonusEsquiva = percepcaoFinal * 0.1;
-                game.player.currentChanceEsquiva = Math.min(bonusEsquiva, 50);
+                game.player.currentChanceEsquiva = Math.min(bonusEsquiva, 50); // Cap em 50%
                 game.player.percepcaoPct = game.player.currentChanceEsquiva / 100;
 
                 aplicarBuffs();
@@ -1939,19 +1888,21 @@
             function calcularGastoMana(skill) {
                 let custoBase;
 
-
+                // Lógica especial para maestria da Técnica Reversa
                 if (skill.id === 'h_tecnica_reversa') {
                     const custoInicialPercent = 0.70;
-                    const reducaoPorUso = 0.02;
+                    const reducaoPorUso = 0.02; // Reduz 2% do custo a cada uso
                     const custoMinimoPercent = 0.25;
 
                     let custoAtualPercent = custoInicialPercent - (game.player.tecnicaReversaMastery * reducaoPorUso);
                     custoBase = game.player.manaMax * Math.max(custoMinimoPercent, custoAtualPercent);
 
                 } else {
+                    // Lógica padrão para todas as outras habilidades
                     custoBase = skill.manaBase || 0;
                 }
 
+                // Aplica o buff dos Seis Olhos, se aplicável
                 const seisOlhos = game.player.magiasAdquiridas.includes("h_rokugan");
                 if (seisOlhos) {
                     custoBase *= 0.5;
@@ -2096,7 +2047,12 @@
                 const saveButton = document.getElementById('btn-save-google');
                 const greetingSpan = document.getElementById('google-user-greeting');
 
-                const criticalGameState = game.batalha.emBatalha || game.estado === 'batalha';
+                const criticalGameState = game.batalha.emBatalha ||
+                    (game.dungeon && game.dungeon.isBossRoomConfirmation) ||
+                    game.estado === 'gameover' ||
+                    game.estado === 'batalha' ||
+                    game.estado === 'classeAtribuida' ||
+                    game.estado === 'necromancerUnlock';
 
                 if (isGoogleSignedIn && googleDecodedCredential) {
                     if (signInButtonContainer) signInButtonContainer.style.display = 'none';
@@ -2121,135 +2077,178 @@
                 }
             }
 
-            async function loadGameFromCloud(userId) {
-                console.log(`Tentando carregar jogo da nuvem para UID: ${userId}`);
-                const docRef = db.collection("userSaves").doc(userId);
-                let gameJustLoadedFromCloud = false;
 
-                try {
-                    const doc = await docRef.get();
-                    if (doc.exists) {
-                        const loadedGameData = doc.data();
-                        console.log("Dados do jogo carregados da nuvem:", JSON.parse(JSON.stringify(loadedGameData)));
+            function iniciarJogo(forceReset = false) {
+                if (forceReset && currentFirebaseUser) {
+                    deleteGameFromCloud(currentFirebaseUser.uid);
+                }
 
-                        const defaultPlayerState = createNewPlayerState();
-                        const loadedPlayer = loadedGameData.player || {};
-                        game.player = { ...defaultPlayerState, ...loadedPlayer };
-                        game.player.atributos = { ...defaultPlayerState.atributos, ...(loadedPlayer.atributos || {}) };
-                        game.player.equipamento = { ...defaultPlayerState.equipamento, ...(loadedPlayer.equipamento || {}) };
-
-                        game.player.inventario = loadedPlayer.inventario || defaultPlayerState.inventario;
-                        game.player.magiasAdquiridas = loadedPlayer.magiasAdquiridas || defaultPlayerState.magiasAdquiridas;
-                        game.player.magiasEquipadas = loadedPlayer.magiasEquipadas || defaultPlayerState.magiasEquipadas;
-                        game.player.activeBuffs = loadedPlayer.activeBuffs || defaultPlayerState.activeBuffs;
-                        game.player.recipienteSombras = loadedPlayer.recipienteSombras || defaultPlayerState.recipienteSombras;
-
-                        const defaultDungeonState = { active: false, name: "", typeRank: "E", totalRooms: 0, currentRoom: 0, monsterRankForRooms: "D", bossRankForDungeon: "C", bossDefeated: false, isBossRoomConfirmation: false };
-                        game.dungeon = { ...defaultDungeonState, ...(loadedGameData.dungeon || {}) };
-
-                        const defaultBattleState = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, isDesafioClasse: false, skillEmDesafioId: null, desafioBossOriginalStats: null, tipoDesafioLorde: null, jogadorAgiuNoTurno: false };
-                        game.batalha = { ...defaultBattleState, ...(loadedGameData.batalha || {}) };
-
-                        if (game.batalha.emBatalha && loadedGameData.batalha?.monstro) {
-                            game.monstroAtual = loadedGameData.batalha.monstro;
-                        } else {
-                            game.monstroAtual = null;
-                        }
-
-
-                        game.estado = loadedGameData.estado || "inicio";
-                        game.mundo = loadedGameData.mundo || "Arkham";
-
-                        const defaultMerchantState = { itens: [], selecionados: new Set() };
-                        game.mercador = { ...defaultMerchantState, ...(loadedGameData.mercador || {}) };
-                        if (loadedGameData.mercador && loadedGameData.mercador.selecionados && Array.isArray(loadedGameData.mercador.selecionados)) {
-                            game.mercador.selecionados = new Set(loadedGameData.mercador.selecionados);
-                        } else {
-                            game.mercador.selecionados = new Set();
-                        }
-
-
-                        console.log("Estado do jogo após carregar e mesclar:", JSON.parse(JSON.stringify(game)));
-
-                        gameJustLoadedFromCloud = true;
-                        atualizarAtributosDerivados();
-                        atualizarRank();
-                        atualizarStatusAtributos();
-                        atualizarInventarioTela();
-                        atualizarSkillsTela();
-                        atualizarRecipienteSombrasTela();
-                        updateGoogleSignInUI();
-
-                        if (game.batalha.emBatalha && game.monstroAtual) {
-                            iniciarBatalha(game.monstroAtual);
-                        } else if (game.dungeon.active) {
-                            mostrarMensagem(`Continuando na ${game.dungeon.name}, sala ${game.dungeon.currentRoom + 1}/${game.dungeon.totalRooms}.`);
-                            if (game.dungeon.isBossRoomConfirmation) {
-                                avancarSalaMasmorra();
-                            } else {
-                                adicionarEscolha("Avançar para próxima sala", avancarSalaMasmorra);
-                                adicionarEscolha("Tentar fugir da masmorra", () => fugirDaMasmorra(false));
-                                toggleHeaderNavButtons(true);
-                                toggleChatInput(true);
-                            }
-                        } else {
-                            abrirInicio();
-                        }
-
-
-                    } else {
-                        console.log("Nenhum save encontrado na nuvem para este usuário. Iniciando novo jogo (estado characterSetup).");
-                        game.estado = "characterSetup";
-                        iniciarJogo(true);
-                    }
-                } catch (error) {
-                    console.error("Erro ao carregar jogo da nuvem:", error);
-                    alert("Erro ao carregar seu progresso da nuvem. Iniciando um novo jogo local. Detalhes: " + error.message);
+                // Se for um reset ou não houver usuário, cria um novo estado de jogo
+                if (forceReset || !currentFirebaseUser) {
+                    game.player = createNewPlayerState();
+                    game.dungeon = { active: false, name: "", typeRank: "E", totalRooms: 0, currentRoom: 0, monsterRankForRooms: "D", bossRankForDungeon: "C", bossDefeated: false, isBossRoomConfirmation: false };
+                    game.batalha = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, isDesafioClasse: false, skillEmDesafioId: null, desafioBossOriginalStats: null, tipoDesafioLorde: null, jogadorAgiuNoTurno: false };
+                    game.monstroAtual = null;
+                    // Define o estado inicial para a criação do personagem
                     game.estado = "characterSetup";
-                    iniciarJogo(false);
+                }
+
+                // Atualiza todos os dados derivados e a UI
+                atualizarAtributosDerivados();
+                atualizarRank();
+                atualizarStatusAtributos();
+                atualizarRecipienteSombrasTela();
+                updateGoogleSignInUI();
+
+                // Lógica para decidir qual tela mostrar
+                if (game.estado === "characterSetup") {
+                    document.getElementById('main-content')?.classList.add('hidden');
+                    document.getElementById('character-setup-screen')?.classList.remove('hidden');
+                    const playerNameInput = document.getElementById('player-name-input');
+                    if (playerNameInput) playerNameInput.value = game.player.nome;
+                    toggleHeaderNavButtons(true);
+                    toggleChatInput(true);
+                } else {
+                    // Se o jogo já começou, vai para a tela de início
+                    document.getElementById('character-setup-screen')?.classList.add('hidden');
+                    document.getElementById('main-content')?.classList.remove('hidden');
+                    abrirInicio();
+                }
+
+                async function loadGameFromCloud(userId) {
+                    console.log(`Tentando carregar jogo da nuvem para UID: ${userId}`);
+                    const docRef = db.collection("userSaves").doc(userId);
+                    let gameJustLoadedFromCloud = false;
+
+                    try {
+                        const doc = await docRef.get();
+                        if (doc.exists) {
+                            const loadedGameData = doc.data();
+                            console.log("Dados do jogo carregados da nuvem:", JSON.parse(JSON.stringify(loadedGameData)));
+
+                            const defaultPlayerState = createNewPlayerState();
+                            const loadedPlayer = loadedGameData.player || {};
+                            game.player = { ...defaultPlayerState, ...loadedPlayer };
+                            game.player.atributos = { ...defaultPlayerState.atributos, ...(loadedPlayer.atributos || {}) };
+                            game.player.equipamento = { ...defaultPlayerState.equipamento, ...(loadedPlayer.equipamento || {}) };
+
+                            game.player.inventario = loadedPlayer.inventario || defaultPlayerState.inventario;
+                            game.player.magiasAdquiridas = loadedPlayer.magiasAdquiridas || defaultPlayerState.magiasAdquiridas;
+                            game.player.magiasEquipadas = loadedPlayer.magiasEquipadas || defaultPlayerState.magiasEquipadas;
+                            game.player.activeBuffs = loadedPlayer.activeBuffs || defaultPlayerState.activeBuffs;
+                            game.player.recipienteSombras = loadedPlayer.recipienteSombras || defaultPlayerState.recipienteSombras;
+
+                            const defaultDungeonState = { active: false, name: "", typeRank: "E", totalRooms: 0, currentRoom: 0, monsterRankForRooms: "D", bossRankForDungeon: "C", bossDefeated: false, isBossRoomConfirmation: false };
+                            game.dungeon = { ...defaultDungeonState, ...(loadedGameData.dungeon || {}) };
+
+                            const defaultBattleState = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, isDesafioClasse: false, skillEmDesafioId: null, desafioBossOriginalStats: null, tipoDesafioLorde: null, jogadorAgiuNoTurno: false };
+                            game.batalha = { ...defaultBattleState, ...(loadedGameData.batalha || {}) };
+
+                            if (game.batalha.emBatalha && loadedGameData.batalha?.monstro) {
+                                game.monstroAtual = loadedGameData.batalha.monstro;
+                            } else {
+                                game.monstroAtual = null;
+                            }
+
+
+                            game.estado = loadedGameData.estado || "inicio";
+                            game.mundo = loadedGameData.mundo || "Arkham";
+
+                            const defaultMerchantState = { itens: [], selecionados: new Set() };
+                            game.mercador = { ...defaultMerchantState, ...(loadedGameData.mercador || {}) };
+                            if (loadedGameData.mercador && loadedGameData.mercador.selecionados && Array.isArray(loadedGameData.mercador.selecionados)) {
+                                game.mercador.selecionados = new Set(loadedGameData.mercador.selecionados);
+                            } else {
+                                game.mercador.selecionados = new Set();
+                            }
+
+
+                            console.log("Estado do jogo após carregar e mesclar:", JSON.parse(JSON.stringify(game)));
+
+                            gameJustLoadedFromCloud = true;
+                            atualizarAtributosDerivados();
+                            atualizarRank();
+                            atualizarStatusAtributos();
+                            atualizarInventarioTela();
+                            atualizarSkillsTela();
+                            atualizarRecipienteSombrasTela();
+                            updateGoogleSignInUI();
+
+                            // --- BLOCO CORRIGIDO ---
+                            if (game.batalha.emBatalha && game.monstroAtual) {
+                                // Se o jogo foi salvo no meio de uma batalha, reinicia a batalha.
+                                iniciarBatalha(game.monstroAtual);
+                            } else if (game.dungeon.active) {
+                                // Se o jogo foi salvo dentro de uma masmorra, continua de onde parou.
+                                mostrarMensagem(`Continuando na ${game.dungeon.name}, sala ${game.dungeon.currentRoom + 1}/${game.dungeon.totalRooms}.`);
+                                if (game.dungeon.isBossRoomConfirmation) {
+                                    avancarSalaMasmorra();
+                                } else {
+                                    adicionarEscolha("Avançar para próxima sala", avancarSalaMasmorra);
+                                    adicionarEscolha("Tentar fugir da masmorra", () => fugirDaMasmorra(false));
+                                    toggleHeaderNavButtons(true);
+                                    toggleChatInput(true);
+                                }
+                            } else {
+                                // Para todos os outros casos (inclusive estado 'inicio'), chama abrirInicio().
+                                // Isso garante que o botão da loja sempre será exibido.
+                                abrirInicio();
+                            }
+                            // --- FIM DO BLOCO CORRIGIDO ---
+
+                        } else {
+                            console.log("Nenhum save encontrado na nuvem para este usuário. Iniciando novo jogo (estado characterSetup).");
+                            game.estado = "characterSetup";
+                            iniciarJogo(true);
+                        }
+                    } catch (error) {
+                        console.error("Erro ao carregar jogo da nuvem:", error);
+                        alert("Erro ao carregar seu progresso da nuvem. Iniciando um novo jogo local. Detalhes: " + error.message);
+                        game.estado = "characterSetup";
+                        iniciarJogo(false);
+                    }
+                }
+
+                async function saveGameToCloud() {
+                    if (!currentFirebaseUser) {
+                        alert("Você precisa estar conectado com o Google para salvar na nuvem.");
+                        return;
+                    }
+                    if (game.batalha.emBatalha || (game.dungeon && game.dungeon.isBossRoomConfirmation)) {
+                        alert("Você não pode salvar o jogo durante uma batalha ou confirmação de chefe de masmorra.");
+                        return;
+                    }
+
+                    console.log("Tentando salvar jogo na nuvem...");
+                    const gameDataToSave = {
+                        player: JSON.parse(JSON.stringify(game.player)),
+                        dungeon: JSON.parse(JSON.stringify(game.dungeon)),
+                        batalha: JSON.parse(JSON.stringify(game.batalha)),
+                        estado: game.estado,
+                        mundo: game.mundo,
+                        monstroAtual: JSON.parse(JSON.stringify(game.monstroAtual)),
+                        mercador: {
+                            itens: JSON.parse(JSON.stringify(game.mercador.itens)),
+                            selecionados: Array.from(game.mercador.selecionados)
+                        }
+                    };
+                    if (gameDataToSave.batalha) {
+                        if (!gameDataToSave.batalha.emBatalha) {
+                            gameDataToSave.batalha.monstro = null;
+                            gameDataToSave.batalha.isBossBattle = false;
+                        }
+                    }
+
+                    try {
+                        await db.collection("userSaves").doc(currentFirebaseUser.uid).set(gameDataToSave);
+                        console.log("Jogo salvo na nuvem com sucesso!");
+                        alert("Seu progresso foi salvo na nuvem!");
+                    } catch (error) {
+                        console.error("Erro ao salvar jogo na nuvem:", error);
+                        alert("Falha ao salvar o progresso na nuvem: " + error.message);
+                    }
                 }
             }
-
-            async function saveGameToCloud() {
-                if (!currentFirebaseUser) {
-                    alert("Você precisa estar conectado com o Google para salvar na nuvem.");
-                    return;
-                }
-                if (game.batalha.emBatalha || (game.dungeon && game.dungeon.isBossRoomConfirmation)) {
-                    alert("Você não pode salvar o jogo durante uma batalha ou confirmação de chefe de masmorra.");
-                    return;
-                }
-
-                console.log("Tentando salvar jogo na nuvem...");
-                const gameDataToSave = {
-                    player: JSON.parse(JSON.stringify(game.player)),
-                    dungeon: JSON.parse(JSON.stringify(game.dungeon)),
-                    batalha: JSON.parse(JSON.stringify(game.batalha)),
-                    estado: game.estado,
-                    mundo: game.mundo,
-                    monstroAtual: JSON.parse(JSON.stringify(game.monstroAtual)),
-                    mercador: {
-                        itens: JSON.parse(JSON.stringify(game.mercador.itens)),
-                        selecionados: Array.from(game.mercador.selecionados)
-                    }
-                };
-                if (gameDataToSave.batalha) {
-                    if (!gameDataToSave.batalha.emBatalha) {
-                        gameDataToSave.batalha.monstro = null;
-                        gameDataToSave.batalha.isBossBattle = false;
-                    }
-                }
-
-                try {
-                    await db.collection("userSaves").doc(currentFirebaseUser.uid).set(gameDataToSave);
-                    console.log("Jogo salvo na nuvem com sucesso!");
-                    alert("Seu progresso foi salvo na nuvem!");
-                } catch (error) {
-                    console.error("Erro ao salvar jogo na nuvem:", error);
-                    alert("Falha ao salvar o progresso na nuvem: " + error.message);
-                }
-            }
-
             async function deleteGameFromCloud(userId) {
                 if (!userId) return;
                 console.log(`Tentando deletar save da nuvem para UID: ${userId}`);
@@ -2260,43 +2259,6 @@
                     console.error("Erro ao deletar save da nuvem:", error);
                 }
             }
-
-            function iniciarJogo(forceReset = false) {
-                if (forceReset && currentFirebaseUser) {
-                    deleteGameFromCloud(currentFirebaseUser.uid);
-                }
-
-                if (forceReset || !currentFirebaseUser) {
-                    game.player = createNewPlayerState();
-                    game.dungeon = { active: false, name: "", typeRank: "E", totalRooms: 0, currentRoom: 0, monsterRankForRooms: "D", bossRankForDungeon: "C", bossDefeated: false, isBossRoomConfirmation: false };
-                    game.batalha = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, isDesafioClasse: false, skillEmDesafioId: null, desafioBossOriginalStats: null, tipoDesafioLorde: null, jogadorAgiuNoTurno: false };
-                    game.monstroAtual = null;
-                    game.estado = "inicio";
-                }
-
-                atualizarAtributosDerivados();
-                atualizarRank();
-                atualizarInventarioTela();
-                atualizarStatusAtributos();
-                atualizarRecipienteSombrasTela();
-                updateGoogleSignInUI();
-
-                if (game.estado === "characterSetup") {
-                    document.getElementById('main-content')?.classList.add('hidden');
-                    document.getElementById('character-setup-screen')?.classList.remove('hidden');
-                    const playerNameInput = document.getElementById('player-name-input');
-                    if (playerNameInput) playerNameInput.value = game.player.nome;
-                    toggleHeaderNavButtons(true);
-                    toggleChatInput(true);
-                } else {
-                    document.getElementById('character-setup-screen')?.classList.add('hidden');
-                    document.getElementById('main-content')?.classList.remove('hidden');
-                    abrirInicio();
-                }
-
-
-            }
-
             function initializeAuthListener() {
                 auth.onAuthStateChanged((user) => {
                     if (user) {
@@ -2386,10 +2348,13 @@
 
                 const novasSkillsMsgs = [];
                 classeData.habilidades.forEach(skill => {
+                    // CORREÇÃO: Verifica se o nível da skill é MENOR OU IGUAL ao do jogador,
+                    // em vez de estritamente igual. Isso garante que todas as skills devidas sejam concedidas.
                     if (skill.unlockLevel <= game.player.nivel && !game.player.magiasAdquiridas.includes(skill.id)) {
                         game.player.magiasAdquiridas.push(skill.id);
                         novasSkillsMsgs.push(`Nova habilidade de classe desbloqueada: <span class="font-bold text-sky-400">${skill.nome}</span>`);
 
+                        // Adiciona automaticamente à lista de equipadas se não for passiva/chant/uso único e houver espaço
                         if (!skill.isChant && !skill.efeito?.tipo?.includes("passiva") && !skill.usoUnicoBatalha && game.player.magiasEquipadas.length < 10) {
                             game.player.magiasEquipadas.push(skill.id);
                             novasSkillsMsgs.push(`<span class="font-bold text-sky-400">${skill.nome}</span> foi equipada automaticamente.`);
@@ -2575,12 +2540,11 @@
                 game.batalha.monstro = monstro;
                 game.batalha.isBossBattle = monstro.isBoss;
                 game.batalha.usedPlayerSkills = [];
-                game.batalha.playerSkillsSealed = false;
-
+                game.batalha.playerSkillsSealed = false; // Garante que o selo de habilidades seja resetado
+                document.getElementById("btn-mercador")?.classList.add("hidden");
                 decrementarBuffs();
                 toggleHeaderNavButtons(true);
                 toggleChatInput(true);
-                document.getElementById("btn-mercador")?.classList.add("hidden");
 
                 let msg = `Você encontrou: <span class="font-bold text-rose-400">${monstro.nome}</span> (Rank ${monstro.rank}).`;
                 if (game.dungeon.active && !monstro.isBoss) {
@@ -2747,6 +2711,7 @@
                 const chanceFuga = calcularChanceFuga(game.batalha.monstro);
                 if (Math.random() < chanceFuga) {
 
+                    // LÓGICA DE APRENDER TÉCNICA REVERSA REMOVIDA DAQUI
 
                     game.batalha.emBatalha = false;
                     game.monstroAtual = null;
@@ -2974,6 +2939,7 @@
                     let chanceCritico = 0.05;
                     let efeitoMsg = "";
 
+                    // Dano agora usa o stat 'currentDanoMagico' já calculado, mais os bônus da skill
                     dano = (skill.danoBase || 0) + game.player.currentDanoMagico + Math.floor(game.player.manaMax * (skill.escalaMana || 0));
 
                     if (skill.efeito) {
@@ -3687,15 +3653,14 @@
             window.onload = () => {
                 initializeAuthListener();
                 setupBattleButtonListeners();
-                document.getElementById('btn-firebase-google-login')?.addEventListener('click', signInWithGoogle);
-                document.getElementById('btn-signout-google')?.addEventListener('click', signOutFromFirebase);
+
                 document.getElementById("btn-send-command")?.addEventListener("click", () => {
                     const commandInput = document.getElementById("chat-command-input");
                     if (commandInput && commandInput.value.trim() !== "") {
                         processChatCommand(commandInput.value);
                     }
                 });
-                document.getElementById('btn-save-character-setup')?.addEventListener('click', finalizarSetupPersonagem);
+
                 document.getElementById("chat-command-input")?.addEventListener("keypress", function (event) {
                     if (event.key === "Enter") {
                         event.preventDefault();
@@ -3776,7 +3741,7 @@
                 abrirInicio();
             }
 
-           
+
 
             function abrirInicio() {
                 toggleHeaderNavButtons(false);
@@ -3786,7 +3751,6 @@
                 game.dungeon.isBossRoomConfirmation = false;
                 game.batalha.isBossBattle = false;
                 document.getElementById("btn-mercador")?.classList.remove("hidden");
-
                 if (!game.batalha.emBatalha) {
                     game.player.activeBuffs = [];
                 }
@@ -4419,7 +4383,7 @@
                         });
                         btnDiv.appendChild(btnEquipar);
                     } else if (isAcquired && (isPassive || skill.isChant)) {
-
+                        // Adiciona um texto para indicar que a habilidade especial está ativa/disponível
                         const specialSpan = document.createElement("span");
                         specialSpan.className = "text-xs italic text-amber-300 px-3 py-1.5";
                         specialSpan.textContent = skill.isChant ? "Encantamento (Automático)" : "Passiva (Sempre Ativa)";
@@ -4696,6 +4660,23 @@
                         if (!game.player.classe && atribuirClasseAleatoriaSeNecessario()) { }
                     }
                     atualizarAtributosDerivados(); atualizarStatusAtributos(); atualizarSkillsTela();
+                } else if (commandTrimmed === "addfingers") {
+                    const dedoAmaldicoado = {
+                        id: "dedo_amaldicoado",
+                        nome: "Dedo Amaldiçoado",
+                        tipo: "Consumível",
+                        rank: "B",
+                        descricao: "Um objeto de poder imenso e sinistro. Consumir para absorver seu poder.",
+                        isConsumable: true,
+                        isUnique: true,
+                        quantity: 5
+                    };
+                    addItemToInventory(dedoAmaldicoado);
+                    alert("5 Dedos Amaldiçoados foram adicionados ao seu inventário!");
+                    atualizarInventarioTela();
+
+
+
                 } else {
                     alert(`Comando desconhecido: "${commandTrimmed}"`);
                 }

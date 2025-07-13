@@ -321,6 +321,17 @@
     #btn-save-character-setup {
         @apply bg-[#6D4C41] hover:bg-[#543C32] text-[#FFF8E1] border border-[#4E342E];
     }
+     .inventory-equip-layout {
+        @apply grid grid-cols-1 md:grid-cols-[2fr,3fr] gap-4;
+    }
+
+    .equipment-grid-container {
+        @apply flex items-center justify-center;
+    }
+
+    .equipment-grid {
+        @apply grid grid-cols-2 sm:grid-cols-3 gap-3 w-full;
+    }
 
     </style>
 </head>
@@ -328,9 +339,8 @@
 <body class="min-h-screen flex flex-col bg-theme-default">
     <header class="bg-slate-900 p-4 flex justify-between items-center shadow-lg sticky top-0 z-50">
         <h1 class="text-2xl font-extrabold tracking-wide select-none">Arkham</h1>
-        <nav class="flex space-x-4 items-center">
-            <button id="btn-inicio" aria-label="Início" class="p-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                title="Início">
+        <nav class="flex flex-wrap space-x-4 items-center justify-end"> <button id="btn-inicio" aria-label="Início"
+                class="p-2 disabled:opacity-50 disabled:cursor-not-allowed" title="Início">
                 <i class="fas fa-home fa-lg"></i>
             </button>
             <button id="btn-atributos" aria-label="Distribuir Atributos"
@@ -373,7 +383,7 @@
     </header>
 
     <div id="game-container" class="flex-1 flex flex-col overflow-hidden">
-        <main id="main-content" class="flex-1 p-6 overflow-y-auto max-h-screen pb-20">
+        <main id="main-content" class="flex-1 p-3 sm:p-6 overflow-y-auto max-h-screen pb-20">
             <section id="game-screen" class="max-w-4xl mx-auto space-y-6">
                 <div id="story-text" class="rounded-lg p-6 min-h-[180px] select-text">Texto da história apareceria
                     aqui...</div>

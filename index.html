@@ -2274,6 +2274,7 @@
                             selecionados: Array.from(game.mercador.selecionados)
                         }
                     };
+                    delete gameDataToSave.player.portraitSrc;
                     if (gameDataToSave.batalha) {
                         if (!gameDataToSave.batalha.emBatalha) {
                             gameDataToSave.batalha.monstro = null;
@@ -2531,7 +2532,7 @@
                 return false;
             }
 
-      
+
 
             function atribuirClasseAleatoriaSeNecessario() {
 
@@ -2560,16 +2561,16 @@
 
                     let msg = `Ao atingir o Nível 10 e Rank D, o destino interveio!<br/>Sua classe agora é <span class="font-bold text-sky-400">${classeEscolhida.nomeDisplay}</span>!`;
 
-                
+
                     if (classeEscolhida.habilidades && classeEscolhida.habilidades.length > 0) {
                         classeEscolhida.habilidades.forEach(skill => {
-                       
+
                             if (game.player.nivel >= skill.unlockLevel && !game.player.magiasAdquiridas.includes(skill.id)) {
-                   
+
                                 game.player.magiasAdquiridas.push(skill.id);
                                 msg += `<br/>Você aprendeu: <span class="font-bold text-amber-400">${skill.nome}</span>.`;
 
-                        
+
                                 if (!skill.efeito?.tipo?.includes("passiva") && !skill.isChant && game.player.magiasEquipadas.length < 10) {
                                     game.player.magiasEquipadas.push(skill.id);
                                     msg += ` A habilidade foi equipada automaticamente.`;

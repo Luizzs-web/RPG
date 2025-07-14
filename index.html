@@ -1075,7 +1075,7 @@
                         { id: "rdm_clivar", nome: "Clivar", rank: "A", manaBase: 200, danoBase: 50, hits: 5, unlockFingers: 5, descricao: "Lança 5 cortes em rápida sucessão. Cada um tem 10% de chance de executar o alvo.", efeito: { tipo: 'hk_chance', chance: 0.10 } },
                         { id: "rdm_kamino_fuuga", nome: "Kamino Fuuga", rank: "S", manaBase: 250, danoBase: 170, unlockFingers: 10, descricao: "Cria uma flecha de fogo que causa dano massivo e aplica Queimação (2% da vida máx. do alvo por turno).", efeito: { tipo: 'dot_percent_max_hp', valor: 0.02, duracao: 3, nomeDot: 'Queimação' } },
                         { id: "rdm_santuario", nome: "Santuário Malevolente", rank: "SSS", manaBase: 650, unlockFingers: 15, descricao: "Expande um domínio que corta tudo dentro dele. Causa dano contínuo (5% da vida máx. do alvo por turno).", efeito: { tipo: 'dot_percent_max_hp', valor: 0.05, duracao: 5, nomeDot: 'Santuário' } },
-                        { id: "rdm_corte_mundial", nome: "Desmantelar, Corte do Mundo", rank: "SSS", manaCostPercent: 0.90, unlockFingers: 20, descricao: "Um corte que atinge a própria existência. 85% de chance de executar qualquer inimigo. Gasta 90% da sua mana máxima. Se errar, suas técnicas amaldiçoadas são seladas nesta batalha.", efeito: { tipo: 'hk_chance_universal', chance: 0.85, onMissDebuff: 'disable_curse_skills' } }
+                        { id: "rdm_corte_mundial", nome: "Desmantelar, Corte do Mundo", rank: "SSS", manaBase: 1250, unlockFingers: 20, descricao: "Um corte que atinge a própria existência. 85% de chance de executar qualquer inimigo. Gasta 90% da sua mana máxima. Se errar, suas técnicas amaldiçoadas são seladas nesta batalha.", efeito: { tipo: 'hk_chance_universal', chance: 0.85, onMissDebuff: 'disable_curse_skills' } }
                     ]
                 },
             };
@@ -1121,12 +1121,12 @@
                 "Demonio": { nomeDisplay: "Monarca Demoníaco", vida: 10666, dano: 1866, rank: "SS", xp: 220000, portrait: "https://source.unsplash.com/random/48x48/?demon,monster,king,evil" }
             };
             const DUNGEON_CONFIG = {
-                "E": { name: "Masmorra Esquecida", roomsMin: 4, roomsMax: 6, monsterRank: "D", bossRank: "C", bossBaseStats: { vidaMin: 580, vidaMax: 850, danoMin: 120, danoMax: 220, xpMin: 1200, xpMax: 1800 } },
-                "D": { name: "Covil Profundo", roomsMin: 5, roomsMax: 7, monsterRank: "C", bossRank: "B", bossBaseStats: { vidaMin: 1050, vidaMax: 1700, danoMin: 230, danoMax: 300, xpMin: 3500, xpMax: 5000 }, arquitetoChance: 0.05 },
-                "C": { name: "Cidadela Sombria", roomsMin: 6, roomsMax: 8, monsterRank: "B", bossRank: "A", bossBaseStats: { vidaMin: 1900, vidaMax: 3000, danoMin: 400, danoMax: 500, xpMin: 7000, xpMax: 10000 } },
-                "B": { name: "Fortaleza Dracônica", roomsMin: 7, roomsMax: 9, monsterRank: "A", bossRank: "S", bossBaseStats: { vidaMin: 4000, vidaMax: 8000, danoMin: 600, danoMax: 900, xpMin: 14000, xpMax: 25000 }, lordeDaMorteChance: 0.75 },
-                "A": { name: "Abismo Infernal", roomsMin: 8, roomsMax: 10, monsterRank: "S", bossRank: "SS", bossBaseStats: { vidaMin: 9000, vidaMax: 14000, danoMin: 1000, danoMax: 1400, xpMin: 20000, xpMax: 35000 }, lordeDaMorteChance: 1 },
-                "S": { name: "Domínio Celestial Despedaçado", roomsMin: 9, roomsMax: 12, monsterRank: "SS", bossRank: "SSS", bossBaseStats: { vidaMin: 15000, vidaMax: 23000, danoMin: 1500, danoMax: 2300, xpMin: 40000, xpMax: 60000 }, lordeDaMorteChance: 1.5 }
+                "E": { name: "Masmorra Esquecida", roomsMin: 3, roomsMax: 4, monsterRank: "D", bossRank: "C", bossBaseStats: { vidaMin: 580, vidaMax: 850, danoMin: 120, danoMax: 220, xpMin: 1200, xpMax: 1800 } },
+                "D": { name: "Covil Profundo", roomsMin: 4, roomsMax: 5, monsterRank: "C", bossRank: "B", bossBaseStats: { vidaMin: 1050, vidaMax: 1700, danoMin: 230, danoMax: 300, xpMin: 3500, xpMax: 5000 }, arquitetoChance: 0.05 },
+                "C": { name: "Cidadela Sombria", roomsMin: 5, roomsMax: 6, monsterRank: "B", bossRank: "A", bossBaseStats: { vidaMin: 1900, vidaMax: 3000, danoMin: 400, danoMax: 500, xpMin: 7000, xpMax: 10000 } },
+                "B": { name: "Fortaleza Dracônica", roomsMin: 6, roomsMax: 7, monsterRank: "A", bossRank: "S", bossBaseStats: { vidaMin: 4000, vidaMax: 8000, danoMin: 600, danoMax: 900, xpMin: 14000, xpMax: 25000 }, lordeDaMorteChance: 0.75 },
+                "A": { name: "Abismo Infernal", roomsMin: 7, roomsMax: 8, monsterRank: "S", bossRank: "SS", bossBaseStats: { vidaMin: 9000, vidaMax: 14000, danoMin: 1000, danoMax: 1400, xpMin: 20000, xpMax: 35000 }, lordeDaMorteChance: 1 },
+                "S": { name: "Domínio Celestial Despedaçado", roomsMin: 8, roomsMax: 9, monsterRank: "SS", bossRank: "SSS", bossBaseStats: { vidaMin: 15000, vidaMax: 23000, danoMin: 1500, danoMax: 2300, xpMin: 40000, xpMax: 60000 }, lordeDaMorteChance: 1.5 }
             };
 
             function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
@@ -2274,7 +2274,7 @@
                             selecionados: Array.from(game.mercador.selecionados)
                         }
                     };
-                    delete gameDataToSave.player.portraitSrc;
+
                     if (gameDataToSave.batalha) {
                         if (!gameDataToSave.batalha.emBatalha) {
                             gameDataToSave.batalha.monstro = null;
@@ -2977,6 +2977,12 @@
                         return;
                     }
 
+                    if (game.batalha.curseSkillsDisabled && game.player.classe === "Rei das Maldições") {
+                        mostrarMensagem("Suas técnicas amaldiçoadas estão seladas pelo resto da batalha após errar o Corte Mundial.");
+                        usarMagiaMenu();
+                        return;
+                    }
+
                     if (skill.efeito?.tipo === "invocar_sombra") {
                         mostrarMenuInvocarSombras();
                         return;
@@ -3003,53 +3009,62 @@
                     let danoVerdadeiro = 0;
                     let chanceCritico = 0.05;
                     let efeitoMsg = "";
+                    let danoTotal = 0; // Initialize danoTotal
 
-                    // Dano agora usa o stat 'currentDanoMagico' já calculado, mais os bônus da skill
-                    dano = (skill.danoBase || 0) + game.player.currentDanoMagico + Math.floor(game.player.manaMax * (skill.escalaMana || 0));
+                    // Universal damage calculation
+                    let baseDamageForSkill = (skill.danoBase || 0) + game.player.currentDanoMagico + Math.floor(game.player.manaMax * (skill.escalaMana || 0));
 
                     if (skill.efeito) {
-
                         switch (skill.efeito.tipo) {
                             case 'hk_chance_lower_rank':
                                 if (rankToIndex(monstro.rank) < rankToIndex(game.player.rank) && Math.random() < skill.efeito.chance) {
-                                    danoTotal = monstro.vidaMax;
+                                    danoTotal = monstro.vidaMax; // Instant kill
                                     efeitoMsg = ` e o <span class="font-bold text-red-600">DESMANTELA</span> da existência!`;
                                 } else {
-                                    danoTotal = dano;
+                                    danoTotal = baseDamageForSkill; // Standard damage on failure
                                 }
                                 break;
 
                             case 'hk_chance':
-                                if (Math.random() < skill.efeito.chance) {
-                                    danoTotal = monstro.vidaMax;
-                                    efeitoMsg += ` Um dos cortes foi perfeito e <span class="font-bold text-red-600">CLIVOU</span> o inimigo!`;
-                                } else {
-                                    danoTotal = dano;
+                                danoTotal = 0; // Reset damage for multi-hit with chance
+                                const hits = skill.hits || 1;
+                                let executed = false;
+                                for (let i = 0; i < hits; i++) {
+                                    if (!executed && Math.random() < skill.efeito.chance) {
+                                        danoTotal = monstro.vidaMax; // Instant kill
+                                        efeitoMsg = ` Um dos cortes foi perfeito e <span class="font-bold text-red-600">CLIVOU</span> o inimigo!`;
+                                        executed = true; // Stop further hits
+                                        break;
+                                    }
+                                    danoTotal += baseDamageForSkill; // Add damage for each non-executing hit
                                 }
-                                break;
-
-                            case 'dot_percent_max_hp':
-                                if (!monstro.activeDots) monstro.activeDots = [];
-                                monstro.activeDots.push({
-                                    id: skill.id,
-                                    tipo: 'dot_percent_max_hp',
-                                    valor: skill.efeito.valor,
-                                    duracao: skill.efeito.duracao,
-                                    nomeSkill: skill.efeito.nomeDot
-                                });
-                                efeitoMsg = ` e o alvo foi envolto em <span class="font-bold text-orange-400">${skill.efeito.nomeDot}</span>!`;
+                                if (!executed) {
+                                    efeitoMsg = ` Os cortes atingem o alvo!`;
+                                }
                                 break;
 
                             case 'hk_chance_universal':
                                 if (Math.random() < skill.efeito.chance) {
                                     danoTotal = monstro.vidaMax;
-                                    efeitoMsg = ` e o <span class="font-extrabold text-red-700">CORTE ATINGIU O MUNDO</span>, apagando o inimigo!`;
+                                    efeitoMsg = ` e o <span class="font-extrabold text-red-700">CORTE ATINGIU O MUNDO</span>, partindo o inimigo!`;
                                 } else {
                                     danoTotal = 0;
-                                    efeitoMsg = `. O corte se perdeu, errando o alvo. Suas técnicas amaldiçoadas estão seladas!`;
+                                    efeitoMsg = `. O corte se perdeu, errando o alvo. Suas técnicas amaldiçoadas estão seladas pelo pacto!`;
                                     game.batalha.curseSkillsDisabled = true;
                                 }
                                 break;
+
+                            case 'dot_percent_max_hp':
+                                danoTotal = baseDamageForSkill; // Initial impact damage
+                                if (!monstro.activeDots) monstro.activeDots = [];
+                                monstro.activeDots.push({
+                                    id: skill.id, tipo: 'dot_percent_max_hp',
+                                    valor: skill.efeito.valor, duracao: skill.efeito.duracao,
+                                    nomeSkill: skill.efeito.nomeDot
+                                });
+                                efeitoMsg = ` e o alvo foi envolto em <span class="font-bold text-orange-400">${skill.efeito.nomeDot}</span>!`;
+                                break;
+
                             case 'invulnerabilidade':
                                 game.player.activeBuffs = game.player.activeBuffs.filter(b => b.tipo !== 'invulnerabilidade');
                                 game.player.activeBuffs.push({ id: skill.id, nomeSkill: skill.nome, tipo: skill.efeito.tipo, duracao: skill.efeito.duracao });
@@ -3058,7 +3073,7 @@
                                     game.batalha.usedPlayerSkills.push(skill.id);
                                 }
                                 efeitoMsg = ` e ativou a barreira <span class="font-bold text-cyan-300">${skill.nome}</span>! Você está invulnerável por ${skill.efeito.duracao} turnos.`;
-                                dano = 0;
+                                danoTotal = 0;
                                 break;
                             case 'expansao_dominio':
                                 monstro.isStunned = true;
@@ -3069,19 +3084,19 @@
                                     game.batalha.usedPlayerSkills.push(skill.id);
                                 }
                                 efeitoMsg = ` aprisiona o inimigo no <span class="font-bold text-violet-400">Vazio Imensurável</span>! O inimigo está atordoado por ${skill.efeito.duracao} turnos e suas próprias habilidades foram seladas.`;
-                                dano = 0;
+                                danoTotal = 0;
                                 break;
                             case 'cura':
                                 const curaVal = Math.floor(skill.efeito.valor_base + (game.player.atributos.inteligencia * (skill.efeito.escala_inteligencia || 0)));
                                 game.player.vidaAtual = Math.min(game.player.vidaAtual + curaVal, game.player.vidaMax);
                                 efeitoMsg = ` e curou <span class="font-bold text-emerald-400">${curaVal}</span> de vida!`;
-                                dano = 0;
+                                danoTotal = 0;
                                 break;
                             case 'cura_percentual_vida_max':
                                 const curaPercentual = Math.floor(game.player.vidaMax * skill.efeito.valor);
                                 game.player.vidaAtual = Math.min(game.player.vidaMax, game.player.vidaAtual + curaPercentual);
                                 efeitoMsg = ` e recuperou <span class="font-bold text-emerald-400">${curaPercentual}</span> de vida!`;
-                                dano = 0;
+                                danoTotal = 0;
                                 if (skill.id === 'h_tecnica_reversa') {
                                     game.player.tecnicaReversaMastery++;
                                     game.batalha.tecnicaReversaUsadaNestaBatalha = true;
@@ -3094,19 +3109,23 @@
                                 game.player.activeBuffs.push({ id: skill.id, nomeSkill: skill.nome, tipo: skill.efeito.tipo, valor: skill.efeito.valor, duracao: skill.efeito.duracao });
                                 efeitoMsg = ` e ativou o efeito de <span class="font-bold text-yellow-300">${skill.nome}</span>!`;
                                 atualizarAtributosDerivados();
-                                dano = 0;
+                                danoTotal = 0;
                                 break;
                             default:
+                                danoTotal = baseDamageForSkill; // Fallback for unhandled effects
                                 break;
                         }
+                    } else {
+                        danoTotal = baseDamageForSkill; // No effect, just damage
                     }
 
-                    if (Math.random() < chanceCritico) {
-                        dano = Math.floor(dano * 1.5);
+
+                    if (danoTotal > 0 && Math.random() < chanceCritico) {
+                        danoTotal = Math.floor(danoTotal * 1.5);
                         efeitoMsg += ` <span class="font-bold text-red-500">ACERTO CRÍTICO!</span>`;
                     }
 
-                    let danoTotal = dano + danoVerdadeiro;
+
                     if (danoTotal > 0) {
                         monstro.vidaAtual -= danoTotal;
                         if (monstro.vidaAtual < 0) monstro.vidaAtual = 0;
@@ -4671,35 +4690,63 @@
                         game.player.classe = foundClassKey;
                         const classeInfo = CLASSES_DATA[foundClassKey];
                         feedbackAlert = `Classe definida para ${classeInfo.nomeDisplay}!`;
-                        game.player.magiasAdquiridas = []; game.player.magiasEquipadas = [];
+                        game.player.magiasAdquiridas = [];
+                        game.player.magiasEquipadas = [];
+
                         if (foundClassKey === "Necromante") {
                             game.player.metLordeDaMorte = true;
                             feedbackAlert += "\nLorde da Morte 'encontrado'.";
+                            // Grant Necromancer's initial skills
                             ["n_extracao_sombras", "n_invocar_sombra"].forEach(skillId => {
                                 const skillData = classeInfo.habilidades.find(h => h.id === skillId);
                                 if (skillData && !game.player.magiasAdquiridas.includes(skillId)) {
-                                    game.player.magiasAdquiridas.push(skillId); feedbackAlert += `\n- Aprendido: ${skillData.nome}.`;
-                                    if (game.player.magiasEquipadas.length < 4) { game.player.magiasEquipadas.push(skillId); feedbackAlert += ` (Equipado)`; }
+                                    game.player.magiasAdquiridas.push(skillId);
+                                    feedbackAlert += `\n- Aprendido: ${skillData.nome}.`;
+                                    if (game.player.magiasEquipadas.length < 10) {
+                                        game.player.magiasEquipadas.push(skillId);
+                                        feedbackAlert += ` (Equipado)`;
+                                    }
                                 }
                             });
+                        } else if (foundClassKey === "Honrado") {
+                            feedbackAlert += "\nO ápice do universo está ao seu alcance.";
+                            if (classeInfo.habilidades && classeInfo.habilidades.length > 0) {
+                                classeInfo.habilidades.forEach(skill => {
+                                    if (!game.player.magiasAdquiridas.includes(skill.id)) {
+                                        game.player.magiasAdquiridas.push(skill.id);
+                                        feedbackAlert += `\n- Adquirido: ${skill.nome}.`;
+
+                                        if (!skill.isChant && !skill.efeito?.tipo?.includes("passiva") && game.player.magiasEquipadas.length < 10) {
+                                            game.player.magiasEquipadas.push(skill.id);
+                                            feedbackAlert += ` (Equipado)`;
+                                        }
+                                    }
+                                });
+                            }
                         } else {
                             if (classeInfo.habilidades && classeInfo.habilidades.length > 0) {
                                 const minUnlockLevel = Math.min(...classeInfo.habilidades.map(s => s.unlockLevel || 1));
                                 classeInfo.habilidades.forEach(skill => {
                                     if ((skill.unlockLevel === minUnlockLevel || skill.unlockLevel === 1) && !game.player.magiasAdquiridas.includes(skill.id)) {
-                                        game.player.magiasAdquiridas.push(skill.id); feedbackAlert += `\n- Aprendido: ${skill.nome}.`;
-                                        if (game.player.magiasEquipadas.length < 4) { game.player.magiasEquipadas.push(skill.id); feedbackAlert += ` (Equipado)`; }
+                                        game.player.magiasAdquiridas.push(skill.id);
+                                        feedbackAlert += `\n- Aprendido: ${skill.nome}.`;
+                                        if (game.player.magiasEquipadas.length < 4) { 
+                                            game.player.magiasEquipadas.push(skill.id);
+                                            feedbackAlert += ` (Equipado)`;
+                                        }
                                     }
                                 });
                             }
                         }
+
                         alert(feedbackAlert);
-                        atualizarAtributosDerivados(); atualizarStatusAtributos(); atualizarSkillsTela();
+                        atualizarAtributosDerivados();
+                        atualizarStatusAtributos();
+                        atualizarSkillsTela();
                         if (game.estado === 'inicio' && !game.batalha.emBatalha) abrirInicio();
                     } else {
                         alert(`Classe "${requestedClassNameInput}" inválida. Válidas: ${PLAYER_CLASSES_LIST.map(c => CLASSES_DATA[c]?.nomeDisplay || c).join(", ")}.`);
                     }
-
                 } else if (commandTrimmed === "resetgameplz") {
                     if (confirm("Tem certeza que quer resetar TODO o progresso do jogo? Isso inclui o save na nuvem se estiver logado.")) {
                         if (currentFirebaseUser) deleteGameFromCloud(currentFirebaseUser.uid);
@@ -4735,10 +4782,10 @@
                         descricao: "Um objeto de poder imenso e sinistro. Consumir para absorver seu poder.",
                         isConsumable: true,
                         isUnique: true,
-                        quantity: 5
+                        quantity: 1
                     };
                     addItemToInventory(dedoAmaldicoado);
-                    alert("5 Dedos Amaldiçoados foram adicionados ao seu inventário!");
+                    alert("Dedos Amaldiçoados foram adicionados ao seu inventário!");
                     atualizarInventarioTela();
 
 

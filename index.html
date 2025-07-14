@@ -1834,16 +1834,16 @@
                 const percepcaoFinal = a.percepcao * (1 + bonusPercentual.percepcao / 100);
 
                 // 3. Aplica os cálculos aos status do jogador
-                game.player.vidaMax = Math.floor(BASE_HP * (1 + vitalidadeFinal * 0.2));
+                game.player.vidaMax = Math.floor(BASE_HP * (1 + vitalidadeFinal * 0.1));
                 game.player.vidaAtual = Math.min(game.player.vidaAtual, game.player.vidaMax);
                 game.player.vitalidadeBonusVida = game.player.vidaMax - BASE_HP;
 
-                game.player.manaMax = Math.floor(BASE_MANA * (1 + inteligenciaFinal * 0.7));
+                game.player.manaMax = Math.floor(BASE_MANA * (1 + inteligenciaFinal * 0.8));
                 game.player.manaAtual = Math.min(game.player.manaAtual, game.player.manaMax);
                 game.player.inteligenciaBonusMana = game.player.manaMax - BASE_MANA;
 
-                game.player.currentDanoFisico = Math.floor(BASE_DANO_FISICO * (1 + forcaFinal * 0.7));
-                game.player.currentDanoMagico = Math.floor(BASE_DANO_MAGICO * (1 + inteligenciaFinal * 0.7));
+                game.player.currentDanoFisico = Math.floor(BASE_DANO_FISICO * (1 + forcaFinal * 0.07));
+                game.player.currentDanoMagico = Math.floor(BASE_DANO_MAGICO * (1 + inteligenciaFinal * 0.07));
 
                 // *** ATRIBUTOS SECUNDÁRIOS REBALANCEADOS E COM LIMITE ***
 

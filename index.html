@@ -2156,142 +2156,143 @@
                     document.getElementById('main-content')?.classList.remove('hidden');
                     abrirInicio();
                 }
+            }
 
-                async function loadGameFromCloud(userId) {
-                    console.log(`Tentando carregar jogo da nuvem para UID: ${userId}`);
-                    const docRef = db.collection("userSaves").doc(userId);
-                    let gameJustLoadedFromCloud = false;
+            async function loadGameFromCloud(userId) {
+                console.log(`Tentando carregar jogo da nuvem para UID: ${userId}`);
+                const docRef = db.collection("userSaves").doc(userId);
+                let gameJustLoadedFromCloud = false;
 
-                    try {
-                        const doc = await docRef.get();
-                        if (doc.exists) {
-                            const loadedGameData = doc.data();
-                            console.log("Dados do jogo carregados da nuvem:", JSON.parse(JSON.stringify(loadedGameData)));
+                try {
+                    const doc = await doc.get();
+                    if (doc.exists) {
+                        const loadedGameData = doc.data();
+                        console.log("Dados do jogo carregados da nuvem:", JSON.parse(JSON.stringify(loadedGameData)));
 
-                            const defaultPlayerState = createNewPlayerState();
-                            const loadedPlayer = loadedGameData.player || {};
-                            game.player = { ...defaultPlayerState, ...loadedPlayer };
-                            game.player.atributos = { ...defaultPlayerState.atributos, ...(loadedPlayer.atributos || {}) };
-                            game.player.equipamento = { ...defaultPlayerState.equipamento, ...(loadedPlayer.equipamento || {}) };
+                        const defaultPlayerState = createNewPlayerState();
+                        const loadedPlayer = loadedGameData.player || {};
+                        game.player = { ...defaultPlayerState, ...loadedPlayer };
+                        game.player.atributos = { ...defaultPlayerState.atributos, ...(loadedPlayer.atributos || {}) };
+                        game.player.equipamento = { ...defaultPlayerState.equipamento, ...(loadedPlayer.equipamento || {}) };
 
-                            game.player.inventario = loadedPlayer.inventario || defaultPlayerState.inventario;
-                            game.player.magiasAdquiridas = loadedPlayer.magiasAdquiridas || defaultPlayerState.magiasAdquiridas;
-                            game.player.magiasEquipadas = loadedPlayer.magiasEquipadas || defaultPlayerState.magiasEquipadas;
-                            game.player.activeBuffs = loadedPlayer.activeBuffs || defaultPlayerState.activeBuffs;
-                            game.player.recipienteSombras = loadedPlayer.recipienteSombras || defaultPlayerState.recipienteSombras;
+                        game.player.inventario = loadedPlayer.inventario || defaultPlayerState.inventario;
+                        game.player.magiasAdquiridas = loadedPlayer.magiasAdquiridas || defaultPlayerState.magiasAdquiridas;
+                        game.player.magiasEquipadas = loadedPlayer.magiasEquipadas || defaultPlayerState.magiasEquipadas;
+                        game.player.activeBuffs = loadedPlayer.activeBuffs || defaultPlayerState.activeBuffs;
+                        game.player.recipienteSombras = loadedPlayer.recipienteSombras || defaultPlayerState.recipienteSombras;
 
-                            const defaultDungeonState = { active: false, name: "", typeRank: "E", totalRooms: 0, currentRoom: 0, monsterRankForRooms: "D", bossRankForDungeon: "C", bossDefeated: false, isBossRoomConfirmation: false };
-                            game.dungeon = { ...defaultDungeonState, ...(loadedGameData.dungeon || {}) };
+                        const defaultDungeonState = { active: false, name: "", typeRank: "E", totalRooms: 0, currentRoom: 0, monsterRankForRooms: "D", bossRankForDungeon: "C", bossDefeated: false, isBossRoomConfirmation: false };
+                        game.dungeon = { ...defaultDungeonState, ...(loadedGameData.dungeon || {}) };
 
-                            const defaultBattleState = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, isDesafioClasse: false, skillEmDesafioId: null, desafioBossOriginalStats: null, tipoDesafioLorde: null, jogadorAgiuNoTurno: false };
-                            game.batalha = { ...defaultBattleState, ...(loadedGameData.batalha || {}) };
+                        const defaultBattleState = { emBatalha: false, monstro: null, turnoJogador: true, danoRecebido: 0, isBossBattle: false, isDesafioClasse: false, skillEmDesafioId: null, desafioBossOriginalStats: null, tipoDesafioLorde: null, jogadorAgiuNoTurno: false };
+                        game.batalha = { ...defaultBattleState, ...(loadedGameData.batalha || {}) };
 
-                            if (game.batalha.emBatalha && loadedGameData.batalha?.monstro) {
-                                game.monstroAtual = loadedGameData.batalha.monstro;
-                            } else {
-                                game.monstroAtual = null;
-                            }
-
-
-                            game.estado = loadedGameData.estado || "inicio";
-                            game.mundo = loadedGameData.mundo || "Arkham";
-
-                            const defaultMerchantState = { itens: [], selecionados: new Set() };
-                            game.mercador = { ...defaultMerchantState, ...(loadedGameData.mercador || {}) };
-                            if (loadedGameData.mercador && loadedGameData.mercador.selecionados && Array.isArray(loadedGameData.mercador.selecionados)) {
-                                game.mercador.selecionados = new Set(loadedGameData.mercador.selecionados);
-                            } else {
-                                game.mercador.selecionados = new Set();
-                            }
-
-
-                            console.log("Estado do jogo após carregar e mesclar:", JSON.parse(JSON.stringify(game)));
-
-                            gameJustLoadedFromCloud = true;
-                            atualizarAtributosDerivados();
-                            atualizarRank();
-                            atualizarStatusAtributos();
-                            atualizarInventarioTela();
-                            atualizarSkillsTela();
-                            atualizarRecipienteSombrasTela();
-                            updateGoogleSignInUI();
-
-                            // --- BLOCO CORRIGIDO ---
-                            if (game.batalha.emBatalha && game.monstroAtual) {
-                                // Se o jogo foi salvo no meio de uma batalha, reinicia a batalha.
-                                iniciarBatalha(game.monstroAtual);
-                            } else if (game.dungeon.active) {
-                                // Se o jogo foi salvo dentro de uma masmorra, continua de onde parou.
-                                mostrarMensagem(`Continuando na ${game.dungeon.name}, sala ${game.dungeon.currentRoom + 1}/${game.dungeon.totalRooms}.`);
-                                if (game.dungeon.isBossRoomConfirmation) {
-                                    avancarSalaMasmorra();
-                                } else {
-                                    adicionarEscolha("Avançar para próxima sala", avancarSalaMasmorra);
-                                    adicionarEscolha("Tentar fugir da masmorra", () => fugirDaMasmorra(false));
-                                    toggleHeaderNavButtons(true);
-                                    toggleChatInput(true);
-                                }
-                            } else {
-                                // Para todos os outros casos (inclusive estado 'inicio'), chama abrirInicio().
-                                // Isso garante que o botão da loja sempre será exibido.
-                                abrirInicio();
-                            }
-                            // --- FIM DO BLOCO CORRIGIDO ---
-
+                        if (game.batalha.emBatalha && loadedGameData.batalha?.monstro) {
+                            game.monstroAtual = loadedGameData.batalha.monstro;
                         } else {
-                            console.log("Nenhum save encontrado na nuvem para este usuário. Iniciando novo jogo (estado characterSetup).");
-                            game.estado = "characterSetup";
-                            iniciarJogo(true);
+                            game.monstroAtual = null;
                         }
-                    } catch (error) {
-                        console.error("Erro ao carregar jogo da nuvem:", error);
-                        alert("Erro ao carregar seu progresso da nuvem. Iniciando um novo jogo local. Detalhes: " + error.message);
+
+
+                        game.estado = loadedGameData.estado || "inicio";
+                        game.mundo = loadedGameData.mundo || "Arkham";
+
+                        const defaultMerchantState = { itens: [], selecionados: new Set() };
+                        game.mercador = { ...defaultMerchantState, ...(loadedGameData.mercador || {}) };
+                        if (loadedGameData.mercador && loadedGameData.mercador.selecionados && Array.isArray(loadedGameData.mercador.selecionados)) {
+                            game.mercador.selecionados = new Set(loadedGameData.mercador.selecionados);
+                        } else {
+                            game.mercador.selecionados = new Set();
+                        }
+
+
+                        console.log("Estado do jogo após carregar e mesclar:", JSON.parse(JSON.stringify(game)));
+
+                        gameJustLoadedFromCloud = true;
+                        atualizarAtributosDerivados();
+                        atualizarRank();
+                        atualizarStatusAtributos();
+                        atualizarInventarioTela();
+                        atualizarSkillsTela();
+                        atualizarRecipienteSombrasTela();
+                        updateGoogleSignInUI();
+
+                        // --- BLOCO CORRIGIDO ---
+                        if (game.batalha.emBatalha && game.monstroAtual) {
+                            // Se o jogo foi salvo no meio de uma batalha, reinicia a batalha.
+                            iniciarBatalha(game.monstroAtual);
+                        } else if (game.dungeon.active) {
+                            // Se o jogo foi salvo dentro de uma masmorra, continua de onde parou.
+                            mostrarMensagem(`Continuando na ${game.dungeon.name}, sala ${game.dungeon.currentRoom + 1}/${game.dungeon.totalRooms}.`);
+                            if (game.dungeon.isBossRoomConfirmation) {
+                                avancarSalaMasmorra();
+                            } else {
+                                adicionarEscolha("Avançar para próxima sala", avancarSalaMasmorra);
+                                adicionarEscolha("Tentar fugir da masmorra", () => fugirDaMasmorra(false));
+                                toggleHeaderNavButtons(true);
+                                toggleChatInput(true);
+                            }
+                        } else {
+                            // Para todos os outros casos (inclusive estado 'inicio'), chama abrirInicio().
+                            // Isso garante que o botão da loja sempre será exibido.
+                            abrirInicio();
+                        }
+                        // --- FIM DO BLOCO CORRIGIDO ---
+
+                    } else {
+                        console.log("Nenhum save encontrado na nuvem para este usuário. Iniciando novo jogo (estado characterSetup).");
                         game.estado = "characterSetup";
-                        iniciarJogo(false);
+                        iniciarJogo(true);
                     }
-                }
-
-                async function saveGameToCloud() {
-                    if (!currentFirebaseUser) {
-                        alert("Você precisa estar conectado com o Google para salvar na nuvem.");
-                        return;
-                    }
-                    if (game.batalha.emBatalha || (game.dungeon && game.dungeon.isBossRoomConfirmation)) {
-                        alert("Você não pode salvar o jogo durante uma batalha ou confirmação de chefe de masmorra.");
-                        return;
-                    }
-
-                    console.log("Tentando salvar jogo na nuvem...");
-                    const gameDataToSave = {
-                        player: JSON.parse(JSON.stringify(game.player)),
-                        dungeon: JSON.parse(JSON.stringify(game.dungeon)),
-                        batalha: JSON.parse(JSON.stringify(game.batalha)),
-                        estado: game.estado,
-                        mundo: game.mundo,
-                        monstroAtual: JSON.parse(JSON.stringify(game.monstroAtual)),
-                        mercador: {
-                            itens: JSON.parse(JSON.stringify(game.mercador.itens)),
-                            selecionados: Array.from(game.mercador.selecionados)
-                        }
-                    };
-
-                    if (gameDataToSave.batalha) {
-                        if (!gameDataToSave.batalha.emBatalha) {
-                            gameDataToSave.batalha.monstro = null;
-                            gameDataToSave.batalha.isBossBattle = false;
-                        }
-                    }
-
-                    try {
-                        await db.collection("userSaves").doc(currentFirebaseUser.uid).set(gameDataToSave);
-                        console.log("Jogo salvo na nuvem com sucesso!");
-                        alert("Seu progresso foi salvo na nuvem!");
-                    } catch (error) {
-                        console.error("Erro ao salvar jogo na nuvem:", error);
-                        alert("Falha ao salvar o progresso na nuvem: " + error.message);
-                    }
+                } catch (error) {
+                    console.error("Erro ao carregar jogo da nuvem:", error);
+                    alert("Erro ao carregar seu progresso da nuvem. Iniciando um novo jogo local. Detalhes: " + error.message);
+                    game.estado = "characterSetup";
+                    iniciarJogo(false);
                 }
             }
+
+            async function saveGameToCloud() {
+                if (!currentFirebaseUser) {
+                    alert("Você precisa estar conectado com o Google para salvar na nuvem.");
+                    return;
+                }
+                if (game.batalha.emBatalha || (game.dungeon && game.dungeon.isBossRoomConfirmation)) {
+                    alert("Você não pode salvar o jogo durante uma batalha ou confirmação de chefe de masmorra.");
+                    return;
+                }
+
+                console.log("Tentando salvar jogo na nuvem...");
+                const gameDataToSave = {
+                    player: JSON.parse(JSON.stringify(game.player)),
+                    dungeon: JSON.parse(JSON.stringify(game.dungeon)),
+                    batalha: JSON.parse(JSON.stringify(game.batalha)),
+                    estado: game.estado,
+                    mundo: game.mundo,
+                    monstroAtual: JSON.parse(JSON.stringify(game.monstroAtual)),
+                    mercador: {
+                        itens: JSON.parse(JSON.stringify(game.mercador.itens)),
+                        selecionados: Array.from(game.mercador.selecionados)
+                    }
+                };
+
+                if (gameDataToSave.batalha) {
+                    if (!gameDataToSave.batalha.emBatalha) {
+                        gameDataToSave.batalha.monstro = null;
+                        gameDataToSave.batalha.isBossBattle = false;
+                    }
+                }
+
+                try {
+                    await db.collection("userSaves").doc(currentFirebaseUser.uid).set(gameDataToSave);
+                    console.log("Jogo salvo na nuvem com sucesso!");
+                    alert("Seu progresso foi salvo na nuvem!");
+                } catch (error) {
+                    console.error("Erro ao salvar jogo na nuvem:", error);
+                    alert("Falha ao salvar o progresso na nuvem: " + error.message);
+                }
+            }
+
             async function deleteGameFromCloud(userId) {
                 if (!userId) return;
                 console.log(`Tentando deletar save da nuvem para UID: ${userId}`);
@@ -3982,7 +3983,68 @@
                 }
                 btnComprar.disabled = game.mercador.selecionados.size === 0;
             }
-
+            function createNewPlayerState() {
+                return {
+                    nome: "Herói",
+                    classe: null,
+                    nivel: 1,
+                    xp: 0,
+                    xpProximoNivel: 100,
+                    rank: "E",
+                    atributos: {
+                        ...BASE_STATS
+                    },
+                    pontosDistribuir: 10,
+                    attributeAddAmount: 1,
+                    lowHpVictories: 0,
+                    tecnicaReversaMastery: 0,
+                    dedosConsumidos: 0,
+                    vidaMax: BASE_HP,
+                    vidaAtual: BASE_HP,
+                    manaMax: BASE_MANA,
+                    manaAtual: BASE_MANA,
+                    danoFisicoBase: BASE_DANO_FISICO,
+                    danoMagicoBase: BASE_DANO_MAGICO,
+                    resistenciaPct: BASE_RESISTENCIA,
+                    refinoMagicoPct: 0,
+                    percepcaoPct: 0,
+                    agilidadePctFuga: 0,
+                    forcaPctDano: 0,
+                    isMarcado: false,
+                    isMonarcaDasSombras: false,
+                    inventario: [],
+                    equipamento: {
+                        capacete: null,
+                        peitoral: null,
+                        calca: null,
+                        botas: null,
+                        arma: null,
+                        escudo: null,
+                        anel: null,
+                        colar: null
+                    },
+                    moedas: 100,
+                    rodadas: 0,
+                    xpBonus: XP_BONUS_GLOBAL,
+                    magiasAdquiridas: [],
+                    magiasEquipadas: [],
+                    currentArea: "E",
+                    currentDanoFisico: BASE_DANO_FISICO,
+                    currentReducaoDano: BASE_RESISTENCIA,
+                    currentChanceFuga: 0,
+                    currentChanceEsquiva: 0,
+                    currentDanoMagico: BASE_DANO_MAGICO,
+                    activeBuffs: [],
+                    recipienteSombras: [],
+                    sombraAtiva: null,
+                    maxActiveShadows: 1,
+                    recipienteCapacity: 10,
+                    lastDefeatedMonsterInfo: null,
+                    metLordeDaMorte: false,
+                    vitalidadeBonusVida: 0,
+                    inteligenciaBonusMana: 0,
+                };
+            }
             function comprarItensMercador() {
                 let custoTotal = 0;
                 let itensParaComprar = [];
@@ -4730,7 +4792,7 @@
                                     if ((skill.unlockLevel === minUnlockLevel || skill.unlockLevel === 1) && !game.player.magiasAdquiridas.includes(skill.id)) {
                                         game.player.magiasAdquiridas.push(skill.id);
                                         feedbackAlert += `\n- Aprendido: ${skill.nome}.`;
-                                        if (game.player.magiasEquipadas.length < 4) { 
+                                        if (game.player.magiasEquipadas.length < 4) {
                                             game.player.magiasEquipadas.push(skill.id);
                                             feedbackAlert += ` (Equipado)`;
                                         }

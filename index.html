@@ -1150,6 +1150,7 @@
                     pontosDistribuir: 10,
                     attributeAddAmount: 1,
                     lowHpVictories: 0,
+                    tecnicaReversaMastery: 0,
                     dedosConsumidos: 0,
                     tecnicaReversaMastery: 0,
                     vidaMax: BASE_HP,
@@ -1430,7 +1431,35 @@
                     isLordeDaMorte: false
                 };
             }
+            function finalizarSetupPersonagem() {
+                const nomeInput = document.getElementById('player-name-input');
+                const portraitInput = document.getElementById('player-portrait-input');
 
+                const novoNome = nomeInput.value.trim();
+                if (novoNome) {
+                    game.player.nome = novoNome;
+                }
+
+                const iniciarAposSetup = () => {
+                    game.estado = "inicio";
+                    document.getElementById('character-setup-screen')?.classList.add('hidden');
+                    document.getElementById('main-content')?.classList.remove('hidden');
+                    toggleHeaderNavButtons(false); // Habilita os botões do header
+                    toggleChatInput(false);
+                    abrirInicio();
+                };
+
+                if (portraitInput && portraitInput.files && portraitInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        game.player.portraitSrc = e.target.result;
+                        iniciarAposSetup(); // Inicia o jogo DEPOIS que a imagem for lida
+                    };
+                    reader.readAsDataURL(portraitInput.files[0]);
+                } else {
+                    iniciarAposSetup(); // Inicia o jogo se nenhuma imagem foi selecionada
+                }
+            }
             function confirmarEntradaBoss() {
                 game.dungeon.isBossRoomConfirmation = false;
 
@@ -1628,31 +1657,30 @@
             }
             function derrotarMonstro(monstro) {
                 const vidaPctRestante = game.player.vidaAtual / game.player.vidaMax;
-                if (vidaPctRestante <= 0.25) {
-                    game.player.lowHpVictories = (game.player.lowHpVictories || 0) + 1;
-                }
-                const temTecnicaReversa = game.player.magiasAdquiridas.includes("h_tecnica_reversa");
-
-                if (!temTecnicaReversa && game.player.lowHpVictories >= 3) {
-                    game.player.magiasAdquiridas.push("h_tecnica_reversa");
-                    setTimeout(() => alert("No limiar da morte, repetidas vezes, você compreende o núcleo da sua energia.\nVocê aprendeu a [Técnica Reversa]!"), 500);
+                if (vidaPctRestante <= 0.25 && !game.player.magiasAdquiridas.includes("h_tecnica_reversa")) {
+                    if (Math.random() < 0.05) { // 5% chance
+                        game.player.magiasAdquiridas.push("h_tecnica_reversa");
+                        setTimeout(() => alert("No limiar da morte, você compreende o núcleo da sua energia.\nVocê aprendeu a [Técnica Reversa]!"), 500);
+                    }
                 }
 
-                if (temTecnicaReversa && game.player.classe !== "Honrado") {
-                    game.player.classe = "Honrado";
-                    game.player.magiasAdquiridas = [];
-                    game.player.magiasEquipadas = [];
-                    const classeInfo = CLASSES_DATA.Honrado;
-
-                    classeInfo.habilidades.forEach(skill => {
-                        game.player.magiasAdquiridas.push(skill.id);
-
-                        if (!skill.isChant && !skill.efeito?.tipo?.includes("passiva") && game.player.magiasEquipadas.length < 10) {
-                            game.player.magiasEquipadas.push(skill.id);
-                        }
-                    });
-
-                    setTimeout(() => alert("CÉUS ACIMA, CÉUS ABAIXO, APENAS EU SOU O HONRADO.\nSua percepção da realidade se estilhaça e se reconstrói. Sua classe agora é [O Honrado] e todo o seu potencial foi liberado."), 1000);
+                if (game.player.magiasAdquiridas.includes("h_tecnica_reversa") && game.player.classe !== "Honrado") {
+                    if (Math.random() < 0.02) { // 2% chance
+                        game.player.classe = "Honrado";
+                        // Initial skill setup for the class without "Seis Olhos"
+                        CLASSES_DATA.Honrado.habilidades.forEach(skill => {
+                            if (skill.id !== "h_rokugan") { // Exclude Seis Olhos initially
+                                game.player.magiasAdquiridas.push(skill.id);
+                            }
+                        });
+                        setTimeout(() => alert("Sua compreensão da energia amaldiçoada se expande! Sua classe agora é [O Honrado]!"), 1000);
+                    }
+                }
+                else if (game.player.classe === "Honrado" && !game.player.magiasAdquiridas.includes("h_rokugan")) {
+                    if (Math.random() < 0.05) { // 5% chance
+                        game.player.magiasAdquiridas.push("h_rokugan");
+                        setTimeout(() => alert("Seus olhos ardem com uma nova percepção! Você despertou os [Seis Olhos]!"), 1000);
+                    }
                 }
 
                 const eraDesafioClasseVencido = game.batalha.isDesafioClasse && monstro.isDesafioClasseBoss;
@@ -1806,16 +1834,16 @@
                 const percepcaoFinal = a.percepcao * (1 + bonusPercentual.percepcao / 100);
 
                 // 3. Aplica os cálculos aos status do jogador
-                game.player.vidaMax = Math.floor(BASE_HP * (1 + vitalidadeFinal * 0.05));
+                game.player.vidaMax = Math.floor(BASE_HP * (1 + vitalidadeFinal * 0.2));
                 game.player.vidaAtual = Math.min(game.player.vidaAtual, game.player.vidaMax);
                 game.player.vitalidadeBonusVida = game.player.vidaMax - BASE_HP;
 
-                game.player.manaMax = Math.floor(BASE_MANA * (1 + inteligenciaFinal * 0.05));
+                game.player.manaMax = Math.floor(BASE_MANA * (1 + inteligenciaFinal * 0.7));
                 game.player.manaAtual = Math.min(game.player.manaAtual, game.player.manaMax);
                 game.player.inteligenciaBonusMana = game.player.manaMax - BASE_MANA;
 
-                game.player.currentDanoFisico = Math.floor(BASE_DANO_FISICO * (1 + forcaFinal * 0.0799));
-                game.player.currentDanoMagico = Math.floor(BASE_DANO_MAGICO * (1 + inteligenciaFinal * 0.06999));
+                game.player.currentDanoFisico = Math.floor(BASE_DANO_FISICO * (1 + forcaFinal * 0.7));
+                game.player.currentDanoMagico = Math.floor(BASE_DANO_MAGICO * (1 + inteligenciaFinal * 0.7));
 
                 // *** ATRIBUTOS SECUNDÁRIOS REBALANCEADOS E COM LIMITE ***
 
@@ -1900,16 +1928,20 @@
 
                 // Lógica especial para maestria da Técnica Reversa
                 if (skill.id === 'h_tecnica_reversa') {
-                    const custoInicialPercent = 0.70;
-                    const reducaoPorUso = 0.02; // Reduz 2% do custo a cada uso
-                    const custoMinimoPercent = 0.25;
+                    const custoInicialPercent = 0.70; // Starts at 70% of max mana
+                    const reducaoPorMarco = 0.05;     // Reduces cost by 5% of max mana per milestone
+                    const marcosDeUso = 10;           // A milestone is every 10 uses
+                    const custoMinimoPercent = 0.20;  // Minimum cost is 20% of max mana
 
-                    let custoAtualPercent = custoInicialPercent - (game.player.tecnicaReversaMastery * reducaoPorUso);
+                    const marcosAlcancados = Math.floor(game.player.tecnicaReversaMastery / marcosDeUso);
+                    let custoAtualPercent = custoInicialPercent - (marcosAlcancados * reducaoPorMarco);
+
+                    // Ensure the cost doesn't go below the minimum
                     custoBase = game.player.manaMax * Math.max(custoMinimoPercent, custoAtualPercent);
 
                 } else {
-                    // Lógica padrão para todas as outras habilidades
-                    custoBase = skill.manaBase || 0;
+                    // Standard logic for other skills
+                    custoBase = skill.manaBase || (game.player.manaMax * (skill.custoManaPercent || 0));
                 }
 
                 // Aplica o buff dos Seis Olhos, se aplicável
@@ -2272,15 +2304,27 @@
             function initializeAuthListener() {
                 auth.onAuthStateChanged((user) => {
                     if (user) {
+                        // Usuário ESTÁ logado
                         console.log("Usuário conectado:", user.uid);
                         currentFirebaseUser = user;
 
-                        loadGameFromCloud(user.uid);
+                        user.getIdTokenResult().then(idTokenResult => {
+                            googleDecodedCredential = {
+                                given_name: user.displayName?.split(' ')[0],
+                                name: user.displayName
+                            };
+                            isGoogleSignedIn = true;
+                            // PONTO PRINCIPAL: Tenta carregar o jogo da nuvem.
+                            loadGameFromCloud(user.uid);
+                        });
                     } else {
+                        // Usuário NÃO está logado
                         console.log("Nenhum usuário conectado.");
                         currentFirebaseUser = null;
-                        updateGoogleSignInUI();
-                        iniciarJogo(false);
+                        isGoogleSignedIn = false;
+                        googleDecodedCredential = null;
+                        // PONTO PRINCIPAL: Inicia um jogo novo, levando para a tela de setup.
+                        iniciarJogo();
                     }
                 });
             }
@@ -2487,7 +2531,10 @@
                 return false;
             }
 
+      
+
             function atribuirClasseAleatoriaSeNecessario() {
+
                 if (game.player.classe) return false;
 
                 if (game.player.nivel >= 10 && rankToIndex(game.player.rank) >= rankToIndex("D")) {
@@ -2495,7 +2542,12 @@
                     toggleHeaderNavButtons(true);
                     toggleChatInput(true);
 
-                    const availableClasses = PLAYER_CLASSES_LIST.filter(c => c !== "Necromante");
+                    const availableClasses = PLAYER_CLASSES_LIST.filter(c =>
+                        c !== "Necromante" &&
+                        c !== "Honrado" &&
+                        c !== "Rei das Maldições"
+                    );
+
                     if (availableClasses.length === 0) {
                         abrirInicio(); return false;
                     }
@@ -2508,26 +2560,25 @@
 
                     let msg = `Ao atingir o Nível 10 e Rank D, o destino interveio!<br/>Sua classe agora é <span class="font-bold text-sky-400">${classeEscolhida.nomeDisplay}</span>!`;
 
+                
                     if (classeEscolhida.habilidades && classeEscolhida.habilidades.length > 0) {
-                        classeEscolhida.habilidades.forEach((skill, index) => {
-                            skill.indiceNaClasse = index;
+                        classeEscolhida.habilidades.forEach(skill => {
+                       
                             if (game.player.nivel >= skill.unlockLevel && !game.player.magiasAdquiridas.includes(skill.id)) {
-                                const startingSkills = classeEscolhida.habilidades
-                                    .filter(h => h.unlockLevel <= game.player.nivel)
-                                    .sort((a, b) => a.unlockLevel - b.unlockLevel);
-                                const isStartingSkill = startingSkills.length > 0 && startingSkills[0].id === skill.id;
+                   
+                                game.player.magiasAdquiridas.push(skill.id);
+                                msg += `<br/>Você aprendeu: <span class="font-bold text-amber-400">${skill.nome}</span>.`;
 
-                                if (isStartingSkill || skill.unlockLevel === 1) {
-                                    game.player.magiasAdquiridas.push(skill.id);
-                                    msg += `<br/>Você aprendeu: <span class="font-bold text-amber-400">${skill.nome}</span>.`;
-                                    if (game.player.magiasEquipadas.length < 4) {
-                                        game.player.magiasEquipadas.push(skill.id);
-                                        msg += ` A habilidade foi equipada automaticamente.`;
-                                    }
+                        
+                                if (!skill.efeito?.tipo?.includes("passiva") && !skill.isChant && game.player.magiasEquipadas.length < 10) {
+                                    game.player.magiasEquipadas.push(skill.id);
+                                    msg += ` A habilidade foi equipada automaticamente.`;
                                 }
                             }
                         });
                     }
+
+
                     atualizarStatusAtributos();
                     atualizarSkillsTela();
                     mostrarMensagem(msg);
@@ -2910,6 +2961,9 @@
                     if (game.batalha.jogadorAgiuNoTurno) mostrarMensagem("Você já agiu neste turno.");
                     else mostrarMensagem("Não é seu turno.");
                     return;
+                }
+                if (skill.id === 'h_tecnica_reversa') {
+                    game.player.tecnicaReversaMastery++;
                 }
 
                 const monstro = game.batalha.monstro;
@@ -3410,6 +3464,7 @@
                 const magiasFiltradas = game.player.magiasAdquiridas
                     .map(id => classeAtualData.habilidades.find(h => h.id === id))
                     .filter(Boolean)
+                    .filter(skill => !skill.efeito || !skill.efeito.tipo || !skill.efeito.tipo.includes("passiva"))
                     .filter(skill => !!skill.isChant === !!mostrarEncantamentos);
 
                 const submenu = document.getElementById("battle-submenu-choices");
@@ -3682,7 +3737,7 @@
                 document.getElementById("btn-inventario")?.addEventListener("click", abrirInventario);
                 document.getElementById("btn-mercador")?.addEventListener("click", abrirMercador);
                 document.getElementById("btn-sair")?.addEventListener("click", sairJogo);
-
+                document.getElementById('btn-save-character-setup')?.addEventListener('click', finalizarSetupPersonagem);
                 document.getElementById("btn-inicio")?.addEventListener("click", abrirInicio);
                 document.getElementById("btn-atributos")?.addEventListener("click", abrirAtributos);
                 document.getElementById("btn-skills")?.addEventListener("click", abrirSkills);

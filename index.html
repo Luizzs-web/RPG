@@ -1805,7 +1805,7 @@
                 const resistenciaFinal = a.resistencia * (1 + bonusPercentual.resistencia / 100);
                 const percepcaoFinal = a.percepcao * (1 + bonusPercentual.percepcao / 100);
 
-                // 3. Aplica os cálculos aos status do jogador
+          
                 game.player.vidaMax = Math.floor(BASE_HP * (1 + vitalidadeFinal * 0.2));
                 game.player.vidaAtual = Math.min(game.player.vidaAtual, game.player.vidaMax);
                 game.player.vitalidadeBonusVida = game.player.vidaMax - BASE_HP;
@@ -1814,24 +1814,22 @@
                 game.player.manaAtual = Math.min(game.player.manaAtual, game.player.manaMax);
                 game.player.inteligenciaBonusMana = game.player.manaMax - BASE_MANA;
 
-                game.player.currentDanoFisico = Math.floor(BASE_DANO_FISICO * (1 + forcaFinal * 0.7));
-                game.player.currentDanoMagico = Math.floor(BASE_DANO_MAGICO * (1 + inteligenciaFinal * 0.7));
+                game.player.currentDanoFisico = Math.floor(BASE_DANO_FISICO * (1 + forcaFinal * 0.08));
+                game.player.currentDanoMagico = Math.floor(BASE_DANO_MAGICO * (1 + inteligenciaFinal * 0.08));
 
-                // *** ATRIBUTOS SECUNDÁRIOS REBALANCEADOS E COM LIMITE ***
-
-                // Resistência: Cada ponto agora dá 0.1% de redução de dano.
+           
                 let reducaoCalculada = resistenciaFinal * 0.1;
-                game.player.currentReducaoDano = Math.min(reducaoCalculada, 80); // Limite de 80% para não ficar imortal
+                game.player.currentReducaoDano = Math.min(reducaoCalculada, 80); 
                 game.player.resistenciaPct = game.player.currentReducaoDano / 100;
 
-                // Fuga: Cada ponto de agilidade dá 0.1% de chance bônus de fuga, com limite de 50%.
+  
                 let bonusFuga = agilidadeFinal * 0.1;
-                game.player.currentChanceFuga = Math.min(bonusFuga, 50); // Cap em 50%
+                game.player.currentChanceFuga = Math.min(bonusFuga, 50); 
                 game.player.agilidadePctFuga = game.player.currentChanceFuga / 100;
 
-                // Esquiva: Cada ponto de percepção dá 0.1% de chance de esquiva, com limite de 50%.
+  
                 let bonusEsquiva = percepcaoFinal * 0.1;
-                game.player.currentChanceEsquiva = Math.min(bonusEsquiva, 50); // Cap em 50%
+                game.player.currentChanceEsquiva = Math.min(bonusEsquiva, 50); 
                 game.player.percepcaoPct = game.player.currentChanceEsquiva / 100;
 
                 aplicarBuffs();

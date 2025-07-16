@@ -15,172 +15,172 @@
 
     <style type="text/tailwindcss">
         .attribute-mode-btn.active {
-    @apply bg-[#543C32] ring-2 ring-[#A1887F]; 
-}
+        @apply bg-[#6A1B9A] ring-2 ring-[#CE93D8];
+    }
     #character-setup-screen.hidden {
         display: none;
     }
 
     body {
-        background-color: #3B2E26; 
+        background-color: #1a1a2e; /* Fundo principal: Roxo bem escuro / Azul noite */
         font-family: 'Merriweather', serif;
-        color: #D7CCC8; 
+        color: #e0e0e0; /* Cor do texto principal: Cinza claro */
         transition: background-image 0.7s ease-in-out;
     }
 
     .bg-theme-default {
-        background-color: #3B2E26 !important; 
+        background-color: #1a1a2e !important; /* Fundo principal */
     }
     .bg-theme-forest {
-        background-image: url('https://source.unsplash.com/random/1920x1080/?dark,fantasy,forest,night') !important; 
+        background-image: url('https://source.unsplash.com/random/1920x1080/?dark,fantasy,forest,night') !important;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
     .bg-theme-battle {
-        background-image: url('https://source.unsplash.com/random/1920x1080/?battlefield,fantasy,medieval,gloomy') !important; 
+        background-image: url('https://source.unsplash.com/random/1920x1080/?battlefield,fantasy,medieval,gloomy') !important;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
     .bg-theme-dungeon {
-        background-image: url('https://source.unsplash.com/random/1920x1080/?dungeon,dark,stone,corridor,shadows') !important; 
+        background-image: url('https://source.unsplash.com/random/1920x1080/?dungeon,dark,stone,corridor,shadows') !important;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
     .bg-theme-boss-hall {
-        background-image: url('https://source.unsplash.com/random/1920x1080/?throne,room,boss,hall,fantasy,epic,dark') !important; 
+        background-image: url('https://source.unsplash.com/random/1920x1080/?throne,room,boss,hall,fantasy,epic,dark') !important;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
 
-    header.bg-slate-900 { 
-        @apply bg-[#2A1F1B] border-b-2 border-[#1F1611]; 
+    header.bg-slate-900 {
+        @apply bg-[#0f0f1a] border-b-2 border-[#4a148c]; /* Fundo quase preto com borda roxa */
     }
-    header h1 { 
-        @apply text-[#E0C097]; 
+    header h1 {
+        @apply text-[#e0e0e0]; /* Texto do título principal */
     }
-    header nav button, header nav button i { 
-        @apply text-[#D7CCC8] hover:text-[#FFF8E1]; 
+    header nav button, header nav button i {
+        @apply text-[#b0aacc] hover:text-[#ffffff]; /* Ícones cinza-lavanda com hover branco */
         font-family: 'Merriweather', serif;
     }
-    header nav button#btn-save-google, header nav button#btn-save-google i { 
-        @apply text-[#FFCA28] hover:text-[#FFB300]; 
+    header nav button#btn-save-google, header nav button#btn-save-google i {
+        @apply text-[#00E5FF] hover:text-[#84FFFF]; /* Ícone de salvar em ciano brilhante */
     }
     header nav button#btn-signout-google, header nav button#btn-signout-google i,
-    header nav button#btn-sair, header nav button#btn-sair i { 
-        @apply text-[#BCAAA4] hover:text-[#A1887F]; 
+    header nav button#btn-sair, header nav button#btn-sair i {
+        @apply text-[#9E9E9E] hover:text-[#E0E0E0]; /* Ícones de sair em cinza */
     }
-    #google-user-greeting { 
-        @apply text-[#D7CCC8]; 
+    #google-user-greeting {
+        @apply text-[#b0aacc]; /* Texto de saudação cinza-lavanda */
     }
 
     #story-text, .bg-slate-700, .bg-slate-800, .bg-slate-600 {
-        background-color: rgba(60, 45, 38, 0.6); 
-        border: 1px solid rgba(83, 64, 55, 0.5); 
+        background-color: rgba(26, 26, 46, 0.75); /* Fundo dos painéis: roxo escuro transparente */
+        border: 1px solid rgba(123, 31, 162, 0.5); /* Borda roxa transparente */
         @apply shadow-md;
     }
     #story-text {
-        background-color: rgba(74, 59, 50, 0.65); 
-        border: 1px solid #6D4C41; 
-        @apply text-lg leading-relaxed select-text text-[#E0C097]; 
+        border: 1px solid #7B1FA2; /* Borda roxa mais forte */
+        @apply text-lg leading-relaxed select-text text-[#e0e0e0]; /* Texto cinza claro */
     }
 
     #choices button,
     #battle-main-commands button,
     #btn-salvar-atributos,
-    #btn-comprar-mercador {
-        @apply bg-[#6D4C41] hover:bg-[#543C32] text-[#FFF8E1] border border-[#4E342E] shadow-sm; 
-        @apply focus:ring-[#A1887F] focus:ring-offset-2 focus:ring-offset-[#3B2E26]; 
+    #btn-comprar-mercador,
+    #btn-send-command {
+        @apply bg-[#4A0072] hover:bg-[#6A1B9A] text-[#E0E0E0] border border-[#38006b] shadow-sm; /* Botões roxos */
+        @apply focus:ring-[#9C27B0] focus:ring-offset-2 focus:ring-offset-[#1a1a2e]; /* Foco do anel em roxo */
         font-family: 'Merriweather', serif;
     }
     #choices button:disabled,
     #battle-main-commands button:disabled,
     #btn-comprar-mercador:disabled {
-        @apply bg-[#5A4A44] text-[#887972] border-[#4A3A34] cursor-default; 
+        @apply bg-[#3e2755] text-[#7a7285] border-[#2a1a3a] cursor-default; /* Botões desabilitados */
         font-family: 'Merriweather', serif;
     }
 
     .atributos-fundo {
-        background-color: #31251E;  
-        border: 2px solid #1F1611;  
+        background-color: #1a1a2e; /* Fundo da tela de atributos */
+        border: 2px solid #4a148c; /* Borda roxa */
         padding: 1rem;
     }
     #atributos-screen h2, #atributos-screen h4 {
-        @apply text-[#E0C097];  
+        @apply text-[#CE93D8]; /* Títulos em lavanda claro */
     }
-    #atributos-screen .bg-slate-700, #atributos-screen .bg-slate-600 {  
-        background-color: rgba(93, 64, 55, 0.4);
-        border: 1px solid #4E342E;  
+    #atributos-screen .bg-slate-700, #atributos-screen .bg-slate-600 {
+        background-color: rgba(40, 40, 60, 0.6); /* Painéis internos roxo/cinza */
+        border: 1px solid #4a148c;
     }
     #status-nivel, #status-rank, #status-classe, #status-moedas,
     #bonus-dano-fisico, #bonus-dano-magico, #bonus-resistencia span, #bonus-fuga span, #bonus-esquiva span,
     #forca-val, #agilidade-val, #inteligencia-val, #resistencia-val, #vitalidade-val, #percepcao-val,
     #pontos-disponiveis {
-        @apply text-[#D7CCC8];  
+        @apply text-[#e0e0e0]; /* Texto padrão cinza claro */
     }
-    #status-nivel { @apply text-[#A5D6A7]; }  
-    #status-rank { @apply text-[#FFCA28]; }  
-    #status-classe { @apply text-[#BCAAA4]; }  
-    #status-moedas { @apply text-[#FFCA28]; }  
+    #status-nivel { @apply text-[#A5D6A7]; }
+    #status-rank { @apply text-[#FDD835]; } /* Amarelo vibrante */
+    #status-classe { @apply text-[#b0aacc]; } /* Cinza-lavanda */
+    #status-moedas { @apply text-[#FDD835]; }
 
-    #atributos-screen .text-slate-400 {  
-        @apply text-[#A1887F];  
+    #atributos-screen .text-slate-400 {
+        @apply text-[#9E9E9E]; /* Texto de rótulo cinza */
     }
-    #atributos-screen .text-purple-300 { @apply text-[#CE93D8]; }  
-    #atributos-screen .text-red-400 { @apply text-[#EF9A9A]; }  
-    #atributos-screen .text-blue-400 { @apply text-[#90CAF9]; }  
+    #atributos-screen .text-purple-300 { @apply text-[#CE93D8]; }
+    #atributos-screen .text-red-400 { @apply text-[#EF9A9A]; }
+    #atributos-screen .text-blue-400 { @apply text-[#90CAF9]; }
 
-    #bonus-dano-fisico { @apply text-[#FFAB91]; }  
-    #bonus-dano-magico { @apply text-[#81D4FA]; }  
-    #bonus-resistencia span { @apply text-[#A5D6A7]; }
-    #bonus-esquiva span, #bonus-fuga span { @apply text-[#BCAAA4]; }  
+    #bonus-dano-fisico { @apply text-[#FF8A65]; } /* Laranja claro */
+    #bonus-dano-magico { @apply text-[#81D4FA]; } /* Azul claro */
+    #bonus-resistencia span { @apply text-[#A5D6A7]; } /* Verde */
+    #bonus-esquiva span, #bonus-fuga span { @apply text-[#CFD8DC]; } /* Cinza azulado */
 
     #forca-rank, #agilidade-rank, #inteligencia-rank, #resistencia-rank, #vitalidade-rank, #percepcao-rank {
-        @apply text-[#FFCA28];  
+        @apply text-[#FDD835]; /* Amarelo vibrante */
     }
-    #pontos-disponiveis { @apply text-[#FFCA28]; }
+    #pontos-disponiveis { @apply text-[#FDD835]; }
 
     #status-xp-bar, #status-vida-bar, #status-mana-bar {
-        border: 1px solid #543C32;  
+        border: 1px solid #4a148c; /* Borda roxa para as barras */
     }
-    
+
     #atributos-screen .btn-attr {
         font-family: 'Merriweather', serif;
-        @apply text-[#FFF8E1] transition-colors px-3 py-1 rounded-md focus:outline-none focus:ring-2;
+        @apply text-[#e0e0e0] transition-colors px-3 py-1 rounded-md focus:outline-none focus:ring-2;
     }
-    #atributos-screen button[data-action="dec"].btn-attr {  
-        @apply bg-[#8D6E63] hover:bg-[#6D4C41] focus:ring-[#795548];  
+    #atributos-screen button[data-action="dec"].btn-attr {
+        @apply bg-[#6A1B9A] hover:bg-[#4A0072] focus:ring-[#9C27B0];
     }
-    #atributos-screen button[data-action="inc"].btn-attr {  
-        @apply bg-[#6D4C41] hover:bg-[#543C32] focus:ring-[#6D4C41];  
+    #atributos-screen button[data-action="inc"].btn-attr {
+        @apply bg-[#4A0072] hover:bg-[#6A1B9A] focus:ring-[#9C27B0];
     }
 
-    #status-xp-bar { @apply bg-[#9C27B0]; }  
-    #status-vida-bar { @apply bg-[#D32F2F]; }  
+    #status-xp-bar { @apply bg-[#9C27B0]; }
+    #status-vida-bar { @apply bg-[#c62828]; } /* Vermelho intenso */
     #status-mana-bar { @apply bg-[#1976D2]; }
 
-    #player-battle-hp-bar { @apply bg-[#D32F2F]; }
+    #player-battle-hp-bar { @apply bg-[#c62828]; }
     #player-battle-mp-bar { @apply bg-[#1976D2]; }
     #player-battle-xp-bar { @apply bg-[#9C27B0]; }
-    #summon-battle-hp-bar { @apply bg-[#795548]; }
-    #enemy-battle-hp-bar { @apply bg-[#E64A19]; }  
+    #summon-battle-hp-bar { @apply bg-[#5E35B1]; } /* Roxo profundo para summon */
+    #enemy-battle-hp-bar { @apply bg-[#E64A19]; }
 
-    #player-battle-name, #summon-battle-name { @apply text-[#FFCA28]; }  
-    #enemy-battle-name { @apply text-[#FF8A65]; }  
+    #player-battle-name, #summon-battle-name { @apply text-[#00E5FF]; } /* Ciano para jogador e aliados */
+    #enemy-battle-name { @apply text-[#FF5252]; } /* Vermelho para inimigo */
     #player-battle-hp-text, #player-battle-mp-text, #player-battle-xp-text,
     #summon-battle-hp-text,
     #enemy-battle-hp-text,
     #enemy-battle-rank {
-        @apply text-[#E0C097];  
+        @apply text-[#e0e0e0]; /* Texto padrão cinza claro */
     }
-    
+
     #player-battle-display .text-xs.text-slate-300,
     #summon-battle-display .text-xs.text-slate-300,
     #enemy-battle-display .text-xs.text-slate-300 {
-        @apply text-[#BCAAA4]; 
+        @apply text-[#b0aacc]; /* Texto de rótulo cinza-lavanda */
     }
 
     ::-webkit-scrollbar {
@@ -188,140 +188,126 @@
         height: 8px;
     }
     ::-webkit-scrollbar-track {
-        background: #2A1F1B; 
+        background: #0f0f1a; /* Fundo da barra de rolagem quase preto */
     }
     ::-webkit-scrollbar-thumb {
-        background: #6D4C41; 
+        background: #4A0072; /* Polegar da barra de rolagem roxo */
         border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-        background: #543C32; 
+        background: #6A1B9A; /* Hover do polegar roxo mais claro */
     }
 
     #lista-sombras-recipiente li { margin-bottom: 8px; }
 
     .equipment-slot-label {
-        @apply font-semibold text-sm text-[#BCAAA4] block mb-1; 
+        @apply font-semibold text-sm text-[#b0aacc] block mb-1; /* Rótulo cinza-lavanda */
     }
     .equipment-slot-display {
-        @apply text-xs text-[#D7CCC8] italic bg-[rgba(93,64,55,0.4)] p-2 rounded min-h-[38px] flex items-center justify-center text-center border border-[#4E342E]; 
+        @apply text-sm text-[#e0e0e0] bg-[rgba(40,40,60,0.6)] p-2 rounded min-h-[38px] flex items-center justify-center text-center border border-[#4a148c];
     }
     .character-placeholder-container i {
-        @apply text-[#A1887F]; 
+        @apply text-[#6a6a8a]; /* Ícone de placeholder cinza-roxo */
     }
 
-    #skills-screen h2 { @apply text-[#E0C097] border-b-2 border-[#6D4C41] pb-2; } 
-    #classe-info-skills { @apply mb-4 text-lg text-[#D7CCC8]; } 
-    #classe-info-skills p:first-child { @apply font-bold text-[#E0C097]; }
+    #skills-screen h2 { @apply text-[#CE93D8] border-b-2 border-[#4A0072] pb-2; }
+    #classe-info-skills { @apply mb-4 text-lg text-[#e0e0e0]; }
+    #classe-info-skills p:first-child { @apply font-bold text-[#CE93D8]; }
     #lista-skills {
-        background-color: rgba(60, 45, 38, 0.3); 
-        border: 1px solid #786054; 
+        background-color: rgba(26, 26, 46, 0.4);
+        border: 1px solid #4a148c;
         @apply rounded-lg p-4 max-h-[450px] overflow-y-auto space-y-4;
     }
     #lista-skills > div {
-        background-color: rgba(83, 60, 47, 0.6) !important; 
-        border: 1px solid #6D4C41; 
+        background-color: rgba(40, 40, 60, 0.7) !important;
+        border: 1px solid #6A1B9A;
         @apply rounded-md p-4 shadow;
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
     }
-    #lista-skills > div.opacity-60 { 
-        background-color: rgba(74, 59, 50, 0.5) !important; 
-        border-color: #543C32;
+    #lista-skills > div.opacity-60 {
+        background-color: rgba(40, 40, 60, 0.5) !important;
+        border-color: #3e2755;
     }
     #lista-skills .skill-title {
-        @apply font-bold text-lg text-[#FFCA28]; 
+        @apply font-bold text-lg text-[#FDD835]; /* Título da skill amarelo vibrante */
     }
     #lista-skills .skill-description {
-        @apply text-sm text-[#D7CCC8] mt-1 mb-1 leading-relaxed; 
+        @apply text-sm text-[#e0e0e0] mt-1 mb-1 leading-relaxed;
     }
     #lista-skills .skill-meta {
-        @apply text-xs text-[#BCAAA4] italic mt-1; 
+        @apply text-xs text-[#b0aacc] italic mt-1;
     }
     #lista-skills .skill-actions button {
-        @apply bg-[#8D6E63] hover:bg-[#6D4C41] text-[#FFF8E1] text-xs px-3 py-1.5 rounded; 
+        @apply bg-[#4A0072] hover:bg-[#6A1B9A] text-[#e0e0e0] text-xs px-3 py-1.5 rounded;
         font-family: 'Merriweather', serif;
     }
-    #skills-screen p.italic { @apply text-[#BCAAA4]; } 
+    #skills-screen p.italic { @apply text-[#b0aacc]; }
 
-    #inventario-screen h2, #inventario-screen h3 { @apply text-[#E0C097] border-b-2 border-[#6D4C41] pb-1; }
-    #inventario-screen .bg-slate-700 { 
-        background-color: rgba(93, 64, 55, 0.4); 
-        border: 1px solid #4E342E;
-    }
+    #inventario-screen h2, #inventario-screen h3 { @apply text-[#CE93D8] border-b-2 border-[#4A0072] pb-1; }
+    
     #lista-itens li, #lista-sombras-recipiente li {
-        background-color: rgba(83, 60, 47, 0.5) !important; 
-        border: 1px solid #786054; 
+        background-color: rgba(40, 40, 60, 0.7) !important;
+        border: 1px solid #6A1B9A;
     }
-    #lista-itens .font-semibold, #lista-sombras-recipiente .text-purple-300 { 
-        @apply text-[#FFCA28]; 
+    #lista-itens .font-semibold, #lista-sombras-recipiente .text-purple-300 {
+        @apply text-[#00E5FF]; /* Nomes de itens em ciano */
     }
-    #lista-sombras-recipiente .text-purple-300 { @apply text-[#CE93D8]; } 
+    #lista-sombras-recipiente .text-purple-300 { @apply text-[#CE93D8]; }
 
-    #lista-itens .text-xs.text-slate-300, 
-    #recipiente-sombras-container .text-slate-400 { 
-        @apply text-[#BCAAA4]; 
+    #lista-itens .text-xs.text-slate-300,
+    #recipiente-sombras-container .text-slate-400 {
+        @apply text-[#b0aacc];
     }
 
-    #mercador-screen h2 { @apply text-[#E0C097] border-b-2 border-[#6D4C41] pb-2; }
-    #mercador-screen .bg-slate-700 { 
-        background-color: rgba(93, 64, 55, 0.4);
-        border: 1px solid #4E342E;
+    #mercador-screen h2 { @apply text-[#CE93D8] border-b-2 border-[#4A0072] pb-2; }
+    #mercador-screen #lista-mercador .font-semibold.text-sky-400 {
+        @apply text-[#00E5FF];
     }
-    #mercador-screen #lista-mercador li {
-        background-color: rgba(83, 60, 47, 0.5) !important;
-        border: 1px solid #786054;
+    #mercador-screen #lista-mercador .text-xs.text-slate-300 {
+        @apply text-[#b0aacc];
     }
-    #mercador-screen #lista-mercador .font-semibold.text-sky-400 { 
-        @apply text-[#90CAF9]; 
-    }
-    #mercador-screen #lista-mercador .text-xs.text-slate-300 { 
-        @apply text-[#BCAAA4]; 
-    }
-    #mercador-screen #lista-mercador .font-semibold.text-amber-300 { 
-        @apply text-[#FFCA28]; 
+    #mercador-screen #lista-mercador .font-semibold.text-amber-300 {
+        @apply text-[#FDD835];
     }
 
     #battle-interface-container {
-        background-color: rgba(60, 45, 38, 0.4); 
+        background-color: rgba(26, 26, 46, 0.6);
     }
     #player-battle-display, #enemy-battle-display, #summon-battle-display {
-        background-color: rgba(93, 64, 55, 0.5) !important; 
-        border: 1px solid #4E342E; 
+        background-color: rgba(40, 40, 60, 0.75) !important;
+        border: 1px solid #4a148c;
     }
 
-    footer.bg-slate-900 { 
-        @apply bg-[#2A1F1B] border-t-2 border-[#1F1611]; 
+    footer.bg-slate-900 {
+        @apply bg-[#0f0f1a] border-t-2 border-[#4a148c];
     }
     #chat-command-input {
-        @apply bg-[#4E342E] text-[#E0C097] border-[#6D4C41] placeholder-[#A1887F]; 
-        @apply focus:ring-[#786054] focus:border-[#786054];
-        font-family: 'Merriweather', serif;
-    }
-    #btn-send-command {
-        @apply bg-[#6D4C41] hover:bg-[#543C32] text-[#FFF8E1]; 
+        @apply bg-[#2c2c3e] text-[#E0E0E0] border-[#4A0072] placeholder-[#777];
+        @apply focus:ring-[#9C27B0] focus:border-[#9C27B0];
         font-family: 'Merriweather', serif;
     }
 
     #boss-door-visual {
-        border: 5px solid #1F1611; 
+        border: 5px solid #0f0f1a;
     }
 
     #character-setup-screen {
-        background-color: #31251E !important; 
-        border: 2px solid #1F1611 !important;
+        background-color: #1a1a2e !important;
+        border: 2px solid #4a148c !important;
     }
-    #character-setup-screen h2 { @apply text-[#E0C097]; }
-    #character-setup-screen label { @apply text-[#BCAAA4]; }
+    #character-setup-screen h2 { @apply text-[#CE93D8]; }
+    #character-setup-screen label { @apply text-[#b0aacc]; }
     #character-setup-screen input[type="text"] {
-        @apply bg-[#4E342E] text-[#E0C097] border-[#6D4C41] placeholder-[#A1887F] focus:ring-[#786054] focus:border-[#786054];
+        @apply bg-[#2c2c3e] text-[#E0E0E0] border-[#4A0072] placeholder-[#777];
+        @apply focus:ring-[#9C27B0] focus:border-[#9C27B0];
     }
-    #character-setup-screen p.text-xs { @apply text-[#A1887F]; }
+    #character-setup-screen p.text-xs { @apply text-[#9E9E9E]; }
     #btn-save-character-setup {
-        @apply bg-[#6D4C41] hover:bg-[#543C32] text-[#FFF8E1] border border-[#4E342E];
+        @apply bg-[#4A0072] hover:bg-[#6A1B9A] text-[#E0E0E0] border border-[#38006b];
     }
-     .inventory-equip-layout {
+    .inventory-equip-layout {
         @apply grid grid-cols-1 md:grid-cols-[2fr,3fr] gap-4;
     }
 
@@ -333,7 +319,7 @@
         @apply grid grid-cols-2 sm:grid-cols-3 gap-3 w-full;
     }
 
-    </style>
+</style>
 </head>
 
 <body class="min-h-screen flex flex-col bg-theme-default">
@@ -479,25 +465,25 @@
                     </div>
                 </div>
                 <div class="bg-slate-700 rounded-xl shadow-xl p-6 mt-8">
-                    <h4 class="text-xl font-semibold mb-4 text-center tracking-wide text-[#E0C097]">EDITAR PERSONAGEM
+                    <h4 class="text-xl font-semibold mb-4 text-center tracking-wide">EDITAR PERSONAGEM
                     </h4>
                     <div class="space-y-4">
                         <div>
                             <label for="edit-player-name-input"
-                                class="block text-sm font-medium mb-1 text-[#BCAAA4]">Novo Nome:</label>
+                                class="block text-sm font-medium mb-1 text-[#b0aacc]">Novo Nome:</label>
                             <input type="text" id="edit-player-name-input"
-                                class="w-full p-2 rounded bg-[#4E342E] text-[#E0C097] border-[#6D4C41] placeholder-[#A1887F] focus:ring-[#786054] focus:border-[#786054]">
+                                class="w-full p-2 rounded bg-[#2c2c3e] text-[#E0E0E0] border border-[#4A0072] placeholder-[#777] focus:ring-[#9C27B0] focus:border-[#9C27B0]">
                         </div>
                         <div>
                             <label for="edit-player-portrait-input"
-                                class="block text-sm font-medium mb-1 text-[#BCAAA4]">Novo Retrato:</label>
+                                class="block text-sm font-medium mb-1 text-[#b0aacc]">Novo Retrato:</label>
                             <input type="file" id="edit-player-portrait-input"
-                                class="w-full p-1.5 rounded text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#6D4C41] file:text-[#FFF8E1] hover:file:bg-[#543C32]"
+                                class="w-full p-1.5 rounded text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#4A0072] file:text-[#E0E0E0] hover:file:bg-[#6A1B9A]"
                                 accept="image/*">
                         </div>
                         <div class="text-center pt-2">
                             <button id="btn-save-player-info"
-                                class="rounded-lg px-8 py-3 font-semibold text-lg bg-[#6D4C41] hover:bg-[#543C32] text-[#FFF8E1]">Salvar
+                                class="rounded-lg px-8 py-3 font-semibold text-lg bg-[#4A0072] hover:bg-[#6A1B9A] text-[#E0E0E0]">Salvar
                                 Informações</button>
                         </div>
                     </div>
@@ -598,112 +584,113 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mb-2 text-center">Você tem <span id="pontos-disponiveis"
-                            class="font-semibold text-xl">0</span> pontos para distribuir.</p>
-                    <div class="mb-4 text-center">
-                        <h4 class="text-lg font-semibold mb-2">Definir Adição por Clique:</h4>
-                        <div id="attribute-add-mode" class="inline-flex rounded-md shadow-sm" role="group">
-                            <button type="button"
-                                class="px-4 py-2 text-sm font-medium border border-gray-600 rounded-l-lg hover:bg-[#543C32] focus:z-10 focus:ring-2 focus:ring-[#A1887F] bg-[#6D4C41] text-[#FFF8E1] attribute-mode-btn"
-                                data-amount="1">
-                                +1
-                            </button>
-                            <button type="button"
-                                class="px-4 py-2 text-sm font-medium border-t border-b border-gray-600 hover:bg-[#543C32] focus:z-10 focus:ring-2 focus:ring-[#A1887F] bg-[#6D4C41] text-[#FFF8E1] attribute-mode-btn"
-                                data-amount="5">
-                                +5
-                            </button>
-                            <button type="button"
-                                class="px-4 py-2 text-sm font-medium border-t border-b border-gray-600 hover:bg-[#543C32] focus:z-10 focus:ring-2 focus:ring-[#A1887F] bg-[#6D4C41] text-[#FFF8E1] attribute-mode-btn"
-                                data-amount="10">
-                                +10
-                            </button>
-                            <button type="button"
-                                class="px-4 py-2 text-sm font-medium border border-gray-600 rounded-r-lg hover:bg-[#543C32] focus:z-10 focus:ring-2 focus:ring-[#A1887F] bg-[#6D4C41] text-[#FFF8E1] attribute-mode-btn"
-                                data-amount="100">
-                                +100
-                            </button>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="bg-slate-700 p-4 rounded-lg flex flex-col items-center space-y-2 shadow-lg">
-                            <span class="font-semibold text-lg"><i
-                                    class="fas fa-fist-raised mr-2 text-red-400"></i>Força</span>
-                            <div class="flex items-center space-x-2">
-                                <button data-attr="forca" data-action="dec" class="btn-attr"><i
-                                        class="fas fa-minus"></i></button>
-                                <span id="forca-val" class="w-12 text-center font-mono text-xl">0.0</span>
-                                <span id="forca-rank" class="w-8 text-center text-sm font-mono">(E)</span>
-                                <button data-attr="forca" data-action="inc" class="btn-attr"><i
-                                        class="fas fa-plus"></i></button>
-                            </div>
-                        </div>
-                        <div class="bg-slate-700 p-4 rounded-lg flex flex-col items-center space-y-2 shadow-lg">
-                            <span class="font-semibold text-lg"><i
-                                    class="fas fa-running mr-2 text-green-400"></i>Agilidade</span>
-                            <div class="flex items-center space-x-2">
-                                <button data-attr="agilidade" data-action="dec" class="btn-attr"><i
-                                        class="fas fa-minus"></i></button>
-                                <span id="agilidade-val" class="w-12 text-center font-mono text-xl">0.0</span>
-                                <span id="agilidade-rank" class="w-8 text-center text-sm font-mono">(E)</span>
-                                <button data-attr="agilidade" data-action="inc" class="btn-attr"><i
-                                        class="fas fa-plus"></i></button>
-                            </div>
-                        </div>
-                        <div class="bg-slate-700 p-4 rounded-lg flex flex-col items-center space-y-2 shadow-lg">
-                            <span class="font-semibold text-lg"><i
-                                    class="fas fa-brain mr-2 text-blue-400"></i>Inteligência</span>
-                            <div class="flex items-center space-x-2">
-                                <button data-attr="inteligencia" data-action="dec" class="btn-attr"><i
-                                        class="fas fa-minus"></i></button>
-                                <span id="inteligencia-val" class="w-12 text-center font-mono text-xl">0.0</span>
-                                <span id="inteligencia-rank" class="w-8 text-center text-sm font-mono">(E)</span>
-                                <button data-attr="inteligencia" data-action="inc" class="btn-attr"><i
-                                        class="fas fa-plus"></i></button>
-                            </div>
-                        </div>
-                        <div class="bg-slate-700 p-4 rounded-lg flex flex-col items-center space-y-2 shadow-lg">
-                            <span class="font-semibold text-lg"><i
-                                    class="fas fa-shield-alt mr-2 text-gray-400"></i>Resistência</span>
-                            <div class="flex items-center space-x-2">
-                                <button data-attr="resistencia" data-action="dec" class="btn-attr"><i
-                                        class="fas fa-minus"></i></button>
-                                <span id="resistencia-val" class="w-12 text-center font-mono text-xl">0.0</span>
-                                <span id="resistencia-rank" class="w-8 text-center text-sm font-mono">(E)</span>
-                                <button data-attr="resistencia" data-action="inc" class="btn-attr"><i
-                                        class="fas fa-plus"></i></button>
-                            </div>
-                        </div>
-                        <div class="bg-slate-700 p-4 rounded-lg flex flex-col items-center space-y-2 shadow-lg">
-                            <span class="font-semibold text-lg"><i
-                                    class="fas fa-heartbeat mr-2 text-pink-400"></i>Vitalidade</span>
-                            <div class="flex items-center space-x-2">
-                                <button data-attr="vitalidade" data-action="dec" class="btn-attr"><i
-                                        class="fas fa-minus"></i></button>
-                                <span id="vitalidade-val" class="w-12 text-center font-mono text-xl">0.0</span>
-                                <span id="vitalidade-rank" class="w-8 text-center text-sm font-mono">(E)</span>
-                                <button data-attr="vitalidade" data-action="inc" class="btn-attr"><i
-                                        class="fas fa-plus"></i></button>
-                            </div>
-                        </div>
-                        <div class="bg-slate-700 p-4 rounded-lg flex flex-col items-center space-y-2 shadow-lg">
-                            <span class="font-semibold text-lg"><i
-                                    class="fas fa-eye mr-2 text-yellow-400"></i>Percepção</span>
-                            <div class="flex items-center space-x-2">
-                                <button data-attr="percepcao" data-action="dec" class="btn-attr"><i
-                                        class="fas fa-minus"></i></button>
-                                <span id="percepcao-val" class="w-12 text-center font-mono text-xl">0.0</span>
-                                <span id="percepcao-rank" class="w-8 text-center text-sm font-mono">(E)</span>
-                                <button data-attr="percepcao" data-action="inc" class="btn-attr"><i
-                                        class="fas fa-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center mt-8">
-                        <button id="btn-salvar-atributos" class="rounded-lg px-8 py-3 font-semibold text-lg">Salvar
-                            Atributos e Voltar</button>
+                </div>
+                <p class="mb-2 text-center">Você tem <span id="pontos-disponiveis"
+                        class="font-semibold text-xl">0</span> pontos para distribuir.</p>
+                <div class="mb-4 text-center">
+                    <h4 class="text-lg font-semibold mb-2">Definir Adição por Clique:</h4>
+                    <div id="attribute-add-mode" class="inline-flex rounded-md shadow-sm" role="group">
+                        <button type="button"
+                            class="px-4 py-2 text-sm font-medium border rounded-l-lg hover:bg-[#6A1B9A] focus:z-10 focus:ring-2 focus:ring-[#9C27B0] bg-[#4A0072] text-[#E0E0E0] border-[#38006b] attribute-mode-btn"
+                            data-amount="1">
+                            +1
+                        </button>
+                        <button type="button"
+                            class="px-4 py-2 text-sm font-medium border-t border-b hover:bg-[#6A1B9A] focus:z-10 focus:ring-2 focus:ring-[#9C27B0] bg-[#4A0072] text-[#E0E0E0] border-[#38006b] attribute-mode-btn"
+                            data-amount="5">
+                            +5
+                        </button>
+                        <button type="button"
+                            class="px-4 py-2 text-sm font-medium border-t border-b hover:bg-[#6A1B9A] focus:z-10 focus:ring-2 focus:ring-[#9C27B0] bg-[#4A0072] text-[#E0E0E0] border-[#38006b] attribute-mode-btn"
+                            data-amount="10">
+                            +10
+                        </button>
+                        <button type="button"
+                            class="px-4 py-2 text-sm font-medium border rounded-r-lg hover:bg-[#6A1B9A] focus:z-10 focus:ring-2 focus:ring-[#9C27B0] bg-[#4A0072] text-[#E0E0E0] border-[#38006b] attribute-mode-btn"
+                            data-amount="100">
+                            +100
+                        </button>
                     </div>
                 </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-slate-700 p-4 rounded-lg flex flex-col items-center space-y-2 shadow-lg">
+                        <span class="font-semibold text-lg"><i
+                                class="fas fa-fist-raised mr-2 text-red-400"></i>Força</span>
+                        <div class="flex items-center space-x-2">
+                            <button data-attr="forca" data-action="dec" class="btn-attr"><i
+                                    class="fas fa-minus"></i></button>
+                            <span id="forca-val" class="w-12 text-center font-mono text-xl">0.0</span>
+                            <span id="forca-rank" class="w-8 text-center text-sm font-mono">(E)</span>
+                            <button data-attr="forca" data-action="inc" class="btn-attr"><i
+                                    class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="bg-slate-700 p-4 rounded-lg flex flex-col items-center space-y-2 shadow-lg">
+                        <span class="font-semibold text-lg"><i
+                                class="fas fa-running mr-2 text-green-400"></i>Agilidade</span>
+                        <div class="flex items-center space-x-2">
+                            <button data-attr="agilidade" data-action="dec" class="btn-attr"><i
+                                    class="fas fa-minus"></i></button>
+                            <span id="agilidade-val" class="w-12 text-center font-mono text-xl">0.0</span>
+                            <span id="agilidade-rank" class="w-8 text-center text-sm font-mono">(E)</span>
+                            <button data-attr="agilidade" data-action="inc" class="btn-attr"><i
+                                    class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="bg-slate-700 p-4 rounded-lg flex flex-col items-center space-y-2 shadow-lg">
+                        <span class="font-semibold text-lg"><i
+                                class="fas fa-brain mr-2 text-blue-400"></i>Inteligência</span>
+                        <div class="flex items-center space-x-2">
+                            <button data-attr="inteligencia" data-action="dec" class="btn-attr"><i
+                                    class="fas fa-minus"></i></button>
+                            <span id="inteligencia-val" class="w-12 text-center font-mono text-xl">0.0</span>
+                            <span id="inteligencia-rank" class="w-8 text-center text-sm font-mono">(E)</span>
+                            <button data-attr="inteligencia" data-action="inc" class="btn-attr"><i
+                                    class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="bg-slate-700 p-4 rounded-lg flex flex-col items-center space-y-2 shadow-lg">
+                        <span class="font-semibold text-lg"><i
+                                class="fas fa-shield-alt mr-2 text-gray-400"></i>Resistência</span>
+                        <div class="flex items-center space-x-2">
+                            <button data-attr="resistencia" data-action="dec" class="btn-attr"><i
+                                    class="fas fa-minus"></i></button>
+                            <span id="resistencia-val" class="w-12 text-center font-mono text-xl">0.0</span>
+                            <span id="resistencia-rank" class="w-8 text-center text-sm font-mono">(E)</span>
+                            <button data-attr="resistencia" data-action="inc" class="btn-attr"><i
+                                    class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="bg-slate-700 p-4 rounded-lg flex flex-col items-center space-y-2 shadow-lg">
+                        <span class="font-semibold text-lg"><i
+                                class="fas fa-heartbeat mr-2 text-pink-400"></i>Vitalidade</span>
+                        <div class="flex items-center space-x-2">
+                            <button data-attr="vitalidade" data-action="dec" class="btn-attr"><i
+                                    class="fas fa-minus"></i></button>
+                            <span id="vitalidade-val" class="w-12 text-center font-mono text-xl">0.0</span>
+                            <span id="vitalidade-rank" class="w-8 text-center text-sm font-mono">(E)</span>
+                            <button data-attr="vitalidade" data-action="inc" class="btn-attr"><i
+                                    class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="bg-slate-700 p-4 rounded-lg flex flex-col items-center space-y-2 shadow-lg">
+                        <span class="font-semibold text-lg"><i
+                                class="fas fa-eye mr-2 text-yellow-400"></i>Percepção</span>
+                        <div class="flex items-center space-x-2">
+                            <button data-attr="percepcao" data-action="dec" class="btn-attr"><i
+                                    class="fas fa-minus"></i></button>
+                            <span id="percepcao-val" class="w-12 text-center font-mono text-xl">0.0</span>
+                            <span id="percepcao-rank" class="w-8 text-center text-sm font-mono">(E)</span>
+                            <button data-attr="percepcao" data-action="inc" class="btn-attr"><i
+                                    class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <button id="btn-salvar-atributos" class="rounded-lg px-8 py-3 font-semibold text-lg">Salvar
+                        Atributos e Voltar</button>
+                </div>
+    </div>
     </div>
     </section>
 
@@ -993,6 +980,13 @@
                         { id: "g_furia_berserker", nome: "Fúria Berserker", rank: "C", danoBase: 50, escalaMana: 0.15, manaBase: 80, unlockLevel: 50, efeito: { tipo: "dano_verdadeiro_adicional", valor: 30 }, descricao: "Ataque selvagem que causa dano base e 30 de dano verdadeiro que ignora defesas." }
                     ]
                 },
+                "Restrição Celestial": {
+                    nomeDisplay: "Restrição Celestial",
+                    isUnique: true,
+                    isCelestialRestriction: true,
+                    descricao: "Abandonando a energia amaldiçoada, seu corpo atinge o ápice físico. Você não pode usar mana ou habilidades, mas seu poder bruto, resistência e potencial de crescimento são incomparáveis.",
+                    habilidades: []
+                },
                 "Arqueiro": {
                     nomeDisplay: "Arqueiro",
                     descricao: "Perito em ataques à distância, utilizando precisão e agilidade.",
@@ -1098,6 +1092,15 @@
                 drop: { id: "potion_drop", nome: "Poção Básica", curaVidaPct: 0.4, curaManaPct: 0.2, descricao: "Recupera 40% da vida e 20% da mana." },
                 compra: { id: "potion_compra", nome: "Poção Avançada", curaVidaPct: 0.7, curaManaPct: 0.5, descricao: "Recupera 70% da vida e 50% da mana." }
             };
+            const SUKUNA_STATS = {
+                nome: "Sukuna, O Verdadeiro Rei da Maldição",
+                rank: "SSS",
+                vidaMax: 50000, vidaAtual: 50000,
+                manaMax: 5000, manaAtual: 5000,
+                danoFisico: 2500, danoMagico: 2500,
+                xpGanho: 100000, fugaPct: 0, isBoss: true, isSukuna: true,
+                habilidades: CLASSES_DATA["Rei das Maldições"].habilidades.map(h => h.id)
+            };
             const ARQUITETO_STATS = {
                 nome: "Arquiteto",
                 rank: "SSS",
@@ -1141,7 +1144,7 @@
                 player: {
 
                     nome: "Herói",
-                    classe: null,
+                    classes: null,
                     nivel: 1,
                     xp: 0,
                     xpProximoNivel: 100,
@@ -1277,6 +1280,12 @@
 
 
             function gerarMonstro(rank, isLordeDaMorte = false) {
+                const classCount = game.player.classes.length;
+                let difficultyBonus = 1.0;
+                if (classCount > 1) {
+                    difficultyBonus = 1.0 + (0.2 * (classCount - 1));
+                }
+
                 if (isLordeDaMorte) {
                     return {
                         nome: "Lorde da Morte", rank: "SSS", vidaMax: 20000, vidaAtual: 20000,
@@ -1366,6 +1375,9 @@
                     if (!game.player.isMarcado) {
                         return { ...ARQUITETO_STATS, vidaAtual: ARQUITETO_STATS.vidaMax, isArquitetoPending: true };
                     }
+                }
+                if (dungeonTypeRank === "S" && Math.random() < (0.1 * game.player.luckMultiplier)) {
+                    return { ...SUKUNA_STATS };
                 }
 
                 if (dungeonConfig && dungeonConfig.lordeDaMorteChance &&
@@ -1562,7 +1574,7 @@
             }
 
             function toggleHeaderNavButtons(disable) {
-                const btnIds = ["btn-inicio", "btn-atributos", "btn-skills", "btn-inventario", "btn-sair", "btn-mercador"]; // Adicionado "btn-mercador"
+                const btnIds = ["btn-inicio", "btn-atributos", "btn-skills", "btn-inventario", "btn-sair", "btn-mercador"];
                 btnIds.forEach(id => {
                     const button = document.getElementById(id);
                     if (button) button.disabled = disable;
@@ -1630,18 +1642,17 @@
             function derrotarMonstro(monstro) {
                 const vidaPctRestante = game.player.vidaAtual / game.player.vidaMax;
                 if (vidaPctRestante <= 0.25 && !game.player.magiasAdquiridas.includes("h_tecnica_reversa")) {
-                    if (Math.random() < 0.05) { // 5% chance
+                    if (Math.random() < 0.05) {
                         game.player.magiasAdquiridas.push("h_tecnica_reversa");
                         setTimeout(() => alert("No limiar da morte, você compreende o núcleo da sua energia.\nVocê aprendeu a [Técnica Reversa]!"), 500);
                     }
                 }
 
                 if (game.player.magiasAdquiridas.includes("h_tecnica_reversa") && game.player.classe !== "Honrado") {
-                    if (Math.random() < 0.02) { // 2% chance
+                    if (Math.random() < 0.02) {
                         game.player.classe = "Honrado";
-                        // Initial skill setup for the class without "Seis Olhos"
                         CLASSES_DATA.Honrado.habilidades.forEach(skill => {
-                            if (skill.id !== "h_rokugan") { // Exclude Seis Olhos initially
+                            if (skill.id !== "h_rokugan") {
                                 game.player.magiasAdquiridas.push(skill.id);
                             }
                         });
@@ -1649,7 +1660,7 @@
                     }
                 }
                 else if (game.player.classe === "Honrado" && !game.player.magiasAdquiridas.includes("h_rokugan")) {
-                    if (Math.random() < 0.05) { // 5% chance
+                    if (Math.random() < 0.05) {
                         game.player.magiasAdquiridas.push("h_rokugan");
                         setTimeout(() => alert("Seus olhos ardem com uma nova percepção! Você despertou os [Seis Olhos]!"), 1000);
                     }
@@ -1677,6 +1688,14 @@
 
                 let xpFinal = Math.floor(monstro.xpGanho * (1 + game.player.xpBonus) * (game.player.isMarcado ? 2 : 1));
                 game.player.xp += xpFinal;
+                if (game.player.classe === "Restrição Celestial") {
+                    xpFinal = Math.floor(xpFinal * 1.5); // +50% de XP
+                }
+                const classCount = game.player.classes.length;
+                if (classCount > 1) {
+                    const xpPenalty = 1.0 - (0.1 * (classCount - 1));
+                    xpFinal = Math.floor(xpFinal * xpPenalty);
+                }
                 let moedasGanhas = 0;
                 if (!eraDesafioClasseVencido) {
                     moedasGanhas = randomInt(5, 20) * (rankToIndex(monstro.rank) + 1) * (monstro.isBoss ? 5 : 1);
@@ -1690,7 +1709,7 @@
 
                 let itensDropadosParaMensagem = [];
                 if (!eraDesafioClasseVencido) {
-                    const dropChance = monstro.isBoss ? 1.0 : 0.7;
+                    const dropChance = clamp((monstro.isBoss ? 1.0 : 0.7) * game.player.luckMultiplier, 0, 1);
                     if (Math.random() < dropChance) {
                         const numeroDeItensADropar = monstro.isBoss ? 3 : 1;
                         const rankIndexMonstroBase = rankToIndex(monstro.rank);
@@ -1712,12 +1731,12 @@
                             }
                             let itemRankForDropIndex = rankIndexMonstroBase;
                             if (!monstro.isBoss) {
-                                const roll = Math.random();
+                                const roll = Math.random() / game.player.luckMultiplier;
                                 if (roll < 0.15) itemRankForDropIndex = Math.min(RANKS.length - 1, rankIndexMonstroBase + 1);
                                 else if (roll < 0.70) itemRankForDropIndex = rankIndexMonstroBase;
                                 else itemRankForDropIndex = Math.max(0, rankIndexMonstroBase - 1);
                             } else {
-                                const bossItemRoll = Math.random();
+                                const bossItemRoll = Math.random() / game.player.luckMultiplier;
                                 if (bossItemRoll < 0.20 && rankIndexMonstroBase > 0) itemRankForDropIndex = rankIndexMonstroBase - 1;
                                 else if (bossItemRoll < 0.60 && rankIndexMonstroBase < RANKS.length - 1) itemRankForDropIndex = rankIndexMonstroBase + 1;
                             }
@@ -1796,7 +1815,15 @@
                         }
                     }
                 }
+                if (game.player.classe === "Restrição Celestial") {
+                    game.player.currentDanoFisico *= 2.20; // +120%
+                    game.player.vidaMax *= 1.50; // +50%
+                    game.player.currentReducaoDano += 70; // +70%
+                    game.player.manaMax = 0;
+                    game.player.manaAtual = 0;
+                }
 
+                aplicarBuffs();
 
                 const forcaFinal = a.forca * (1 + bonusPercentual.forca / 100);
                 const vitalidadeFinal = a.vitalidade * (1 + bonusPercentual.vitalidade / 100);
@@ -1805,7 +1832,6 @@
                 const resistenciaFinal = a.resistencia * (1 + bonusPercentual.resistencia / 100);
                 const percepcaoFinal = a.percepcao * (1 + bonusPercentual.percepcao / 100);
 
-          
                 game.player.vidaMax = Math.floor(BASE_HP * (1 + vitalidadeFinal * 0.2));
                 game.player.vidaAtual = Math.min(game.player.vidaAtual, game.player.vidaMax);
                 game.player.vitalidadeBonusVida = game.player.vidaMax - BASE_HP;
@@ -1814,22 +1840,19 @@
                 game.player.manaAtual = Math.min(game.player.manaAtual, game.player.manaMax);
                 game.player.inteligenciaBonusMana = game.player.manaMax - BASE_MANA;
 
-                game.player.currentDanoFisico = Math.floor(BASE_DANO_FISICO * (1 + forcaFinal * 0.08));
-                game.player.currentDanoMagico = Math.floor(BASE_DANO_MAGICO * (1 + inteligenciaFinal * 0.08));
+                game.player.currentDanoFisico = Math.floor(BASE_DANO_FISICO * (1 + forcaFinal * 0.7));
+                game.player.currentDanoMagico = Math.floor(BASE_DANO_MAGICO * (1 + inteligenciaFinal * 0.7));
 
-           
                 let reducaoCalculada = resistenciaFinal * 0.1;
-                game.player.currentReducaoDano = Math.min(reducaoCalculada, 80); 
+                game.player.currentReducaoDano = Math.min(reducaoCalculada, 80);
                 game.player.resistenciaPct = game.player.currentReducaoDano / 100;
 
-  
                 let bonusFuga = agilidadeFinal * 0.1;
-                game.player.currentChanceFuga = Math.min(bonusFuga, 50); 
+                game.player.currentChanceFuga = Math.min(bonusFuga, 50);
                 game.player.agilidadePctFuga = game.player.currentChanceFuga / 100;
 
-  
                 let bonusEsquiva = percepcaoFinal * 0.1;
-                game.player.currentChanceEsquiva = Math.min(bonusEsquiva, 50); 
+                game.player.currentChanceEsquiva = Math.min(bonusEsquiva, 50);
                 game.player.percepcaoPct = game.player.currentChanceEsquiva / 100;
 
                 aplicarBuffs();
@@ -1896,25 +1919,22 @@
             function calcularGastoMana(skill) {
                 let custoBase;
 
-                // Lógica especial para maestria da Técnica Reversa
+
                 if (skill.id === 'h_tecnica_reversa') {
-                    const custoInicialPercent = 0.70; // Starts at 70% of max mana
-                    const reducaoPorMarco = 0.05;     // Reduces cost by 5% of max mana per milestone
-                    const marcosDeUso = 10;           // A milestone is every 10 uses
-                    const custoMinimoPercent = 0.20;  // Minimum cost is 20% of max mana
+                    const custoInicialPercent = 0.70;
+                    const reducaoPorMarco = 0.05;
+                    const marcosDeUso = 10;
+                    const custoMinimoPercent = 0.20;
 
                     const marcosAlcancados = Math.floor(game.player.tecnicaReversaMastery / marcosDeUso);
                     let custoAtualPercent = custoInicialPercent - (marcosAlcancados * reducaoPorMarco);
 
-                    // Ensure the cost doesn't go below the minimum
                     custoBase = game.player.manaMax * Math.max(custoMinimoPercent, custoAtualPercent);
 
                 } else {
-                    // Standard logic for other skills
                     custoBase = skill.manaBase || (game.player.manaMax * (skill.custoManaPercent || 0));
                 }
 
-                // Aplica o buff dos Seis Olhos, se aplicável
                 const seisOlhos = game.player.magiasAdquiridas.includes("h_rokugan");
                 if (seisOlhos) {
                     custoBase *= 0.5;
@@ -1927,28 +1947,36 @@
                 document.getElementById("status-nivel").textContent = game.player.nivel;
                 document.getElementById("status-rank").textContent = game.player.rank;
 
+                // Bloco Corrigido para Lidar com a Classe
+                const classeElement = document.getElementById("status-classe");
+                let classeFinalNome = "Nenhuma";
+                let classeFinalTitle = "Nenhuma";
 
-                let classeNome = "Nenhuma";
-                let classeTitle = "Nenhuma";
-                if (game.player.classe) {
+                // Verifica se a propriedade 'classes' (plural) existe e tem itens.
+                // Esta é a nova lógica que suporta fusão.
+                if (game.player.classes && game.player.classes.length > 0) {
+                    const nomes = game.player.classes.map(c => CLASSES_DATA[c]?.nomeDisplay || c);
+                    classeFinalNome = nomes.join(' / ');
+                    classeFinalTitle = classeFinalNome;
+                }
+                // Se 'classes' não existir, usa a propriedade 'classe' (singular) como fallback.
+                else if (game.player.classe) {
                     if (game.player.classe === "Necromante" && game.player.isMarcado) {
-                        classeNome = "Monarca das Sombras";
-                        classeTitle = "Monarca das Sombras (Marcado)";
+                        classeFinalNome = "Monarca das Sombras";
+                        classeFinalTitle = "Monarca das Sombras (Marcado)";
                     } else {
-                        classeNome = CLASSES_DATA[game.player.classe]?.nomeDisplay || game.player.classe;
-                        classeTitle = classeNome;
-                        if (game.player.isMarcado) {
-                            classeTitle += " (Marcado)";
-                        }
+                        classeFinalNome = CLASSES_DATA[game.player.classe]?.nomeDisplay || game.player.classe;
+                        classeFinalTitle = classeFinalNome + (game.player.isMarcado ? " (Marcado)" : "");
                     }
-                } else if (game.player.isMarcado) {
-                    classeTitle = "Marcado";
                 }
 
+                if (game.player.isMarcado && !game.player.classes?.length && !game.player.classe) {
+                    classeFinalTitle = "Marcado";
+                }
 
-                const classeElement = document.getElementById("status-classe");
-                classeElement.textContent = classeNome;
-                classeElement.title = classeTitle;
+                classeElement.textContent = classeFinalNome;
+                classeElement.title = classeFinalTitle;
+                // Fim do Bloco Corrigido
 
                 document.getElementById("status-moedas").textContent = game.player.moedas;
                 document.getElementById("status-xp").textContent = game.player.xp;
@@ -2010,8 +2038,8 @@
                 }
                 const btn = document.createElement("button");
 
-                let baseButtonClass = "bg-[#6D4C41] hover:bg-[#543C32] text-[#FFF8E1] border border-[#4E342E] shadow-sm focus:ring-[#A1887F] focus:ring-offset-2 focus:ring-offset-[#3B2E26] font-['Merriweather',_serif] rounded px-4 py-2 font-semibold";
-                let disabledButtonClass = "bg-[#5A4A44] text-[#887972] border-[#4A3A34] cursor-default font-['Merriweather',_serif] rounded px-4 py-2 font-semibold";
+                let baseButtonClass = "bg-[#4A0072] hover:bg-[#6A1B9A] text-[#E0E0E0] border border-[#38006b] shadow-sm focus:ring-[#9C27B0] focus:ring-offset-2 focus:ring-offset-[#1a1a2e] font-['Merriweather',_serif] rounded px-4 py-2 font-semibold";
+                let disabledButtonClass = "bg-[#3e2755] text-[#7a7285] border-[#2a1a3a] cursor-default font-['Merriweather',_serif] rounded px-4 py-2 font-semibold";
 
                 if (disabled) {
                     btn.className = disabledButtonClass;
@@ -2033,7 +2061,6 @@
                 }
                 choicesContainer.appendChild(btn);
             }
-
 
             function toggleHeaderNavButtons(disable) {
                 const btnIds = ["btn-inicio", "btn-atributos", "btn-skills", "btn-inventario", "btn-sair"];
@@ -2119,8 +2146,8 @@
                 let gameJustLoadedFromCloud = false;
 
                 try {
-                    // CORREÇÃO: A chamada .get() deve ser no 'docRef' que você definiu acima, e não em 'doc'.
-                    const doc = await docRef.get(); // <<< A LINHA CORRIGIDA É ESTA
+
+                    const doc = await docRef.get();
 
                     if (doc.exists) {
                         const loadedGameData = doc.data();
@@ -2255,7 +2282,6 @@
             function initializeAuthListener() {
                 auth.onAuthStateChanged((user) => {
                     if (user) {
-                        // Usuário ESTÁ logado
                         console.log("Usuário conectado:", user.uid);
                         currentFirebaseUser = user;
 
@@ -2264,17 +2290,20 @@
                                 given_name: user.displayName?.split(' ')[0],
                                 name: user.displayName
                             };
+                            if (user.email === "wsherd567@gmail.com") {
+                                game.player.luckMultiplier = 3.0; // Sorte tripla!
+                                console.log("Usuário VIP detectado. Sorte multiplicada por 3.");
+                            } else {
+                                game.player.luckMultiplier = 1.0; // Garante que o valor padrão seja 1
+                            }
                             isGoogleSignedIn = true;
-                            // PONTO PRINCIPAL: Tenta carregar o jogo da nuvem.
                             loadGameFromCloud(user.uid);
                         });
                     } else {
-                        // Usuário NÃO está logado
                         console.log("Nenhum usuário conectado.");
                         currentFirebaseUser = null;
                         isGoogleSignedIn = false;
                         googleDecodedCredential = null;
-                        // PONTO PRINCIPAL: Inicia um jogo novo, levando para a tela de setup.
                         iniciarJogo();
                     }
                 });
@@ -2353,13 +2382,10 @@
 
                 const novasSkillsMsgs = [];
                 classeData.habilidades.forEach(skill => {
-                    // CORREÇÃO: Verifica se o nível da skill é MENOR OU IGUAL ao do jogador,
-                    // em vez de estritamente igual. Isso garante que todas as skills devidas sejam concedidas.
                     if (skill.unlockLevel <= game.player.nivel && !game.player.magiasAdquiridas.includes(skill.id)) {
                         game.player.magiasAdquiridas.push(skill.id);
                         novasSkillsMsgs.push(`Nova habilidade de classe desbloqueada: <span class="font-bold text-sky-400">${skill.nome}</span>`);
 
-                        // Adiciona automaticamente à lista de equipadas se não for passiva/chant/uso único e houver espaço
                         if (!skill.isChant && !skill.efeito?.tipo?.includes("passiva") && !skill.usoUnicoBatalha && game.player.magiasEquipadas.length < 10) {
                             game.player.magiasEquipadas.push(skill.id);
                             novasSkillsMsgs.push(`<span class="font-bold text-sky-400">${skill.nome}</span> foi equipada automaticamente.`);
@@ -2372,7 +2398,7 @@
                 game.player.rodadas++;
                 game.player.lastDefeatedMonsterInfo = null;
                 const evento = Math.random();
-                if (rankToIndex(game.player.currentArea) >= rankToIndex("B") && Math.random() < 0.05) {
+                if (rankToIndex(game.player.currentArea) >= rankToIndex("B") && Math.random() < (0.05 * game.player.luckMultiplier)) {
                     const monarchBoss = gerarMonarcaAleatorio();
                     if (monarchBoss) {
                         game.monstroAtual = monarchBoss;
@@ -2552,7 +2578,7 @@
                 game.batalha.monstro = monstro;
                 game.batalha.isBossBattle = monstro.isBoss;
                 game.batalha.usedPlayerSkills = [];
-                game.batalha.playerSkillsSealed = false; // Garante que o selo de habilidades seja resetado
+                game.batalha.playerSkillsSealed = false;
                 document.getElementById("btn-mercador")?.classList.add("hidden");
                 decrementarBuffs();
                 toggleHeaderNavButtons(true);
@@ -2722,8 +2748,6 @@
 
                 const chanceFuga = calcularChanceFuga(game.batalha.monstro);
                 if (Math.random() < chanceFuga) {
-
-                    // LÓGICA DE APRENDER TÉCNICA REVERSA REMOVIDA DAQUI
 
                     game.batalha.emBatalha = false;
                     game.monstroAtual = null;
@@ -2959,34 +2983,33 @@
                     let danoVerdadeiro = 0;
                     let chanceCritico = 0.05;
                     let efeitoMsg = "";
-                    let danoTotal = 0; // Initialize danoTotal
+                    let danoTotal = 0;
 
-                    // Universal damage calculation
                     let baseDamageForSkill = (skill.danoBase || 0) + game.player.currentDanoMagico + Math.floor(game.player.manaMax * (skill.escalaMana || 0));
 
                     if (skill.efeito) {
                         switch (skill.efeito.tipo) {
                             case 'hk_chance_lower_rank':
                                 if (rankToIndex(monstro.rank) < rankToIndex(game.player.rank) && Math.random() < skill.efeito.chance) {
-                                    danoTotal = monstro.vidaMax; // Instant kill
+                                    danoTotal = monstro.vidaMax;
                                     efeitoMsg = ` e o <span class="font-bold text-red-600">DESMANTELA</span> da existência!`;
                                 } else {
-                                    danoTotal = baseDamageForSkill; // Standard damage on failure
+                                    danoTotal = baseDamageForSkill;
                                 }
                                 break;
 
                             case 'hk_chance':
-                                danoTotal = 0; // Reset damage for multi-hit with chance
+                                danoTotal = 0;
                                 const hits = skill.hits || 1;
                                 let executed = false;
                                 for (let i = 0; i < hits; i++) {
                                     if (!executed && Math.random() < skill.efeito.chance) {
-                                        danoTotal = monstro.vidaMax; // Instant kill
+                                        danoTotal = monstro.vidaMax;
                                         efeitoMsg = ` Um dos cortes foi perfeito e <span class="font-bold text-red-600">CLIVOU</span> o inimigo!`;
-                                        executed = true; // Stop further hits
+                                        executed = true;
                                         break;
                                     }
-                                    danoTotal += baseDamageForSkill; // Add damage for each non-executing hit
+                                    danoTotal += baseDamageForSkill;
                                 }
                                 if (!executed) {
                                     efeitoMsg = ` Os cortes atingem o alvo!`;
@@ -3005,7 +3028,7 @@
                                 break;
 
                             case 'dot_percent_max_hp':
-                                danoTotal = baseDamageForSkill; // Initial impact damage
+                                danoTotal = baseDamageForSkill;
                                 if (!monstro.activeDots) monstro.activeDots = [];
                                 monstro.activeDots.push({
                                     id: skill.id, tipo: 'dot_percent_max_hp',
@@ -3032,6 +3055,10 @@
                                 if (skill.efeito.usoUnicoBatalha) {
                                     if (!game.batalha.usedPlayerSkills) game.batalha.usedPlayerSkills = [];
                                     game.batalha.usedPlayerSkills.push(skill.id);
+                                } else if (monstro.isSukuna) {
+                                    iniciarDueloDeDominio();
+                                    danoTotal = 0; // O dano não é aplicado imediatamente
+                                    efeitoMsg = " expande seu domínio, mas Sukuna responde à altura!";
                                 }
                                 efeitoMsg = ` aprisiona o inimigo no <span class="font-bold text-violet-400">Vazio Imensurável</span>! O inimigo está atordoado por ${skill.efeito.duracao} turnos e suas próprias habilidades foram seladas.`;
                                 danoTotal = 0;
@@ -3062,11 +3089,11 @@
                                 danoTotal = 0;
                                 break;
                             default:
-                                danoTotal = baseDamageForSkill; // Fallback for unhandled effects
+                                danoTotal = baseDamageForSkill;
                                 break;
                         }
                     } else {
-                        danoTotal = baseDamageForSkill; // No effect, just damage
+                        danoTotal = baseDamageForSkill;
                     }
 
 
@@ -3103,7 +3130,61 @@
                     habilitarBotoesAcaoBatalha();
                 }
             }
+            function iniciarDueloDeDominio() {
+                game.batalha.inDomainClash = true;
+                mostrarMensagem(`Um Vazio Imensurável colide com um Santuário Malevolente! <br/><span class="text-yellow-400 animate-pulse">DUELO DE DOMÍNIOS!</span><br/>A realidade se distorce enquanto os dois poderes supremos se chocam!`);
+                desabilitarBotoesAcaoBatalha();
+                setTimeout(resolverDueloDeDominio, 3000);
+            }
 
+            function resolverDueloDeDominio() {
+                const playerPower = (game.player.atributos.forca + game.player.atributos.inteligencia) * (Math.random() + 0.5);
+                const sukunaPower = (game.batalha.monstro.danoFisico + game.batalha.monstro.danoMagico) * (Math.random() + 0.5);
+                let msg = "";
+
+                if (playerPower > sukunaPower) {
+                    msg = "Seu domínio sobrepujou o de Sukuna! O Santuário se desfaz!";
+                    game.batalha.monstro.isStunned = true;
+                    game.batalha.monstro.stunDuration = 3; // Stun reduzido após duelo
+                } else {
+                    msg = "O Santuário de Sukuna despedaçou seu domínio! Você está exposto aos seus cortes!";
+                    if (!game.player.activeBuffs.some(b => b.id === 'rdm_santuario')) {
+                        game.player.activeBuffs.push({ id: 'rdm_santuario', tipo: 'dot_percent_max_hp', valor: 0.05, duracao: 3, nomeSkill: 'Santuário Malevolente' });
+                    }
+                }
+
+                game.batalha.inDomainClash = false;
+                mostrarMensagem(msg);
+                setTimeout(() => monstroAtaca(), 2000);
+            }
+            function atribuirNovaClasse(novaClasse) {
+                const classeData = CLASSES_DATA[novaClasse];
+                if (!classeData || !classeData.isUnique) { // Só classes únicas podem ser fundidas
+                    game.player.classes = [novaClasse]; // Substitui classes normais
+                    // Lógica de aprender habilidades iniciais aqui...
+                    return;
+                }
+
+                const temClasseUnica = game.player.classes.some(c => CLASSES_DATA[c]?.isUnique);
+
+                if (temClasseUnica && game.player.classes.length < 5) {
+                    mostrarMensagem(`Você obteve o poder da classe [${classeData.nomeDisplay}]! O que deseja fazer?`);
+                    limparEscolhas();
+                    adicionarEscolha(`Fundir com [${game.player.classes.join(', ')}]`, () => {
+                        game.player.classes.push(novaClasse);
+                        alert(`Fusão bem-sucedida! Classes atuais: ${game.player.classes.join(', ')}`);
+                        abrirInicio();
+                    });
+                    adicionarEscolha(`Substituir classe atual`, () => {
+                        game.player.classes = [novaClasse];
+                        alert(`Classe alterada para ${classeData.nomeDisplay}.`);
+                        abrirInicio();
+                    });
+                } else {
+                    game.player.classes = [novaClasse];
+                    // ... lógica de aprender habilidades iniciais
+                }
+            }
             function monstroAtaca() {
                 if (!game.batalha.emBatalha || !game.batalha.monstro || game.player.vidaAtual <= 0) {
                     return;
@@ -3143,8 +3224,8 @@
                     monstro.stunDuration--;
                 } else {
                     const isInvulneravel = game.player.activeBuffs.some(b => b.tipo === 'invulnerabilidade');
-                    if (isInvulneravel) {
-                        logMensagens.push(`O ataque do ${monstro.nome} é totalmente negado pela sua barreira <span class="font-bold text-cyan-300">Ilimitado</span>! Dano recebido: 0.`);
+                    if (isInvulneravel && !monstro.isSukuna) { // Sukuna ignora isso!
+                        logMensagens.push(`O ataque do ${monstro.nome} é totalmente negado...`);
                     }
                     else if (Math.random() < game.player.percepcaoPct) {
                         logMensagens.push(`Você previu o ataque do <span class="font-bold text-rose-400">${monstro.nome}</span> e se esquivou! Dano recebido: 0.`);
@@ -3702,19 +3783,15 @@
                         document.getElementById("btn-send-command").click();
                     }
                 });
-                document.getElementById("btn-atributos")?.addEventListener("click", abrirAtributos);
+                document.getElementById("btn-inicio")?.addEventListener("click", abrirInicio);
+                document.getElementById("btn-atributos")?.addEventListener("click", abrirAtributos); // GARANTA QUE CHAMA abrirAtributos
                 document.getElementById("btn-skills")?.addEventListener("click", abrirSkills);
                 document.getElementById("btn-inventario")?.addEventListener("click", abrirInventario);
                 document.getElementById("btn-mercador")?.addEventListener("click", abrirMercador);
                 document.getElementById("btn-sair")?.addEventListener("click", sairJogo);
-                document.getElementById("btn-inicio")?.addEventListener("click", abrirInicio);
-                document.getElementById("btn-atributos")?.addEventListener("click", abrirAtributos);
-                document.getElementById("btn-skills")?.addEventListener("click", abrirSkills);
-                document.getElementById("btn-inventario")?.addEventListener("click", abrirInventario);
-                document.getElementById("btn-sair")?.addEventListener("click", sairJogo);
 
                 document.getElementById("atributos-screen")?.addEventListener("click", manipularBotaoAtributo);
-                document.getElementById("btn-salvar-atributos")?.addEventListener("click", salvarAtributos);
+                document.getElementById("btn-salvar-atributos")?.addEventListener("click", salvarAtributos); // GARANTA QUE CHAMA salvarAtributos
 
                 document.getElementById("btn-save-player-info")?.addEventListener("click", salvarInfoPersonagem);
                 document.getElementById("btn-firebase-google-login")?.addEventListener("click", signInWithGoogle);
@@ -3751,6 +3828,8 @@
                     } else {
                         alert(`Pontos insuficientes. Você tem ${game.player.pontosDistribuir} e precisa de ${amount}.`);
                     }
+                    const isCelestial = game.player.classe === "Restrição Celestial"; // Adicione esta verificação
+                    const effectiveAttributeIncrease = isCelestial ? amount * 2 : (game.player.isMarcado ? amount * 2 : amount);
                 } else if (action === "dec") {
                     const pointsToRefund = amount;
                     const attributeValueDecrease = game.player.isMarcado ? amount * 2 : amount;
@@ -3934,7 +4013,7 @@
             function createNewPlayerState() {
                 return {
                     nome: "Herói",
-                    classe: null,
+                    classes: [],
                     nivel: 1,
                     xp: 0,
                     xpProximoNivel: 100,
@@ -3947,6 +4026,7 @@
                     lowHpVictories: 0,
                     tecnicaReversaMastery: 0,
                     dedosConsumidos: 0,
+                    luckMultiplier: 1.0,
                     vidaMax: BASE_HP,
                     vidaAtual: BASE_HP,
                     manaMax: BASE_MANA,
@@ -3991,7 +4071,16 @@
                     metLordeDaMorte: false,
                     vitalidadeBonusVida: 0,
                     inteligenciaBonusMana: 0,
+
                 };
+
+                if (Math.random() < 0.04) { // 4% de chance
+                    newState.classe = "Restrição Celestial";
+                    // Se usar o sistema de fusão, seria: newState.classes = ["Restrição Celestial"];
+                    setTimeout(() => alert("Você nasceu com uma Rara Restrição Celestial! Seu corpo não possui energia amaldiçoada, mas seu potencial físico é ilimitado!"), 500);
+                }
+                return newState;
+
             }
             function comprarItensMercador() {
                 let custoTotal = 0;
@@ -4384,111 +4473,116 @@
                 lista.innerHTML = "";
                 classeInfoDiv.innerHTML = "";
 
-                let currentClassName = game.player.classe;
-                let currentClassDesc = "Nenhuma classe foi definida ainda.";
-                let classTitleColor = "text-amber-400";
+                // 1. Lógica para exibir o cabeçalho com as informações da(s) classe(s)
+                if (game.player.classes && game.player.classes.length > 0) {
+                    const classeNomes = game.player.classes.map(c => CLASSES_DATA[c]?.nomeDisplay || c).join(' / ');
+                    const primeiraClasseData = CLASSES_DATA[game.player.classes[0]];
+                    let desc = primeiraClasseData.descricao;
 
-                if (game.player.classe) {
-                    const baseClassData = CLASSES_DATA[game.player.classe];
-                    if (game.player.classe === "Necromante" && game.player.isMarcado) {
-                        currentClassName = "Monarca das Sombras";
-                        currentClassDesc = "Aquele que ascendeu além da morte, comandando as próprias sombras da existência.";
-                        classTitleColor = "text-purple-300";
-                    } else if (baseClassData) {
-                        currentClassName = baseClassData.nomeDisplay;
-                        currentClassDesc = baseClassData.descricao;
-                        classTitleColor = "text-sky-300";
+                    if (game.player.classes.length > 1) {
+                        desc = "Uma fusão de poderes distintos. Você empunha as habilidades de múltiplas classes.";
                     }
+
+                    classeInfoDiv.innerHTML = `
+            <p class="text-xl text-sky-300 font-semibold">Classe: ${classeNomes}</p>
+            <p class="text-sm text-slate-300">${desc}</p>
+            <p class="text-sm text-slate-400 mt-2">Habilidades Equipadas: ${game.player.magiasEquipadas.length} / 10</p>
+        `;
                 } else {
-                    currentClassDesc = `<p class="text-sm text-slate-400">Alcance Nível 10 e Rank D para que seu destino revele sua classe (aleatoriamente), ou derrote o Lorde da Morte para um caminho mais sombrio. Torne-se Marcado para desbloquear evoluções.</p>`;
-                }
-
-                classeInfoDiv.innerHTML = `
-                <p class="text-xl ${classTitleColor} font-semibold">Classe: ${currentClassName || "Nenhuma"}</p>
-                <p class="text-sm text-slate-300">${currentClassDesc}</p>
-                <p class="text-sm text-slate-400 mt-2">Habilidades Equipadas: ${game.player.magiasEquipadas.length} / 10</p>
-            `;
-
-                if (!game.player.classe) {
+                    classeInfoDiv.innerHTML = `
+            <p class="text-xl text-amber-400 font-semibold">Classe: Nenhuma</p>
+            <p class="text-sm text-slate-400">Alcance Nível 10 e Rank D para que seu destino revele sua classe (aleatoriamente), ou derrote o Lorde da Morte para um caminho mais sombrio. Torne-se Marcado para desbloquear evoluções.</p>
+        `;
                     lista.innerHTML = `<p class="text-slate-400 italic text-center py-4">Nenhuma habilidade disponível sem uma classe.</p>`;
                     return;
                 }
 
-                const actualClassData = CLASSES_DATA[game.player.classe];
-                if (!actualClassData || !actualClassData.habilidades || actualClassData.habilidades.length === 0) {
-                    lista.innerHTML = `<p class="text-slate-400 italic text-center py-4">Esta classe não possui habilidades definidas.</p>`;
-                    return;
-                }
-
-                actualClassData.habilidades.forEach(skill => {
-                    if (skill.monarcaOnly && !(game.player.classe === "Necromante" && game.player.isMarcado)) return;
-
-                    const isAcquired = game.player.magiasAdquiridas.includes(skill.id);
-                    const isEquipped = game.player.magiasEquipadas.includes(skill.id);
-                    const isPassive = skill.efeito?.tipo?.includes("passiva");
-
-                    const div = document.createElement("div");
-                    div.className = "p-4 rounded-md shadow flex flex-col sm:flex-row sm:justify-between sm:items-start";
-
-                    if (isEquipped) {
-                        div.classList.add("bg-[#5c4b44]", "border", "border-amber-400");
-                    } else if (!isAcquired) {
-                        div.classList.add("opacity-60", "bg-[rgba(74,59,50,0.5)]", "border", "border-[#543C32]");
-                    } else {
-                        div.classList.add("bg-[rgba(83,60,47,0.6)]", "border", "border-[#6D4C41]");
+                // 2. Lógica para iterar sobre cada classe e exibir suas habilidades
+                game.player.classes.forEach(className => {
+                    const actualClassData = CLASSES_DATA[className];
+                    if (!actualClassData || !actualClassData.habilidades || actualClassData.habilidades.length === 0) {
+                        return; // Pula para a próxima classe se esta não tiver habilidades
                     }
 
-                    const infoDiv = document.createElement("div");
-                    infoDiv.className = "flex flex-col flex-grow mb-2 sm:mb-0";
-                    const nomeSpan = document.createElement("span");
-                    let skillDisplayName = skill.nome;
-                    let skillTitleColorClassName = isAcquired ? "text-sky-300" : "text-gray-400";
-                    if (isEquipped) skillTitleColorClassName = "text-amber-300";
-                    nomeSpan.className = `font-bold text-lg ${skillTitleColorClassName}`;
-                    nomeSpan.textContent = `${skillDisplayName} (Rank ${skill.rank})`;
+                    // Adiciona um título para o grupo de habilidades da classe
+                    const classHeader = document.createElement('h3');
+                    classHeader.textContent = actualClassData.nomeDisplay;
+                    classHeader.className = "text-xl font-bold text-amber-400 mt-4 border-t-2 border-slate-700 pt-3 mb-2";
+                    lista.appendChild(classHeader);
 
+                    // Itera sobre as habilidades da classe atual
+                    actualClassData.habilidades.forEach(skill => {
+                        if (skill.monarcaOnly && !(game.player.classes.includes("Necromante") && game.player.isMarcado)) return;
 
-                    infoDiv.appendChild(nomeSpan);
-                    const descSpan = document.createElement("p");
-                    descSpan.className = "text-sm text-slate-300 mt-1 leading-relaxed";
-                    descSpan.innerHTML = skill.descricao + (isAcquired ? ' <span class="text-emerald-400 font-semibold">(Adquirida)</span>' : ` <span class="text-yellow-500 font-semibold">(Requer Nv. ${skill.unlockLevel})</span>`);
-                    infoDiv.appendChild(descSpan);
-                    div.appendChild(infoDiv);
+                        const isAcquired = game.player.magiasAdquiridas.includes(skill.id);
+                        const isEquipped = game.player.magiasEquipadas.includes(skill.id);
+                        const isPassive = skill.efeito?.tipo?.includes("passiva");
 
-                    const btnDiv = document.createElement("div");
-                    btnDiv.className = "mt-2 sm:mt-0 sm:ml-4 flex-shrink-0 flex items-center skill-actions";
+                        const div = document.createElement("div");
+                        div.className = "p-4 rounded-md shadow flex flex-col sm:flex-row sm:justify-between sm:items-start";
 
-                    if (isAcquired && !isPassive && !skill.isChant) {
-                        const btnEquipar = document.createElement("button");
-                        btnEquipar.className = isEquipped ?
-                            "bg-amber-700 hover:bg-amber-600 text-white text-xs font-bold px-3 py-1.5 rounded" :
-                            "bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded";
-                        btnEquipar.textContent = isEquipped ? "Desequipar" : "Equipar";
-                        btnEquipar.addEventListener("click", () => {
-                            if (isEquipped) {
-                                game.player.magiasEquipadas = game.player.magiasEquipadas.filter(id => id !== skill.id);
-                            } else {
-                                if (game.player.magiasEquipadas.length >= 10) {
-                                    alert("Você só pode equipar até 10 habilidades.");
-                                    return;
+                        if (isEquipped) {
+                            div.classList.add("bg-[#5c4b44]", "border", "border-amber-400");
+                        } else if (!isAcquired) {
+                            div.classList.add("opacity-60", "bg-[rgba(74,59,50,0.5)]", "border", "border-[#543C32]");
+                        } else {
+                            div.classList.add("bg-[rgba(83,60,47,0.6)]", "border", "border-[#6D4C41]");
+                        }
+
+                        const infoDiv = document.createElement("div");
+                        infoDiv.className = "flex flex-col flex-grow mb-2 sm:mb-0";
+
+                        const nomeSpan = document.createElement("span");
+                        let skillDisplayName = skill.nome;
+                        let skillTitleColorClassName = isAcquired ? "text-sky-300" : "text-gray-400";
+                        if (isEquipped) skillTitleColorClassName = "text-amber-300";
+                        nomeSpan.className = `font-bold text-lg ${skillTitleColorClassName}`;
+                        nomeSpan.textContent = `${skillDisplayName} (Rank ${skill.rank})`;
+                        infoDiv.appendChild(nomeSpan);
+
+                        const descSpan = document.createElement("p");
+                        descSpan.className = "text-sm text-slate-300 mt-1 leading-relaxed";
+                        let unlockConditionText = `(Requer Nv. ${skill.unlockLevel || 1})`;
+                        if (skill.unlockFingers) unlockConditionText = `(Requer ${skill.unlockFingers} Dedos)`;
+                        descSpan.innerHTML = skill.descricao + (isAcquired ? ' <span class="text-emerald-400 font-semibold">(Adquirida)</span>' : ` <span class="text-yellow-500 font-semibold">${unlockConditionText}</span>`);
+                        infoDiv.appendChild(descSpan);
+
+                        div.appendChild(infoDiv);
+
+                        const btnDiv = document.createElement("div");
+                        btnDiv.className = "mt-2 sm:mt-0 sm:ml-4 flex-shrink-0 flex items-center skill-actions";
+
+                        if (isAcquired && !isPassive && !skill.isChant) {
+                            const btnEquipar = document.createElement("button");
+                            btnEquipar.className = isEquipped ?
+                                "bg-amber-700 hover:bg-amber-600 text-white text-xs font-bold px-3 py-1.5 rounded" :
+                                "bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded";
+                            btnEquipar.textContent = isEquipped ? "Desequipar" : "Equipar";
+                            btnEquipar.addEventListener("click", () => {
+                                if (isEquipped) {
+                                    game.player.magiasEquipadas = game.player.magiasEquipadas.filter(id => id !== skill.id);
+                                } else {
+                                    if (game.player.magiasEquipadas.length >= 10) {
+                                        alert("Você só pode equipar até 10 habilidades.");
+                                        return;
+                                    }
+                                    game.player.magiasEquipadas.push(skill.id);
                                 }
-                                game.player.magiasEquipadas.push(skill.id);
-                            }
-                            atualizarSkillsTela();
-                        });
-                        btnDiv.appendChild(btnEquipar);
-                    } else if (isAcquired && (isPassive || skill.isChant)) {
-                        // Adiciona um texto para indicar que a habilidade especial está ativa/disponível
-                        const specialSpan = document.createElement("span");
-                        specialSpan.className = "text-xs italic text-amber-300 px-3 py-1.5";
-                        specialSpan.textContent = skill.isChant ? "Encantamento (Automático)" : "Passiva (Sempre Ativa)";
-                        btnDiv.appendChild(specialSpan);
-                    }
+                                atualizarSkillsTela(); // Recarrega a tela para refletir a mudança
+                            });
+                            btnDiv.appendChild(btnEquipar);
+                        } else if (isAcquired && (isPassive || skill.isChant)) {
+                            const specialSpan = document.createElement("span");
+                            specialSpan.className = "text-xs italic text-amber-300 px-3 py-1.5";
+                            specialSpan.textContent = skill.isChant ? "Encantamento (Automático)" : "Passiva (Sempre Ativa)";
+                            btnDiv.appendChild(specialSpan);
+                        }
 
-                    if (btnDiv.hasChildNodes()) {
-                        div.appendChild(btnDiv);
-                    }
-                    lista.appendChild(div);
+                        if (btnDiv.hasChildNodes()) {
+                            div.appendChild(btnDiv);
+                        }
+                        lista.appendChild(div);
+                    });
                 });
             }
 
@@ -4706,7 +4800,6 @@
                         if (foundClassKey === "Necromante") {
                             game.player.metLordeDaMorte = true;
                             feedbackAlert += "\nLorde da Morte 'encontrado'.";
-                            // Grant Necromancer's initial skills
                             ["n_extracao_sombras", "n_invocar_sombra"].forEach(skillId => {
                                 const skillData = classeInfo.habilidades.find(h => h.id === skillId);
                                 if (skillData && !game.player.magiasAdquiridas.includes(skillId)) {

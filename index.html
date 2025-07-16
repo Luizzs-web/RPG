@@ -1840,8 +1840,9 @@
                 game.player.manaAtual = Math.min(game.player.manaAtual, game.player.manaMax);
                 game.player.inteligenciaBonusMana = game.player.manaMax - BASE_MANA;
 
-                game.player.currentDanoFisico = Math.floor(BASE_DANO_FISICO * (1 + forcaFinal * 0.1));
-                game.player.currentDanoMagico = Math.floor(BASE_DANO_MAGICO * (1 + inteligenciaFinal * 0.1));
+               const FATOR_AUMENTO = 1.07;
+game.player.currentDanoFisico = Math.floor(BASE_DANO_FISICO * Math.pow(FATOR_AUMENTO, forcaFinal));
+game.player.currentDanoMagico = Math.floor(BASE_DANO_MAGICO * Math.pow(FATOR_AUMENTO, inteligenciaFinal));
 
                 let reducaoCalculada = resistenciaFinal * 0.1;
                 game.player.currentReducaoDano = Math.min(reducaoCalculada, 80);
